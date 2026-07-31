@@ -91,6 +91,7 @@ class AtlasStatusBar(QWidget):
             "State: Thinking..."
         )
 
+    print("Thinking Finished Event Received")
 
     def thinking_finished(
         self,
