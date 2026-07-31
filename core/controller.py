@@ -8,11 +8,16 @@ the GUI, AI, memory and tools using
 the Event Bus.
 """
 
+
 from core.services import Service
 from core.events import (
     MessageReceived,
     ThinkingStarted,
+    ThinkingFinished,
+    ChunkReceived,
 )
+
+from ai.brain import AtlasBrain
 from core.logger import logger
 
 
@@ -22,6 +27,8 @@ class Controller(Service):
 
         self.bus = bus
         self.state = state
+
+        self.brain = AtlasBrain()
 
     # --------------------------------------------------
     # Lifecycle
@@ -62,3 +69,22 @@ class Controller(Service):
         self.bus.publish(
             ThinkingStarted()
         )
+
+
+        response = self.brain.process(
+            event.text
+        )
+
+
+        self.bus.publish(
+            ChunkReceived(
+                response
+            )
+        )   
+
+        self.bus.publish(
+            ThinkingFinished()
+        )
+
+        self.state.status = "Ready"
+        self.state.is_generating = False

@@ -1,28 +1,33 @@
 """
-Atlas V3 Theme
+Atlas Theme
 """
 
 # Colors
 
 BACKGROUND = "#121212"
+
 PANEL = "#1E1E1E"
+
 CARD = "#252525"
 
 TEXT = "#FFFFFF"
+
 SECONDARY = "#AAAAAA"
 
 ACCENT = "#00BFFF"
 
 BUTTON = "#0066CC"
 
-ERROR = "#CC3333"
-
 SUCCESS = "#22AA22"
+
+ERROR = "#CC3333"
 
 # Fonts
 
-FONT = ("Segoe UI", 11)
+FONT = "Segoe UI"
 
-TITLE_FONT = ("Segoe UI", 14, "bold")
+FONT_SIZE = 11
 
-HEADER_FONT = ("Segoe UI", 18, "bold")
+TITLE_SIZE = 16
+
+HEADER_SIZE = 20

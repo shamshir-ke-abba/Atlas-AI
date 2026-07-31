@@ -1,0 +1,32 @@
+/*
+Atlas Global Stylesheet
+*/
+
+QMainWindow {
+    background: #121212;
+}
+
+QWidget {
+    background: transparent;
+    color: #FFFFFF;
+    font-family: "Segoe UI";
+    font-size: 11pt;
+}
+
+QLabel {
+    color: #FFFFFF;
+}
+
+QScrollBar:vertical {
+    width: 10px;
+    background: #1E1E1E;
+}
+
+QScrollBar::handle:vertical {
+    background: #444444;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #00BFFF;
+}
