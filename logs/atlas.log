@@ -1,0 +1,3 @@
+[2026-07-31 13:15:24] INFO | Atlas logger is working.
+[2026-07-31 13:15:24] WARNING | This is a warning.
+[2026-07-31 13:15:24] ERROR | This is an error.
