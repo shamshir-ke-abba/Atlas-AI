@@ -5,7 +5,7 @@ Handles communication with the local LLM.
 """
 
 import ollama
-
+from ai.prompts import SYSTEM_PROMPT
 
 class AtlasModel:
 
@@ -13,7 +13,12 @@ class AtlasModel:
 
         self.model = "qwen2.5:1.5b"
 
-        self.history = []
+        self.history = [
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT,
+            }
+        ]
 
     def generate(
         self,
@@ -54,4 +59,9 @@ class AtlasModel:
 
     def clear_history(self):
 
-        self.history.clear()
+        self.history = [
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT,
+            }
+        ]
