@@ -1,35 +1,38 @@
 """
-Atlas AI Model Interface
+Atlas Model
 
-Handles communication with
-the language model backend.
+Handles communication with the local LLM.
 """
+
+import ollama
 
 
 class AtlasModel:
 
     def __init__(self):
 
-        self.name = "Atlas Local Model"
-
-
-    # =====================================================
-    # Generation
-    # =====================================================
+        self.model = "qwen2.5:1.5b"
 
     def generate(
         self,
-        prompt
+        prompt,
     ):
 
-        """
-        Generate a response.
-
-        Temporary placeholder until
-        the real LLM backend is connected.
-        """
-
-        return (
-            "I am currently connected "
-            "to the Atlas model interface."
+        stream = ollama.chat(
+            model=self.model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            stream=True,
         )
+
+        for chunk in stream:
+
+            content = chunk["message"]["content"]
+
+            if content:
+
+                yield content

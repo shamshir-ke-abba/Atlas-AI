@@ -26,12 +26,27 @@ class AIWorker(QObject):
         message,
     ):
 
-        for piece in self.brain.process(
-            message
-        ):
+        print("\n========== AIWorker ==========")
+        print("Worker started")
+        print("Message:", message)
 
-            self.chunk.emit(
-                piece
-            )
+        try:
+
+            for piece in self.brain.process(message):
+
+                print("Chunk:", repr(piece))
+
+                self.chunk.emit(
+                    piece
+                )
+
+            print("Worker finished")
+
+        except Exception as e:
+
+            import traceback
+
+            print("\n!!! AIWorker Exception !!!")
+            traceback.print_exc()
 
         self.finished.emit()

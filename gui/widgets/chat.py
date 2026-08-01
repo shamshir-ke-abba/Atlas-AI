@@ -8,6 +8,7 @@ from core.events import (
     MessageReceived,
     ChunkReceived,
 )
+
 from PySide6.QtWidgets import (
     QLabel,
     QScrollArea,
@@ -22,24 +23,25 @@ from gui.widgets.message import AtlasMessage
 class AtlasChat(QWidget):
 
     def __init__(
-            self,
-             bus,
-            parent=None
-            ):
+        self,
+        bus,
+        parent=None,
+    ):
 
         super().__init__(parent)
 
         self.bus = bus
 
+        self.current_ai_message = None
+
         self.bus.subscribe(
             ChunkReceived,
-            self.handle_response
+            self.handle_response,
         )
-     
+
         self.setObjectName("Chat")
 
         self.build_ui()
-
 
     # =====================================================
     # UI
@@ -53,11 +55,10 @@ class AtlasChat(QWidget):
             20,
             20,
             20,
-            20
+            20,
         )
 
         layout.setSpacing(10)
-
 
         # -----------------------------
         # Header
@@ -73,7 +74,6 @@ class AtlasChat(QWidget):
             title
         )
 
-
         # -----------------------------
         # Messages Area
         # -----------------------------
@@ -85,7 +85,6 @@ class AtlasChat(QWidget):
         )
 
         self.messages_layout.addStretch()
-
 
         scroll = QScrollArea()
 
@@ -99,91 +98,85 @@ class AtlasChat(QWidget):
 
         layout.addWidget(
             scroll,
-            1
+            1,
         )
-
 
         # -----------------------------
         # Input
         # -----------------------------
 
         self.input_bar = AtlasInputBar()
-        
-        
+
         self.input_bar.message_sent.connect(
             self.handle_message
         )
-        
+
         layout.addWidget(
             self.input_bar
         )
-
 
     # =====================================================
     # Messages
     # =====================================================
 
     def add_message(
-         self,
-         sender,
-         text,
-        ):
+        self,
+        sender,
+        text,
+    ):
 
-         message = AtlasMessage(
-             sender,
-             text,
+        message = AtlasMessage(
+            sender,
+            text,
         )
 
-         self.messages_layout.insertWidget(
-         self.messages_layout.count() - 1,
-             message,
-            )
+        self.messages_layout.insertWidget(
+            self.messages_layout.count() - 1,
+            message,
+        )
 
-         return message
+        return message
 
-        
     # =====================================================
     # Input Handling
     # =====================================================
 
     def handle_message(
-    self,
-    text
-):
+        self,
+        text,
+    ):
+
         self.current_ai_message = None
 
         self.add_message(
-        "User",
-        text
-    )
+            "User",
+            text,
+        )
 
         self.bus.publish(
-        MessageReceived(
-            text
+            MessageReceived(
+                text
+            )
         )
-    )
 
     # =====================================================
     # AI Response Handling
     # =====================================================
 
     def handle_response(
-          self,
-          event,
-        ):
+        self,
+        event,
+    ):
 
-         if not hasattr(
-           self,
-           "current_ai_message",
-        ):
+        if self.current_ai_message is None:
 
-             self.current_ai_message = self.add_message(
-                 "Atlas",
-                  event.text,
-                )
+            self.current_ai_message = self.add_message(
+                "Atlas",
+                event.text,
+            )
 
-         else:
+        else:
 
             self.current_ai_message.set_text(
-                event.text
-        )
+                self.current_ai_message.text + event.text
+            )

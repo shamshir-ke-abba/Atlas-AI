@@ -1,30 +1,24 @@
 """
 Atlas Brain
+
+Coordinates reasoning before talking
+to the model.
 """
 
-import time
+from ai.model import AtlasModel
 
 
 class AtlasBrain:
+
+    def __init__(self):
+
+        self.model = AtlasModel()
 
     def process(
         self,
         message,
     ):
 
-        response = (
-            "Hello! I'm Atlas. "
-            "Streaming is now working."
+        yield from self.model.generate(
+            message
         )
-
-        words = response.split()
-
-        current = ""
-
-        for word in words:
-
-            current += word + " "
-
-            
-
-            yield current
