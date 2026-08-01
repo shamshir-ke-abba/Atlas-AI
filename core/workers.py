@@ -11,7 +11,8 @@ from ai.brain import AtlasBrain
 
 class AIWorker(QObject):
 
-    finished = Signal(str)
+    chunk = Signal(str)
+    finished = Signal()
 
     def __init__(self):
 
@@ -22,13 +23,15 @@ class AIWorker(QObject):
     @Slot(str)
     def process(
         self,
-        message
+        message,
     ):
 
-        response = self.brain.process(
+        for piece in self.brain.process(
             message
-        )
+        ):
 
-        self.finished.emit(
-            response
-        )
+            self.chunk.emit(
+                piece
+            )
+
+        self.finished.emit()

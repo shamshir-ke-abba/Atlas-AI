@@ -29,7 +29,6 @@ class AtlasMessage(QWidget):
 
         self.build_ui()
 
-
     # =====================================================
     # UI
     # =====================================================
@@ -45,31 +44,45 @@ class AtlasMessage(QWidget):
             8
         )
 
-        sender_label = QLabel(
+        self.sender_label = QLabel(
             self.sender
         )
 
-        sender_label.setObjectName(
+        self.sender_label.setObjectName(
             "MessageSender"
         )
 
         layout.addWidget(
-            sender_label
+            self.sender_label
         )
 
-
-        message_label = QLabel(
+        self.message_label = QLabel(
             self.text
         )
 
-        message_label.setWordWrap(
+        self.message_label.setWordWrap(
             True
         )
 
-        message_label.setObjectName(
+        self.message_label.setObjectName(
             "MessageText"
         )
 
         layout.addWidget(
-            message_label
+            self.message_label
+        )
+
+    # =====================================================
+    # Public API
+    # =====================================================
+
+    def set_text(
+        self,
+        text,
+    ):
+
+        self.text = text
+
+        self.message_label.setText(
+            text
         )

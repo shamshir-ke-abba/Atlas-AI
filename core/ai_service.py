@@ -10,7 +10,9 @@ from core.logger import logger
 
 class AIService(QObject):
 
-    response_ready = Signal(str)
+    chunk_ready = Signal(str)
+    finished = Signal()
+
     generate_requested = Signal(str)
 
     def __init__(
@@ -23,10 +25,6 @@ class AIService(QObject):
 
         self.bus = bus
         self.state = state
-
-        # -----------------------------
-        # Thread
-        # -----------------------------
 
         self.thread = QThread()
 
@@ -44,8 +42,12 @@ class AIService(QObject):
             self.worker.process
         )
 
+        self.worker.chunk.connect(
+            self.chunk_ready.emit
+        )
+
         self.worker.finished.connect(
-            self.response_ready.emit
+            self.finished.emit
         )
 
     # --------------------------------------------------

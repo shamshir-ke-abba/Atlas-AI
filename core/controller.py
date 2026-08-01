@@ -5,23 +5,20 @@ Coordinates communication between
 the GUI and backend services.
 """
 
-from PySide6.QtCore import QObject, Slot
-from core.signals import ControllerSignals
 from core.events import (
     ChunkReceived,
     MessageReceived,
     ThinkingFinished,
     ThinkingStarted,
 )
+
 from core.ai_service import AIService
 from core.logger import logger
 
 
-class Controller(QObject):
+class Controller:
 
     def __init__(self, bus, state):
-
-        super().__init__()
 
         self.bus = bus
         self.state = state
@@ -31,8 +28,12 @@ class Controller(QObject):
             state,
         )
 
-        self.ai.response_ready.connect(
-            self.on_ai_response
+        self.ai.chunk_ready.connect(
+            self.on_chunk
+        )
+
+        self.ai.finished.connect(
+            self.on_finished
         )
 
     # --------------------------------------------------
@@ -62,17 +63,13 @@ class Controller(QObject):
         self.ai.stop()
 
     # --------------------------------------------------
-    # Event Handlers
+    # Events
     # --------------------------------------------------
 
     def on_message_received(
         self,
         event,
     ):
-
-        logger.info(
-            f"User: {event.text}"
-        )
 
         self.state.current_message = event.text
         self.state.status = "Thinking"
@@ -86,17 +83,20 @@ class Controller(QObject):
             event.text
         )
 
-    @Slot(str)
-    def on_ai_response(
+    def on_chunk(
         self,
-        response,
+        text,
     ):
 
         self.bus.publish(
             ChunkReceived(
-                response
+                text
             )
         )
+
+    def on_finished(
+        self,
+    ):
 
         self.state.status = "Ready"
         self.state.is_generating = False

@@ -124,20 +124,22 @@ class AtlasChat(QWidget):
     # =====================================================
 
     def add_message(
-        self,
-        sender,
-        text
-    ):
+         self,
+         sender,
+         text,
+        ):
 
-        message = AtlasMessage(
-            sender,
-            text
+         message = AtlasMessage(
+             sender,
+             text,
         )
 
-        self.messages_layout.insertWidget(
-            self.messages_layout.count() - 1,
-            message
-        )
+         self.messages_layout.insertWidget(
+         self.messages_layout.count() - 1,
+             message,
+            )
+
+         return message
 
         
     # =====================================================
@@ -148,6 +150,7 @@ class AtlasChat(QWidget):
     self,
     text
 ):
+        self.current_ai_message = None
 
         self.add_message(
         "User",
@@ -165,11 +168,22 @@ class AtlasChat(QWidget):
     # =====================================================
 
     def handle_response(
-        self,
-        event
-    ):
+          self,
+          event,
+        ):
 
-        self.add_message(
-            "Atlas",
-            event.text
+         if not hasattr(
+           self,
+           "current_ai_message",
+        ):
+
+             self.current_ai_message = self.add_message(
+                 "Atlas",
+                  event.text,
+                )
+
+         else:
+
+            self.current_ai_message.set_text(
+                event.text
         )

@@ -1,42 +1,30 @@
 """
-Atlas AI Brain
-
-Coordinates prompts,
-memory and model responses.
+Atlas Brain
 """
 
-from ai.model import AtlasModel
-from ai.prompts import ATLAS_SYSTEM_PROMPT
+import time
 
 
 class AtlasBrain:
 
-    def __init__(self):
-
-        self.model = AtlasModel()
-
-        self.system_prompt = ATLAS_SYSTEM_PROMPT
-
-
-    # =====================================================
-    # Processing
-    # =====================================================
-
     def process(
         self,
-        message
+        message,
     ):
 
-        prompt = f"""
-{self.system_prompt}
-
-User:
-{message}
-"""
-
-
-        response = self.model.generate(
-            prompt
+        response = (
+            "Hello! I'm Atlas. "
+            "Streaming is now working."
         )
 
-        return response
+        words = response.split()
+
+        current = ""
+
+        for word in words:
+
+            current += word + " "
+
+            
+
+            yield current
