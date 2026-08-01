@@ -7,6 +7,7 @@ the GUI and backend services.
 
 from core.events import (
     ChunkReceived,
+    ConversationCleared,
     MessageReceived,
     ThinkingFinished,
     ThinkingStarted,
@@ -42,28 +43,42 @@ class Controller:
 
     def start(self):
 
-        logger.info("Starting Controller...")
+        logger.info(
+            "Starting Controller..."
+        )
 
         self.bus.subscribe(
             MessageReceived,
             self.on_message_received,
         )
 
+        self.bus.subscribe(
+            ConversationCleared,
+            self.on_conversation_cleared,
+        )
+
         self.ai.start()
 
     def stop(self):
 
-        logger.info("Stopping Controller...")
+        logger.info(
+            "Stopping Controller..."
+        )
 
         self.bus.unsubscribe(
             MessageReceived,
             self.on_message_received,
         )
 
+        self.bus.unsubscribe(
+            ConversationCleared,
+            self.on_conversation_cleared,
+        )
+
         self.ai.stop()
 
     # --------------------------------------------------
-    # Events
+    # Event Handlers
     # --------------------------------------------------
 
     def on_message_received(
@@ -103,4 +118,15 @@ class Controller:
 
         self.bus.publish(
             ThinkingFinished()
+        )
+
+    def on_conversation_cleared(
+        self,
+        event,
+    ):
+
+        self.ai.worker.brain.model.clear_history()
+
+        logger.info(
+            "Conversation cleared."
         )

@@ -63,7 +63,9 @@ class AtlasWindow(QMainWindow):
         # Sidebar
         # ---------------------------------
 
-        sidebar = AtlasSidebar()
+        sidebar = AtlasSidebar(
+            self.bus
+        )
 
         sidebar.setMinimumWidth(240)
 

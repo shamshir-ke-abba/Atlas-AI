@@ -7,6 +7,7 @@ Handles communication with the local LLM.
 import ollama
 from ai.prompts import SYSTEM_PROMPT
 
+
 class AtlasModel:
 
     def __init__(self):
@@ -31,6 +32,16 @@ class AtlasModel:
                 "content": prompt,
             }
         )
+
+        print("\n========== HISTORY ==========")
+
+        for i, msg in enumerate(self.history):
+
+            print(
+                f"{i}: {msg['role']} -> {msg['content']}"
+            )
+
+        print("=============================\n")
 
         stream = ollama.chat(
             model=self.model,
