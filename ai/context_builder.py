@@ -14,8 +14,19 @@ class ContextBuilder:
         self,
         history,
         message,
+        is_hinglish=False,
     ):
         parts = []
+
+        # --------------------------------------------------
+        # Hinglish Context
+        # --------------------------------------------------
+
+        if is_hinglish:
+            parts.append(
+                "NOTE: User may be speaking in Hinglish/Hindi. "
+                "Respond clearly and helpfully."
+            )
 
         # --------------------------------------------------
         # System Context

@@ -315,3 +315,26 @@
 2026-08-09 00:05:05,821 | INFO | atlas | AI Thread started.
 2026-08-09 00:05:05,821 | INFO | atlas | Atlas controller started.
 2026-08-09 00:05:05,837 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 00:06:10,111 | INFO | web | Web interface requested.
+2026-08-09 00:06:10,340 | INFO | web | Web interface requested.
+2026-08-09 00:06:19,379 | INFO | web | Streaming request received.
+2026-08-09 00:06:48,737 | INFO | web | Streaming request completed.
+2026-08-09 00:07:09,090 | INFO | web | Streaming request received.
+2026-08-09 00:07:22,410 | INFO | web | Streaming request completed.
+2026-08-09 00:09:07,756 | INFO | atlas | Conversation cleared.
+2026-08-09 00:14:54,871 | INFO | web | Atlas Web Server shutting down.
+2026-08-09 00:14:59,417 | INFO | web | Atlas Web Server started.
+2026-08-09 00:15:22,350 | INFO | web | Web interface requested.
+2026-08-09 00:15:38,382 | INFO | web | Streaming request received.
+2026-08-09 00:16:01,398 | INFO | web | Streaming request completed.
+2026-08-09 00:16:24,350 | INFO | web | Streaming request received.
+2026-08-09 00:16:31,862 | INFO | web | Streaming request completed.
+2026-08-09 00:17:34,779 | INFO | web | Streaming request received.
+2026-08-09 00:18:02,442 | INFO | web | Streaming request completed.
+2026-08-09 00:21:05,069 | INFO | web | Atlas Web Server shutting down.
+2026-08-09 00:21:27,491 | INFO | web | Atlas Web Server started.
+2026-08-09 00:21:35,163 | INFO | web | Web interface requested.
+2026-08-09 00:21:40,828 | INFO | web | Streaming request received.
+2026-08-09 00:21:45,546 | INFO | web | Streaming request completed.
+2026-08-09 00:21:49,583 | INFO | web | Streaming request received.
+2026-08-09 00:21:57,743 | INFO | web | Streaming request completed.

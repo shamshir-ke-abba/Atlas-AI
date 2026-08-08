@@ -9,6 +9,7 @@ from ai.model import AtlasModel
 from ai.context_builder import ContextBuilder
 from ai.memory_patterns import PATTERNS
 from ai.planner import Planner
+from ai.translator import LanguageTranslator
 
 from core.memory import MemoryManager
 from core.tool_manager import ToolManager
@@ -107,6 +108,12 @@ class AtlasBrain:
         text = message.lower()
 
         # ----------------------------------
+        # Hinglish Detection
+        # ----------------------------------
+
+        is_hinglish = LanguageTranslator.is_hinglish(message)
+
+        # ----------------------------------
         # Conversation
         # ----------------------------------
 
@@ -164,6 +171,26 @@ class AtlasBrain:
         # Memory Recall
         # ----------------------------------
 
+        # Special handling for questions about AI
+        ai_identity_triggers = [
+            "tera naam",  # Your name (in Hindi)
+            "tumhara naam",  # Your name
+            "what is your name",
+            "whats your name",
+            "who are you",
+            "what are you called",
+            "tum kaun ho",  # Who are you (Hindi)
+        ]
+
+        for trigger in ai_identity_triggers:
+            if trigger in text:
+                response = "I'm Atlas, an AI assistant created by Saad."
+                self.conversation.add_assistant(response)
+                self.save_conversation()
+                yield response
+                return
+
+        # User's memory recall
         recall = {
 
             "what's my name": (
@@ -181,12 +208,37 @@ class AtlasBrain:
                 "name",
             ),
 
+            "mera naam": (
+                "identity",
+                "name",
+            ),
+
+            "mera naam kya": (
+                "identity",
+                "name",
+            ),
+
+            "main kaun hoon": (
+                "identity",
+                "name",
+            ),
+
             "where do i live": (
                 "identity",
                 "city",
             ),
 
             "what city do i live in": (
+                "identity",
+                "city",
+            ),
+
+            "main kaha rhata": (
+                "identity",
+                "city",
+            ),
+
+            "mera ghar": (
                 "identity",
                 "city",
             ),
@@ -263,6 +315,7 @@ class AtlasBrain:
         context = self.context.build(
             self.conversation.last(),
             message,
+            is_hinglish=is_hinglish,
         )
 
         # ----------------------------------
