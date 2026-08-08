@@ -1,22 +1,17 @@
 """
-Atlas AI V3
-
-Entry Point
+Atlas V3
+Main Application Entry Point
 """
+
+import sys
+
+from core.bus import EventBus
+from core.controller import Controller
+from core.logger import logger
+from core.state import AtlasState
 
 from gui.app import AtlasApplication
 from gui.window import AtlasWindow
-
-from core.logger import get_logger
-
-from core.runtime import (
-    bus,
-    state,
-    controller,
-)
-
-
-logger = get_logger("gui")
 
 
 def main():
@@ -25,77 +20,89 @@ def main():
         "Atlas GUI starting..."
     )
 
-    try:
+    # -----------------------------------------
+    # Core Runtime
+    # -----------------------------------------
 
-        # -----------------------------------------
-        # Core
-        # -----------------------------------------
+    bus = EventBus()
+    state = AtlasState()
 
-        # Runtime already created the shared:
-        # - EventBus
-        # - AtlasState
-        # - Controller
+    logger.info(
+        "Core runtime loaded."
+    )
 
-        logger.info(
-            "Core runtime loaded."
-        )
+    # -----------------------------------------
+    # GUI
+    # -----------------------------------------
 
-        # -----------------------------------------
-        # GUI
-        # -----------------------------------------
+    app = AtlasApplication()
 
-        app = AtlasApplication()
+    logger.info(
+        "Atlas application created."
+    )
 
-        logger.info(
-            "Atlas application created."
-        )
+    # -----------------------------------------
+    # Controller
+    # -----------------------------------------
 
-        window = AtlasWindow(
-            bus=bus,
-            state=state,
-            controller=controller,
-        )
+    controller = Controller(
+        bus=bus,
+        state=state,
+    )
 
-        logger.info(
-            "Atlas main window created."
-        )
+    # -----------------------------------------
+    # Main Window
+    # -----------------------------------------
 
-        # -----------------------------------------
-        # Start Services
-        # -----------------------------------------
+    window = AtlasWindow(
+        bus=bus,
+        state=state,
+        controller=controller,
+    )
 
-        controller.start()
+    logger.info(
+        "Atlas main window created."
+    )
 
-        logger.info(
-            "Atlas controller started."
-        )
+    # -----------------------------------------
+    # Start Services
+    # -----------------------------------------
 
-        # -----------------------------------------
-        # Show Window
-        # -----------------------------------------
+    controller.start()
 
-        window.show()
+    logger.info(
+        "Atlas controller started."
+    )
 
-        logger.info(
-            "Atlas GUI started successfully."
-        )
+    # -----------------------------------------
+    # Show GUI
+    # -----------------------------------------
 
-        exit_code = app.exec()
+    window.show()
 
-        logger.info(
-            "Atlas GUI exited with code %s.",
-            exit_code,
-        )
+    logger.info(
+        "Atlas GUI started successfully."
+    )
 
-        return exit_code
+    # -----------------------------------------
+    # Qt Event Loop
+    # -----------------------------------------
 
-    except Exception:
+    exit_code = app.exec()
 
-        logger.exception(
-            "Fatal GUI error."
-        )
+    # -----------------------------------------
+    # Shutdown
+    # -----------------------------------------
 
-        raise
+    logger.info(
+        f"Atlas GUI exited with code {exit_code}."
+    )
+
+    controller.stop()
+
+    sys.exit(
+        exit_code
+    )
 
 
 if __name__ == "__main__":
