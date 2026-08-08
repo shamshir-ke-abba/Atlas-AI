@@ -17,17 +17,20 @@ class AtlasInputBar(QWidget):
 
     message_sent = Signal(str)
 
-
-    def __init__(self, parent=None):
+    def __init__(
+        self,
+        parent=None,
+    ):
 
         super().__init__(parent)
 
-        self.setObjectName("InputBar")
+        self.setObjectName(
+            "InputBar"
+        )
 
         self.build_ui()
 
         self.connect_events()
-
 
     # =====================================================
     # UI
@@ -41,9 +44,8 @@ class AtlasInputBar(QWidget):
             10,
             10,
             10,
-            10
+            10,
         )
-
 
         self.input_field = QLineEdit()
 
@@ -55,7 +57,6 @@ class AtlasInputBar(QWidget):
             "InputField"
         )
 
-
         self.send_button = QPushButton(
             "Send"
         )
@@ -64,16 +65,14 @@ class AtlasInputBar(QWidget):
             "SendButton"
         )
 
-
         layout.addWidget(
             self.input_field,
-            1
+            1,
         )
 
         layout.addWidget(
             self.send_button
         )
-
 
     # =====================================================
     # Events
@@ -89,7 +88,6 @@ class AtlasInputBar(QWidget):
             self.send_message
         )
 
-
     def send_message(self):
 
         text = self.input_field.text().strip()
@@ -102,3 +100,5 @@ class AtlasInputBar(QWidget):
         )
 
         self.input_field.clear()
+
+        self.input_field.setFocus()

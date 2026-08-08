@@ -2,9 +2,10 @@
 Atlas V3 Controller
 
 Coordinates communication between
-the GUI and backend services.
+the GUI, Web API and backend services.
 """
 
+from core.ai_service import AIService
 from core.events import (
     ChunkReceived,
     ConversationCleared,
@@ -12,14 +13,16 @@ from core.events import (
     ThinkingFinished,
     ThinkingStarted,
 )
-
-from core.ai_service import AIService
 from core.logger import logger
 
 
 class Controller:
 
-    def __init__(self, bus, state):
+    def __init__(
+        self,
+        bus,
+        state,
+    ):
 
         self.bus = bus
         self.state = state
@@ -37,9 +40,9 @@ class Controller:
             self.on_finished
         )
 
-    # --------------------------------------------------
+    # ==================================================
     # Lifecycle
-    # --------------------------------------------------
+    # ==================================================
 
     def start(self):
 
@@ -77,9 +80,67 @@ class Controller:
 
         self.ai.stop()
 
-    # --------------------------------------------------
+    # ==================================================
+    # Synchronous API
+    # ==================================================
+
+    def chat(
+        self,
+        message,
+    ):
+
+        response = ""
+
+        for chunk in self.ai.worker.brain.process(
+            message
+        ):
+
+            response += chunk
+
+        return response
+
+    # ==================================================
+    # Streaming API
+    # ==================================================
+
+    def stream_chat(
+        self,
+        message,
+    ):
+
+        yield from self.ai.worker.brain.process(
+            message
+        )
+
+    # ==================================================
+    # Conversation API
+    # ==================================================
+
+    def list_conversations(self):
+
+        return self.ai.worker.brain.list_conversations()
+
+    def load_conversation(
+        self,
+        conversation_id,
+    ):
+
+        return self.ai.worker.brain.load_conversation(
+            conversation_id
+        )
+
+    def delete_conversation(
+        self,
+        conversation_id,
+    ):
+
+        return self.ai.worker.brain.delete_conversation(
+            conversation_id
+        )
+
+    # ==================================================
     # Event Handlers
-    # --------------------------------------------------
+    # ==================================================
 
     def on_message_received(
         self,
@@ -87,6 +148,7 @@ class Controller:
     ):
 
         self.state.current_message = event.text
+        self.state.current_response = ""
         self.state.status = "Thinking"
         self.state.is_generating = True
 
@@ -103,10 +165,10 @@ class Controller:
         text,
     ):
 
+        self.state.current_response += text
+
         self.bus.publish(
-            ChunkReceived(
-                text
-            )
+            ChunkReceived(text)
         )
 
     def on_finished(
@@ -125,7 +187,10 @@ class Controller:
         event,
     ):
 
-        self.ai.worker.brain.model.clear_history()
+        self.ai.worker.brain.clear_conversation()
+
+        self.state.current_message = ""
+        self.state.current_response = ""
 
         logger.info(
             "Conversation cleared."

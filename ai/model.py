@@ -1,78 +1,64 @@
 """
-Atlas Model
+Atlas V3 Model
 
-Handles communication with the local LLM.
+Handles communication with the local Ollama model.
 """
 
 import ollama
+
 from ai.prompts import SYSTEM_PROMPT
+from config import (
+    MODEL_NAME,
+    OLLAMA_HOST,
+    TEMPERATURE,
+)
 
 
 class AtlasModel:
 
     def __init__(self):
+        self.model = MODEL_NAME
 
-        self.model = "qwen2.5:1.5b"
-
-        self.history = [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT,
-            }
-        ]
-
-    def generate(
-        self,
-        prompt,
-    ):
-
-        self.history.append(
-            {
-                "role": "user",
-                "content": prompt,
-            }
+        self.client = ollama.Client(
+            host=OLLAMA_HOST
         )
 
-        print("\n========== HISTORY ==========")
+    def generate(self, prompt):
 
-        for i, msg in enumerate(self.history):
-
-            print(
-                f"{i}: {msg['role']} -> {msg['content']}"
-            )
-
-        print("=============================\n")
-
-        stream = ollama.chat(
+        stream = self.client.chat(
             model=self.model,
-            messages=self.history,
+            messages=[
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT,
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+            options={
+                "temperature": TEMPERATURE,
+            },
             stream=True,
         )
 
-        assistant_reply = ""
-
         for chunk in stream:
 
-            content = chunk["message"]["content"]
+            content = (
+                chunk
+                .get("message", {})
+                .get("content", "")
+            )
 
             if content:
-
-                assistant_reply += content
-
                 yield content
 
-        self.history.append(
-            {
-                "role": "assistant",
-                "content": assistant_reply,
-            }
-        )
-
     def clear_history(self):
+        """
+        Kept for compatibility.
 
-        self.history = [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT,
-            }
-        ]
+        Conversation history is managed by
+        ConversationManager rather than the model.
+        """
+        pass

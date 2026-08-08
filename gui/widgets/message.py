@@ -17,7 +17,7 @@ class AtlasMessage(QWidget):
         self,
         sender,
         text,
-        parent=None
+        parent=None,
     ):
 
         super().__init__(parent)
@@ -25,7 +25,9 @@ class AtlasMessage(QWidget):
         self.sender = sender
         self.text = text
 
-        self.setObjectName("Message")
+        self.setObjectName(
+            "Message"
+        )
 
         self.build_ui()
 
@@ -41,8 +43,12 @@ class AtlasMessage(QWidget):
             12,
             8,
             12,
-            8
+            8,
         )
+
+        # ---------------------------------
+        # Sender
+        # ---------------------------------
 
         self.sender_label = QLabel(
             self.sender
@@ -56,12 +62,20 @@ class AtlasMessage(QWidget):
             self.sender_label
         )
 
+        # ---------------------------------
+        # Message
+        # ---------------------------------
+
         self.message_label = QLabel(
             self.text
         )
 
         self.message_label.setWordWrap(
             True
+        )
+
+        self.message_label.setTextInteractionFlags(
+            self.message_label.textInteractionFlags()
         )
 
         self.message_label.setObjectName(

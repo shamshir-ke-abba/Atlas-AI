@@ -127,3 +127,172 @@
 [2026-08-01 19:49:01] INFO | Conversation cleared.
 [2026-08-01 19:58:48] INFO | Starting Controller...
 [2026-08-01 19:58:48] INFO | AI Thread started.
+[2026-08-01 20:08:11] INFO | Starting Controller...
+[2026-08-01 20:08:11] INFO | AI Thread started.
+[2026-08-03 18:23:51] INFO | Starting Controller...
+[2026-08-03 18:23:51] INFO | AI Thread started.
+[2026-08-03 18:25:51] INFO | Starting Controller...
+[2026-08-03 18:25:51] INFO | AI Thread started.
+[2026-08-03 18:28:30] INFO | Starting Controller...
+[2026-08-03 18:28:30] INFO | AI Thread started.
+[2026-08-03 18:32:40] INFO | Starting Controller...
+[2026-08-03 18:32:40] INFO | AI Thread started.
+[2026-08-03 18:34:05] INFO | Conversation cleared.
+[2026-08-03 18:34:06] INFO | Conversation cleared.
+[2026-08-03 18:34:06] INFO | Conversation cleared.
+[2026-08-03 18:34:18] INFO | Conversation cleared.
+[2026-08-03 18:34:18] INFO | Conversation cleared.
+[2026-08-03 18:42:05] INFO | Starting Controller...
+[2026-08-03 18:42:05] INFO | AI Thread started.
+[2026-08-03 18:53:36] INFO | Starting Controller...
+[2026-08-03 18:53:36] INFO | AI Thread started.
+[2026-08-03 18:55:26] INFO | Starting Controller...
+[2026-08-03 18:55:26] INFO | AI Thread started.
+[2026-08-03 18:56:33] INFO | Starting Controller...
+[2026-08-03 18:56:33] INFO | AI Thread started.
+[2026-08-05 10:53:14] INFO | Starting Controller...
+[2026-08-05 10:53:14] INFO | AI Thread started.
+[2026-08-06 13:26:47] INFO | Starting Controller...
+[2026-08-06 13:26:47] INFO | AI Thread started.
+[2026-08-06 13:30:44] INFO | Conversation cleared.
+[2026-08-06 13:31:21] INFO | Starting Controller...
+[2026-08-06 13:31:21] INFO | AI Thread started.
+[2026-08-06 13:33:57] INFO | Starting Controller...
+[2026-08-06 13:33:57] INFO | AI Thread started.
+[2026-08-06 14:44:30] INFO | Starting Controller...
+[2026-08-06 14:44:30] INFO | AI Thread started.
+[2026-08-06 14:58:12] INFO | Starting Controller...
+[2026-08-06 14:58:12] INFO | AI Thread started.
+[2026-08-06 14:58:34] INFO | Conversation cleared.
+[2026-08-06 15:30:19] INFO | Starting Controller...
+[2026-08-06 15:30:19] INFO | AI Thread started.
+[2026-08-07 11:57:44] INFO | Starting Controller...
+[2026-08-07 11:57:44] INFO | AI Thread started.
+[2026-08-07 15:25:48] INFO | Starting Controller...
+[2026-08-07 15:25:48] INFO | AI Thread started.
+[2026-08-07 16:08:37] INFO | Starting Controller...
+[2026-08-07 16:08:37] INFO | AI Thread started.
+[2026-08-08 21:21:15] INFO | Starting Controller...
+[2026-08-08 21:21:15] INFO | AI Thread started.
+[2026-08-08 21:24:34] INFO | Starting Controller...
+[2026-08-08 21:24:34] INFO | AI Thread started.
+[2026-08-08 21:25:32] INFO | Conversation cleared.
+2026-08-08 21:32:30,968 | INFO | gui | Atlas GUI starting...
+2026-08-08 21:32:30,969 | INFO | gui | Core runtime loaded.
+2026-08-08 21:32:31,355 | INFO | gui | Atlas application created.
+2026-08-08 21:32:31,388 | INFO | gui | Atlas main window created.
+2026-08-08 21:32:31,389 | INFO | atlas | Starting Controller...
+2026-08-08 21:32:31,389 | INFO | atlas | AI Thread started.
+2026-08-08 21:32:31,389 | INFO | gui | Atlas controller started.
+2026-08-08 21:32:31,395 | INFO | gui | Atlas GUI started successfully.
+2026-08-08 21:33:00,405 | INFO | gui | Atlas GUI exited with code 0.
+2026-08-08 21:33:21,794 | INFO | web | Atlas Web Server started.
+2026-08-08 21:33:27,702 | INFO | web | Web interface requested.
+2026-08-08 21:33:31,574 | INFO | web | Streaming request received.
+2026-08-08 21:33:38,084 | INFO | web | Streaming request completed.
+2026-08-08 21:33:40,005 | INFO | web | Streaming request received.
+2026-08-08 21:33:40,016 | INFO | web | Streaming request completed.
+2026-08-08 21:37:23,833 | INFO | web | Web interface requested.
+2026-08-08 21:37:27,145 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 21:40:59,329 | INFO | web | Atlas Web Server started.
+2026-08-08 21:41:06,794 | INFO | web | Web interface requested.
+2026-08-08 21:42:33,060 | INFO | web | Web interface requested.
+2026-08-08 21:43:00,512 | INFO | web | Streaming request received.
+2026-08-08 21:43:00,530 | INFO | web | Streaming request completed.
+2026-08-08 21:43:30,834 | INFO | web | Streaming request received.
+2026-08-08 21:43:53,323 | INFO | web | Streaming request completed.
+2026-08-08 21:45:41,786 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 21:48:03,713 | INFO | web | Atlas Web Server started.
+2026-08-08 21:48:07,051 | INFO | web | Web interface requested.
+2026-08-08 21:48:22,897 | INFO | web | Streaming request received.
+2026-08-08 21:48:28,725 | INFO | web | Streaming request completed.
+2026-08-08 21:49:01,111 | INFO | web | Streaming request received.
+2026-08-08 21:49:06,474 | INFO | web | Streaming request completed.
+2026-08-08 21:49:21,979 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 21:53:40,220 | INFO | web | Atlas Web Server started.
+2026-08-08 21:53:45,315 | INFO | web | Web interface requested.
+2026-08-08 21:53:52,956 | INFO | web | Streaming request received.
+2026-08-08 21:53:55,417 | INFO | web | Streaming request completed.
+2026-08-08 21:54:57,782 | INFO | web | Streaming request received.
+2026-08-08 21:55:05,991 | INFO | web | Streaming request completed.
+2026-08-08 21:55:20,461 | INFO | web | Streaming request received.
+2026-08-08 21:55:32,703 | INFO | web | Streaming request completed.
+2026-08-08 21:55:44,717 | INFO | web | Streaming request received.
+2026-08-08 21:55:58,334 | INFO | web | Streaming request completed.
+2026-08-08 21:57:26,695 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 22:02:44,311 | INFO | web | Atlas Web Server started.
+2026-08-08 22:02:50,054 | INFO | web | Web interface requested.
+2026-08-08 22:02:53,905 | INFO | web | Streaming request received.
+2026-08-08 22:03:09,003 | INFO | web | Streaming request completed.
+2026-08-08 22:04:20,718 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 22:04:23,126 | INFO | web | Atlas Web Server started.
+2026-08-08 22:04:30,017 | INFO | web | Web interface requested.
+2026-08-08 22:04:42,274 | INFO | web | Streaming request received.
+2026-08-08 22:04:44,547 | INFO | web | Streaming request completed.
+2026-08-08 22:05:14,160 | INFO | web | Streaming request received.
+2026-08-08 22:05:17,363 | INFO | web | Streaming request completed.
+2026-08-08 22:05:33,325 | INFO | web | Streaming request received.
+2026-08-08 22:05:36,635 | INFO | web | Streaming request completed.
+2026-08-08 22:05:50,510 | INFO | web | Streaming request received.
+2026-08-08 22:05:55,208 | INFO | web | Streaming request completed.
+2026-08-08 22:07:50,273 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 22:17:21,115 | INFO | web | Atlas Web Server started.
+2026-08-08 22:17:26,560 | INFO | web | Web interface requested.
+2026-08-08 22:17:32,694 | INFO | web | Streaming request received.
+2026-08-08 22:17:32,699 | INFO | web | Streaming request completed.
+2026-08-08 22:17:45,047 | INFO | web | Streaming request received.
+2026-08-08 22:17:45,051 | INFO | web | Streaming request completed.
+2026-08-08 22:17:52,419 | INFO | web | Streaming request received.
+2026-08-08 22:18:31,698 | INFO | web | Streaming request completed.
+2026-08-08 22:19:20,222 | INFO | web | Atlas Web Server shutting down.
+2026-08-08 22:40:48,781 | INFO | gui | Atlas GUI starting...
+2026-08-08 22:40:48,781 | INFO | gui | Core runtime loaded.
+2026-08-08 22:40:49,415 | INFO | gui | Atlas application created.
+2026-08-08 22:40:49,506 | INFO | gui | Atlas main window created.
+2026-08-08 22:40:49,506 | INFO | atlas | Starting Controller...
+2026-08-08 22:40:49,506 | INFO | atlas | AI Thread started.
+2026-08-08 22:40:49,507 | INFO | gui | Atlas controller started.
+2026-08-08 22:40:49,523 | INFO | gui | Atlas GUI started successfully.
+2026-08-08 22:42:10,364 | INFO | gui | Atlas GUI exited with code 0.
+2026-08-08 22:44:28,913 | INFO | gui | Atlas GUI starting...
+2026-08-08 22:44:28,913 | INFO | gui | Core runtime loaded.
+2026-08-08 22:44:29,296 | INFO | gui | Atlas application created.
+2026-08-08 22:44:29,329 | INFO | gui | Atlas main window created.
+2026-08-08 22:44:29,330 | INFO | atlas | Starting Controller...
+2026-08-08 22:44:29,331 | INFO | atlas | AI Thread started.
+2026-08-08 22:44:29,331 | INFO | gui | Atlas controller started.
+2026-08-08 22:44:29,339 | INFO | gui | Atlas GUI started successfully.
+2026-08-08 22:44:39,857 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,264 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,405 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,583 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,717 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,868 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:46,999 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,154 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,302 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,437 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,605 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,736 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:47,913 | INFO | atlas | Conversation cleared.
+2026-08-08 22:44:54,888 | INFO | gui | Atlas GUI exited with code 0.
+2026-08-08 22:47:11,217 | INFO | gui | Atlas GUI starting...
+2026-08-08 22:47:11,217 | INFO | gui | Core runtime loaded.
+2026-08-08 22:47:11,335 | INFO | gui | Atlas application created.
+2026-08-08 22:47:11,403 | INFO | gui | Atlas main window created.
+2026-08-08 22:47:11,403 | INFO | atlas | Starting Controller...
+2026-08-08 22:47:11,404 | INFO | atlas | AI Thread started.
+2026-08-08 22:47:11,404 | INFO | gui | Atlas controller started.
+2026-08-08 22:47:11,419 | INFO | gui | Atlas GUI started successfully.
+2026-08-08 22:47:41,447 | INFO | atlas | Conversation cleared.
+2026-08-08 22:48:12,807 | INFO | gui | Atlas GUI exited with code 0.
+2026-08-08 22:55:18,306 | INFO | gui | Atlas GUI starting...
+2026-08-08 22:55:18,306 | INFO | gui | Core runtime loaded.
+2026-08-08 22:55:18,430 | INFO | gui | Atlas application created.
+2026-08-08 22:55:18,490 | INFO | gui | Atlas main window created.
+2026-08-08 22:55:18,490 | INFO | atlas | Starting Controller...
+2026-08-08 22:55:18,491 | INFO | atlas | AI Thread started.
+2026-08-08 22:55:18,491 | INFO | gui | Atlas controller started.
+2026-08-08 22:55:18,498 | INFO | gui | Atlas GUI started successfully.
+2026-08-08 22:57:01,842 | INFO | atlas | Conversation cleared.
+2026-08-08 22:58:45,422 | INFO | gui | Atlas GUI exited with code 0.

@@ -1,51 +1,83 @@
 """
-Atlas V3 Logger
+Atlas V3 Logging System
 
-Central logging system used throughout Atlas.
+Centralized logging for the Atlas runtime,
+web interface, and GUI.
 """
 
 import logging
+from logging.handlers import RotatingFileHandler
 
-from config import (
-    LOG_FILE,
-    LOG_LEVEL,
-    LOG_DIR,
-)
+from config import LOG_FILE
 
-# ----------------------------------------------------------
-# Create logs directory
-# ----------------------------------------------------------
+
+LOG_DIR = LOG_FILE.parent
 
 LOG_DIR.mkdir(
     parents=True,
     exist_ok=True,
 )
 
-# ----------------------------------------------------------
-# Logger
-# ----------------------------------------------------------
 
-logger = logging.getLogger("Atlas")
+LOG_FORMAT = (
+    "%(asctime)s | "
+    "%(levelname)s | "
+    "%(name)s | "
+    "%(message)s"
+)
 
-if not logger.handlers:
 
-    logger.setLevel(LOG_LEVEL)
+def get_logger(name="atlas"):
+
+    logger = logging.getLogger(name)
+
+    # Prevent duplicate handlers if this module
+    # is imported multiple times.
+    if logger.handlers:
+        return logger
+
+    logger.setLevel(logging.INFO)
+
+    logger.propagate = False
 
     formatter = logging.Formatter(
-        "[%(asctime)s] %(levelname)s | %(message)s",
-        "%Y-%m-%d %H:%M:%S",
+        LOG_FORMAT
     )
 
-    file_handler = logging.FileHandler(
+    # --------------------------------------------------
+    # File Handler
+    # --------------------------------------------------
+
+    file_handler = RotatingFileHandler(
         LOG_FILE,
+        maxBytes=5 * 1024 * 1024,
+        backupCount=3,
         encoding="utf-8",
     )
 
-    file_handler.setFormatter(formatter)
+    file_handler.setFormatter(
+        formatter
+    )
+
+    logger.addHandler(
+        file_handler
+    )
+
+    # --------------------------------------------------
+    # Console Handler
+    # --------------------------------------------------
 
     console_handler = logging.StreamHandler()
 
-    console_handler.setFormatter(formatter)
+    console_handler.setFormatter(
+        formatter
+    )
 
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
+    logger.addHandler(
+        console_handler
+    )
+
+    return logger
+
+
+logger = get_logger("atlas")

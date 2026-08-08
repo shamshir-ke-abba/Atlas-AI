@@ -7,50 +7,95 @@ Entry Point
 from gui.app import AtlasApplication
 from gui.window import AtlasWindow
 
-from core.bus import EventBus
-from core.state import AtlasState
-from core.controller import Controller
+from core.logger import get_logger
+
+from core.runtime import (
+    bus,
+    state,
+    controller,
+)
+
+
+logger = get_logger("gui")
 
 
 def main():
 
-    # -----------------------------------------
-    # Core
-    # -----------------------------------------
-
-    bus = EventBus()
-
-    state = AtlasState()
-
-    controller = Controller(
-        bus=bus,
-        state=state,
+    logger.info(
+        "Atlas GUI starting..."
     )
 
-    # -----------------------------------------
-    # GUI
-    # -----------------------------------------
+    try:
 
-    app = AtlasApplication()
+        # -----------------------------------------
+        # Core
+        # -----------------------------------------
 
-    window = AtlasWindow(
-        bus=bus,
-        state=state,
-    )
+        # Runtime already created the shared:
+        # - EventBus
+        # - AtlasState
+        # - Controller
 
-    # -----------------------------------------
-    # Start Services
-    # -----------------------------------------
+        logger.info(
+            "Core runtime loaded."
+        )
 
-    controller.start()
+        # -----------------------------------------
+        # GUI
+        # -----------------------------------------
 
-    # -----------------------------------------
-    # Show Window
-    # -----------------------------------------
+        app = AtlasApplication()
 
-    window.show()
+        logger.info(
+            "Atlas application created."
+        )
 
-    app.exec()
+        window = AtlasWindow(
+            bus=bus,
+            state=state,
+            controller=controller,
+        )
+
+        logger.info(
+            "Atlas main window created."
+        )
+
+        # -----------------------------------------
+        # Start Services
+        # -----------------------------------------
+
+        controller.start()
+
+        logger.info(
+            "Atlas controller started."
+        )
+
+        # -----------------------------------------
+        # Show Window
+        # -----------------------------------------
+
+        window.show()
+
+        logger.info(
+            "Atlas GUI started successfully."
+        )
+
+        exit_code = app.exec()
+
+        logger.info(
+            "Atlas GUI exited with code %s.",
+            exit_code,
+        )
+
+        return exit_code
+
+    except Exception:
+
+        logger.exception(
+            "Fatal GUI error."
+        )
+
+        raise
 
 
 if __name__ == "__main__":

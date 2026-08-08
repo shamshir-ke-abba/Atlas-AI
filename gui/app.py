@@ -19,9 +19,17 @@ class AtlasApplication(QApplication):
 
         super().__init__(sys.argv)
 
-        self.setApplicationName("Atlas AI")
-        self.setApplicationVersion("3.0")
-        self.setOrganizationName("Atlas")
+        self.setApplicationName(
+            "Atlas AI"
+        )
+
+        self.setApplicationVersion(
+            "3.0"
+        )
+
+        self.setOrganizationName(
+            "Atlas"
+        )
 
         self.load_stylesheet()
 
@@ -39,7 +47,11 @@ class AtlasApplication(QApplication):
 
         if style_path.exists():
 
-            with open(style_path, "r") as file:
+            with open(
+                style_path,
+                "r",
+                encoding="utf-8",
+            ) as file:
 
                 self.setStyleSheet(
                     file.read()
