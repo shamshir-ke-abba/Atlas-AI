@@ -2,14 +2,18 @@
 Atlas Brain
 
 Coordinates memory, context,
-conversation and the model.
+conversation, tools, knowledge routing,
+and the local model.
 """
 
 from ai.model import AtlasModel
 from ai.context_builder import ContextBuilder
 from ai.memory_patterns import PATTERNS
 from ai.planner import Planner
-from ai.translator import LanguageTranslator
+from ai.knowledge_decider import (
+    KnowledgeDecider,
+    Decision,
+)
 
 from core.memory import MemoryManager
 from core.tool_manager import ToolManager
@@ -23,15 +27,11 @@ class AtlasBrain:
     def __init__(self):
 
         self.model = AtlasModel()
-
         self.memory = MemoryManager()
-
         self.tools = ToolManager()
-
         self.context = ContextBuilder()
 
         self.conversation = ConversationManager()
-
         self.conversation_store = ConversationStore()
 
         self.router = IntentRouter(
@@ -42,37 +42,30 @@ class AtlasBrain:
             self.router
         )
 
+        self.knowledge_decider = KnowledgeDecider()
+
     # ==================================================
-    # Conversation Persistence
+    # Conversation
     # ==================================================
-
-    def save_conversation(self):
-
-        if not self.conversation.history():
-            return
-
-        self.conversation_store.save(
-            self.conversation
-        )
 
     def clear_conversation(self):
 
-        self.save_conversation()
+        self.conversation = ConversationManager()
 
-        self.conversation.new_conversation()
+    def new_conversation(self):
 
-    # ==================================================
-    # Conversation Management
-    # ==================================================
+        self._save_current_conversation()
 
-    def list_conversations(self):
+        self.conversation = ConversationManager()
 
-        return self.conversation_store.list_conversations()
+        return self.conversation.get_id()
 
     def load_conversation(
         self,
         conversation_id,
     ):
+
+        self._save_current_conversation()
 
         data = self.conversation_store.load(
             conversation_id
@@ -81,20 +74,118 @@ class AtlasBrain:
         if data is None:
             return False
 
-        self.conversation.load(
-            data
-        )
+        if isinstance(
+            data,
+            ConversationManager,
+        ):
+
+            self.conversation = data
+
+        elif isinstance(
+            data,
+            dict,
+        ):
+
+            conversation = ConversationManager()
+
+            conversation.load(data)
+
+            self.conversation = conversation
+
+        else:
+
+            return False
 
         return True
+
+    def list_conversations(self):
+
+        return (
+            self.conversation_store
+            .list_conversations()
+        )
 
     def delete_conversation(
         self,
         conversation_id,
     ):
 
-        return self.conversation_store.delete(
+        deleted = (
+            self.conversation_store.delete(
+                conversation_id
+            )
+        )
+
+        if not deleted:
+            return False
+
+        if (
+            conversation_id
+            == self.conversation.get_id()
+        ):
+
+            self.conversation = (
+                ConversationManager()
+            )
+
+        return True
+
+    def rename_conversation(
+        self,
+        conversation_id,
+        title,
+    ):
+
+        title = title.strip()
+
+        if not title:
+            return False
+
+        data = self.conversation_store.load(
             conversation_id
         )
+
+        if data is None:
+            return False
+
+        if isinstance(
+            data,
+            ConversationManager,
+        ):
+
+            conversation = data
+
+        elif isinstance(
+            data,
+            dict,
+        ):
+
+            conversation = ConversationManager()
+
+            conversation.load(data)
+
+        else:
+
+            return False
+
+        conversation.set_title(title)
+
+        self.conversation_store.save(
+            conversation
+        )
+
+        if (
+            conversation_id
+            == self.conversation.get_id()
+        ):
+
+            self.conversation.set_title(title)
+
+        return True
+
+    def get_active_conversation_id(self):
+
+        return self.conversation.get_id()
 
     # ==================================================
     # Processing
@@ -107,53 +198,19 @@ class AtlasBrain:
 
         text = message.lower()
 
-        # ----------------------------------
-        # Hinglish Detection
-        # ----------------------------------
+        self.conversation.add_user(message)
 
-        is_hinglish = LanguageTranslator.is_hinglish(message)
+        self._auto_title(message)
 
-        # ----------------------------------
-        # Conversation
-        # ----------------------------------
-
-        self.conversation.add_user(
-            message
-        )
-
-        # ----------------------------------
-        # Automatic Title
-        # ----------------------------------
-
-        if (
-            self.conversation.get_title()
-            == "New Chat"
-        ):
-
-            title = message.strip()
-
-            if len(title) > 40:
-
-                title = (
-                    title[:40].rstrip()
-                    + "..."
-                )
-
-            self.conversation.set_title(
-                title
-            )
-
-        # ----------------------------------
+        # ==================================================
         # Memory Extraction
-        # ----------------------------------
+        # ==================================================
 
         for phrase, category, key in PATTERNS:
 
             if phrase in text:
 
-                index = text.find(
-                    phrase
-                )
+                index = text.find(phrase)
 
                 value = message[
                     index + len(phrase):
@@ -167,30 +224,10 @@ class AtlasBrain:
 
                 break
 
-        # ----------------------------------
+        # ==================================================
         # Memory Recall
-        # ----------------------------------
+        # ==================================================
 
-        # Special handling for questions about AI
-        ai_identity_triggers = [
-            "tera naam",  # Your name (in Hindi)
-            "tumhara naam",  # Your name
-            "what is your name",
-            "whats your name",
-            "who are you",
-            "what are you called",
-            "tum kaun ho",  # Who are you (Hindi)
-        ]
-
-        for trigger in ai_identity_triggers:
-            if trigger in text:
-                response = "I'm Atlas, an AI assistant created by Saad."
-                self.conversation.add_assistant(response)
-                self.save_conversation()
-                yield response
-                return
-
-        # User's memory recall
         recall = {
 
             "what's my name": (
@@ -208,37 +245,12 @@ class AtlasBrain:
                 "name",
             ),
 
-            "mera naam": (
-                "identity",
-                "name",
-            ),
-
-            "mera naam kya": (
-                "identity",
-                "name",
-            ),
-
-            "main kaun hoon": (
-                "identity",
-                "name",
-            ),
-
             "where do i live": (
                 "identity",
                 "city",
             ),
 
             "what city do i live in": (
-                "identity",
-                "city",
-            ),
-
-            "main kaha rhata": (
-                "identity",
-                "city",
-            ),
-
-            "mera ghar": (
                 "identity",
                 "city",
             ),
@@ -259,7 +271,7 @@ class AtlasBrain:
                         value
                     )
 
-                    self.save_conversation()
+                    self._save_current_conversation()
 
                     yield value
 
@@ -271,23 +283,67 @@ class AtlasBrain:
                         response
                     )
 
-                    self.save_conversation()
+                    self._save_current_conversation()
 
                     yield response
 
                 return
 
-        # ----------------------------------
-        # Planning
-        # ----------------------------------
+        # ==================================================
+        # Knowledge Decision
+        # ==================================================
 
-        plan = self.planner.plan(
-            message
+        decision = (
+            self.knowledge_decider.decide(
+                message
+            )
         )
 
-        # ----------------------------------
-        # Tool Execution
-        # ----------------------------------
+        # ==================================================
+        # WEB
+        # ==================================================
+
+        if decision.decision == Decision.WEB:
+
+            web_result = self._web_search(message)
+
+            context = self._build_web_prompt(
+                message,
+                web_result,
+                both=False,
+            )
+
+            yield from self._generate_and_save(
+                context
+            )
+
+            return
+
+        # ==================================================
+        # BOTH
+        # ==================================================
+
+        if decision.decision == Decision.BOTH:
+
+            web_result = self._web_search(message)
+
+            context = self._build_web_prompt(
+                message,
+                web_result,
+                both=True,
+            )
+
+            yield from self._generate_and_save(
+                context
+            )
+
+            return
+
+        # ==================================================
+        # LOCAL
+        # ==================================================
+
+        plan = self.planner.plan(message)
 
         if plan.action == Planner.TOOL:
 
@@ -298,42 +354,186 @@ class AtlasBrain:
                 expression=plan.arguments,
             )
 
-            self.conversation.add_assistant(
-                result
-            )
+            self.conversation.add_assistant(result)
 
-            self.save_conversation()
+            self._save_current_conversation()
 
             yield result
 
             return
 
-        # ----------------------------------
-        # Build Context
-        # ----------------------------------
-
         context = self.context.build(
             self.conversation.last(),
             message,
-            is_hinglish=is_hinglish,
         )
 
-        # ----------------------------------
-        # Model
-        # ----------------------------------
+        yield from self._generate_and_save(context)
+
+    # ==================================================
+    # Web Search
+    # ==================================================
+
+    def _web_search(
+        self,
+        question,
+    ):
+
+        try:
+
+            return self.tools.execute(
+                "web_search",
+                expression=question,
+            )
+
+        except Exception as error:
+
+            return (
+                "Web search failed: "
+                + str(error)
+            )
+
+    # ==================================================
+    # Web Prompt
+    # ==================================================
+
+    def _build_web_prompt(
+        self,
+        question,
+        web_result,
+        both=False,
+    ):
+
+        if both:
+
+            return f"""
+SYSTEM:
+You are Atlas. Answer the user using the
+WEB RESULTS supplied below.
+
+The web search has ALREADY happened.
+The text below is the search result.
+
+You do NOT need internet access.
+You do NOT need to perform a search.
+
+USER:
+{question}
+
+WEB RESULTS:
+{web_result}
+
+TASK:
+Read the WEB RESULTS and answer the USER.
+
+Use the information in WEB RESULTS as evidence.
+
+If the results do not contain enough information,
+say that the search results are insufficient.
+
+Do not say you cannot access the web.
+Do not say you cannot browse.
+Do not say you cannot perform searches.
+Do not talk about your training data.
+Do not talk about internal routing.
+
+Give the answer directly.
+"""
+
+        return f"""
+SYSTEM:
+You are Atlas. Answer the user using the
+WEB RESULTS supplied below.
+
+The web search has ALREADY happened.
+
+USER:
+{question}
+
+WEB RESULTS:
+{web_result}
+
+TASK:
+Answer the user's question using the supplied
+WEB RESULTS.
+
+Do not say you cannot access the web.
+Do not say you cannot browse.
+Do not say you cannot perform searches.
+
+If the results are insufficient, say so.
+
+Give the answer directly.
+"""
+
+    # ==================================================
+    # Generate + Save
+    # ==================================================
+
+    def _generate_and_save(
+        self,
+        context,
+    ):
 
         reply = ""
 
-        for chunk in self.model.generate(
-            context,
-        ):
+        for chunk in self.model.generate(context):
 
             reply += chunk
 
             yield chunk
 
-        self.conversation.add_assistant(
-            reply
+        self.conversation.add_assistant(reply)
+
+        self._save_current_conversation()
+
+    # ==================================================
+    # Automatic Title
+    # ==================================================
+
+    def _auto_title(
+        self,
+        message,
+    ):
+
+        if (
+            self.conversation.get_title()
+            != "New Chat"
+        ):
+
+            return
+
+        text = " ".join(
+            message.strip().split()
         )
 
-        self.save_conversation()
+        if not text:
+            return
+
+        words = text.split()
+
+        if len(words) > 7:
+
+            title = (
+                " ".join(words[:7])
+                + "..."
+            )
+
+        else:
+
+            title = text
+
+        self.conversation.set_title(title)
+
+    # ==================================================
+    # Internal Persistence
+    # ==================================================
+
+    def _save_current_conversation(self):
+
+        if not self.conversation.history():
+
+            return
+
+        self.conversation_store.save(
+            self.conversation
+        )

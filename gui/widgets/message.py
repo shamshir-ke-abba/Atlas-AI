@@ -4,8 +4,10 @@ gui/widgets/message.py
 Atlas Chat Message Widget.
 """
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QLabel,
+    QHBoxLayout,
     QVBoxLayout,
     QWidget,
 )
@@ -37,13 +39,36 @@ class AtlasMessage(QWidget):
 
     def build_ui(self):
 
-        layout = QVBoxLayout(self)
+        main_layout = QHBoxLayout(
+            self
+        )
 
-        layout.setContentsMargins(
+        main_layout.setContentsMargins(
             12,
             8,
             12,
             8,
+        )
+
+        main_layout.setSpacing(
+            12
+        )
+
+        # ---------------------------------
+        # Content
+        # ---------------------------------
+
+        content_layout = QVBoxLayout()
+
+        content_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        content_layout.setSpacing(
+            4
         )
 
         # ---------------------------------
@@ -58,7 +83,7 @@ class AtlasMessage(QWidget):
             "MessageSender"
         )
 
-        layout.addWidget(
+        content_layout.addWidget(
             self.sender_label
         )
 
@@ -74,16 +99,21 @@ class AtlasMessage(QWidget):
             True
         )
 
-        self.message_label.setTextInteractionFlags(
-            self.message_label.textInteractionFlags()
-        )
-
         self.message_label.setObjectName(
             "MessageText"
         )
 
-        layout.addWidget(
+        content_layout.addWidget(
             self.message_label
+        )
+
+        # ---------------------------------
+        # Layout
+        # ---------------------------------
+
+        main_layout.addLayout(
+            content_layout,
+            1,
         )
 
     # =====================================================
@@ -100,3 +130,24 @@ class AtlasMessage(QWidget):
         self.message_label.setText(
             text
         )
+
+    # =====================================================
+    # Thinking Indicator
+    # =====================================================
+
+    def set_thinking(
+        self,
+        thinking=True,
+    ):
+
+        if thinking:
+
+            self.message_label.setText(
+                "● ● ●"
+            )
+
+        else:
+
+            self.message_label.setText(
+                self.text
+            )

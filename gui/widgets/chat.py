@@ -4,6 +4,8 @@ gui/widgets/chat.py
 Atlas Chat Widget.
 """
 
+from PySide6.QtCore import QTimer
+
 from core.events import (
     ChunkReceived,
     MessageReceived,
@@ -32,7 +34,34 @@ class AtlasChat(QWidget):
 
         self.bus = bus
 
+        # =================================================
+        # Current AI Response
+        # =================================================
+
         self.current_ai_message = None
+
+        self.current_ai_response = ""
+
+        # =================================================
+        # Thinking Animation
+        # =================================================
+
+        self.thinking_frame = 0
+
+        self.thinking_timer = QTimer(self)
+
+        # Slower, calmer animation
+        self.thinking_timer.setInterval(
+            220
+        )
+
+        self.thinking_timer.timeout.connect(
+            self.animate_thinking
+        )
+
+        # =================================================
+        # Events
+        # =================================================
 
         self.bus.subscribe(
             ChunkReceived,
@@ -63,12 +92,12 @@ class AtlasChat(QWidget):
         )
 
         layout.setSpacing(
-            10
+            10,
         )
 
-        # -----------------------------
+        # ---------------------------------
         # Header
-        # -----------------------------
+        # ---------------------------------
 
         title = QLabel(
             "Chat Area"
@@ -82,9 +111,9 @@ class AtlasChat(QWidget):
             title
         )
 
-        # -----------------------------
+        # ---------------------------------
         # Messages Area
-        # -----------------------------
+        # ---------------------------------
 
         self.messages = QWidget()
 
@@ -113,9 +142,9 @@ class AtlasChat(QWidget):
             1,
         )
 
-        # -----------------------------
+        # ---------------------------------
         # Input
-        # -----------------------------
+        # ---------------------------------
 
         self.input_bar = AtlasInputBar()
 
@@ -155,6 +184,8 @@ class AtlasChat(QWidget):
 
     def clear_messages(self):
 
+        self.stop_thinking_animation()
+
         while self.messages_layout.count() > 1:
 
             item = self.messages_layout.takeAt(
@@ -169,6 +200,8 @@ class AtlasChat(QWidget):
 
         self.current_ai_message = None
 
+        self.current_ai_response = ""
+
     # =====================================================
     # Load Conversation
     # =====================================================
@@ -177,6 +210,8 @@ class AtlasChat(QWidget):
         self,
         conversation,
     ):
+
+        self.stop_thinking_animation()
 
         self.clear_messages()
 
@@ -215,18 +250,123 @@ class AtlasChat(QWidget):
         text,
     ):
 
+        # ---------------------------------
+        # Stop previous animation
+        # ---------------------------------
+
+        self.stop_thinking_animation()
+
         self.current_ai_message = None
+
+        self.current_ai_response = ""
+
+        # ---------------------------------
+        # User message
+        # ---------------------------------
 
         self.add_message(
             "User",
             text,
         )
 
+        # ---------------------------------
+        # Temporary Atlas thinking message
+        # ---------------------------------
+
+        self.current_ai_message = self.add_message(
+            "Atlas",
+            "· · ·",
+        )
+
+        self.current_ai_message.set_thinking(
+            True
+        )
+
+        self.thinking_frame = 0
+
+        self.thinking_timer.start()
+
+        self.scroll_to_bottom()
+
+        # ---------------------------------
+        # Send to backend
+        # ---------------------------------
+
         self.bus.publish(
             MessageReceived(
                 text
             )
         )
+
+    # =====================================================
+    # Thinking Animation
+    # =====================================================
+
+    def animate_thinking(self):
+
+        if self.current_ai_message is None:
+
+            self.stop_thinking_animation()
+
+            return
+
+        # -------------------------------------------------
+        # Smooth slow pulse
+        #
+        # Empty
+        # ↓
+        # 1 dot
+        # ↓
+        # 2 dots
+        # ↓
+        # 3 dots
+        # ↓
+        # 2 dots
+        # ↓
+        # 1 dot
+        # ↓
+        # Empty
+        #
+        # Then repeat.
+        # -------------------------------------------------
+
+        frames = (
+                  "● · ·",
+                  "● ● ·",
+                  "● ● ●",
+                  "· ● ●",
+                  "· · ●",
+                  "· ● ●",
+                  "● ● ●",
+                  "● ● ·",
+                  "● · ·",
+                  "· · ·",
+                 )
+
+        frame = frames[
+            self.thinking_frame
+            % len(frames)
+        ]
+
+        self.current_ai_message.set_text(
+            frame
+        )
+
+        self.thinking_frame += 1
+
+        self.scroll_to_bottom()
+
+    # =====================================================
+    # Stop Thinking Animation
+    # =====================================================
+
+    def stop_thinking_animation(self):
+
+        if self.thinking_timer.isActive():
+
+            self.thinking_timer.stop()
+
+        self.thinking_frame = 0
 
     # =====================================================
     # AI Response Handling
@@ -237,19 +377,47 @@ class AtlasChat(QWidget):
         event,
     ):
 
+        # ---------------------------------
+        # Safety
+        # ---------------------------------
+
         if self.current_ai_message is None:
 
             self.current_ai_message = self.add_message(
                 "Atlas",
-                event.text,
+                "",
             )
 
-        else:
+            self.current_ai_response = ""
 
-            self.current_ai_message.set_text(
-                self.current_ai_message.text
-                + event.text
+        # ---------------------------------
+        # Stop thinking animation
+        # ---------------------------------
+
+        if self.thinking_timer.isActive():
+
+            self.stop_thinking_animation()
+
+            self.current_ai_message.set_thinking(
+                False
             )
+
+        # ---------------------------------
+        # Accumulate response
+        #
+        # IMPORTANT:
+        # Never replace the previous chunk.
+        # ---------------------------------
+
+        self.current_ai_response += event.text
+
+        # ---------------------------------
+        # Display accumulated response
+        # ---------------------------------
+
+        self.current_ai_message.set_text(
+            self.current_ai_response
+        )
 
         self.scroll_to_bottom()
 

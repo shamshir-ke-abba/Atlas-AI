@@ -62,6 +62,8 @@ class Controller:
 
         self.ai.start()
 
+        self._sync_active_conversation()
+
     def stop(self):
 
         logger.info(
@@ -97,6 +99,8 @@ class Controller:
 
             response += chunk
 
+        self._sync_active_conversation()
+
         return response
 
     # ==================================================
@@ -108,34 +112,128 @@ class Controller:
         message,
     ):
 
-        yield from self.ai.worker.brain.process(
+        for chunk in self.ai.worker.brain.process(
             message
-        )
+        ):
+
+            yield chunk
+
+        self._sync_active_conversation()
 
     # ==================================================
     # Conversation API
     # ==================================================
 
-    def list_conversations(self):
+    def new_conversation(self):
 
-        return self.ai.worker.brain.list_conversations()
+        conversation_id = (
+            self.ai.worker.brain.new_conversation()
+        )
+
+        self.state.active_conversation_id = (
+            conversation_id
+        )
+
+        self.state.current_message = ""
+        self.state.current_response = ""
+        self.state.status = "Ready"
+        self.state.is_generating = False
+
+        logger.info(
+            f"New conversation created: "
+            f"{conversation_id}"
+        )
+
+        return conversation_id
 
     def load_conversation(
         self,
         conversation_id,
     ):
 
-        return self.ai.worker.brain.load_conversation(
-            conversation_id
+        success = (
+            self.ai.worker.brain.load_conversation(
+                conversation_id
+            )
         )
+
+        if not success:
+
+            logger.warning(
+                f"Failed to load conversation: "
+                f"{conversation_id}"
+            )
+
+            return False
+
+        self.state.active_conversation_id = (
+            self.ai.worker.brain.get_active_conversation_id()
+        )
+
+        self.state.current_message = ""
+        self.state.current_response = ""
+        self.state.status = "Ready"
+        self.state.is_generating = False
+
+        logger.info(
+            f"Conversation loaded: "
+            f"{conversation_id}"
+        )
+
+        return True
+
+    def get_active_conversation(self):
+
+        return self.ai.worker.brain.conversation
 
     def delete_conversation(
         self,
         conversation_id,
     ):
 
-        return self.ai.worker.brain.delete_conversation(
-            conversation_id
+        success = (
+            self.ai.worker.brain.delete_conversation(
+                conversation_id
+            )
+        )
+
+        if success:
+
+            self._sync_active_conversation()
+
+            logger.info(
+                f"Conversation deleted: "
+                f"{conversation_id}"
+            )
+
+        return success
+
+    def rename_conversation(
+        self,
+        conversation_id,
+        title,
+    ):
+
+        success = (
+            self.ai.worker.brain.rename_conversation(
+                conversation_id,
+                title,
+            )
+        )
+
+        if success:
+
+            logger.info(
+                f"Conversation renamed: "
+                f"{conversation_id}"
+            )
+
+        return success
+
+    def list_conversations(self):
+
+        return (
+            self.ai.worker.brain.list_conversations()
         )
 
     # ==================================================
@@ -168,7 +266,9 @@ class Controller:
         self.state.current_response += text
 
         self.bus.publish(
-            ChunkReceived(text)
+            ChunkReceived(
+                text
+            )
         )
 
     def on_finished(
@@ -177,6 +277,8 @@ class Controller:
 
         self.state.status = "Ready"
         self.state.is_generating = False
+
+        self._sync_active_conversation()
 
         self.bus.publish(
             ThinkingFinished()
@@ -187,11 +289,26 @@ class Controller:
         event,
     ):
 
-        self.ai.worker.brain.clear_conversation()
-
-        self.state.current_message = ""
-        self.state.current_response = ""
+        conversation_id = (
+            self.new_conversation()
+        )
 
         logger.info(
-            "Conversation cleared."
+            f"Conversation cleared. "
+            f"Active conversation: "
+            f"{conversation_id}"
+        )
+
+    # ==================================================
+    # Internal
+    # ==================================================
+
+    def _sync_active_conversation(
+        self,
+    ):
+
+        brain = self.ai.worker.brain
+
+        self.state.active_conversation_id = (
+            brain.get_active_conversation_id()
         )

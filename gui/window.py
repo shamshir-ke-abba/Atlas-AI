@@ -21,7 +21,7 @@ class AtlasWindow(QMainWindow):
         self,
         bus,
         state,
-        controller=None,
+        controller,
     ):
 
         super().__init__()
@@ -45,12 +45,12 @@ class AtlasWindow(QMainWindow):
 
         self.resize(
             1400,
-            900
+            900,
         )
 
         self.setMinimumSize(
             1100,
-            700
+            700,
         )
 
     # =====================================================
@@ -60,6 +60,10 @@ class AtlasWindow(QMainWindow):
     def build_ui(self):
 
         root = QWidget()
+
+        root.setObjectName(
+            "AtlasWindow"
+        )
 
         self.setCentralWidget(
             root
@@ -73,7 +77,7 @@ class AtlasWindow(QMainWindow):
             0,
             0,
             0,
-            0
+            0,
         )
 
         layout.setSpacing(
@@ -85,7 +89,8 @@ class AtlasWindow(QMainWindow):
         # ---------------------------------
 
         self.sidebar = AtlasSidebar(
-            self.bus
+            bus=self.bus,
+            controller=self.controller,
         )
 
         self.sidebar.setMinimumWidth(
@@ -103,6 +108,14 @@ class AtlasWindow(QMainWindow):
         self.chat.add_message(
             "Atlas",
             "Hello Saad, systems online."
+        )
+
+        # ---------------------------------
+        # Conversation Synchronization
+        # ---------------------------------
+
+        self.sidebar.conversation_loaded.connect(
+            self.handle_conversation_loaded
         )
 
         # ---------------------------------
@@ -127,46 +140,45 @@ class AtlasWindow(QMainWindow):
 
         layout.addWidget(
             self.chat,
-            1
-        )
-
-        # ---------------------------------
-        # Controller
-        # ---------------------------------
-
-        if self.controller is not None:
-
-            self.sidebar.set_controller(
-                self.controller
-            )
-
-        # ---------------------------------
-        # Conversation Selection
-        # ---------------------------------
-
-        self.sidebar.conversation_selected.connect(
-            self.handle_conversation_selected
+            1,
         )
 
     # =====================================================
-    # Conversation Selection
+    # Conversation UI
     # =====================================================
 
-    def handle_conversation_selected(
+    def handle_conversation_loaded(
         self,
-        conversation_id,
+        conversation,
     ):
 
-        if self.controller is None:
+        # ---------------------------------
+        # New Chat / Empty Conversation
+        # ---------------------------------
+
+        if conversation is None:
+
+            self.chat.clear_messages()
+
+            self.chat.add_message(
+                "Atlas",
+                "Hello Saad, systems online."
+            )
+
             return
 
-        success = self.controller.load_conversation(
-            conversation_id
-        )
-
-        if not success:
-            return
+        # ---------------------------------
+        # Existing Conversation
+        # ---------------------------------
 
         self.chat.load_conversation(
-            self.controller.ai.worker.brain.conversation
+            conversation
         )
+
+    # =====================================================
+    # History
+    # =====================================================
+
+    def refresh_history(self):
+
+        self.sidebar.refresh_history()

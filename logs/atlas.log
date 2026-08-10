@@ -338,3 +338,480 @@
 2026-08-09 00:21:45,546 | INFO | web | Streaming request completed.
 2026-08-09 00:21:49,583 | INFO | web | Streaming request received.
 2026-08-09 00:21:57,743 | INFO | web | Streaming request completed.
+2026-08-09 13:36:49,736 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:36:49,737 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:36:50,290 | INFO | atlas | Atlas application created.
+2026-08-09 13:36:50,427 | INFO | atlas | Atlas main window created.
+2026-08-09 13:36:50,427 | INFO | atlas | Starting Controller...
+2026-08-09 13:36:50,428 | INFO | atlas | AI Thread started.
+2026-08-09 13:36:50,428 | INFO | atlas | Atlas controller started.
+2026-08-09 13:36:50,457 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:39:40,585 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:39:40,594 | INFO | atlas | Stopping Controller...
+2026-08-09 13:39:40,598 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:39:53,969 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:39:53,970 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:39:54,226 | INFO | atlas | Atlas application created.
+2026-08-09 13:39:54,308 | INFO | atlas | Atlas main window created.
+2026-08-09 13:39:54,308 | INFO | atlas | Starting Controller...
+2026-08-09 13:39:54,309 | INFO | atlas | AI Thread started.
+2026-08-09 13:39:54,309 | INFO | atlas | Atlas controller started.
+2026-08-09 13:39:54,319 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:39:57,392 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:39:57,392 | INFO | atlas | Stopping Controller...
+2026-08-09 13:39:57,393 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:43:33,655 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:43:33,655 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:43:34,246 | INFO | atlas | Atlas application created.
+2026-08-09 13:43:34,366 | INFO | atlas | Atlas main window created.
+2026-08-09 13:43:34,366 | INFO | atlas | Starting Controller...
+2026-08-09 13:43:34,366 | INFO | atlas | AI Thread started.
+2026-08-09 13:43:34,367 | INFO | atlas | Atlas controller started.
+2026-08-09 13:43:34,385 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:45:29,894 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:45:29,898 | INFO | atlas | Stopping Controller...
+2026-08-09 13:45:29,899 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:46:45,335 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:46:45,335 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:46:45,468 | INFO | atlas | Atlas application created.
+2026-08-09 13:46:45,517 | INFO | atlas | Atlas main window created.
+2026-08-09 13:46:45,517 | INFO | atlas | Starting Controller...
+2026-08-09 13:46:45,517 | INFO | atlas | AI Thread started.
+2026-08-09 13:46:45,518 | INFO | atlas | Atlas controller started.
+2026-08-09 13:46:45,525 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:46:48,390 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:50,382 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:50,771 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:50,929 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:51,071 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:51,215 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:51,364 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:51,500 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:46:51,680 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:06,684 | INFO | atlas | New conversation created: 5043df5d-64b2-427a-ad7e-982c68bf42ee
+2026-08-09 13:47:08,607 | INFO | atlas | Conversation loaded: 7611690f-0d65-4650-908f-0fa632d967c7
+2026-08-09 13:47:09,273 | INFO | atlas | Conversation loaded: 4d23d87f-14e1-42cf-8c1b-b7db5c1eb73f
+2026-08-09 13:47:09,961 | INFO | atlas | Conversation loaded: 0b3252cc-98a4-40c6-acb7-2a836b27b10e
+2026-08-09 13:47:10,656 | INFO | atlas | Conversation loaded: 68cd806a-a162-4ec1-8aa5-d79f760cde41
+2026-08-09 13:47:11,326 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:32,821 | INFO | atlas | Conversation renamed: 7611690f-0d65-4650-908f-0fa632d967c7
+2026-08-09 13:47:34,808 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:47:34,809 | INFO | atlas | Stopping Controller...
+2026-08-09 13:47:34,810 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:47:39,094 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:47:39,094 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:47:39,231 | INFO | atlas | Atlas application created.
+2026-08-09 13:47:39,281 | INFO | atlas | Atlas main window created.
+2026-08-09 13:47:39,281 | INFO | atlas | Starting Controller...
+2026-08-09 13:47:39,282 | INFO | atlas | AI Thread started.
+2026-08-09 13:47:39,282 | INFO | atlas | Atlas controller started.
+2026-08-09 13:47:39,290 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:47:44,967 | INFO | atlas | Conversation deleted: 7611690f-0d65-4650-908f-0fa632d967c7
+2026-08-09 13:47:50,066 | INFO | atlas | Conversation deleted: 4d23d87f-14e1-42cf-8c1b-b7db5c1eb73f
+2026-08-09 13:47:54,296 | INFO | atlas | Conversation deleted: 0b3252cc-98a4-40c6-acb7-2a836b27b10e
+2026-08-09 13:47:58,013 | INFO | atlas | Conversation deleted: 68cd806a-a162-4ec1-8aa5-d79f760cde41
+2026-08-09 13:47:59,408 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:59,523 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:59,646 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:59,775 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:47:59,953 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:49:20,392 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:49:20,393 | INFO | atlas | Stopping Controller...
+2026-08-09 13:49:20,394 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:49:23,412 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:49:23,413 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:49:23,547 | INFO | atlas | Atlas application created.
+2026-08-09 13:49:23,595 | INFO | atlas | Atlas main window created.
+2026-08-09 13:49:23,596 | INFO | atlas | Starting Controller...
+2026-08-09 13:49:23,596 | INFO | atlas | AI Thread started.
+2026-08-09 13:49:23,596 | INFO | atlas | Atlas controller started.
+2026-08-09 13:49:23,604 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:49:26,412 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:49:26,413 | INFO | atlas | Stopping Controller...
+2026-08-09 13:49:26,418 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:55:09,579 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:55:09,581 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:55:09,770 | INFO | atlas | Atlas application created.
+2026-08-09 13:55:09,831 | INFO | atlas | Atlas main window created.
+2026-08-09 13:55:09,832 | INFO | atlas | Starting Controller...
+2026-08-09 13:55:09,832 | INFO | atlas | AI Thread started.
+2026-08-09 13:55:09,832 | INFO | atlas | Atlas controller started.
+2026-08-09 13:55:09,841 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:55:50,096 | INFO | atlas | New conversation created: 20cf2aa3-6bcc-4f58-9fc4-86c2c22becae
+2026-08-09 13:55:52,555 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:55:54,073 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:56:13,993 | INFO | atlas | Conversation renamed: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:56:17,966 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:56:20,038 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:56:21,000 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:56:21,672 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:56:23,217 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:56:23,217 | INFO | atlas | Stopping Controller...
+2026-08-09 13:56:23,218 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:56:27,234 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:56:27,234 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:56:27,493 | INFO | atlas | Atlas application created.
+2026-08-09 13:56:27,614 | INFO | atlas | Atlas main window created.
+2026-08-09 13:56:27,615 | INFO | atlas | Starting Controller...
+2026-08-09 13:56:27,615 | INFO | atlas | AI Thread started.
+2026-08-09 13:56:27,615 | INFO | atlas | Atlas controller started.
+2026-08-09 13:56:27,633 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:56:29,357 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 13:56:31,234 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 13:56:33,250 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 13:56:33,251 | INFO | atlas | Stopping Controller...
+2026-08-09 13:56:33,253 | INFO | atlas | AI Thread stopped.
+2026-08-09 13:58:03,733 | INFO | atlas | Atlas GUI starting...
+2026-08-09 13:58:03,734 | INFO | atlas | Core runtime loaded.
+2026-08-09 13:58:04,004 | INFO | atlas | Atlas application created.
+2026-08-09 13:58:04,096 | INFO | atlas | Atlas main window created.
+2026-08-09 13:58:04,097 | INFO | atlas | Starting Controller...
+2026-08-09 13:58:04,097 | INFO | atlas | AI Thread started.
+2026-08-09 13:58:04,097 | INFO | atlas | Atlas controller started.
+2026-08-09 13:58:04,129 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 13:58:11,215 | INFO | atlas | New conversation created: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:00:30,889 | INFO | atlas | New conversation created: b007fcae-e0b6-4569-b611-c6550ed7b4d3
+2026-08-09 14:00:46,790 | INFO | atlas | New conversation created: cdc2940d-9aa7-4128-b299-95a3a64e013b
+2026-08-09 14:01:03,298 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:01:03,299 | INFO | atlas | Stopping Controller...
+2026-08-09 14:01:03,301 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:02:23,881 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:02:23,882 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:02:24,106 | INFO | atlas | Atlas application created.
+2026-08-09 14:02:24,161 | INFO | atlas | Atlas main window created.
+2026-08-09 14:02:24,161 | INFO | atlas | Starting Controller...
+2026-08-09 14:02:24,161 | INFO | atlas | AI Thread started.
+2026-08-09 14:02:24,162 | INFO | atlas | Atlas controller started.
+2026-08-09 14:02:24,168 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:02:40,794 | INFO | atlas | Conversation loaded: 482badd8-1067-41d2-8a58-09ef9f52c9e5
+2026-08-09 14:02:41,619 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 14:02:42,473 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:02:46,077 | INFO | atlas | Conversation loaded: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-09 14:02:48,303 | INFO | atlas | New conversation created: a165af4b-3d40-4749-82ea-2f0e18945820
+2026-08-09 14:02:51,371 | INFO | atlas | New conversation created: 8debe403-afbc-4836-9fbd-b4fce52c9ad9
+2026-08-09 14:02:53,066 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:02:53,827 | INFO | atlas | New conversation created: e83cde37-156e-419c-8131-fc87dcb117d6
+2026-08-09 14:02:54,438 | INFO | atlas | New conversation created: 256b4fc7-2aa0-48f7-a6d5-e531c871373c
+2026-08-09 14:02:54,567 | INFO | atlas | New conversation created: 95691b97-9592-44ae-b611-e4ea2edbb0b4
+2026-08-09 14:02:54,689 | INFO | atlas | New conversation created: 8c494ef2-31b9-4fa1-b583-da54cd06d114
+2026-08-09 14:02:54,833 | INFO | atlas | New conversation created: a89358d5-8960-443f-a37b-4173ae71cf06
+2026-08-09 14:03:09,980 | INFO | atlas | Conversation renamed: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:03:15,269 | INFO | atlas | Conversation renamed: 482badd8-1067-41d2-8a58-09ef9f52c9e5
+2026-08-09 14:03:17,217 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:03:20,036 | INFO | atlas | Conversation loaded: 482badd8-1067-41d2-8a58-09ef9f52c9e5
+2026-08-09 14:04:14,676 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:04:14,679 | INFO | atlas | Stopping Controller...
+2026-08-09 14:04:14,682 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:05:37,492 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:05:37,493 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:05:37,671 | INFO | atlas | Atlas application created.
+2026-08-09 14:05:37,728 | INFO | atlas | Atlas main window created.
+2026-08-09 14:05:37,728 | INFO | atlas | Starting Controller...
+2026-08-09 14:05:37,729 | INFO | atlas | AI Thread started.
+2026-08-09 14:05:37,730 | INFO | atlas | Atlas controller started.
+2026-08-09 14:05:37,739 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:05:44,720 | INFO | atlas | New conversation created: c725db04-cf42-444f-be85-e66525463e07
+2026-08-09 14:08:29,083 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:08:29,083 | INFO | atlas | Stopping Controller...
+2026-08-09 14:08:29,084 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:09:52,701 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:09:52,701 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:09:52,839 | INFO | atlas | Atlas application created.
+2026-08-09 14:09:52,894 | INFO | atlas | Atlas main window created.
+2026-08-09 14:09:52,895 | INFO | atlas | Starting Controller...
+2026-08-09 14:09:52,896 | INFO | atlas | AI Thread started.
+2026-08-09 14:09:52,896 | INFO | atlas | Atlas controller started.
+2026-08-09 14:09:52,904 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:10:26,874 | INFO | atlas | Conversation renamed: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:10:28,447 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:10:30,152 | INFO | atlas | New conversation created: 31987a98-0795-4987-af3b-f0a98db7bab4
+2026-08-09 14:10:31,018 | INFO | atlas | New conversation created: e1663ac8-3791-459a-91b9-bb052a38f259
+2026-08-09 14:10:31,904 | INFO | atlas | Conversation loaded: 482badd8-1067-41d2-8a58-09ef9f52c9e5
+2026-08-09 14:10:32,641 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:10:33,447 | INFO | atlas | New conversation created: 92139c88-ed0f-42cf-85f7-586b1c67f904
+2026-08-09 14:10:34,107 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:10:34,831 | INFO | atlas | New conversation created: 8622732d-9098-4050-85a9-10def72bf130
+2026-08-09 14:10:37,733 | INFO | atlas | Conversation loaded: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:10:42,420 | INFO | atlas | Conversation deleted: 6c46ee98-21d7-4852-8e67-a2154699b302
+2026-08-09 14:12:43,613 | INFO | atlas | Conversation deleted: 482badd8-1067-41d2-8a58-09ef9f52c9e5
+2026-08-09 14:12:44,605 | INFO | atlas | New conversation created: 1648ec06-35d4-42ae-a2f6-b4a09a13edc1
+2026-08-09 14:12:48,261 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:12:48,262 | INFO | atlas | Stopping Controller...
+2026-08-09 14:12:48,263 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:22:01,665 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:22:01,665 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:22:01,855 | INFO | atlas | Atlas application created.
+2026-08-09 14:22:01,978 | INFO | atlas | Atlas main window created.
+2026-08-09 14:22:01,979 | INFO | atlas | Starting Controller...
+2026-08-09 14:22:01,979 | INFO | atlas | AI Thread started.
+2026-08-09 14:22:01,980 | INFO | atlas | Atlas controller started.
+2026-08-09 14:22:01,991 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:23:12,984 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:23:12,987 | INFO | atlas | Stopping Controller...
+2026-08-09 14:23:12,988 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:24:10,502 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:24:10,502 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:24:10,617 | INFO | atlas | Atlas application created.
+2026-08-09 14:24:10,674 | INFO | atlas | Atlas main window created.
+2026-08-09 14:24:10,674 | INFO | atlas | Starting Controller...
+2026-08-09 14:24:10,674 | INFO | atlas | AI Thread started.
+2026-08-09 14:24:10,674 | INFO | atlas | Atlas controller started.
+2026-08-09 14:24:10,687 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:26:03,146 | INFO | atlas | New conversation created: 78224fe2-4ac4-4c54-8c5c-9264eaacbf66
+2026-08-09 14:26:04,501 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:26:05,903 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 14:26:06,942 | INFO | atlas | New conversation created: 5bda82a9-7a1b-422d-b8e9-b3bf013d7c5a
+2026-08-09 14:26:08,346 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 14:26:09,444 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:26:35,417 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:31:55,639 | INFO | atlas | Conversation renamed: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:31:59,381 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-09 14:32:00,903 | INFO | atlas | New conversation created: aaae06a6-9d5d-4126-9042-f0a5be8d82f8
+2026-08-09 14:32:29,524 | INFO | atlas | New conversation created: 46f70a49-2d87-4eac-82fc-3687188705de
+2026-08-09 14:32:33,851 | INFO | atlas | Conversation deleted: aaae06a6-9d5d-4126-9042-f0a5be8d82f8
+2026-08-09 14:32:35,489 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:32:41,910 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:32:41,911 | INFO | atlas | Stopping Controller...
+2026-08-09 14:32:41,915 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:32:46,258 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:32:46,259 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:32:46,813 | INFO | atlas | Atlas application created.
+2026-08-09 14:32:46,906 | INFO | atlas | Atlas main window created.
+2026-08-09 14:32:46,906 | INFO | atlas | Starting Controller...
+2026-08-09 14:32:46,907 | INFO | atlas | AI Thread started.
+2026-08-09 14:32:46,907 | INFO | atlas | Atlas controller started.
+2026-08-09 14:32:46,924 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:32:57,054 | INFO | atlas | New conversation created: 29c51c36-8b48-495a-94fb-c0d096969ca9
+2026-08-09 14:33:02,132 | INFO | atlas | Conversation deleted: 20d9ede4-80c8-4fac-b975-33bb8ef514d9
+2026-08-09 14:33:04,304 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-09 14:35:14,779 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:35:14,780 | INFO | atlas | Stopping Controller...
+2026-08-09 14:35:14,781 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:47:23,152 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:47:23,154 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:47:23,531 | INFO | atlas | Atlas application created.
+2026-08-09 14:47:23,682 | INFO | atlas | Atlas main window created.
+2026-08-09 14:47:23,682 | INFO | atlas | Starting Controller...
+2026-08-09 14:47:23,682 | INFO | atlas | AI Thread started.
+2026-08-09 14:47:23,682 | INFO | atlas | Atlas controller started.
+2026-08-09 14:47:23,693 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:47:38,443 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:47:38,443 | INFO | atlas | Stopping Controller...
+2026-08-09 14:47:38,446 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:51:14,244 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:51:14,244 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:51:14,390 | INFO | atlas | Atlas application created.
+2026-08-09 14:51:14,498 | INFO | atlas | Atlas main window created.
+2026-08-09 14:51:14,499 | INFO | atlas | Starting Controller...
+2026-08-09 14:51:14,499 | INFO | atlas | AI Thread started.
+2026-08-09 14:51:14,499 | INFO | atlas | Atlas controller started.
+2026-08-09 14:51:14,507 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:51:21,504 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:51:21,505 | INFO | atlas | Stopping Controller...
+2026-08-09 14:51:21,506 | INFO | atlas | AI Thread stopped.
+2026-08-09 14:55:09,675 | INFO | atlas | Atlas GUI starting...
+2026-08-09 14:55:09,675 | INFO | atlas | Core runtime loaded.
+2026-08-09 14:55:09,799 | INFO | atlas | Atlas application created.
+2026-08-09 14:55:09,910 | INFO | atlas | Atlas main window created.
+2026-08-09 14:55:09,911 | INFO | atlas | Starting Controller...
+2026-08-09 14:55:09,911 | INFO | atlas | AI Thread started.
+2026-08-09 14:55:09,911 | INFO | atlas | Atlas controller started.
+2026-08-09 14:55:09,917 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 14:55:55,953 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 14:55:55,953 | INFO | atlas | Stopping Controller...
+2026-08-09 14:55:55,954 | INFO | atlas | AI Thread stopped.
+2026-08-09 15:06:30,402 | INFO | atlas | Atlas GUI starting...
+2026-08-09 15:06:30,402 | INFO | atlas | Core runtime loaded.
+2026-08-09 15:06:30,530 | INFO | atlas | Atlas application created.
+2026-08-09 15:06:30,633 | INFO | atlas | Atlas main window created.
+2026-08-09 15:06:30,634 | INFO | atlas | Starting Controller...
+2026-08-09 15:06:30,635 | INFO | atlas | AI Thread started.
+2026-08-09 15:06:30,635 | INFO | atlas | Atlas controller started.
+2026-08-09 15:06:30,649 | INFO | atlas | Atlas GUI started successfully.
+2026-08-09 15:07:57,035 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-09 15:07:57,036 | INFO | atlas | Stopping Controller...
+2026-08-09 15:07:57,038 | INFO | atlas | AI Thread stopped.
+2026-08-10 11:57:42,521 | INFO | atlas | Atlas GUI starting...
+2026-08-10 11:57:42,522 | INFO | atlas | Core runtime loaded.
+2026-08-10 11:57:42,971 | INFO | atlas | Atlas application created.
+2026-08-10 11:57:43,227 | INFO | atlas | Atlas main window created.
+2026-08-10 11:57:43,227 | INFO | atlas | Starting Controller...
+2026-08-10 11:57:43,227 | INFO | atlas | AI Thread started.
+2026-08-10 11:57:43,227 | INFO | atlas | Atlas controller started.
+2026-08-10 11:57:43,248 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:01:12,096 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:01:12,100 | INFO | atlas | Stopping Controller...
+2026-08-10 12:01:19,846 | INFO | atlas | AI Thread stopped.
+2026-08-10 12:02:10,632 | INFO | atlas | Atlas GUI starting...
+2026-08-10 12:02:10,633 | INFO | atlas | Core runtime loaded.
+2026-08-10 12:02:11,160 | INFO | atlas | Atlas application created.
+2026-08-10 12:02:11,316 | INFO | atlas | Atlas main window created.
+2026-08-10 12:02:11,317 | INFO | atlas | Starting Controller...
+2026-08-10 12:02:11,317 | INFO | atlas | AI Thread started.
+2026-08-10 12:02:11,317 | INFO | atlas | Atlas controller started.
+2026-08-10 12:02:11,342 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:02:17,232 | INFO | atlas | Conversation deleted: 05aca274-5fd8-41e0-8ab1-60065155577f
+2026-08-10 12:04:43,857 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:04:43,858 | INFO | atlas | Stopping Controller...
+2026-08-10 12:04:55,252 | INFO | atlas | AI Thread stopped.
+2026-08-10 12:05:06,574 | INFO | atlas | Atlas GUI starting...
+2026-08-10 12:05:06,574 | INFO | atlas | Core runtime loaded.
+2026-08-10 12:05:06,907 | INFO | atlas | Atlas application created.
+2026-08-10 12:05:07,021 | INFO | atlas | Atlas main window created.
+2026-08-10 12:05:07,022 | INFO | atlas | Starting Controller...
+2026-08-10 12:05:07,022 | INFO | atlas | AI Thread started.
+2026-08-10 12:05:07,022 | INFO | atlas | Atlas controller started.
+2026-08-10 12:05:07,032 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:05:12,437 | INFO | atlas | Conversation deleted: 5fd28d13-da72-46ce-9d42-94854479a6b7
+2026-08-10 12:07:26,909 | INFO | atlas | New conversation created: 6a63de19-cc14-4532-a688-2bf5b0b157d6
+2026-08-10 12:07:58,979 | INFO | atlas | New conversation created: aefa586a-df71-4a5d-b734-5da8bc8844f1
+2026-08-10 12:08:01,055 | INFO | atlas | Conversation loaded: 6a63de19-cc14-4532-a688-2bf5b0b157d6
+2026-08-10 12:08:05,134 | INFO | atlas | Conversation deleted: 6a63de19-cc14-4532-a688-2bf5b0b157d6
+2026-08-10 12:08:21,612 | INFO | atlas | Conversation renamed: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 12:08:22,854 | INFO | atlas | Conversation loaded: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 12:12:43,312 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:12:43,313 | INFO | atlas | Stopping Controller...
+2026-08-10 12:12:43,315 | INFO | atlas | AI Thread stopped.
+2026-08-10 12:12:56,397 | INFO | atlas | Atlas GUI starting...
+2026-08-10 12:12:56,397 | INFO | atlas | Core runtime loaded.
+2026-08-10 12:12:56,539 | INFO | atlas | Atlas application created.
+2026-08-10 12:12:56,645 | INFO | atlas | Atlas main window created.
+2026-08-10 12:12:56,646 | INFO | atlas | Starting Controller...
+2026-08-10 12:12:56,646 | INFO | atlas | AI Thread started.
+2026-08-10 12:12:56,646 | INFO | atlas | Atlas controller started.
+2026-08-10 12:12:56,653 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:22:57,599 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:22:57,609 | INFO | atlas | Stopping Controller...
+2026-08-10 12:22:57,615 | INFO | atlas | AI Thread stopped.
+2026-08-10 12:23:02,738 | INFO | atlas | Atlas GUI starting...
+2026-08-10 12:23:02,739 | INFO | atlas | Core runtime loaded.
+2026-08-10 12:23:03,265 | INFO | atlas | Atlas application created.
+2026-08-10 12:23:03,454 | INFO | atlas | Atlas main window created.
+2026-08-10 12:23:03,455 | INFO | atlas | Starting Controller...
+2026-08-10 12:23:03,455 | INFO | atlas | AI Thread started.
+2026-08-10 12:23:03,455 | INFO | atlas | Atlas controller started.
+2026-08-10 12:23:03,471 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:23:18,019 | INFO | atlas | Conversation loaded: eb23dbdb-ccff-41d3-bc8f-6226a9c73172
+2026-08-10 12:24:14,828 | INFO | atlas | Conversation deleted: 66230495-1ab7-4999-84a8-55438addc24b
+2026-08-10 12:25:24,656 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:25:24,659 | INFO | atlas | Stopping Controller...
+2026-08-10 12:25:24,660 | INFO | atlas | AI Thread stopped.
+2026-08-10 12:25:33,086 | INFO | atlas | Atlas GUI starting...
+2026-08-10 12:25:33,087 | INFO | atlas | Core runtime loaded.
+2026-08-10 12:25:33,311 | INFO | atlas | Atlas application created.
+2026-08-10 12:25:33,419 | INFO | atlas | Atlas main window created.
+2026-08-10 12:25:33,419 | INFO | atlas | Starting Controller...
+2026-08-10 12:25:33,420 | INFO | atlas | AI Thread started.
+2026-08-10 12:25:33,420 | INFO | atlas | Atlas controller started.
+2026-08-10 12:25:33,427 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 12:25:36,562 | INFO | atlas | Conversation loaded: eb23dbdb-ccff-41d3-bc8f-6226a9c73172
+2026-08-10 12:39:50,061 | INFO | atlas | Conversation renamed: eb23dbdb-ccff-41d3-bc8f-6226a9c73172
+2026-08-10 12:40:47,646 | INFO | atlas | Conversation loaded: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 12:40:48,510 | INFO | atlas | Conversation loaded: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 12:40:49,424 | INFO | atlas | Conversation loaded: eb23dbdb-ccff-41d3-bc8f-6226a9c73172
+2026-08-10 12:41:04,292 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 12:41:04,292 | INFO | atlas | Stopping Controller...
+2026-08-10 12:41:04,293 | INFO | atlas | AI Thread stopped.
+2026-08-10 14:30:25,397 | INFO | atlas | Atlas GUI starting...
+2026-08-10 14:30:25,400 | INFO | atlas | Core runtime loaded.
+2026-08-10 14:30:25,540 | INFO | atlas | Atlas application created.
+2026-08-10 14:30:25,655 | INFO | atlas | Atlas main window created.
+2026-08-10 14:30:25,656 | INFO | atlas | Starting Controller...
+2026-08-10 14:30:25,656 | INFO | atlas | AI Thread started.
+2026-08-10 14:30:25,656 | INFO | atlas | Atlas controller started.
+2026-08-10 14:30:25,670 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 14:30:31,572 | INFO | atlas | Conversation deleted: eb23dbdb-ccff-41d3-bc8f-6226a9c73172
+2026-08-10 14:30:34,592 | INFO | atlas | Conversation loaded: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-10 14:30:35,619 | INFO | atlas | Conversation loaded: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 14:30:36,483 | INFO | atlas | Conversation loaded: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-10 14:30:40,854 | INFO | atlas | Conversation loaded: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-10 14:30:44,295 | INFO | atlas | New conversation created: e48d38d1-2078-4322-bd5f-853d593b3432
+2026-08-10 14:31:26,408 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 14:31:26,410 | INFO | atlas | Stopping Controller...
+2026-08-10 14:32:38,630 | INFO | atlas | AI Thread stopped.
+2026-08-10 14:37:49,624 | INFO | web | Atlas Web Server started.
+2026-08-10 14:38:00,907 | INFO | web | Web interface requested.
+2026-08-10 14:38:04,354 | INFO | web | Streaming request received.
+2026-08-10 14:38:26,107 | INFO | web | Streaming request completed.
+2026-08-10 14:38:32,358 | INFO | web | Streaming request received.
+2026-08-10 14:38:32,361 | INFO | web | Streaming request completed.
+2026-08-10 14:38:38,511 | INFO | web | Streaming request received.
+2026-08-10 14:38:43,316 | INFO | web | Streaming request completed.
+2026-08-10 14:38:51,722 | INFO | web | Atlas Web Server shutting down.
+2026-08-10 14:40:09,269 | INFO | atlas | Atlas GUI starting...
+2026-08-10 14:40:09,269 | INFO | atlas | Core runtime loaded.
+2026-08-10 14:40:09,964 | INFO | atlas | Atlas application created.
+2026-08-10 14:40:10,159 | INFO | atlas | Atlas main window created.
+2026-08-10 14:40:10,159 | INFO | atlas | Starting Controller...
+2026-08-10 14:40:10,160 | INFO | atlas | AI Thread started.
+2026-08-10 14:40:10,160 | INFO | atlas | Atlas controller started.
+2026-08-10 14:40:10,189 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 14:40:15,474 | INFO | atlas | Conversation deleted: 3c85e57d-c866-4d70-bd71-f058f8b6421b
+2026-08-10 14:40:19,265 | INFO | atlas | Conversation deleted: e48d38d1-2078-4322-bd5f-853d593b3432
+2026-08-10 14:44:56,459 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 14:44:56,459 | INFO | atlas | Stopping Controller...
+2026-08-10 14:44:56,461 | INFO | atlas | AI Thread stopped.
+2026-08-10 14:45:08,363 | INFO | atlas | Atlas GUI starting...
+2026-08-10 14:45:08,363 | INFO | atlas | Core runtime loaded.
+2026-08-10 14:45:08,477 | INFO | atlas | Atlas application created.
+2026-08-10 14:45:08,596 | INFO | atlas | Atlas main window created.
+2026-08-10 14:45:08,597 | INFO | atlas | Starting Controller...
+2026-08-10 14:45:08,597 | INFO | atlas | AI Thread started.
+2026-08-10 14:45:08,597 | INFO | atlas | Atlas controller started.
+2026-08-10 14:45:08,605 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 14:48:08,863 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 14:48:08,864 | INFO | atlas | Stopping Controller...
+2026-08-10 14:48:08,865 | INFO | atlas | AI Thread stopped.
+2026-08-10 14:49:08,584 | INFO | atlas | Atlas GUI starting...
+2026-08-10 14:49:08,584 | INFO | atlas | Core runtime loaded.
+2026-08-10 14:49:08,759 | INFO | atlas | Atlas application created.
+2026-08-10 14:49:08,876 | INFO | atlas | Atlas main window created.
+2026-08-10 14:49:08,876 | INFO | atlas | Starting Controller...
+2026-08-10 14:49:08,876 | INFO | atlas | AI Thread started.
+2026-08-10 14:49:08,876 | INFO | atlas | Atlas controller started.
+2026-08-10 14:49:08,884 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 14:49:27,429 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 14:49:27,429 | INFO | atlas | Stopping Controller...
+2026-08-10 14:49:46,914 | INFO | atlas | Atlas GUI starting...
+2026-08-10 14:49:46,915 | INFO | atlas | Core runtime loaded.
+2026-08-10 14:49:47,057 | INFO | atlas | Atlas application created.
+2026-08-10 14:49:47,215 | INFO | atlas | Atlas main window created.
+2026-08-10 14:49:47,215 | INFO | atlas | Starting Controller...
+2026-08-10 14:49:47,216 | INFO | atlas | AI Thread started.
+2026-08-10 14:49:47,216 | INFO | atlas | Atlas controller started.
+2026-08-10 14:49:47,225 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 14:50:05,035 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 14:50:05,035 | INFO | atlas | Stopping Controller...
+2026-08-10 14:50:20,326 | INFO | atlas | AI Thread stopped.
+2026-08-10 20:26:38,578 | INFO | atlas | Atlas GUI starting...
+2026-08-10 20:26:38,579 | INFO | atlas | Core runtime loaded.
+2026-08-10 20:26:38,794 | INFO | atlas | Atlas application created.
+2026-08-10 20:26:39,000 | INFO | atlas | Atlas main window created.
+2026-08-10 20:26:39,000 | INFO | atlas | Starting Controller...
+2026-08-10 20:26:39,001 | INFO | atlas | AI Thread started.
+2026-08-10 20:26:39,001 | INFO | atlas | Atlas controller started.
+2026-08-10 20:26:39,023 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 20:26:44,299 | INFO | atlas | Conversation deleted: 2bf99c3e-2958-4b31-9622-1b6b855a9fc3
+2026-08-10 20:26:47,842 | INFO | atlas | Conversation deleted: 6b457426-14e1-441a-ade8-9861d8963bed
+2026-08-10 20:26:52,554 | INFO | atlas | Conversation deleted: c37478a6-9559-4667-a742-bb9ddcbb37a9
+2026-08-10 20:26:56,262 | INFO | atlas | Conversation deleted: 6d380789-8228-4d65-84e5-89c5d8b821c2
+2026-08-10 20:27:00,402 | INFO | atlas | Conversation deleted: 397213a5-3af0-42ca-a324-2173093b6e5a
+2026-08-10 20:27:17,948 | INFO | atlas | New conversation created: a7221b33-d2bf-4881-bba6-2d3d4edd8ac8
+2026-08-10 20:27:22,128 | INFO | atlas | Conversation deleted: 003b4c81-a404-4689-a8e6-3fb13feacee8
+2026-08-10 20:27:40,994 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 20:27:40,995 | INFO | atlas | Stopping Controller...
+2026-08-10 20:27:46,800 | INFO | atlas | AI Thread stopped.
+2026-08-10 20:27:50,989 | INFO | atlas | Atlas GUI starting...
+2026-08-10 20:27:50,990 | INFO | atlas | Core runtime loaded.
+2026-08-10 20:27:51,108 | INFO | atlas | Atlas application created.
+2026-08-10 20:27:51,218 | INFO | atlas | Atlas main window created.
+2026-08-10 20:27:51,218 | INFO | atlas | Starting Controller...
+2026-08-10 20:27:51,219 | INFO | atlas | AI Thread started.
+2026-08-10 20:27:51,219 | INFO | atlas | Atlas controller started.
+2026-08-10 20:27:51,226 | INFO | atlas | Atlas GUI started successfully.
+2026-08-10 20:32:14,779 | INFO | atlas | Conversation deleted: a7221b33-d2bf-4881-bba6-2d3d4edd8ac8
+2026-08-10 20:32:23,581 | INFO | atlas | New conversation created: b029d197-6b7f-4458-b3ce-a2b30bdf097d
+2026-08-10 20:38:43,590 | INFO | atlas | New conversation created: dc39c709-aee2-4b61-9956-296dc7a342b8
+2026-08-10 20:40:37,677 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-10 20:40:37,680 | INFO | atlas | Stopping Controller...
+2026-08-10 20:40:37,683 | INFO | atlas | AI Thread stopped.

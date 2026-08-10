@@ -9,6 +9,8 @@ how conversations are stored on disk.
 import json
 from pathlib import Path
 
+from core.conversation import ConversationManager
+
 
 class ConversationStore:
 
@@ -77,15 +79,32 @@ class ConversationStore:
         if not path.exists():
             return None
 
-        with open(
-            path,
-            "r",
-            encoding="utf-8",
-        ) as file:
+        try:
 
-            return json.load(
-                file
-            )
+            with open(
+                path,
+                "r",
+                encoding="utf-8",
+            ) as file:
+
+                data = json.load(
+                    file
+                )
+
+        except (
+            json.JSONDecodeError,
+            OSError,
+        ):
+
+            return None
+
+        conversation = ConversationManager()
+
+        conversation.load(
+            data
+        )
+
+        return conversation
 
     # ==================================================
     # List Conversations
@@ -163,9 +182,15 @@ class ConversationStore:
 
         if path.exists():
 
-            path.unlink()
+            try:
 
-            return True
+                path.unlink()
+
+                return True
+
+            except OSError:
+
+                return False
 
         return False
 
@@ -200,4 +225,4 @@ class ConversationStore:
 
             except OSError:
 
-                pass
+                continue

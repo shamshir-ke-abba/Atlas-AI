@@ -179,3 +179,12 @@ QWidget#StatusBar {
     background: #1b1e24;
     border-left: 1px solid #30343c;
 }
+
+/* =====================================================
+   Message Avatar
+   ===================================================== */
+
+QLabel#MessageAvatar {
+    background: transparent;
+    border: none;
+}

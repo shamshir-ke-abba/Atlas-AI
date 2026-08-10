@@ -4,33 +4,38 @@ gui/widgets/sidebar.py
 Atlas Sidebar Widget.
 """
 
-from PySide6.QtCore import Signal
+from pathlib import Path
 
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
     QPushButton,
-    QScrollArea,
+    QListWidget,
+    QListWidgetItem,
+    QMenu,
+    QInputDialog,
+    QMessageBox,
 )
-
-from core.events import ConversationCleared
 
 
 class AtlasSidebar(QWidget):
 
-    conversation_selected = Signal(str)
+    conversation_loaded = Signal(object)
 
     def __init__(
         self,
         bus,
+        controller=None,
         parent=None,
     ):
 
         super().__init__(parent)
 
         self.bus = bus
-        self.controller = None
+        self.controller = controller
 
         self.setObjectName(
             "Sidebar"
@@ -38,13 +43,17 @@ class AtlasSidebar(QWidget):
 
         self.build_ui()
 
+        self.refresh_history()
+
     # =====================================================
     # UI
     # =====================================================
 
     def build_ui(self):
 
-        layout = QVBoxLayout(self)
+        layout = QVBoxLayout(
+            self
+        )
 
         layout.setContentsMargins(
             20,
@@ -58,19 +67,51 @@ class AtlasSidebar(QWidget):
         )
 
         # ---------------------------------
-        # Title
+        # Atlas Logo
         # ---------------------------------
 
-        title = QLabel(
-            "Atlas AI"
+        self.logo = QLabel()
+
+        self.logo.setObjectName(
+            "AtlasLogo"
         )
 
-        title.setObjectName(
-            "SidebarTitle"
+        self.logo.setAlignment(
+            Qt.AlignCenter
         )
+
+        logo_path = (
+            Path(__file__).resolve().parent.parent.parent
+            / "assets"
+            / "Atlas.png"
+        )
+
+        if logo_path.exists():
+
+            pixmap = QPixmap(
+                str(logo_path)
+            )
+
+            if not pixmap.isNull():
+
+                self.logo.setPixmap(
+                    pixmap.scaled(
+                        180,
+                        80,
+                        Qt.KeepAspectRatio,
+                        Qt.SmoothTransformation,
+                    )
+                )
+
+        else:
+
+            # Fallback if the logo cannot be found.
+            self.logo.setText(
+                "Atlas AI"
+            )
 
         layout.addWidget(
-            title
+            self.logo
         )
 
         # ---------------------------------
@@ -90,107 +131,45 @@ class AtlasSidebar(QWidget):
         )
 
         # ---------------------------------
-        # Workspaces
+        # History
         # ---------------------------------
 
-        self.chat_button = QPushButton(
-            "Chat"
-        )
-
-        self.tools_button = QPushButton(
-            "Tools"
-        )
-
-        self.web_button = QPushButton(
-            "Web"
-        )
-
-        self.study_button = QPushButton(
-            "Study"
-        )
-
-        layout.addWidget(
-            self.chat_button
-        )
-
-        layout.addWidget(
-            self.tools_button
-        )
-
-        layout.addWidget(
-            self.web_button
-        )
-
-        layout.addWidget(
-            self.study_button
-        )
-
-        # ---------------------------------
-        # History Label
-        # ---------------------------------
-
-        history_title = QLabel(
+        history_label = QLabel(
             "CHAT HISTORY"
         )
 
-        history_title.setObjectName(
+        history_label.setObjectName(
             "HistoryTitle"
         )
 
         layout.addWidget(
-            history_title
+            history_label
         )
 
-        # ---------------------------------
-        # History Scroll Area
-        # ---------------------------------
+        self.history_list = QListWidget()
 
-        self.history_container = QWidget()
-
-        self.history_layout = QVBoxLayout(
-            self.history_container
+        self.history_list.setObjectName(
+            "HistoryList"
         )
 
-        self.history_layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
+        self.history_list.itemClicked.connect(
+            self.handle_history_clicked
         )
 
-        self.history_layout.setSpacing(
-            5
+        self.history_list.setContextMenuPolicy(
+            Qt.CustomContextMenu
         )
 
-        self.history_layout.addStretch()
-
-        self.history_scroll = QScrollArea()
-
-        self.history_scroll.setWidgetResizable(
-            True
-        )
-
-        self.history_scroll.setWidget(
-            self.history_container
+        self.history_list.customContextMenuRequested.connect(
+            self.show_history_menu
         )
 
         layout.addWidget(
-            self.history_scroll,
+            self.history_list,
             1,
         )
 
-    # =====================================================
-    # Controller
-    # =====================================================
-
-    def set_controller(
-        self,
-        controller,
-    ):
-
-        self.controller = controller
-
-        self.refresh_history()
+        layout.addStretch()
 
     # =====================================================
     # History
@@ -198,86 +177,220 @@ class AtlasSidebar(QWidget):
 
     def refresh_history(self):
 
+        self.history_list.clear()
+
         if self.controller is None:
             return
-
-        # ---------------------------------
-        # Remove existing buttons
-        # ---------------------------------
-
-        while self.history_layout.count() > 1:
-
-            item = self.history_layout.takeAt(0)
-
-            widget = item.widget()
-
-            if widget is not None:
-
-                widget.deleteLater()
-
-        # ---------------------------------
-        # Load conversations
-        # ---------------------------------
 
         conversations = (
             self.controller.list_conversations()
         )
 
+        active_id = (
+            self.controller.state.active_conversation_id
+        )
+
         for conversation in conversations:
 
-            conversation_id = conversation.get(
-                "id"
-            )
-
-            title = conversation.get(
-                "title",
-                "New Chat",
-            )
-
-            button = QPushButton(
-                title
-            )
-
-            button.setObjectName(
-                "HistoryButton"
-            )
-
-            button.setToolTip(
-                title
-            )
-
-            button.clicked.connect(
-                lambda checked=False,
-                cid=conversation_id:
-                self.handle_conversation_selected(
-                    cid
+            item = QListWidgetItem(
+                conversation.get(
+                    "title",
+                    "New Conversation",
                 )
             )
 
-            self.history_layout.insertWidget(
-                self.history_layout.count() - 1,
-                button,
+            item.setData(
+                Qt.UserRole,
+                conversation.get("id"),
             )
 
+            self.history_list.addItem(
+                item
+            )
+
+            if conversation.get("id") == active_id:
+
+                self.history_list.setCurrentItem(
+                    item
+                )
+
     # =====================================================
-    # Events
+    # New Chat
     # =====================================================
 
-    def handle_new_chat(
-        self,
-    ):
+    def handle_new_chat(self):
 
-        self.bus.publish(
-            ConversationCleared()
+        if self.controller is None:
+            return
+
+        conversation_id = (
+            self.controller.new_conversation()
+        )
+
+        # Tell the chat widget to clear itself.
+        self.conversation_loaded.emit(
+            self.controller.get_active_conversation()
         )
 
         self.refresh_history()
 
-    def handle_conversation_selected(
+    # =====================================================
+    # Load Conversation
+    # =====================================================
+
+    def handle_history_clicked(
+        self,
+        item,
+    ):
+
+        conversation_id = item.data(
+            Qt.UserRole
+        )
+
+        if not conversation_id:
+            return
+
+        if self.controller is None:
+            return
+
+        success = (
+            self.controller.load_conversation(
+                conversation_id
+            )
+        )
+
+        if not success:
+            return
+
+        conversation = (
+            self.controller.get_active_conversation()
+        )
+
+        self.conversation_loaded.emit(
+            conversation
+        )
+
+        self.refresh_history()
+
+    # =====================================================
+    # Context Menu
+    # =====================================================
+
+    def show_history_menu(
+        self,
+        position,
+    ):
+
+        item = self.history_list.itemAt(
+            position
+        )
+
+        if item is None:
+            return
+
+        conversation_id = item.data(
+            Qt.UserRole
+        )
+
+        if not conversation_id:
+            return
+
+        menu = QMenu(
+            self
+        )
+
+        rename_action = menu.addAction(
+            "Rename"
+        )
+
+        delete_action = menu.addAction(
+            "Delete"
+        )
+
+        action = menu.exec(
+            self.history_list.mapToGlobal(
+                position
+            )
+        )
+
+        if action == rename_action:
+
+            self.rename_conversation(
+                conversation_id,
+                item,
+            )
+
+        elif action == delete_action:
+
+            self.delete_conversation(
+                conversation_id
+            )
+
+    # =====================================================
+    # Rename
+    # =====================================================
+
+    def rename_conversation(
+        self,
+        conversation_id,
+        item,
+    ):
+
+        current_title = item.text()
+
+        title, accepted = QInputDialog.getText(
+            self,
+            "Rename Conversation",
+            "Conversation name:",
+            text=current_title,
+        )
+
+        if not accepted:
+            return
+
+        title = title.strip()
+
+        if not title:
+            return
+
+        success = (
+            self.controller.rename_conversation(
+                conversation_id,
+                title,
+            )
+        )
+
+        if success:
+
+            self.refresh_history()
+
+    # =====================================================
+    # Delete
+    # =====================================================
+
+    def delete_conversation(
         self,
         conversation_id,
     ):
 
-        self.conversation_selected.emit(
-            conversation_id
+        reply = QMessageBox.question(
+            self,
+            "Delete Conversation",
+            "Are you sure you want to delete this conversation?",
+            QMessageBox.Yes
+            | QMessageBox.No,
+            QMessageBox.No,
         )
+
+        if reply != QMessageBox.Yes:
+            return
+
+        success = (
+            self.controller.delete_conversation(
+                conversation_id
+            )
+        )
+
+        if success:
+
+            self.refresh_history()
