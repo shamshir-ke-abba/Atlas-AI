@@ -7,8 +7,8 @@ Responsibilities:
 - Load and expose plugins
 - Find the best tool for a message
 - Execute tools safely
-- Normalize tool execution
 - Provide tool metadata
+- Provide diagnostic status
 - Keep routing logic out of AtlasBrain
 """
 
@@ -36,15 +36,10 @@ class ToolManager:
     def execute(
         self,
         name: str,
-        message: str = "",
         **kwargs,
     ) -> Any:
         """
         Execute a registered tool by name.
-
-        The message is passed through to PluginManager,
-        which remains responsible for the actual plugin
-        execution contract.
         """
 
         if not name:
@@ -52,115 +47,43 @@ class ToolManager:
                 "Tool name is required."
             )
 
+        plugin = self.get(name)
+
+        if plugin is None:
+            raise ValueError(
+                f"Unknown tool: {name}"
+            )
+
+        if not getattr(
+            plugin,
+            "enabled",
+            True,
+        ):
+            raise RuntimeError(
+                f"Tool is disabled: {name}"
+            )
+
         logger.info(
             "Executing tool: %s",
             name,
         )
 
-        plugin = self.get(name)
-
-        if plugin is None:
-            raise ValueError(
-                f"Tool not found: {name}"
-            )
-
-        return self.execute_plugin(
-            plugin,
-            message=message,
-            **kwargs,
-        )
-
-    # --------------------------------------------------
-
-    def execute_plugin(
-        self,
-        plugin,
-        message: str = "",
-        **kwargs,
-    ) -> Any:
-        """
-        Execute a plugin while adapting to common
-        Atlas plugin APIs.
-
-        Supported forms:
-
-            plugin.run(message)
-            plugin.run(message=message)
-            plugin.run(query=message)
-            plugin.run(expression=...)
-            plugin.run(**kwargs)
-
-        Plugin-specific kwargs take priority.
-        """
-
-        if plugin is None:
-            raise ValueError(
-                "Plugin is required."
-            )
-
-        if not hasattr(plugin, "run"):
-            raise TypeError(
-                "Invalid plugin: missing run() method."
-            )
-
-        # --------------------------------------------------
-        # Explicit kwargs
-        # --------------------------------------------------
-
-        if kwargs:
-
-            try:
-                return plugin.run(
-                    **kwargs
-                )
-
-            except TypeError:
-                pass
-
-        # --------------------------------------------------
-        # Standard message API
-        # --------------------------------------------------
-
         try:
-            return plugin.run(
-                message
+
+            return self.plugins.execute(
+                name,
+                **kwargs,
             )
 
-        except TypeError:
-            pass
+        except Exception as exc:
 
-        # --------------------------------------------------
-        # Keyword message API
-        # --------------------------------------------------
-
-        try:
-            return plugin.run(
-                message=message
+            logger.exception(
+                "Tool '%s' execution failed: %s",
+                name,
+                exc,
             )
 
-        except TypeError:
-            pass
-
-        # --------------------------------------------------
-        # Query API
-        # --------------------------------------------------
-
-        try:
-            return plugin.run(
-                query=message
-            )
-
-        except TypeError:
-            pass
-
-        # --------------------------------------------------
-        # Let the original error surface if the plugin
-        # does not support any known execution contract.
-        # --------------------------------------------------
-
-        return plugin.run(
-            message
-        )
+            raise
 
     # ==================================================
     # GET
@@ -169,7 +92,7 @@ class ToolManager:
     def get(
         self,
         name: str,
-    ):
+    ) -> Optional[Any]:
         """
         Return a plugin instance by name.
         """
@@ -203,12 +126,18 @@ class ToolManager:
         """
         Find the best tool capable of handling a message.
 
-        Uses each plugin's own can_handle() method.
+        Each plugin decides whether it can handle the message
+        through its can_handle() method.
 
-        Lower priority number = higher priority.
+        Selection order:
+
+        1. Enabled tools only
+        2. Tools that can_handle() the message
+        3. Lowest priority number wins
+        4. Tool name breaks priority ties
         """
 
-        if not message:
+        if message is None:
             return None
 
         message = str(
@@ -241,14 +170,8 @@ class ToolManager:
                 continue
 
             # ------------------------------------------
-            # Ask plugin whether it can handle message
+            # Check capability
             # ------------------------------------------
-
-            if not hasattr(
-                plugin,
-                "can_handle",
-            ):
-                continue
 
             try:
 
@@ -283,6 +206,7 @@ class ToolManager:
                 priority = int(
                     priority
                 )
+
             except (
                 TypeError,
                 ValueError,
@@ -297,8 +221,22 @@ class ToolManager:
                 )
             )
 
+        # ----------------------------------------------
+        # No matching tool
+        # ----------------------------------------------
+
         if not candidates:
+
+            logger.debug(
+                "No tool matched message: %s",
+                message,
+            )
+
             return None
+
+        # ----------------------------------------------
+        # Sort candidates
+        # ----------------------------------------------
 
         candidates.sort(
             key=lambda item: (
@@ -307,39 +245,32 @@ class ToolManager:
             )
         )
 
-        selected = candidates[0]
+        priority, name, plugin = candidates[0]
 
         logger.info(
             "Tool match: %s",
-            selected[1],
+            name,
         )
 
-        return selected[2]
+        # ----------------------------------------------
+        # Debug competing tools
+        # ----------------------------------------------
 
-    # ==================================================
-    # MATCH NAME
-    # ==================================================
+        if len(candidates) > 1:
 
-    def match_name(
-        self,
-        message: str,
-    ) -> Optional[str]:
-        """
-        Return the name of the best matching tool.
-        """
+            logger.debug(
+                "Tool candidates for '%s': %s",
+                message,
+                [
+                    {
+                        "name": item[1],
+                        "priority": item[0],
+                    }
+                    for item in candidates
+                ],
+            )
 
-        plugin = self.match(
-            message
-        )
-
-        if plugin is None:
-            return None
-
-        return getattr(
-            plugin,
-            "name",
-            None,
-        )
+        return plugin
 
     # ==================================================
     # TOOL INFO
@@ -464,6 +395,7 @@ class ToolManager:
                 True,
             ):
                 enabled += 1
+
             else:
                 disabled += 1
 
@@ -471,7 +403,10 @@ class ToolManager:
             "total": len(
                 plugins
             ),
+
             "enabled": enabled,
+
             "disabled": disabled,
+
             "tools": self.available(),
         }
