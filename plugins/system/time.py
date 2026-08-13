@@ -3,61 +3,24 @@ Time Plugin
 """
 
 from datetime import datetime
-
 from plugins.base import AtlasPlugin
 
 
 class TimePlugin(AtlasPlugin):
+    """Current time/date plugin."""
+    
+    def __init__(self):
+        super().__init__()
+        self.name = "Time"
+        self.icon = "🕐"
+        self.enabled = True
+        self.triggers = ["time", "date", "what time"]
 
-    name = "time"
+    def can_handle(self, message: str) -> bool:
+        """Check if can handle message."""
+        return any(t in message.lower() for t in self.triggers)
 
-    description = (
-        "Returns the current time."
-    )
-
-    triggers = [
-        "what time is it",
-        "what's the time",
-        "what is the time",
-        "tell me the time",
-        "current time",
-        "current time please",
-        "time now",
-        "what time",
-        "time please",
-        "time",
-        "clock",
-    ]
-
-    def can_handle(
-        self,
-        message,
-    ):
-
-        text = (
-            message
-            .lower()
-            .strip()
-            .rstrip("?!.")
-        )
-
-        for trigger in self.triggers:
-
-            if text == trigger:
-                return True
-
-            if text.startswith(
-                trigger + " "
-            ):
-                return True
-
-        return False
-
-    def run(
-        self,
-        **kwargs,
-    ):
-
-        return datetime.now().strftime(
-            "%I:%M %p"
-        )
+    def run(self, *args, **kwargs) -> str:
+        """Get current time."""
+        now = datetime.now()
+        return f"Current time: {now.strftime('%Y-%m-%d %H:%M:%S')}"

@@ -27,6 +27,7 @@ class Event:
 class ConversationCleared(Event):
     pass
 
+
 @dataclass(slots=True)
 class MessageReceived(Event):
     text: str

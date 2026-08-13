@@ -1,63 +1,64 @@
 """
-Atlas V3 Configuration
-
-All configurable values for Atlas live here.
-Nothing else in the project should contain
-hardcoded paths or model names.
+AtlasAI V3 Configuration
 """
 
 from pathlib import Path
 
-# ==========================================================
-# Project Paths
-# ==========================================================
+# =============================================
+# Paths
+# =============================================
 
-ROOT_DIR = Path(__file__).resolve().parent
-
-DATA_DIR = ROOT_DIR / "data"
-LOG_DIR = ROOT_DIR / "logs"
-ASSET_DIR = ROOT_DIR / "assets"
-
+PROJECT_ROOT = Path(__file__).parent
+DATA_DIR = PROJECT_ROOT / "data"
+CONVERSATIONS_DIR = DATA_DIR / "conversations"
 MEMORY_FILE = DATA_DIR / "memory.json"
-HISTORY_FILE = DATA_DIR / "history.json"
 KNOWLEDGE_FILE = DATA_DIR / "knowledge.json"
+HISTORY_FILE = DATA_DIR / "history.json"
+LOGS_DIR = PROJECT_ROOT / "logs"
+ASSETS_DIR = PROJECT_ROOT / "assets"
 
-LOG_FILE = LOG_DIR / "atlas.log"
+# Create directories if they don't exist
+for directory in [DATA_DIR, CONVERSATIONS_DIR, LOGS_DIR]:
+    directory.mkdir(parents=True, exist_ok=True)
 
-# ==========================================================
-# AI Configuration
-# ==========================================================
+# =============================================
+# Model Configuration
+# =============================================
 
 MODEL_NAME = "qwen2.5:1.5b"
-
 OLLAMA_HOST = "http://localhost:11434"
-
 TEMPERATURE = 0.2
-
 MAX_HISTORY = 20
+MAX_TOKENS = 512
 
-# ==========================================================
+# =============================================
+# Web Server Configuration
+# =============================================
+
+WEB_HOST = "0.0.0.0"
+WEB_PORT = 8000
+WEB_DEBUG = False
+
+# =============================================
 # GUI Configuration
-# ==========================================================
+# =============================================
 
-WINDOW_TITLE = "Atlas AI V3"
+GUI_WINDOW_WIDTH = 1200
+GUI_WINDOW_HEIGHT = 800
+GUI_THEME = "dark"
 
-WINDOW_WIDTH = 1200
-WINDOW_HEIGHT = 700
+# =============================================
+# Feature Flags
+# =============================================
 
-MIN_WIDTH = 900
-MIN_HEIGHT = 600
+ENABLE_VOICE = False
+ENABLE_WEB_RESEARCH = True
+ENABLE_TOOLS = True
+ENABLE_MEMORY = True
 
-# ==========================================================
-# Memory Configuration
-# ==========================================================
-
-AUTO_SAVE_MEMORY = True
-
-MAX_MEMORY_RESULTS = 10
-
-# ==========================================================
+# =============================================
 # Logging
-# ==========================================================
+# =============================================
 
+LOG_FILE = LOGS_DIR / "atlas.log"
 LOG_LEVEL = "INFO"

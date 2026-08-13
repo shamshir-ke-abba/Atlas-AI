@@ -1,5 +1,7 @@
 """
-Atlas V3 Plugin Manager
+Atlas Plugin Manager
+
+Discovers and manages Atlas plugins.
 """
 
 import importlib
@@ -12,55 +14,193 @@ from plugins.base import AtlasPlugin
 class PluginManager:
 
     def __init__(self):
-
         self.plugins = {}
-
         self.load_plugins()
 
     # ==================================================
-    # Loading
+    # Load Plugins
     # ==================================================
 
     def load_plugins(self):
+        """
+        Load all Atlas plugins from supported packages.
+        """
 
-        import plugins.system
+        # System plugins
+        self._load_package(
+            "plugins.system"
+        )
 
-        for _, module_name, _ in pkgutil.iter_modules(
-            plugins.system.__path__
+        # Math engine plugins
+        self._load_package(
+            "plugins.math_engine"
+        )
+
+    # ==================================================
+    # Load Package
+    # ==================================================
+
+    def _load_package(
+        self,
+        package_name,
+    ):
+        """
+        Discover Python modules inside a package.
+        """
+
+        try:
+            package = importlib.import_module(
+                package_name
+            )
+        except Exception as exc:
+            print(
+                f"Failed to load package "
+                f"{package_name}: {exc}"
+            )
+            return
+
+        for _, module_name, is_package in pkgutil.iter_modules(
+            package.__path__
         ):
 
-            module = importlib.import_module(
-                f"plugins.system.{module_name}"
+            # ------------------------------------------
+            # Skip sub-packages
+            # ------------------------------------------
+
+            if is_package:
+                continue
+
+            full_module_name = (
+                f"{package_name}.{module_name}"
             )
 
-            for _, obj in inspect.getmembers(
-                module,
-                inspect.isclass,
-            ):
+            try:
+                module = importlib.import_module(
+                    full_module_name
+                )
 
-                if not issubclass(
+            except Exception as exc:
+                print(
+                    f"Failed to load module "
+                    f"{full_module_name}: {exc}"
+                )
+                continue
+
+            self._load_module(
+                module
+            )
+
+    # ==================================================
+    # Load Module
+    # ==================================================
+
+    def _load_module(
+        self,
+        module,
+    ):
+        """
+        Find and register AtlasPlugin classes
+        defined inside a module.
+        """
+
+        for _, obj in inspect.getmembers(
+            module,
+            inspect.isclass,
+        ):
+
+            # ------------------------------------------
+            # Must be an Atlas plugin
+            # ------------------------------------------
+
+            try:
+                is_plugin = issubclass(
                     obj,
                     AtlasPlugin,
-                ):
-                    continue
+                )
+            except TypeError:
+                continue
 
-                if obj is AtlasPlugin:
-                    continue
+            if not is_plugin:
+                continue
+
+            # ------------------------------------------
+            # Don't register base class
+            # ------------------------------------------
+
+            if obj is AtlasPlugin:
+                continue
+
+            # ------------------------------------------
+            # Only register classes defined in module
+            # ------------------------------------------
+
+            if obj.__module__ != module.__name__:
+                continue
+
+            # ------------------------------------------
+            # Instantiate
+            # ------------------------------------------
+
+            try:
 
                 plugin = obj()
 
-                if not plugin.enabled:
-                    continue
+            except Exception as exc:
 
-                if not plugin.name:
-                    continue
+                print(
+                    f"Failed to load plugin "
+                    f"{obj.__name__}: {exc}"
+                )
 
-                self.plugins[
-                    plugin.name
-                ] = plugin
+                continue
+
+            # ------------------------------------------
+            # Validate name
+            # ------------------------------------------
+
+            name = getattr(
+                plugin,
+                "name",
+                None,
+            )
+
+            if not name:
+
+                print(
+                    f"Skipping plugin "
+                    f"{obj.__name__}: "
+                    f"missing name"
+                )
+
+                continue
+
+            # ------------------------------------------
+            # Prevent duplicate names
+            # ------------------------------------------
+
+            if name in self.plugins:
+
+                print(
+                    f"Skipping duplicate plugin: "
+                    f"{name}"
+                )
+
+                continue
+
+            # ------------------------------------------
+            # Register
+            # ------------------------------------------
+
+            self.plugins[
+                name
+            ] = plugin
+
+            print(
+                f"Loaded plugin: {name}"
+            )
 
     # ==================================================
-    # Execution
+    # Execute
     # ==================================================
 
     def execute(
@@ -68,23 +208,48 @@ class PluginManager:
         name,
         **kwargs,
     ):
+        """
+        Execute a registered plugin.
+        """
 
-        plugin = self.plugins.get(name)
+        if name not in self.plugins:
 
-        if plugin is None:
             raise ValueError(
-                f"Unknown plugin: {name}"
+                f"Unknown tool: {name}"
             )
+
+        plugin = self.plugins[
+            name
+        ]
 
         return plugin.run(
             **kwargs
         )
 
     # ==================================================
-    # Information
+    # Get Plugin
+    # ==================================================
+
+    def get(
+        self,
+        name,
+    ):
+        """
+        Return a plugin instance by name.
+        """
+
+        return self.plugins.get(
+            name
+        )
+
+    # ==================================================
+    # Available
     # ==================================================
 
     def available(self):
+        """
+        Return all registered plugin names.
+        """
 
         return list(
             self.plugins.keys()

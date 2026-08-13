@@ -11,9 +11,17 @@ class TimePlugin(AtlasPlugin):
 
     name = "time"
 
+    display_name = "Time"
+
     description = (
         "Returns the current time."
     )
+
+    icon = "🕐"
+
+    has_gui = False
+
+    gui_id = "generic"
 
     triggers = [
         "what time is it",
@@ -25,6 +33,8 @@ class TimePlugin(AtlasPlugin):
         "time now",
         "what time",
         "time please",
+        "time",
+        "clock",
     ]
 
     def can_handle(

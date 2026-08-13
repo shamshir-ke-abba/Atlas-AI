@@ -1,43 +1,129 @@
 """
-Atlas Plugin Base
+Atlas V3 Plugin Base
+
+Base interface for all Atlas plugins/tools.
+
+Responsibilities:
+- Define the standard plugin interface
+- Provide deterministic message matching
+- Provide optional argument extraction
+- Keep plugins independent from AtlasBrain
 """
+
+from typing import Any, Dict, Optional
 
 
 class AtlasPlugin:
+    """
+    Base class for every Atlas plugin.
 
-    name = ""
+    Plugins should implement:
 
-    description = ""
+        name
+        description
+        can_handle()
+        run()
 
-    triggers = []
+    Optional:
 
-    capabilities = []
+        extract_arguments()
+    """
 
-    priority = 100
+    # ==========================================================
+    # METADATA
+    # ==========================================================
 
-    enabled = True
+    name = "unknown"
 
-    version = "1.0"
+    description = (
+        "Atlas plugin"
+    )
 
-    author = "Atlas"
+    # ==========================================================
+    # MATCHING
+    # ==========================================================
 
     def can_handle(
         self,
-        message,
-    ):
+        message: str,
+    ) -> bool:
         """
-        Determines whether this plugin should handle
-        the given message.
+        Determine whether this plugin can handle a message.
 
-        Plugins can override this for more specific
-        intent detection.
+        Plugins should override this with deterministic logic.
+
+        This method MUST NOT call the LLM.
         """
 
         return False
 
+    # ==========================================================
+    # ARGUMENT EXTRACTION
+    # ==========================================================
+
+    def extract_arguments(
+        self,
+        message: str,
+    ) -> Dict[str, Any]:
+        """
+        Extract structured arguments from a user message.
+
+        Example:
+
+            User:
+                "Calculate 25 * 4"
+
+            Returns:
+
+                {
+                    "expression": "25 * 4"
+                }
+
+        The default implementation returns the raw message.
+        """
+
+        return {
+            "message": message
+        }
+
+    # ==========================================================
+    # EXECUTION
+    # ==========================================================
+
     def run(
         self,
+        message: Optional[str] = None,
         **kwargs,
-    ):
+    ) -> Any:
+        """
+        Execute the plugin.
 
-        raise NotImplementedError
+        Plugins MUST override this.
+        """
+
+        raise NotImplementedError(
+            f"Plugin '{self.name}' "
+            "does not implement run()."
+        )
+
+    # ==========================================================
+    # INFO
+    # ==========================================================
+
+    def info(self) -> Dict[str, Any]:
+        """
+        Return plugin metadata.
+
+        Used by the tool system and future planner.
+        """
+
+        return {
+            "name": self.name,
+            "description": self.description,
+        }
+
+    def __repr__(self) -> str:
+        return (
+            f"<{self.__class__.__name__} "
+            f"name='{self.name}'>"
+        )

@@ -815,3 +815,871 @@
 2026-08-10 20:40:37,677 | INFO | atlas | Atlas GUI exited with code 0.
 2026-08-10 20:40:37,680 | INFO | atlas | Stopping Controller...
 2026-08-10 20:40:37,683 | INFO | atlas | AI Thread stopped.
+2026-08-11 13:45:58,626 | INFO | atlas | Atlas GUI starting...
+2026-08-11 13:45:58,627 | INFO | atlas | Core runtime loaded.
+2026-08-11 13:45:59,068 | INFO | atlas | Atlas application created.
+2026-08-11 13:45:59,520 | INFO | atlas | Atlas main window created.
+2026-08-11 13:45:59,520 | INFO | atlas | Starting Controller...
+2026-08-11 13:45:59,522 | INFO | atlas | AI Thread started.
+2026-08-11 13:45:59,523 | INFO | atlas | Atlas controller started.
+2026-08-11 13:45:59,576 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 13:46:44,662 | INFO | atlas | Conversation deleted: 3da35dae-723f-429f-8e55-6576a76f6da2
+2026-08-11 13:46:48,277 | INFO | atlas | Conversation deleted: bef15ab0-6ed8-40ab-ba89-dce266c63253
+2026-08-11 13:46:51,577 | INFO | atlas | Conversation deleted: b3956d24-c7a1-4a81-a0b7-6798fdc55636
+2026-08-11 13:47:01,100 | INFO | atlas | Conversation deleted: b029d197-6b7f-4458-b3ce-a2b30bdf097d
+2026-08-11 13:47:03,499 | INFO | atlas | New conversation created: 309d9fd8-47b6-4c40-978c-8e1152e5e252
+2026-08-11 13:47:08,699 | INFO | atlas | New conversation created: c6199cf4-c914-4ce6-be6f-2e50acb57a6b
+2026-08-11 13:47:12,631 | INFO | atlas | Conversation deleted: 309d9fd8-47b6-4c40-978c-8e1152e5e252
+2026-08-11 13:47:13,867 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 13:47:13,867 | INFO | atlas | Stopping Controller...
+2026-08-11 13:47:34,822 | INFO | atlas | Atlas GUI starting...
+2026-08-11 13:47:34,823 | INFO | atlas | Core runtime loaded.
+2026-08-11 13:47:35,013 | INFO | atlas | Atlas application created.
+2026-08-11 13:47:35,147 | INFO | atlas | Atlas main window created.
+2026-08-11 13:47:35,147 | INFO | atlas | Starting Controller...
+2026-08-11 13:47:35,147 | INFO | atlas | AI Thread started.
+2026-08-11 13:47:35,148 | INFO | atlas | Atlas controller started.
+2026-08-11 13:47:35,157 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 13:51:13,675 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 13:51:13,697 | INFO | atlas | Stopping Controller...
+2026-08-11 13:51:13,716 | INFO | atlas | AI Thread stopped.
+2026-08-11 14:04:26,098 | INFO | atlas | Atlas GUI starting...
+2026-08-11 14:04:26,100 | INFO | atlas | Core runtime loaded.
+2026-08-11 14:04:26,887 | INFO | atlas | Atlas application created.
+2026-08-11 14:04:27,106 | INFO | atlas | Atlas main window created.
+2026-08-11 14:04:27,106 | INFO | atlas | Starting Controller...
+2026-08-11 14:04:27,107 | INFO | atlas | AI Thread started.
+2026-08-11 14:04:27,107 | INFO | atlas | Atlas controller started.
+2026-08-11 14:04:27,132 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 14:05:55,044 | INFO | atlas | Conversation deleted: 7bb800e8-1bf6-42bb-8225-21b2aaea0c5d
+2026-08-11 14:05:59,066 | INFO | atlas | Conversation deleted: d02303d8-e75c-42fa-b2b4-45831d830e58
+2026-08-11 14:06:34,363 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 14:06:34,364 | INFO | atlas | Stopping Controller...
+2026-08-11 15:14:21,122 | INFO | atlas | Atlas GUI starting...
+2026-08-11 15:14:21,123 | INFO | atlas | Core runtime loaded.
+2026-08-11 15:14:21,555 | INFO | atlas | Atlas application created.
+2026-08-11 15:15:16,251 | INFO | atlas | Atlas GUI starting...
+2026-08-11 15:15:16,251 | INFO | atlas | Core runtime loaded.
+2026-08-11 15:15:16,401 | INFO | atlas | Atlas application created.
+2026-08-11 15:15:16,609 | INFO | atlas | Atlas main window created.
+2026-08-11 15:15:16,609 | INFO | atlas | Starting Controller...
+2026-08-11 15:15:16,609 | INFO | atlas | AI Thread started.
+2026-08-11 15:15:16,609 | INFO | atlas | Atlas controller started.
+2026-08-11 15:15:16,633 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 15:17:34,795 | INFO | atlas | New conversation created: 736ab476-5db0-4336-bb61-4d0539f597e8
+2026-08-11 15:17:36,446 | INFO | atlas | New conversation created: 21cb42aa-0d47-48c1-9f6f-9ebf67da7b7b
+2026-08-11 15:17:36,601 | INFO | atlas | New conversation created: 8c7d352c-a167-4ab7-9e36-46fc9c9dc4b1
+2026-08-11 15:17:36,693 | INFO | atlas | New conversation created: 85210c4a-8c2a-47af-913b-8313614ab4b0
+2026-08-11 15:17:36,842 | INFO | atlas | New conversation created: cd29f57f-6110-4621-b767-baffe81c1ead
+2026-08-11 15:17:36,970 | INFO | atlas | New conversation created: 056cb052-18d4-4417-aac5-34a88dcfe59f
+2026-08-11 15:17:37,098 | INFO | atlas | New conversation created: 8e675aa6-e976-47fa-af87-337cc0e5f7a3
+2026-08-11 15:17:37,278 | INFO | atlas | New conversation created: 0fa29693-7a10-476b-b123-cb5c4ac7476a
+2026-08-11 15:17:56,056 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:17:56,833 | INFO | atlas | Conversation loaded: a9d32b81-1e2a-4bf3-80a5-bb103b4d0405
+2026-08-11 15:17:57,743 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:29,340 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:30,456 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:31,147 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:31,553 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:32,076 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:32,616 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:39,094 | INFO | atlas | Conversation renamed: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:40,875 | INFO | atlas | Conversation loaded: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:44,061 | INFO | atlas | Conversation deleted: fb62dc27-e03c-440e-a3a1-71b52a2def3a
+2026-08-11 15:18:46,717 | INFO | atlas | New conversation created: b2171bb8-9c2c-43f4-a480-be48dc7049cf
+2026-08-11 15:19:02,498 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 15:19:02,499 | INFO | atlas | Stopping Controller...
+2026-08-11 15:19:02,501 | INFO | atlas | AI Thread stopped.
+2026-08-11 18:56:22,077 | INFO | atlas | Atlas GUI starting...
+2026-08-11 18:56:22,078 | INFO | atlas | Core runtime loaded.
+2026-08-11 18:56:22,617 | INFO | atlas | Atlas application created.
+2026-08-11 18:56:22,980 | INFO | atlas | Atlas main window created.
+2026-08-11 18:56:22,985 | INFO | atlas | Starting Controller...
+2026-08-11 18:56:22,985 | INFO | atlas | AI Thread started.
+2026-08-11 18:56:22,986 | INFO | atlas | Atlas controller started.
+2026-08-11 18:56:23,010 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 18:58:08,499 | INFO | atlas | Conversation loaded: ca291330-a399-4047-a099-1644b6b08d4a
+2026-08-11 18:58:10,865 | INFO | atlas | Conversation loaded: 234e75fd-219d-4721-9ddf-31888a778c30
+2026-08-11 18:58:16,396 | INFO | atlas | Conversation renamed: 234e75fd-219d-4721-9ddf-31888a778c30
+2026-08-11 18:58:18,466 | INFO | atlas | Conversation loaded: 234e75fd-219d-4721-9ddf-31888a778c30
+2026-08-11 18:58:21,767 | INFO | atlas | Conversation deleted: 234e75fd-219d-4721-9ddf-31888a778c30
+2026-08-11 18:58:33,519 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 18:58:33,519 | INFO | atlas | Stopping Controller...
+2026-08-11 18:58:33,521 | INFO | atlas | AI Thread stopped.
+2026-08-11 19:04:59,433 | INFO | atlas | Atlas GUI starting...
+2026-08-11 19:04:59,435 | INFO | atlas | Core runtime loaded.
+2026-08-11 19:05:00,057 | INFO | atlas | Atlas application created.
+2026-08-11 19:05:00,272 | INFO | atlas | Atlas main window created.
+2026-08-11 19:05:00,272 | INFO | atlas | Starting Controller...
+2026-08-11 19:05:00,272 | INFO | atlas | AI Thread started.
+2026-08-11 19:05:00,272 | INFO | atlas | Atlas controller started.
+2026-08-11 19:05:00,293 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 19:05:32,221 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 19:05:32,221 | INFO | atlas | Stopping Controller...
+2026-08-11 19:06:22,543 | INFO | atlas | Atlas GUI starting...
+2026-08-11 19:06:22,543 | INFO | atlas | Core runtime loaded.
+2026-08-11 19:06:22,690 | INFO | atlas | Atlas application created.
+2026-08-11 19:06:22,857 | INFO | atlas | Atlas main window created.
+2026-08-11 19:06:22,857 | INFO | atlas | Starting Controller...
+2026-08-11 19:06:22,857 | INFO | atlas | AI Thread started.
+2026-08-11 19:06:22,857 | INFO | atlas | Atlas controller started.
+2026-08-11 19:06:22,865 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 19:10:14,291 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 19:10:14,292 | INFO | atlas | Stopping Controller...
+2026-08-11 19:10:14,293 | INFO | atlas | AI Thread stopped.
+2026-08-11 19:17:27,813 | INFO | atlas | Atlas GUI starting...
+2026-08-11 19:17:27,814 | INFO | atlas | Core runtime loaded.
+2026-08-11 19:17:28,410 | INFO | atlas | Atlas application created.
+2026-08-11 19:17:28,596 | INFO | atlas | Atlas main window created.
+2026-08-11 19:17:28,596 | INFO | atlas | Starting Controller...
+2026-08-11 19:17:28,596 | INFO | atlas | AI Thread started.
+2026-08-11 19:17:28,596 | INFO | atlas | Atlas controller started.
+2026-08-11 19:17:28,621 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 19:22:29,631 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 19:22:29,632 | INFO | atlas | Stopping Controller...
+2026-08-11 19:22:29,636 | INFO | atlas | AI Thread stopped.
+2026-08-11 19:25:40,121 | INFO | atlas | Atlas GUI starting...
+2026-08-11 19:25:40,122 | INFO | atlas | Core runtime loaded.
+2026-08-11 19:25:40,932 | INFO | atlas | Atlas application created.
+2026-08-11 19:26:29,242 | INFO | atlas | Atlas GUI starting...
+2026-08-11 19:26:29,242 | INFO | atlas | Core runtime loaded.
+2026-08-11 19:26:29,390 | INFO | atlas | Atlas application created.
+2026-08-11 19:26:29,537 | INFO | atlas | Atlas main window created.
+2026-08-11 19:26:29,538 | INFO | atlas | Starting Controller...
+2026-08-11 19:26:29,539 | INFO | atlas | AI Thread started.
+2026-08-11 19:26:29,539 | INFO | atlas | Atlas controller started.
+2026-08-11 19:26:29,571 | INFO | atlas | Atlas GUI started successfully.
+2026-08-11 19:27:40,032 | INFO | atlas | Conversation deleted: f53ac9a8-5599-41fd-857d-2eb5f16341b0
+2026-08-11 19:27:45,632 | INFO | atlas | Conversation deleted: ca291330-a399-4047-a099-1644b6b08d4a
+2026-08-11 19:27:52,447 | INFO | atlas | Conversation loaded: 1bfbf768-1855-4129-bc34-640b5f6256bb
+2026-08-11 19:27:54,162 | INFO | atlas | Conversation loaded: a5c345df-ecaa-4fd8-ae9f-150b6ca35864
+2026-08-11 19:27:58,089 | INFO | atlas | Conversation deleted: 1bfbf768-1855-4129-bc34-640b5f6256bb
+2026-08-11 19:28:02,867 | INFO | atlas | Conversation deleted: a9d32b81-1e2a-4bf3-80a5-bb103b4d0405
+2026-08-11 19:28:07,714 | INFO | atlas | Conversation deleted: dc39c709-aee2-4b61-9956-296dc7a342b8
+2026-08-11 19:28:10,912 | INFO | atlas | Conversation deleted: 1f3a106f-d48f-45be-9106-9f632ec1fd54
+2026-08-11 19:28:14,063 | INFO | atlas | Conversation deleted: bcb295bf-05e0-45b1-8b20-9863cbe1ec6b
+2026-08-11 19:28:18,216 | INFO | atlas | Conversation deleted: f6dcb4d9-3d3e-45ae-89c0-a350abe3af7b
+2026-08-11 19:28:21,718 | INFO | atlas | Conversation deleted: 66c9cd30-13f0-4d7d-8403-8557af20bcbc
+2026-08-11 19:28:28,255 | INFO | atlas | Conversation deleted: 5d98c5f9-dbec-40f1-b817-d3d8e671e9df
+2026-08-11 19:28:33,087 | INFO | atlas | Conversation deleted: beb0b184-0f0b-4b02-8b8a-6b7150c63910
+2026-08-11 19:28:37,036 | INFO | atlas | Conversation deleted: 39fbdb5f-d5df-41cc-8f35-deeea1aca8b1
+2026-08-11 19:28:40,482 | INFO | atlas | Conversation deleted: 2e6ba62d-5db6-454c-b273-9a017db244b5
+2026-08-11 19:28:44,512 | INFO | atlas | Conversation deleted: 18210d3f-ca85-4f4f-b34d-82c6e34631d9
+2026-08-11 19:28:47,575 | INFO | atlas | Conversation loaded: a5c345df-ecaa-4fd8-ae9f-150b6ca35864
+2026-08-11 19:30:02,458 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-11 19:30:02,460 | INFO | atlas | Stopping Controller...
+2026-08-11 19:30:02,469 | INFO | atlas | AI Thread stopped.
+2026-08-12 11:46:19,628 | INFO | atlas | Atlas GUI starting...
+2026-08-12 11:46:19,629 | INFO | atlas | Core runtime loaded.
+2026-08-12 11:46:20,058 | INFO | atlas | Atlas application created.
+2026-08-12 11:46:20,258 | INFO | atlas | Atlas main window created.
+2026-08-12 11:46:20,258 | INFO | atlas | Starting Controller...
+2026-08-12 11:46:20,259 | INFO | atlas | AI Thread started.
+2026-08-12 11:46:20,259 | INFO | atlas | Atlas controller started.
+2026-08-12 11:46:20,315 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:00:30,785 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:00:30,786 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:00:31,350 | INFO | atlas | Atlas application created.
+2026-08-12 12:00:31,570 | INFO | atlas | Atlas main window created.
+2026-08-12 12:00:31,570 | INFO | atlas | Starting Controller...
+2026-08-12 12:00:31,570 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:00:31,570 | INFO | atlas | AI Thread started.
+2026-08-12 12:00:31,570 | INFO | atlas | Atlas controller started.
+2026-08-12 12:00:31,620 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:04:26,739 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:04:26,741 | INFO | atlas | Stopping Controller...
+2026-08-12 12:04:26,742 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:07:56,889 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:07:56,890 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:07:57,421 | INFO | atlas | Atlas application created.
+2026-08-12 12:07:57,562 | INFO | atlas | Atlas main window created.
+2026-08-12 12:07:57,562 | INFO | atlas | Starting Controller...
+2026-08-12 12:07:57,563 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:07:57,563 | INFO | atlas | AI Thread started.
+2026-08-12 12:07:57,564 | INFO | atlas | Atlas controller started.
+2026-08-12 12:07:57,625 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:08:41,265 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:08:41,267 | INFO | atlas | Stopping Controller...
+2026-08-12 12:08:41,269 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:08:41,270 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:08:58,531 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:08:58,531 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:08:58,894 | INFO | atlas | Atlas application created.
+2026-08-12 12:08:59,045 | INFO | atlas | Atlas main window created.
+2026-08-12 12:08:59,045 | INFO | atlas | Starting Controller...
+2026-08-12 12:08:59,045 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:08:59,045 | INFO | atlas | AI Thread started.
+2026-08-12 12:08:59,045 | INFO | atlas | Atlas controller started.
+2026-08-12 12:08:59,088 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:10:07,344 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:13:50,325 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:13:50,326 | INFO | atlas | Stopping Controller...
+2026-08-12 12:13:50,326 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:13:50,329 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:15:20,109 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:15:20,110 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:15:20,431 | INFO | atlas | Atlas application created.
+2026-08-12 12:15:20,554 | INFO | atlas | Atlas main window created.
+2026-08-12 12:15:20,555 | INFO | atlas | Starting Controller...
+2026-08-12 12:15:20,555 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:15:20,555 | INFO | atlas | AI Thread started.
+2026-08-12 12:15:20,555 | INFO | atlas | Atlas controller started.
+2026-08-12 12:15:20,601 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:17:09,713 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:17:51,878 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:19:19,547 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:19:19,547 | INFO | atlas | Stopping Controller...
+2026-08-12 12:19:19,548 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:19:19,550 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:22:11,424 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:22:11,425 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:22:12,093 | INFO | atlas | Atlas application created.
+2026-08-12 12:22:12,266 | INFO | atlas | Atlas main window created.
+2026-08-12 12:22:12,266 | INFO | atlas | Starting Controller...
+2026-08-12 12:22:12,266 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:22:12,267 | INFO | atlas | AI Thread started.
+2026-08-12 12:22:12,267 | INFO | atlas | Atlas controller started.
+2026-08-12 12:22:12,369 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:23:23,955 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:23:23,956 | INFO | atlas | Stopping Controller...
+2026-08-12 12:23:23,956 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:23:23,957 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:24:35,517 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:24:35,517 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:24:35,682 | INFO | atlas | Atlas application created.
+2026-08-12 12:24:35,824 | INFO | atlas | Atlas main window created.
+2026-08-12 12:24:35,824 | INFO | atlas | Starting Controller...
+2026-08-12 12:24:35,825 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:24:35,825 | INFO | atlas | AI Thread started.
+2026-08-12 12:24:35,825 | INFO | atlas | Atlas controller started.
+2026-08-12 12:24:35,864 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:26:27,000 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:28:03,635 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:28:03,635 | INFO | atlas | Stopping Controller...
+2026-08-12 12:28:03,636 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:28:03,638 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:33:35,518 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:33:35,518 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:33:35,788 | INFO | atlas | Atlas application created.
+2026-08-12 12:33:35,919 | INFO | atlas | Atlas main window created.
+2026-08-12 12:33:35,919 | INFO | atlas | Starting Controller...
+2026-08-12 12:33:35,920 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:33:35,920 | INFO | atlas | AI Thread started.
+2026-08-12 12:33:35,920 | INFO | atlas | Atlas controller started.
+2026-08-12 12:33:35,958 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:35:55,811 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:40:40,615 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:42:50,059 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 12:42:50,060 | INFO | atlas | Stopping Controller...
+2026-08-12 12:42:50,060 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 12:42:50,062 | INFO | atlas | AI Thread stopped.
+2026-08-12 12:46:09,022 | INFO | atlas | Atlas GUI starting...
+2026-08-12 12:46:09,023 | INFO | atlas | Core runtime loaded.
+2026-08-12 12:46:09,423 | INFO | atlas | Atlas application created.
+2026-08-12 12:46:09,559 | INFO | atlas | Atlas main window created.
+2026-08-12 12:46:09,560 | INFO | atlas | Starting Controller...
+2026-08-12 12:46:09,560 | INFO | atlas | Starting AI worker thread...
+2026-08-12 12:46:09,560 | INFO | atlas | AI Thread started.
+2026-08-12 12:46:09,560 | INFO | atlas | Atlas controller started.
+2026-08-12 12:46:09,612 | INFO | atlas | Atlas GUI started successfully.
+2026-08-12 12:47:49,905 | INFO | atlas | Tool AI response finished.
+2026-08-12 12:54:42,115 | INFO | atlas | Tool AI response finished.
+2026-08-12 13:48:19,728 | INFO | atlas | Tool AI response finished.
+2026-08-12 13:50:43,096 | INFO | atlas | Tool AI response finished.
+2026-08-12 14:18:34,828 | INFO | atlas | Atlas GUI exited with code 0.
+2026-08-12 14:18:34,832 | INFO | atlas | Stopping Controller...
+2026-08-12 14:18:34,835 | INFO | atlas | Stopping AI worker thread...
+2026-08-12 14:18:34,841 | INFO | atlas | AI Thread stopped.
+2026-08-12 20:47:22,119 | INFO | atlas | Created conversation: 4280269c-6c91-4432-8f20-13b9f5e957e6
+2026-08-12 20:48:06,630 | INFO | atlas | Created conversation: ee7e0a85-6ff6-4dcb-be35-543c4b2092dc
+2026-08-12 20:48:06,630 | ERROR | atlas | Brain processing failed
+Traceback (most recent call last):
+  File "/home/saad/AtlasAI_V3/core/controller.py", line 278, in send_message
+    self.ai.brain.process_message(
+    ^^^^^^^^^^^^^
+AttributeError: 'AIService' object has no attribute 'brain'
+2026-08-12 20:48:13,881 | INFO | atlas | Created conversation: d368ec1f-75bc-4e02-aa9d-5aff5b93f99e
+2026-08-12 20:48:13,882 | ERROR | atlas | Brain processing failed
+Traceback (most recent call last):
+  File "/home/saad/AtlasAI_V3/core/controller.py", line 278, in send_message
+    self.ai.brain.process_message(
+    ^^^^^^^^^^^^^
+AttributeError: 'AIService' object has no attribute 'brain'
+2026-08-12 20:48:21,625 | INFO | atlas | Created conversation: df4ef331-3d78-4b2c-91d6-acea68e38897
+2026-08-12 20:48:21,626 | ERROR | atlas | Brain processing failed
+Traceback (most recent call last):
+  File "/home/saad/AtlasAI_V3/core/controller.py", line 278, in send_message
+    self.ai.brain.process_message(
+    ^^^^^^^^^^^^^
+AttributeError: 'AIService' object has no attribute 'brain'
+2026-08-12 20:58:29,933 | INFO | atlas | Created conversation: 0343a664-449f-4134-bcae-093ea0575ee2
+2026-08-12 20:58:38,643 | INFO | atlas | Created conversation: 2c2196aa-6052-4da7-8bec-11fba64ad78b
+2026-08-12 20:59:07,978 | INFO | atlas | Created conversation: ebccf4ae-31c8-4895-8dbc-149435436f8c
+2026-08-12 20:59:20,970 | INFO | atlas | Created conversation: 21ee7655-af93-4573-ad64-9b56d1ce5378
+2026-08-12 20:59:34,902 | INFO | atlas | Created conversation: c6b41fd8-0164-4336-9332-c4cc5eebba38
+2026-08-12 21:00:00,787 | INFO | atlas | Created conversation: df51433e-dd4f-407f-a856-c37c1e692032
+2026-08-12 21:10:58,256 | INFO | atlas | Created conversation: b4384491-5164-4619-a0eb-4a18b6dfd5c4
+2026-08-12 21:11:04,441 | INFO | atlas | Created conversation: 4845058f-1b26-404d-afc0-49a6204acde9
+2026-08-12 21:11:53,327 | INFO | atlas | Created conversation: 260c1871-4e66-4169-9954-a22852dd08d5
+2026-08-13 11:15:32,527 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:15:38,647 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:15:38,675 | INFO | atlas | Created conversation: bafc1ea5-f975-465f-8600-6cdc6ebfd9f2
+2026-08-13 11:15:38,676 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:15:55,022 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:31:23,017 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:31:23,018 | INFO | atlas | AIWorker initialized
+2026-08-13 11:31:30,641 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:31:30,641 | INFO | atlas | AIWorker initialized
+2026-08-13 11:31:30,644 | INFO | atlas | Created conversation: ae77d977-3dde-40a3-b514-577265cf2a4b
+2026-08-13 11:31:30,644 | INFO | atlas | Processing message in conversation ae77d977-3dde-40a3-b514-577265cf2a4b
+2026-08-13 11:31:30,644 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:31:30,645 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:31:43,716 | INFO | atlas | Processing message in conversation ae77d977-3dde-40a3-b514-577265cf2a4b
+2026-08-13 11:31:43,717 | INFO | atlas | Processing message: What did I just tell you?
+2026-08-13 11:31:43,718 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:47:25,542 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:47:25,543 | INFO | atlas | AIWorker initialized
+2026-08-13 11:47:25,548 | INFO | atlas | Created conversation: 1c6bbafc-66bb-4f2d-8d02-723cfa5e9e22
+2026-08-13 11:47:25,549 | INFO | atlas | Processing message in conversation 1c6bbafc-66bb-4f2d-8d02-723cfa5e9e22
+2026-08-13 11:47:25,549 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:47:25,549 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:47:36,002 | INFO | atlas | Processing message in conversation 1c6bbafc-66bb-4f2d-8d02-723cfa5e9e22
+2026-08-13 11:47:36,003 | INFO | atlas | Processing message: What did I just tell you?
+2026-08-13 11:47:36,003 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:48:09,852 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:48:09,853 | INFO | atlas | AIWorker initialized
+2026-08-13 11:48:09,858 | INFO | atlas | Created conversation: 7b33e56c-698c-4a22-86fe-fd7dd45d33f2
+2026-08-13 11:48:09,858 | INFO | atlas | Processing message in conversation 7b33e56c-698c-4a22-86fe-fd7dd45d33f2
+2026-08-13 11:48:09,858 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:48:09,859 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:49:17,127 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:49:17,131 | INFO | atlas | AIWorker initialized
+2026-08-13 11:49:17,136 | INFO | atlas | Created conversation: bf0d3bc4-c7da-4c76-94ff-b960469f05fa
+2026-08-13 11:49:17,140 | INFO | atlas | Processing message in conversation bf0d3bc4-c7da-4c76-94ff-b960469f05fa
+2026-08-13 11:49:17,144 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:49:17,145 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:49:17,145 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:49:26,884 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:49:30,253 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:49:30,253 | INFO | atlas | AIWorker initialized
+2026-08-13 11:49:30,256 | INFO | atlas | Created conversation: 0b6bd6d3-0700-4d28-a16f-ea7b7cd3a7b1
+2026-08-13 11:49:30,257 | INFO | atlas | Processing message in conversation 0b6bd6d3-0700-4d28-a16f-ea7b7cd3a7b1
+2026-08-13 11:49:30,259 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:49:30,259 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:49:30,259 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:49:32,567 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:49:32,567 | INFO | atlas | Processing message in conversation 0b6bd6d3-0700-4d28-a16f-ea7b7cd3a7b1
+2026-08-13 11:49:32,569 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:49:32,569 | INFO | atlas | Processing message: What did I just tell you?
+2026-08-13 11:49:32,570 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:49:42,409 | INFO | atlas | Syncing AI history: 4 messages
+2026-08-13 11:51:54,345 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:51:54,346 | INFO | atlas | AIWorker initialized
+2026-08-13 11:51:54,351 | INFO | atlas | Created conversation: bec3d372-e1f6-492b-89dd-acfab98a89d1
+2026-08-13 11:51:54,352 | INFO | atlas | Processing message in conversation bec3d372-e1f6-492b-89dd-acfab98a89d1
+2026-08-13 11:51:54,356 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:51:54,358 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:51:54,359 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:52:07,135 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:52:07,135 | INFO | atlas | Processing message in conversation bec3d372-e1f6-492b-89dd-acfab98a89d1
+2026-08-13 11:52:07,137 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:52:07,137 | INFO | atlas | Processing message: What did I just tell you?
+2026-08-13 11:52:07,137 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:52:15,758 | INFO | atlas | Syncing AI history: 4 messages
+2026-08-13 11:54:12,575 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:54:12,576 | INFO | atlas | AIWorker initialized
+2026-08-13 11:54:12,580 | INFO | atlas | Created conversation: 31ceca4c-6155-49ee-acd2-ffbc3d751d06
+2026-08-13 11:54:12,581 | INFO | atlas | Processing message in conversation 31ceca4c-6155-49ee-acd2-ffbc3d751d06
+2026-08-13 11:54:12,584 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:54:12,584 | INFO | atlas | Processing message: My name is Atlas
+2026-08-13 11:54:12,585 | INFO | atlas | Brain processing message: My name is Atlas
+2026-08-13 11:54:18,586 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:54:18,586 | INFO | atlas | Processing message in conversation 31ceca4c-6155-49ee-acd2-ffbc3d751d06
+2026-08-13 11:54:18,588 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:54:18,588 | INFO | atlas | Processing message: What did I just tell you?
+2026-08-13 11:54:18,588 | INFO | atlas | Brain processing message: What did I just tell you?
+2026-08-13 11:54:18,590 | INFO | atlas | Syncing AI history: 4 messages
+2026-08-13 11:54:53,235 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:54:53,236 | INFO | atlas | AIWorker initialized
+2026-08-13 11:54:53,239 | INFO | atlas | Created conversation: 4b7bac96-ecb0-4083-9624-b25df3a2af53
+2026-08-13 11:54:53,239 | INFO | atlas | Processing message in conversation 4b7bac96-ecb0-4083-9624-b25df3a2af53
+2026-08-13 11:54:53,242 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:54:53,242 | INFO | atlas | Processing message: My favorite programming language is Python
+2026-08-13 11:54:53,242 | INFO | atlas | Brain processing message: My favorite programming language is Python
+2026-08-13 11:55:00,642 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:55:00,642 | INFO | atlas | Processing message in conversation 4b7bac96-ecb0-4083-9624-b25df3a2af53
+2026-08-13 11:55:00,644 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:55:00,644 | INFO | atlas | Processing message: I am building a project called Atlas
+2026-08-13 11:55:00,644 | INFO | atlas | Brain processing message: I am building a project called Atlas
+2026-08-13 11:55:11,957 | INFO | atlas | Syncing AI history: 4 messages
+2026-08-13 11:55:11,957 | INFO | atlas | Processing message in conversation 4b7bac96-ecb0-4083-9624-b25df3a2af53
+2026-08-13 11:55:11,959 | INFO | atlas | Syncing AI history: 4 messages
+2026-08-13 11:55:11,959 | INFO | atlas | Processing message: What is my favorite programming language?
+2026-08-13 11:55:11,959 | INFO | atlas | Brain processing message: What is my favorite programming language?
+2026-08-13 11:55:18,490 | INFO | atlas | Syncing AI history: 6 messages
+2026-08-13 11:55:18,491 | INFO | atlas | Processing message in conversation 4b7bac96-ecb0-4083-9624-b25df3a2af53
+2026-08-13 11:55:18,493 | INFO | atlas | Syncing AI history: 6 messages
+2026-08-13 11:55:18,493 | INFO | atlas | Processing message: What project am I building?
+2026-08-13 11:55:18,493 | INFO | atlas | Brain processing message: What project am I building?
+2026-08-13 11:55:29,281 | INFO | atlas | Syncing AI history: 8 messages
+2026-08-13 11:56:24,237 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:56:24,238 | INFO | atlas | AIWorker initialized
+2026-08-13 11:56:24,250 | INFO | atlas | Created conversation: 8403796c-bae6-480d-b4ef-68a6e0f6915c
+2026-08-13 11:56:24,251 | INFO | atlas | Processing message in conversation 8403796c-bae6-480d-b4ef-68a6e0f6915c
+2026-08-13 11:56:24,260 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:56:24,274 | INFO | atlas | Processing message: Calculate 12345 * 6789
+2026-08-13 11:56:24,274 | INFO | atlas | Brain processing message: Calculate 12345 * 6789
+2026-08-13 11:56:32,600 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:56:38,237 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:56:38,238 | INFO | atlas | AIWorker initialized
+2026-08-13 11:56:38,241 | INFO | atlas | Created conversation: a7a240ab-2bdb-408b-9baf-cf0d3ae45266
+2026-08-13 11:56:38,241 | INFO | atlas | Processing message in conversation a7a240ab-2bdb-408b-9baf-cf0d3ae45266
+2026-08-13 11:56:38,246 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:56:38,247 | INFO | atlas | Processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 11:56:38,247 | INFO | atlas | Brain processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 11:57:06,789 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:57:10,279 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:57:10,279 | INFO | atlas | AIWorker initialized
+2026-08-13 11:57:10,283 | INFO | atlas | Created conversation: d0b45ab6-099d-4f65-9e2c-a0aeb61a7637
+2026-08-13 11:57:10,283 | INFO | atlas | Processing message in conversation d0b45ab6-099d-4f65-9e2c-a0aeb61a7637
+2026-08-13 11:57:10,291 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:57:10,292 | INFO | atlas | Processing message: What is today's date?
+2026-08-13 11:57:10,292 | INFO | atlas | Brain processing message: What is today's date?
+2026-08-13 11:57:13,102 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:58:17,623 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:58:17,628 | INFO | atlas | AIWorker initialized
+2026-08-13 11:58:17,636 | INFO | atlas | Created conversation: 2c4e1647-eff3-4872-bd3b-30287670e39e
+2026-08-13 11:58:17,636 | INFO | atlas | Processing message in conversation 2c4e1647-eff3-4872-bd3b-30287670e39e
+2026-08-13 11:58:17,646 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:58:17,646 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 11:58:17,646 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 11:58:28,419 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:58:32,717 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:58:32,717 | INFO | atlas | AIWorker initialized
+2026-08-13 11:58:32,730 | INFO | atlas | Created conversation: be7c7f9c-da94-46a0-b4fc-2ebcd4e31efb
+2026-08-13 11:58:32,731 | INFO | atlas | Processing message in conversation be7c7f9c-da94-46a0-b4fc-2ebcd4e31efb
+2026-08-13 11:58:32,740 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:58:32,741 | INFO | atlas | Processing message: Calculate the derivative of x**5 + 3*x**2 - 7
+2026-08-13 11:58:32,741 | INFO | atlas | Brain processing message: Calculate the derivative of x**5 + 3*x**2 - 7
+2026-08-13 11:58:44,210 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:58:47,258 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:58:47,259 | INFO | atlas | AIWorker initialized
+2026-08-13 11:58:47,263 | INFO | atlas | Created conversation: 97b53237-68aa-468f-8fe2-4b5afbdff7f7
+2026-08-13 11:58:47,264 | INFO | atlas | Processing message in conversation 97b53237-68aa-468f-8fe2-4b5afbdff7f7
+2026-08-13 11:58:47,267 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 11:58:47,268 | INFO | atlas | Processing message: Search the web for the latest Python release
+2026-08-13 11:58:47,268 | INFO | atlas | Brain processing message: Search the web for the latest Python release
+2026-08-13 11:58:58,923 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 11:59:56,761 | INFO | atlas | AtlasBrain initialized
+2026-08-13 11:59:56,762 | INFO | atlas | AIWorker initialized
+2026-08-13 12:00:00,999 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:00:01,000 | INFO | atlas | AIWorker initialized
+2026-08-13 12:00:01,003 | INFO | atlas | Created conversation: e46a8e38-04f7-419b-a704-ffe71375d3e4
+2026-08-13 12:00:01,003 | INFO | atlas | Processing message in conversation e46a8e38-04f7-419b-a704-ffe71375d3e4
+2026-08-13 12:00:01,011 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:00:01,011 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:00:01,011 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:00:10,416 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:08:59,262 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:08:59,262 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:08:59,262 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:08:59,262 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:09:11,529 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:11,530 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:09:11,530 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:11,530 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:09:11,533 | INFO | atlas | Created conversation: 21f1f197-dd6f-4090-b913-00c419c6928a
+2026-08-13 12:09:11,533 | INFO | atlas | Processing message in conversation 21f1f197-dd6f-4090-b913-00c419c6928a
+2026-08-13 12:09:11,536 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:09:11,536 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:09:11,536 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:09:11,536 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:09:11,536 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:09:11,537 | INFO | atlas | Calculator expression: 999999999 * 888888888
+2026-08-13 12:09:11,540 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:09:34,479 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:34,480 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:09:34,480 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:34,480 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:09:34,483 | INFO | atlas | Created conversation: 40dab03d-ac36-4800-95d6-e905dec296ca
+2026-08-13 12:09:34,483 | INFO | atlas | Processing message in conversation 40dab03d-ac36-4800-95d6-e905dec296ca
+2026-08-13 12:09:34,486 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:09:34,487 | INFO | atlas | Processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:09:34,487 | INFO | atlas | Brain processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:09:34,487 | INFO | atlas | ROUTE: TOOL -> math
+2026-08-13 12:09:34,487 | INFO | atlas | Executing tool: math
+2026-08-13 12:09:34,488 | INFO | atlas | Math operation=differentiate expression=3*t**2 + 4 variable=t
+2026-08-13 12:09:34,624 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:09:43,332 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:43,332 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:09:43,333 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:09:43,333 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:09:43,335 | INFO | atlas | Created conversation: 13fc01c3-37ef-42b7-9c58-53b6e60db3f7
+2026-08-13 12:09:43,336 | INFO | atlas | Processing message in conversation 13fc01c3-37ef-42b7-9c58-53b6e60db3f7
+2026-08-13 12:09:43,339 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:09:43,339 | INFO | atlas | Processing message: Search the web for the latest Python release
+2026-08-13 12:09:43,339 | INFO | atlas | Brain processing message: Search the web for the latest Python release
+2026-08-13 12:09:43,339 | INFO | atlas | ROUTE: TOOL -> web_search
+2026-08-13 12:09:43,339 | INFO | atlas | Executing tool: web_search
+2026-08-13 12:09:43,340 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:09:54,377 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:26:28,081 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:28,081 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:26:28,082 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:28,082 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:26:28,092 | INFO | atlas | Created conversation: 8ec0dd35-067a-4e55-bf9a-c0ff07b8c40f
+2026-08-13 12:26:28,094 | INFO | atlas | Processing message in conversation 8ec0dd35-067a-4e55-bf9a-c0ff07b8c40f
+2026-08-13 12:26:28,104 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:26:28,109 | INFO | atlas | Processing message: What is today's date?
+2026-08-13 12:26:28,109 | INFO | atlas | Brain processing message: What is today's date?
+2026-08-13 12:26:28,109 | INFO | atlas | ROUTE: TOOL -> Time
+2026-08-13 12:26:28,109 | INFO | atlas | Executing tool: Time
+2026-08-13 12:26:28,123 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:26:38,113 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:38,114 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:26:38,114 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:38,114 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:26:38,123 | INFO | atlas | Created conversation: f58c8553-3367-4176-a1d0-2014dd5ba70e
+2026-08-13 12:26:38,123 | INFO | atlas | Processing message in conversation f58c8553-3367-4176-a1d0-2014dd5ba70e
+2026-08-13 12:26:38,126 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:26:38,126 | INFO | atlas | Processing message: What time is it?
+2026-08-13 12:26:38,127 | INFO | atlas | Brain processing message: What time is it?
+2026-08-13 12:26:38,127 | INFO | atlas | ROUTE: TOOL -> Time
+2026-08-13 12:26:38,127 | INFO | atlas | Executing tool: Time
+2026-08-13 12:26:38,131 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:26:48,766 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:48,766 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:26:48,766 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:48,767 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:26:48,771 | INFO | atlas | Created conversation: e32a45f3-3709-43bc-ac7f-7d6ef6a4c01f
+2026-08-13 12:26:48,771 | INFO | atlas | Processing message in conversation e32a45f3-3709-43bc-ac7f-7d6ef6a4c01f
+2026-08-13 12:26:48,784 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:26:48,784 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:26:48,784 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:26:48,784 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:26:48,784 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:26:48,785 | INFO | atlas | Calculator expression: 999999999 * 888888888
+2026-08-13 12:26:48,789 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:26:56,667 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:56,667 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:26:56,667 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:26:56,667 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:26:56,670 | INFO | atlas | Created conversation: fd724941-eadd-4438-9d28-6e7c4117e2e3
+2026-08-13 12:26:56,671 | INFO | atlas | Processing message in conversation fd724941-eadd-4438-9d28-6e7c4117e2e3
+2026-08-13 12:26:56,679 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:26:56,680 | INFO | atlas | Processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:26:56,680 | INFO | atlas | Brain processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:26:56,681 | INFO | atlas | ROUTE: TOOL -> math
+2026-08-13 12:26:56,681 | INFO | atlas | Executing tool: math
+2026-08-13 12:26:56,686 | INFO | atlas | Math operation=differentiate expression=3*t**2 + 4 variable=t
+2026-08-13 12:26:56,788 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:27:09,361 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:27:09,362 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:27:09,362 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:27:09,362 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:27:09,365 | INFO | atlas | Created conversation: 32fd26dc-4bf5-4adc-8263-a77c2519a73b
+2026-08-13 12:27:09,365 | INFO | atlas | Processing message in conversation 32fd26dc-4bf5-4adc-8263-a77c2519a73b
+2026-08-13 12:27:09,369 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:27:09,369 | INFO | atlas | Processing message: Search the web for the latest Python release
+2026-08-13 12:27:09,369 | INFO | atlas | Brain processing message: Search the web for the latest Python release
+2026-08-13 12:27:09,369 | INFO | atlas | ROUTE: TOOL -> web_search
+2026-08-13 12:27:09,369 | INFO | atlas | Executing tool: web_search
+2026-08-13 12:27:09,369 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:27:09,369 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:27:20,612 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:28:46,177 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:28:46,177 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:28:46,177 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:28:46,178 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:28:46,181 | INFO | atlas | Created conversation: 28e25b19-dcf9-4e84-b573-5219d9a0ec30
+2026-08-13 12:28:46,181 | INFO | atlas | Processing message in conversation 28e25b19-dcf9-4e84-b573-5219d9a0ec30
+2026-08-13 12:28:46,184 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:28:46,185 | INFO | atlas | Processing message: Search the web for the latest Python release
+2026-08-13 12:28:46,185 | INFO | atlas | Brain processing message: Search the web for the latest Python release
+2026-08-13 12:28:46,185 | INFO | atlas | ROUTE: TOOL -> web_search
+2026-08-13 12:28:46,185 | INFO | atlas | Executing tool: web_search
+2026-08-13 12:28:46,185 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:28:46,186 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:28:52,176 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:28:55,162 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:28:55,163 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:28:55,163 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:28:55,164 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:28:55,167 | INFO | atlas | Created conversation: fd507925-560e-4ff6-924f-e92a629bebb5
+2026-08-13 12:28:55,167 | INFO | atlas | Processing message in conversation fd507925-560e-4ff6-924f-e92a629bebb5
+2026-08-13 12:28:55,181 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:28:55,182 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:28:55,182 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:28:55,183 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:28:55,183 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:28:55,185 | INFO | atlas | Calculator expression: 999999999 * 888888888
+2026-08-13 12:28:55,196 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:29:06,399 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:29:06,400 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:29:06,400 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:29:06,400 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:29:06,407 | INFO | atlas | Created conversation: ba20661d-fd84-4c86-9fff-f62d6a25fd25
+2026-08-13 12:29:06,407 | INFO | atlas | Processing message in conversation ba20661d-fd84-4c86-9fff-f62d6a25fd25
+2026-08-13 12:29:06,413 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:29:06,414 | INFO | atlas | Processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:29:06,414 | INFO | atlas | Brain processing message: Differentiate 3*t**2 + 4 with respect to t
+2026-08-13 12:29:06,416 | INFO | atlas | ROUTE: TOOL -> math
+2026-08-13 12:29:06,416 | INFO | atlas | Executing tool: math
+2026-08-13 12:29:06,421 | INFO | atlas | Math operation=differentiate expression=3*t**2 + 4 variable=t
+2026-08-13 12:29:06,542 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:31:24,901 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:24,902 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:24,902 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:31:24,902 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:24,902 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:31:33,280 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:33,280 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:33,281 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:31:33,281 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:33,281 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:31:33,284 | INFO | atlas | Created conversation: 4675f346-946f-4c36-89e7-ee4dad7b4073
+2026-08-13 12:31:33,284 | INFO | atlas | Processing message in conversation 4675f346-946f-4c36-89e7-ee4dad7b4073
+2026-08-13 12:31:33,287 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:31:33,288 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:31:33,288 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:31:33,288 | INFO | atlas | Tool match: calculator
+2026-08-13 12:31:33,288 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:31:33,288 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:31:33,292 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:31:45,875 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:45,876 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:45,876 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:31:45,876 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:45,876 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:31:45,879 | INFO | atlas | Created conversation: e7bec61f-1e2b-4c87-b265-74701416fef3
+2026-08-13 12:31:45,879 | INFO | atlas | Processing message in conversation e7bec61f-1e2b-4c87-b265-74701416fef3
+2026-08-13 12:31:45,883 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:31:45,883 | INFO | atlas | Processing message: What time is it?
+2026-08-13 12:31:45,883 | INFO | atlas | Brain processing message: What time is it?
+2026-08-13 12:31:45,883 | INFO | atlas | Tool match: Time
+2026-08-13 12:31:45,883 | INFO | atlas | ROUTE: TOOL -> Time
+2026-08-13 12:31:45,883 | INFO | atlas | Executing tool: Time
+2026-08-13 12:31:45,887 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:31:56,755 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:56,755 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:56,756 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:31:56,756 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:31:56,756 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:31:56,759 | INFO | atlas | Created conversation: f55232dc-18fd-42ce-8846-ab9e68cf1d98
+2026-08-13 12:31:56,759 | INFO | atlas | Processing message in conversation f55232dc-18fd-42ce-8846-ab9e68cf1d98
+2026-08-13 12:31:56,763 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:31:56,763 | INFO | atlas | Processing message: What time is it?
+2026-08-13 12:31:56,763 | INFO | atlas | Brain processing message: What time is it?
+2026-08-13 12:31:56,763 | INFO | atlas | Tool match: Time
+2026-08-13 12:31:56,763 | INFO | atlas | ROUTE: TOOL -> Time
+2026-08-13 12:31:56,763 | INFO | atlas | Executing tool: Time
+2026-08-13 12:31:56,767 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:32:06,019 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:32:06,020 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:32:06,020 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:32:06,020 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:32:06,020 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:32:06,023 | INFO | atlas | Created conversation: 4e7122b0-5258-4ff3-bb34-be3d6c05ed22
+2026-08-13 12:32:06,023 | INFO | atlas | Processing message in conversation 4e7122b0-5258-4ff3-bb34-be3d6c05ed22
+2026-08-13 12:32:06,028 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:32:06,029 | INFO | atlas | Processing message: Search the web for the latest Python release
+2026-08-13 12:32:06,029 | INFO | atlas | Brain processing message: Search the web for the latest Python release
+2026-08-13 12:32:06,029 | INFO | atlas | Tool match: web_search
+2026-08-13 12:32:06,029 | INFO | atlas | ROUTE: TOOL -> web_search
+2026-08-13 12:32:06,029 | INFO | atlas | Executing tool: web_search
+2026-08-13 12:32:06,029 | INFO | atlas | Web search query: the latest Python release
+2026-08-13 12:32:16,852 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:37:11,078 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:11,078 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:11,078 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:37:11,079 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:11,079 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:37:11,082 | INFO | atlas | Created conversation: 4917c484-b828-418c-9f7f-8cd8586f5fab
+2026-08-13 12:37:11,082 | INFO | atlas | Processing message in conversation 4917c484-b828-418c-9f7f-8cd8586f5fab
+2026-08-13 12:37:11,086 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:37:11,086 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:37:11,086 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:37:11,086 | INFO | atlas | Tool match: calculator
+2026-08-13 12:37:11,086 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:37:11,087 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:37:11,091 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:37:23,741 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:23,742 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:23,742 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:37:23,743 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:23,743 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:37:23,746 | INFO | atlas | Created conversation: 486f2ce7-2450-41c1-99fd-ff2da2cc809a
+2026-08-13 12:37:23,746 | INFO | atlas | Processing message in conversation 486f2ce7-2450-41c1-99fd-ff2da2cc809a
+2026-08-13 12:37:23,750 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:37:23,750 | INFO | atlas | Processing message: calc 25 * 4
+2026-08-13 12:37:23,750 | INFO | atlas | Brain processing message: calc 25 * 4
+2026-08-13 12:37:23,751 | INFO | atlas | Tool match: calculator
+2026-08-13 12:37:23,751 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:37:23,751 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:37:23,754 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:37:33,165 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:33,166 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:33,166 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:37:33,166 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:37:33,166 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:37:33,169 | INFO | atlas | Created conversation: fb7b8b36-d804-4e28-b406-dfc2147685d2
+2026-08-13 12:37:33,169 | INFO | atlas | Processing message in conversation fb7b8b36-d804-4e28-b406-dfc2147685d2
+2026-08-13 12:37:33,174 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:37:33,174 | INFO | atlas | Processing message: What is 100 / 5?
+2026-08-13 12:37:33,174 | INFO | atlas | Brain processing message: What is 100 / 5?
+2026-08-13 12:37:33,174 | INFO | atlas | ROUTE: MODEL
+2026-08-13 12:37:54,547 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:38:57,011 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:38:57,012 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:38:57,012 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:38:57,012 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:38:57,013 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:38:57,021 | INFO | atlas | Created conversation: 4ccb374f-24b7-4b35-aa8e-6d8b63d3800f
+2026-08-13 12:38:57,022 | INFO | atlas | Processing message in conversation 4ccb374f-24b7-4b35-aa8e-6d8b63d3800f
+2026-08-13 12:38:57,051 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:38:57,051 | INFO | atlas | Processing message: calc 25 * 4
+2026-08-13 12:38:57,052 | INFO | atlas | Brain processing message: calc 25 * 4
+2026-08-13 12:38:57,052 | INFO | atlas | Tool match: calculator
+2026-08-13 12:38:57,052 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:38:57,052 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:38:57,060 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:39:00,870 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:00,870 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:00,871 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:39:00,871 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:00,871 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:39:00,874 | INFO | atlas | Created conversation: 03ad478e-cc5b-4a27-9d1d-2fbc003465a7
+2026-08-13 12:39:00,875 | INFO | atlas | Processing message in conversation 03ad478e-cc5b-4a27-9d1d-2fbc003465a7
+2026-08-13 12:39:00,879 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:39:00,879 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:39:00,879 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:39:00,880 | INFO | atlas | Tool match: calculator
+2026-08-13 12:39:00,880 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:39:00,880 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:39:00,884 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:39:12,404 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:12,405 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:12,405 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:39:12,405 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:39:12,405 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:39:12,409 | INFO | atlas | Created conversation: ef87813c-47e0-4605-8367-586464f99b01
+2026-08-13 12:39:12,409 | INFO | atlas | Processing message in conversation ef87813c-47e0-4605-8367-586464f99b01
+2026-08-13 12:39:12,414 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:39:12,415 | INFO | atlas | Processing message: What is 100 / 5?
+2026-08-13 12:39:12,415 | INFO | atlas | Brain processing message: What is 100 / 5?
+2026-08-13 12:39:12,416 | INFO | atlas | Tool match: calculator
+2026-08-13 12:39:12,417 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:39:12,417 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:39:12,429 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:42:07,760 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:07,761 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:07,761 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:42:07,761 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:07,761 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:42:07,764 | INFO | atlas | Created conversation: 5c5a51fb-831c-4c39-b9e1-65e663016000
+2026-08-13 12:42:07,764 | INFO | atlas | Processing message in conversation 5c5a51fb-831c-4c39-b9e1-65e663016000
+2026-08-13 12:42:07,769 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:42:07,769 | INFO | atlas | Processing message: calc 25 * 4
+2026-08-13 12:42:07,769 | INFO | atlas | Brain processing message: calc 25 * 4
+2026-08-13 12:42:07,769 | INFO | atlas | Tool match: calculator
+2026-08-13 12:42:07,769 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:42:07,769 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:42:07,773 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:42:15,758 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:15,759 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:15,759 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:42:15,759 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:15,759 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:42:15,762 | INFO | atlas | Created conversation: 677d0ee9-87c6-4438-a649-0c950cd5aca8
+2026-08-13 12:42:15,762 | INFO | atlas | Processing message in conversation 677d0ee9-87c6-4438-a649-0c950cd5aca8
+2026-08-13 12:42:15,767 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:42:15,768 | INFO | atlas | Processing message: What is 100 / 5?
+2026-08-13 12:42:15,768 | INFO | atlas | Brain processing message: What is 100 / 5?
+2026-08-13 12:42:15,768 | INFO | atlas | Tool match: calculator
+2026-08-13 12:42:15,768 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:42:15,769 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:42:15,773 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:42:21,664 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:21,664 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:21,664 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:42:21,664 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:21,665 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:42:21,674 | INFO | atlas | Created conversation: 0ab5f350-4b2d-4591-af54-6e10702a8068
+2026-08-13 12:42:21,674 | INFO | atlas | Processing message in conversation 0ab5f350-4b2d-4591-af54-6e10702a8068
+2026-08-13 12:42:21,686 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:42:21,687 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:42:21,687 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:42:21,687 | INFO | atlas | Tool match: calculator
+2026-08-13 12:42:21,687 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:42:21,688 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:42:21,697 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:42:32,025 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:32,025 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:32,026 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:42:32,026 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:42:32,026 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:42:32,029 | INFO | atlas | Created conversation: 377b58d3-7a5a-482a-86cb-7892fb7ae24d
+2026-08-13 12:42:32,029 | INFO | atlas | Processing message in conversation 377b58d3-7a5a-482a-86cb-7892fb7ae24d
+2026-08-13 12:42:32,033 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:42:32,034 | INFO | atlas | Processing message: What is 2 ** 10?
+2026-08-13 12:42:32,034 | INFO | atlas | Brain processing message: What is 2 ** 10?
+2026-08-13 12:42:32,034 | INFO | atlas | Tool match: calculator
+2026-08-13 12:42:32,034 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:42:32,035 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:42:32,042 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:46:31,500 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:31,500 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:31,501 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:46:31,501 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:31,501 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:46:31,506 | INFO | atlas | Created conversation: e187b914-efe6-4f85-ad97-4c970e6970c9
+2026-08-13 12:46:31,506 | INFO | atlas | Processing message in conversation e187b914-efe6-4f85-ad97-4c970e6970c9
+2026-08-13 12:46:31,512 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:46:31,512 | INFO | atlas | Processing message: calc 25 * 4
+2026-08-13 12:46:31,513 | INFO | atlas | Brain processing message: calc 25 * 4
+2026-08-13 12:46:31,513 | INFO | atlas | Tool match: calculator
+2026-08-13 12:46:31,513 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:46:31,513 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:46:31,525 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:46:38,140 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:38,140 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:38,140 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:46:38,140 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:38,140 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:46:38,143 | INFO | atlas | Created conversation: c0864ae3-5a12-4824-b062-773dd55c0de4
+2026-08-13 12:46:38,144 | INFO | atlas | Processing message in conversation c0864ae3-5a12-4824-b062-773dd55c0de4
+2026-08-13 12:46:38,148 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:46:38,148 | INFO | atlas | Processing message: What is 100 / 5?
+2026-08-13 12:46:38,148 | INFO | atlas | Brain processing message: What is 100 / 5?
+2026-08-13 12:46:38,148 | INFO | atlas | Tool match: calculator
+2026-08-13 12:46:38,148 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:46:38,148 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:46:38,153 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:46:45,053 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:45,053 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:45,053 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:46:45,054 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:45,054 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:46:45,057 | INFO | atlas | Created conversation: cf4a54de-6de5-48ba-a947-91d8ef785675
+2026-08-13 12:46:45,057 | INFO | atlas | Processing message in conversation cf4a54de-6de5-48ba-a947-91d8ef785675
+2026-08-13 12:46:45,061 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:46:45,061 | INFO | atlas | Processing message: Calculate 999999999 * 888888888
+2026-08-13 12:46:45,061 | INFO | atlas | Brain processing message: Calculate 999999999 * 888888888
+2026-08-13 12:46:45,062 | INFO | atlas | Tool match: calculator
+2026-08-13 12:46:45,062 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:46:45,062 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:46:45,066 | INFO | atlas | Syncing AI history: 2 messages
+2026-08-13 12:46:51,190 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:51,190 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:51,191 | INFO | atlas | AtlasBrain initialized
+2026-08-13 12:46:51,191 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'Time', 'web_search', 'math']
+2026-08-13 12:46:51,191 | INFO | atlas | AIWorker initialized with tool system
+2026-08-13 12:46:51,194 | INFO | atlas | Created conversation: fa54139e-83a8-448c-acec-150a3bb18211
+2026-08-13 12:46:51,195 | INFO | atlas | Processing message in conversation fa54139e-83a8-448c-acec-150a3bb18211
+2026-08-13 12:46:51,204 | INFO | atlas | Syncing AI history: 0 messages
+2026-08-13 12:46:51,205 | INFO | atlas | Processing message: What is 2 ** 10?
+2026-08-13 12:46:51,205 | INFO | atlas | Brain processing message: What is 2 ** 10?
+2026-08-13 12:46:51,206 | INFO | atlas | Tool match: calculator
+2026-08-13 12:46:51,206 | INFO | atlas | ROUTE: TOOL -> calculator
+2026-08-13 12:46:51,206 | INFO | atlas | Executing tool: calculator
+2026-08-13 12:46:51,212 | INFO | atlas | Syncing AI history: 2 messages

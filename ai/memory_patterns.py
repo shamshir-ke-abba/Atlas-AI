@@ -4,20 +4,85 @@ Atlas Memory Patterns
 
 PATTERNS = [
 
-    ("my name is", "identity", "name"),
-    ("i am", "identity", "name"),
-    ("mera naam", "identity", "name"),  # Hindi: My name
-    ("main", "identity", "name"),       # Hindi: I am
+    # ==================================================
+    # Identity
+    # ==================================================
 
-    ("i live in", "identity", "city"),
-    ("mujhe ghar", "identity", "city"), # Hindi: My home
+    (
+        r"\bmy name is\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "identity",
+        "name",
+    ),
 
-    ("my favorite food is", "preferences", "favorite_food"),
-    ("my favourite food is", "preferences", "favorite_food"),
-    ("mera pasand", "preferences", "favorite_food"),  # Hindi: My preference
+    (
+        r"\bi am\s+([A-Za-z][A-Za-z0-9_-]*)(?:\s+and\b|[.!?,]|$)",
+        "identity",
+        "name",
+    ),
 
-    ("my favorite color is", "preferences", "favorite_color"),
-    ("my favourite color is", "preferences", "favorite_color"),
-    ("mera pasand rang", "preferences", "favorite_color"),  # Hindi: My favorite color
+    (
+        r"\bmera naam\s+(.+?)(?:\s+hai\b|[.!?,]|$)",
+        "identity",
+        "name",
+    ),
 
+    # ==================================================
+    # Location
+    # ==================================================
+
+    (
+        r"\bi live in\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "identity",
+        "city",
+    ),
+
+    (
+        r"\bmujhe ghar\s+(.+?)(?:\s+hai\b|[.!?,]|$)",
+        "identity",
+        "city",
+    ),
+
+    # ==================================================
+    # Food
+    # ==================================================
+
+    (
+        r"\bmy favorite food is\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "preferences",
+        "favorite_food",
+    ),
+
+    (
+        r"\bmy favourite food is\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "preferences",
+        "favorite_food",
+    ),
+
+    (
+        r"\bmera pasand\s+(.+?)(?:\s+hai\b|[.!?,]|$)",
+        "preferences",
+        "favorite_food",
+    ),
+
+    # ==================================================
+    # Color
+    # ==================================================
+
+    (
+        r"\bmy favorite color is\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "preferences",
+        "favorite_color",
+    ),
+
+    (
+        r"\bmy favourite color is\s+(.+?)(?:\s+and\b|[.!?,]|$)",
+        "preferences",
+        "favorite_color",
+    ),
+
+    (
+        r"\bmera pasand rang\s+(.+?)(?:\s+hai\b|[.!?,]|$)",
+        "preferences",
+        "favorite_color",
+    ),
 ]

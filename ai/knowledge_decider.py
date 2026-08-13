@@ -1,6 +1,5 @@
 """
-Atlas V3
-Knowledge Decider
+Atlas V3 Knowledge Decider
 
 Decides whether a question should use:
 
@@ -12,6 +11,7 @@ Lightweight rule-based routing layer.
 """
 
 import re
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -20,10 +20,13 @@ from enum import Enum
 # Decision Types
 # ============================================================
 
+
 class Decision(Enum):
 
     LOCAL = "local"
+
     WEB = "web"
+
     BOTH = "both"
 
 
@@ -39,9 +42,39 @@ class DecisionResult:
 # Knowledge Decider
 # ============================================================
 
+
 class KnowledgeDecider:
 
     def __init__(self):
+
+        # ----------------------------------------------------
+        # Explicit capability questions
+        # ----------------------------------------------------
+
+        self.capability_patterns = [
+
+            r"\bwhat tools do you have\b",
+            r"\bwhat tools are available\b",
+            r"\bwhat capabilities do you have\b",
+            r"\bwhat can you do\b",
+            r"\bwhat are your capabilities\b",
+
+            r"\bcan you search the web\b",
+            r"\bcan you search online\b",
+            r"\bcan you browse the web\b",
+            r"\bcan you browse online\b",
+            r"\bcan you access the internet\b",
+
+            r"\bdo you have web search\b",
+            r"\bdo you have web access\b",
+            r"\bdo you have internet access\b",
+            r"\bdo you have access to the internet\b",
+
+            r"\bcan atlas search the web\b",
+            r"\bcan atlas browse the web\b",
+            r"\bdoes atlas have web search\b",
+            r"\bdoes atlas have web access\b",
+        ]
 
         # ----------------------------------------------------
         # Explicit current / live information
@@ -93,9 +126,8 @@ class KnowledgeDecider:
             r"\bprice\b",
         ]
 
-
         # ----------------------------------------------------
-        # Questions that need fresh information + reasoning
+        # Questions requiring fresh information + reasoning
         # ----------------------------------------------------
 
         self.both_patterns = [
@@ -119,7 +151,6 @@ class KnowledgeDecider:
             r"\bis .+ still relevant\b",
         ]
 
-
         # ----------------------------------------------------
         # Established knowledge domains
         # ----------------------------------------------------
@@ -127,6 +158,7 @@ class KnowledgeDecider:
         self.local_patterns = [
 
             # Mathematics
+
             r"\bmath\b",
             r"\bmathematics\b",
             r"\bsolve\b",
@@ -146,6 +178,7 @@ class KnowledgeDecider:
             r"\bcalculus\b",
 
             # Physics
+
             r"\bphysics\b",
             r"\bnewton\b",
             r"\bforce\b",
@@ -163,6 +196,7 @@ class KnowledgeDecider:
             r"\boptics\b",
 
             # Chemistry
+
             r"\bchemistry\b",
             r"\batomic\b",
             r"\batom\b",
@@ -180,6 +214,7 @@ class KnowledgeDecider:
             r"\bequilibrium\b",
 
             # Programming
+
             r"\bpython\b",
             r"\bprogramming\b",
             r"\bcode\b",
@@ -198,6 +233,7 @@ class KnowledgeDecider:
             r"\bprogram\b",
 
             # Linux
+
             r"\blinux\b",
             r"\bubuntu\b",
             r"\bterminal\b",
@@ -210,14 +246,14 @@ class KnowledgeDecider:
             r"\bkernel\b",
             r"\bsystemd\b",
 
-            # General established science
+            # General established knowledge
+
             r"\bhow does\b",
             r"\bwhy does\b",
             r"\bwhat is\b",
             r"\bwhat are\b",
             r"\bexplain\b",
         ]
-
 
         # ----------------------------------------------------
         # Computational questions
@@ -239,7 +275,6 @@ class KnowledgeDecider:
             r"\bevaluate\b",
             r"\bfind the value\b",
         ]
-
 
         # ----------------------------------------------------
         # Reasoning indicators
@@ -263,7 +298,6 @@ class KnowledgeDecider:
             r"\bwhy does\b",
         ]
 
-
         # ----------------------------------------------------
         # Explicit requests for external information
         # ----------------------------------------------------
@@ -279,8 +313,11 @@ class KnowledgeDecider:
             r"\bfrom the internet\b",
             r"\bon the internet\b",
             r"\baccording to the latest\b",
-        ]
 
+            r"\bsearch the internet\b",
+            r"\bbrowse the web\b",
+            r"\bbrowse online\b",
+        ]
 
         # ----------------------------------------------------
         # Current-event entities
@@ -312,10 +349,9 @@ class KnowledgeDecider:
             r"\bios\b",
         ]
 
-
-# ============================================================
-# Public API
-# ============================================================
+    # ============================================================
+    # Public API
+    # ============================================================
 
     def decide(
         self,
@@ -332,12 +368,33 @@ class KnowledgeDecider:
                 1.0,
             )
 
-
         text = question.lower()
 
+        # ====================================================
+        # 1. Capability questions
+        # ====================================================
+        #
+        # These must happen BEFORE web detection.
+        #
+        # "Can you search the web?"
+        # should NOT actually perform a search.
+        #
+        # It is asking about Atlas's capability.
+        #
+
+        if self._matches(
+            text,
+            self.capability_patterns,
+        ):
+
+            return DecisionResult(
+                Decision.LOCAL,
+                "User is asking about Atlas capabilities.",
+                0.99,
+            )
 
         # ====================================================
-        # 1. Explicit web request
+        # 2. Explicit web request
         # ====================================================
 
         if self._matches(
@@ -351,9 +408,8 @@ class KnowledgeDecider:
                 0.99,
             )
 
-
         # ====================================================
-        # 2. Explicit current information
+        # 3. Current information
         # ====================================================
 
         is_current = self._matches(
@@ -361,12 +417,10 @@ class KnowledgeDecider:
             self.web_patterns,
         )
 
-
         has_reasoning = self._matches(
             text,
             self.reasoning_patterns,
         )
-
 
         # Current + reasoning = BOTH
 
@@ -378,20 +432,18 @@ class KnowledgeDecider:
                 0.95,
             )
 
-
         # Pure current fact = WEB
 
         if is_current:
 
             return DecisionResult(
                 Decision.WEB,
-                "Question explicitly depends on current or changing information.",
+                "Question depends on current or changing information.",
                 0.98,
             )
 
-
         # ====================================================
-        # 3. New/recent technical knowledge
+        # 4. New / recent technical knowledge
         # ====================================================
 
         if self._matches(
@@ -405,18 +457,14 @@ class KnowledgeDecider:
                 0.90,
             )
 
-
         # ====================================================
-        # 4. Current-event entities
+        # 5. Current-event entities
         # ====================================================
 
         if self._matches(
             text,
             self.current_entity_patterns,
         ):
-
-            # If the question is asking for an explanation
-            # rather than a simple current fact, use BOTH.
 
             if has_reasoning:
 
@@ -432,9 +480,8 @@ class KnowledgeDecider:
                 0.90,
             )
 
-
         # ====================================================
-        # 5. Mathematical / computational questions
+        # 6. Mathematical / computational questions
         # ====================================================
 
         if self._matches(
@@ -448,9 +495,8 @@ class KnowledgeDecider:
                 0.98,
             )
 
-
         # ====================================================
-        # 6. Established knowledge
+        # 7. Established knowledge
         # ====================================================
 
         if self._matches(
@@ -464,18 +510,9 @@ class KnowledgeDecider:
                 0.90,
             )
 
-
         # ====================================================
-        # 7. Default
+        # 8. Default
         # ====================================================
-        #
-        # Unknown questions are NOT automatically treated
-        # as high-confidence local knowledge.
-        #
-        # But we still avoid wasting a web request when
-        # there is no evidence that current information
-        # is required.
-        #
 
         return DecisionResult(
             Decision.LOCAL,
@@ -483,10 +520,9 @@ class KnowledgeDecider:
             0.70,
         )
 
-
-# ============================================================
-# Helper
-# ============================================================
+    # ============================================================
+    # Helper
+    # ============================================================
 
     @staticmethod
     def _matches(

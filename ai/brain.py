@@ -1,539 +1,924 @@
 """
-Atlas Brain
+Atlas V3 Brain
 
-Coordinates memory, context,
-conversation, tools, knowledge routing,
-and the local model.
+Central AI orchestration layer.
+
+Responsibilities:
+- Build conversation-aware prompts
+- Maintain conversation history
+- Handle deterministic conversation recall
+- Route messages through ToolManager
+- Generate normal responses through AtlasModel
+- Maintain compatibility with Controller and AIWorker
 """
 
+from typing import Any, Dict, Optional
+
+from core.logger import logger
 from ai.model import AtlasModel
 from ai.context_builder import ContextBuilder
-from ai.memory_patterns import PATTERNS
-from ai.planner import Planner
-from ai.knowledge_decider import (
-    KnowledgeDecider,
-    Decision,
-)
-
-from core.memory import MemoryManager
-from core.tool_manager import ToolManager
-from core.conversation import ConversationManager
-from core.conversation_store import ConversationStore
-from core.intent import IntentRouter
 
 
 class AtlasBrain:
+    """Central AI orchestration."""
 
-    def __init__(self):
-
-        self.model = AtlasModel()
-        self.memory = MemoryManager()
-        self.tools = ToolManager()
-        self.context = ContextBuilder()
-
-        self.conversation = ConversationManager()
-        self.conversation_store = ConversationStore()
-
-        self.router = IntentRouter(
-            self.tools.plugins.plugins
-        )
-
-        self.planner = Planner(
-            self.router
-        )
-
-        self.knowledge_decider = KnowledgeDecider()
-
-    # ==================================================
-    # Conversation
-    # ==================================================
-
-    def clear_conversation(self):
-
-        self.conversation = ConversationManager()
-
-    def new_conversation(self):
-
-        self._save_current_conversation()
-
-        self.conversation = ConversationManager()
-
-        return self.conversation.get_id()
-
-    def load_conversation(
+    def __init__(
         self,
-        conversation_id,
+        model=None,
+        memory=None,
+        tools=None,
     ):
 
-        self._save_current_conversation()
-
-        data = self.conversation_store.load(
-            conversation_id
+        self.model = (
+            model
+            if model is not None
+            else AtlasModel()
         )
 
-        if data is None:
-            return False
+        self.memory = memory
+        self.tools = tools
+
+        self.active_conversation = None
+        self.conversation_history = []
+
+        self.context_builder = ContextBuilder()
+
+        logger.info(
+            "AtlasBrain initialized"
+        )
+
+        if self.tools is not None:
+
+            try:
+
+                logger.info(
+                    "Brain tool system loaded: %s",
+                    self.tools.available(),
+                )
+
+            except Exception as exc:
+
+                logger.warning(
+                    "Could not inspect tool system: %s",
+                    exc,
+                )
+
+    # ==================================================
+    # CONVERSATION
+    # ==================================================
+
+    def set_active_conversation(
+        self,
+        conversation,
+    ):
+
+        self.active_conversation = conversation
+
+        self.conversation_history = (
+            self._extract_history(
+                conversation
+            )
+        )
+
+        logger.debug(
+            "Active conversation updated: %d messages",
+            len(
+                self.conversation_history
+            ),
+        )
+
+    # --------------------------------------------------
+
+    def set_conversation_history(
+        self,
+        history,
+    ):
+
+        if history is None:
+
+            self.conversation_history = []
+
+            return
 
         if isinstance(
-            data,
-            ConversationManager,
+            history,
+            list,
         ):
 
-            self.conversation = data
+            self.conversation_history = list(
+                history
+            )
 
-        elif isinstance(
-            data,
+            logger.debug(
+                "Conversation history set: %d messages",
+                len(
+                    self.conversation_history
+                ),
+            )
+
+            return
+
+        self.conversation_history = (
+            self._extract_history(
+                history
+            )
+        )
+
+    # --------------------------------------------------
+
+    def get_active_conversation_id(
+        self,
+    ) -> Optional[str]:
+
+        conversation = (
+            self.active_conversation
+        )
+
+        if conversation is None:
+            return None
+
+        if hasattr(
+            conversation,
+            "get_id",
+        ):
+
+            try:
+
+                result = conversation.get_id()
+
+                if result:
+                    return result
+
+            except Exception:
+                pass
+
+        conversation_id = getattr(
+            conversation,
+            "id",
+            None,
+        )
+
+        if conversation_id:
+            return conversation_id
+
+        if isinstance(
+            conversation,
             dict,
         ):
 
-            conversation = ConversationManager()
-
-            conversation.load(data)
-
-            self.conversation = conversation
-
-        else:
-
-            return False
-
-        return True
-
-    def list_conversations(self):
-
-        return (
-            self.conversation_store
-            .list_conversations()
-        )
-
-    def delete_conversation(
-        self,
-        conversation_id,
-    ):
-
-        deleted = (
-            self.conversation_store.delete(
-                conversation_id
-            )
-        )
-
-        if not deleted:
-            return False
-
-        if (
-            conversation_id
-            == self.conversation.get_id()
-        ):
-
-            self.conversation = (
-                ConversationManager()
+            return conversation.get(
+                "id"
             )
 
-        return True
-
-    def rename_conversation(
-        self,
-        conversation_id,
-        title,
-    ):
-
-        title = title.strip()
-
-        if not title:
-            return False
-
-        data = self.conversation_store.load(
-            conversation_id
-        )
-
-        if data is None:
-            return False
-
-        if isinstance(
-            data,
-            ConversationManager,
-        ):
-
-            conversation = data
-
-        elif isinstance(
-            data,
-            dict,
-        ):
-
-            conversation = ConversationManager()
-
-            conversation.load(data)
-
-        else:
-
-            return False
-
-        conversation.set_title(title)
-
-        self.conversation_store.save(
-            conversation
-        )
-
-        if (
-            conversation_id
-            == self.conversation.get_id()
-        ):
-
-            self.conversation.set_title(title)
-
-        return True
-
-    def get_active_conversation_id(self):
-
-        return self.conversation.get_id()
+        return None
 
     # ==================================================
-    # Processing
+    # MAIN PROCESSING
     # ==================================================
 
-    def process(
+    def process_message(
         self,
-        message,
-    ):
+        message: str,
+        conversation_history=None,
+    ) -> str:
 
-        text = message.lower()
+        message = str(
+            message
+        ).strip()
 
-        self.conversation.add_user(message)
+        if not message:
 
-        self._auto_title(message)
-
-        # ==================================================
-        # Memory Extraction
-        # ==================================================
-
-        for phrase, category, key in PATTERNS:
-
-            if phrase in text:
-
-                index = text.find(phrase)
-
-                value = message[
-                    index + len(phrase):
-                ].strip()
-
-                self.memory.remember(
-                    category,
-                    key,
-                    value,
-                )
-
-                break
-
-        # ==================================================
-        # Memory Recall
-        # ==================================================
-
-        recall = {
-
-            "what's my name": (
-                "identity",
-                "name",
-            ),
-
-            "what is my name": (
-                "identity",
-                "name",
-            ),
-
-            "who am i": (
-                "identity",
-                "name",
-            ),
-
-            "where do i live": (
-                "identity",
-                "city",
-            ),
-
-            "what city do i live in": (
-                "identity",
-                "city",
-            ),
-        }
-
-        for trigger, memory in recall.items():
-
-            if trigger in text:
-
-                value = self.memory.recall(
-                    memory[0],
-                    memory[1],
-                )
-
-                if value:
-
-                    self.conversation.add_assistant(
-                        value
-                    )
-
-                    self._save_current_conversation()
-
-                    yield value
-
-                else:
-
-                    response = "I don't know."
-
-                    self.conversation.add_assistant(
-                        response
-                    )
-
-                    self._save_current_conversation()
-
-                    yield response
-
-                return
-
-        # ==================================================
-        # Knowledge Decision
-        # ==================================================
-
-        decision = (
-            self.knowledge_decider.decide(
-                message
-            )
-        )
-
-        # ==================================================
-        # WEB
-        # ==================================================
-
-        if decision.decision == Decision.WEB:
-
-            web_result = self._web_search(message)
-
-            context = self._build_web_prompt(
-                message,
-                web_result,
-                both=False,
+            return (
+                "Error: Empty message"
             )
 
-            yield from self._generate_and_save(
-                context
-            )
-
-            return
-
-        # ==================================================
-        # BOTH
-        # ==================================================
-
-        if decision.decision == Decision.BOTH:
-
-            web_result = self._web_search(message)
-
-            context = self._build_web_prompt(
-                message,
-                web_result,
-                both=True,
-            )
-
-            yield from self._generate_and_save(
-                context
-            )
-
-            return
-
-        # ==================================================
-        # LOCAL
-        # ==================================================
-
-        plan = self.planner.plan(message)
-
-        if plan.action == Planner.TOOL:
-
-            plugin = plan.plugin
-
-            result = self.tools.execute(
-                plugin.name,
-                expression=plan.arguments,
-            )
-
-            self.conversation.add_assistant(result)
-
-            self._save_current_conversation()
-
-            yield result
-
-            return
-
-        context = self.context.build(
-            self.conversation.last(),
+        logger.info(
+            "Brain processing message: %s",
             message,
         )
 
-        yield from self._generate_and_save(context)
+        try:
+
+            if conversation_history is not None:
+
+                self.set_conversation_history(
+                    conversation_history
+                )
+
+            # ------------------------------------------
+            # Deterministic recall
+            # ------------------------------------------
+
+            recall_response = (
+                self._handle_conversation_recall(
+                    message
+                )
+            )
+
+            if recall_response is not None:
+
+                self._update_memory(
+                    message,
+                    recall_response,
+                )
+
+                return recall_response
+
+            # ------------------------------------------
+            # Context
+            # ------------------------------------------
+
+            context = self._build_context(
+                message
+            )
+
+            # ------------------------------------------
+            # Routing
+            # ------------------------------------------
+
+            handler = self._route_message(
+                message
+            )
+
+            # ------------------------------------------
+            # Execute
+            # ------------------------------------------
+
+            response = handler(
+                message,
+                context,
+            )
+
+            if response is None:
+
+                response = (
+                    "No response generated."
+                )
+
+            response = str(
+                response
+            ).strip()
+
+            if not response:
+
+                response = (
+                    "No response generated."
+                )
+
+            self._update_memory(
+                message,
+                response,
+            )
+
+            return response
+
+        except Exception as exc:
+
+            logger.exception(
+                "Brain processing failed"
+            )
+
+            return (
+                f"Error: {exc}"
+            )
 
     # ==================================================
-    # Web Search
+    # RECALL
     # ==================================================
 
-    def _web_search(
+    def _handle_conversation_recall(
         self,
-        question,
+        message: str,
     ):
+
+        if not self.conversation_history:
+            return None
+
+        normalized = " ".join(
+            str(message)
+            .lower()
+            .strip()
+            .split()
+        )
+
+        recall_phrases = (
+            "what did i just tell you",
+            "what did i tell you",
+            "what did i just say",
+            "what did i say",
+            "what was my last message",
+            "what was the last thing i said",
+            "what was the last thing i told you",
+            "do you remember what i said",
+            "do you remember what i told you",
+            "do you remember my last message",
+        )
+
+        if not any(
+            phrase in normalized
+            for phrase in recall_phrases
+        ):
+            return None
+
+        for msg in reversed(
+            self.conversation_history
+        ):
+
+            if not isinstance(
+                msg,
+                dict,
+            ):
+                continue
+
+            is_user = msg.get(
+                "is_user"
+            )
+
+            sender = str(
+                msg.get(
+                    "sender",
+                    "",
+                )
+            ).strip().lower()
+
+            if (
+                is_user is True
+                or sender in (
+                    "you",
+                    "user",
+                )
+            ):
+
+                text = str(
+                    msg.get(
+                        "text",
+                        "",
+                    )
+                ).strip()
+
+                if text:
+
+                    return (
+                        f'You just told me: "{text}"'
+                    )
+
+        return (
+            "I don't have a previous user message "
+            "available in this conversation."
+        )
+
+    # ==================================================
+    # CONTEXT
+    # ==================================================
+
+    def _build_context(
+        self,
+        current_message: str = "",
+    ) -> Dict[str, Any]:
+
+        history = list(
+            self.conversation_history
+        )
+
+        context = {
+            "conversation": (
+                self.active_conversation
+            ),
+            "conversation_history": history,
+            "memory": self._get_memory(),
+            "prompt": "",
+        }
 
         try:
 
-            return self.tools.execute(
-                "web_search",
-                expression=question,
+            context["prompt"] = (
+                self.context_builder.build(
+                    history,
+                    current_message,
+                )
             )
 
-        except Exception as error:
+        except Exception as exc:
+
+            logger.warning(
+                "ContextBuilder failed: %s",
+                exc,
+            )
+
+            context["prompt"] = (
+                self._fallback_prompt(
+                    history,
+                    current_message,
+                )
+            )
+
+        return context
+
+    # --------------------------------------------------
+
+    def _fallback_prompt(
+        self,
+        history,
+        current_message,
+    ) -> str:
+
+        prompt = (
+            "You are Atlas, a local AI assistant.\n\n"
+            "Use the conversation history to maintain "
+            "context and answer naturally.\n\n"
+        )
+
+        if history:
+
+            prompt += (
+                "===== CONVERSATION HISTORY =====\n"
+            )
+
+            for msg in history:
+
+                if not isinstance(
+                    msg,
+                    dict,
+                ):
+                    continue
+
+                sender = str(
+                    msg.get(
+                        "sender",
+                        "Unknown",
+                    )
+                )
+
+                text = str(
+                    msg.get(
+                        "text",
+                        "",
+                    )
+                )
+
+                if sender.lower() in (
+                    "you",
+                    "user",
+                ):
+
+                    prompt += (
+                        f"User: {text}\n"
+                    )
+
+                else:
+
+                    prompt += (
+                        f"Atlas: {text}\n"
+                    )
+
+            prompt += (
+                "===== END CONVERSATION HISTORY =====\n\n"
+            )
+
+        prompt += (
+            "===== CURRENT USER MESSAGE =====\n"
+            f"User: {current_message}\n"
+            "===== END CURRENT USER MESSAGE =====\n\n"
+            "Atlas:"
+        )
+
+        return prompt
+
+    # ==================================================
+    # ROUTING
+    # ==================================================
+
+    def _route_message(
+        self,
+        message: str,
+    ):
+
+        if self.tools is not None:
+
+            try:
+
+                # --------------------------------------
+                # Preferred ToolManager API
+                # --------------------------------------
+
+                if hasattr(
+                    self.tools,
+                    "match",
+                ):
+
+                    tool = self.tools.match(
+                        message
+                    )
+
+                    if tool is not None:
+
+                        logger.info(
+                            "ROUTE: TOOL -> %s",
+                            getattr(
+                                tool,
+                                "name",
+                                type(tool).__name__,
+                            ),
+                        )
+
+                        return (
+                            lambda msg, ctx:
+                            self._run_tool(
+                                tool,
+                                msg,
+                            )
+                        )
+
+            except Exception as exc:
+
+                logger.warning(
+                    "Tool routing failed: %s",
+                    exc,
+                )
+
+        logger.info(
+            "ROUTE: MODEL"
+        )
+
+        return self._generate_response
+
+    # ==================================================
+    # TOOL EXECUTION
+    # ==================================================
+
+    def _run_tool(
+        self,
+        tool,
+        message: str,
+    ) -> str:
+
+        try:
+
+            if not hasattr(
+                tool,
+                "run",
+            ):
+
+                return (
+                    "Error: Invalid tool"
+                )
+
+            logger.info(
+                "Executing tool: %s",
+                getattr(
+                    tool,
+                    "name",
+                    type(tool).__name__,
+                ),
+            )
+
+            # ------------------------------------------
+            # Standard Atlas plugin API
+            # ------------------------------------------
+
+            try:
+
+                result = tool.run(
+                    message
+                )
+
+            except TypeError:
+
+                try:
+
+                    result = tool.run(
+                        message=message
+                    )
+
+                except TypeError:
+
+                    result = tool.run(
+                        query=message
+                    )
+
+            if result is None:
+
+                return (
+                    "No result returned by tool."
+                )
+
+            return str(
+                result
+            ).strip()
+
+        except Exception as exc:
+
+            logger.exception(
+                "Tool execution failed"
+            )
 
             return (
-                "Web search failed: "
-                + str(error)
+                f"Error executing tool: {exc}"
             )
 
     # ==================================================
-    # Web Prompt
+    # MODEL
     # ==================================================
 
-    def _build_web_prompt(
+    def _generate_response(
         self,
-        question,
-        web_result,
-        both=False,
+        message: str,
+        context: Dict[str, Any],
+    ) -> str:
+
+        if self.model is None:
+
+            return (
+                "Error: Model not available"
+            )
+
+        prompt = context.get(
+            "prompt",
+            "",
+        )
+
+        if not prompt:
+
+            prompt = self._fallback_prompt(
+                context.get(
+                    "conversation_history",
+                    [],
+                ),
+                message,
+            )
+
+        try:
+
+            response_parts = []
+
+            for chunk in self.model.generate(
+                prompt,
+                stream=True,
+            ):
+
+                if chunk is None:
+                    continue
+
+                response_parts.append(
+                    str(chunk)
+                )
+
+            response = "".join(
+                response_parts
+            ).strip()
+
+            if not response:
+
+                return (
+                    "No response generated."
+                )
+
+            return response
+
+        except Exception as exc:
+
+            logger.exception(
+                "Model generation failed"
+            )
+
+            return (
+                f"Error generating response: {exc}"
+            )
+
+    # ==================================================
+    # MEMORY
+    # ==================================================
+
+    def _get_memory(
+        self,
+    ) -> Dict[str, Any]:
+
+        if self.memory is None:
+            return {}
+
+        try:
+
+            if hasattr(
+                self.memory,
+                "all",
+            ):
+
+                result = self.memory.all()
+
+                if result is not None:
+                    return result
+
+        except Exception as exc:
+
+            logger.warning(
+                "Memory retrieval failed: %s",
+                exc,
+            )
+
+        return {}
+
+    # --------------------------------------------------
+
+    def _update_memory(
+        self,
+        message: str,
+        response: str,
     ):
 
-        if both:
+        if self.memory is None:
+            return
 
-            return f"""
-SYSTEM:
-You are Atlas. Answer the user using the
-WEB RESULTS supplied below.
+        try:
 
-The web search has ALREADY happened.
-The text below is the search result.
+            if hasattr(
+                self.memory,
+                "remember",
+            ):
 
-You do NOT need internet access.
-You do NOT need to perform a search.
+                try:
 
-USER:
-{question}
+                    self.memory.remember(
+                        message,
+                        response,
+                    )
 
-WEB RESULTS:
-{web_result}
+                    return
 
-TASK:
-Read the WEB RESULTS and answer the USER.
+                except TypeError:
 
-Use the information in WEB RESULTS as evidence.
+                    try:
 
-If the results do not contain enough information,
-say that the search results are insufficient.
+                        self.memory.remember(
+                            message
+                        )
 
-Do not say you cannot access the web.
-Do not say you cannot browse.
-Do not say you cannot perform searches.
-Do not talk about your training data.
-Do not talk about internal routing.
+                        return
 
-Give the answer directly.
-"""
+                    except Exception:
+                        pass
 
-        return f"""
-SYSTEM:
-You are Atlas. Answer the user using the
-WEB RESULTS supplied below.
+            if hasattr(
+                self.memory,
+                "add",
+            ):
 
-The web search has ALREADY happened.
+                try:
 
-USER:
-{question}
+                    self.memory.add(
+                        message,
+                        response,
+                    )
 
-WEB RESULTS:
-{web_result}
+                    return
 
-TASK:
-Answer the user's question using the supplied
-WEB RESULTS.
+                except TypeError:
+                    pass
 
-Do not say you cannot access the web.
-Do not say you cannot browse.
-Do not say you cannot perform searches.
+        except Exception as exc:
 
-If the results are insufficient, say so.
-
-Give the answer directly.
-"""
+            logger.warning(
+                "Memory update failed: %s",
+                exc,
+            )
 
     # ==================================================
-    # Generate + Save
+    # HISTORY
     # ==================================================
 
-    def _generate_and_save(
+    def _extract_history(
         self,
-        context,
+        conversation,
     ):
 
-        reply = ""
+        if conversation is None:
+            return []
 
-        for chunk in self.model.generate(context):
-
-            reply += chunk
-
-            yield chunk
-
-        self.conversation.add_assistant(reply)
-
-        self._save_current_conversation()
-
-    # ==================================================
-    # Automatic Title
-    # ==================================================
-
-    def _auto_title(
-        self,
-        message,
-    ):
-
-        if (
-            self.conversation.get_title()
-            != "New Chat"
+        if isinstance(
+            conversation,
+            list,
         ):
 
-            return
-
-        text = " ".join(
-            message.strip().split()
-        )
-
-        if not text:
-            return
-
-        words = text.split()
-
-        if len(words) > 7:
-
-            title = (
-                " ".join(words[:7])
-                + "..."
+            return list(
+                conversation
             )
 
-        else:
+        if isinstance(
+            conversation,
+            dict,
+        ):
 
-            title = text
+            messages = conversation.get(
+                "messages",
+                [],
+            )
 
-        self.conversation.set_title(title)
+            if isinstance(
+                messages,
+                list,
+            ):
 
-    # ==================================================
-    # Internal Persistence
-    # ==================================================
+                return list(
+                    messages
+                )
 
-    def _save_current_conversation(self):
+            return []
 
-        if not self.conversation.history():
-
-            return
-
-        self.conversation_store.save(
-            self.conversation
+        messages = getattr(
+            conversation,
+            "current_messages",
+            None,
         )
+
+        if messages is not None:
+
+            try:
+                return list(
+                    messages
+                )
+            except Exception:
+                pass
+
+        messages = getattr(
+            conversation,
+            "messages",
+            None,
+        )
+
+        if messages is not None:
+
+            try:
+                return list(
+                    messages
+                )
+            except Exception:
+                pass
+
+        if hasattr(
+            conversation,
+            "last",
+        ):
+
+            try:
+
+                result = conversation.last()
+
+                if result is not None:
+                    return list(result)
+
+            except Exception:
+                pass
+
+        return []
+
+    # ==================================================
+    # STATUS
+    # ==================================================
+
+    def status(
+        self,
+    ) -> Dict[str, Any]:
+
+        model_name = (
+            type(
+                self.model
+            ).__name__
+            if self.model is not None
+            else None
+        )
+
+        tools = []
+
+        if self.tools is not None:
+
+            try:
+
+                if hasattr(
+                    self.tools,
+                    "available",
+                ):
+
+                    tools = list(
+                        self.tools.available()
+                    )
+
+            except Exception:
+
+                tools = []
+
+        return {
+            "model": model_name,
+            "memory": (
+                type(
+                    self.memory
+                ).__name__
+                if self.memory is not None
+                else None
+            ),
+            "tools": tools,
+            "active_conversation": (
+                self.get_active_conversation_id()
+            ),
+            "history_messages": len(
+                self.conversation_history
+            ),
+        }

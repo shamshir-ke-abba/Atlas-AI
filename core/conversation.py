@@ -1,227 +1,157 @@
 """
-Atlas V3 Conversation Manager
-
-Manages the active conversation independently
-from the LLM implementation.
+Conversation Management (FIXED)
 """
 
+import json
+import logging
+from pathlib import Path
 from datetime import datetime
-from uuid import uuid4
+from typing import Optional, List, Dict, Any
 
-from config import MAX_HISTORY
+from config import CONVERSATIONS_DIR
+
+logger = logging.getLogger(__name__)
 
 
 class ConversationManager:
+    """Manages a single conversation."""
+    
+    def __init__(self, conversation_id: str, title: str = "New Chat"):
+        self.id = conversation_id
+        self.title = title
+        self.created = datetime.now().isoformat()
+        self.modified = datetime.now().isoformat()
+        self.messages: List[Dict[str, Any]] = []
 
-    def __init__(self):
+    def add_message(self, sender: str, text: str, is_user: bool = False) -> None:
+        """Add message to conversation."""
+        message = {
+            'sender': sender,
+            'text': text,
+            'is_user': is_user,
+            'timestamp': datetime.now().isoformat(),
+        }
+        self.messages.append(message)
+        self.modified = datetime.now().isoformat()
 
-        self.conversation_id = self._new_id()
-        self.title = "New Chat"
-        self.created_at = self._timestamp()
-        self.updated_at = self.created_at
-
-        self.messages = []
-
-    # ==================================================
-    # Conversation Identity
-    # ==================================================
-
-    @staticmethod
-    def _new_id():
-
-        return str(
-            uuid4()
-        )
-
-    @staticmethod
-    def _timestamp():
-
-        return datetime.now().isoformat(
-            timespec="seconds"
-        )
-
-    # ==================================================
-    # Add Messages
-    # ==================================================
-
-    def add_user(
-        self,
-        text,
-    ):
-
-        self.messages.append(
-            {
-                "role": "user",
-                "content": text,
-            }
-        )
-
-        self._update()
-
-        self._trim()
-
-    def add_assistant(
-        self,
-        text,
-    ):
-
-        self.messages.append(
-            {
-                "role": "assistant",
-                "content": text,
-            }
-        )
-
-        self._update()
-
-        self._trim()
-
-    # ==================================================
-    # Retrieval
-    # ==================================================
-
-    def history(self):
-
+    def get_messages(self) -> List[Dict[str, Any]]:
+        """Get all messages."""
         return self.messages.copy()
 
-    def last(
-        self,
-        amount=None,
-    ):
+    def clear_messages(self) -> None:
+        """Clear all messages."""
+        self.messages = []
+        self.modified = datetime.now().isoformat()
 
-        if amount is None:
-            amount = MAX_HISTORY
-
-        return self.messages[-amount:]
-
-    # ==================================================
-    # Conversation Information
-    # ==================================================
-
-    def get_id(self):
-
-        return self.conversation_id
-
-    def get_title(self):
-
-        return self.title
-
-    def get_created_at(self):
-
-        return self.created_at
-
-    def get_updated_at(self):
-
-        return self.updated_at
-
-    # ==================================================
-    # Title
-    # ==================================================
-
-    def set_title(
-        self,
-        title,
-    ):
-
-        title = title.strip()
-
-        if not title:
-            return
-
-        self.title = title
-
-        self._update()
-
-    # ==================================================
-    # Clear
-    # ==================================================
-
-    def clear(self):
-
-        self.messages.clear()
-
-        self.title = "New Chat"
-
-        self._update()
-
-    # ==================================================
-    # New Conversation
-    # ==================================================
-
-    def new_conversation(self):
-
-        self.conversation_id = self._new_id()
-
-        self.title = "New Chat"
-
-        self.created_at = self._timestamp()
-
-        self.updated_at = self.created_at
-
-        self.messages.clear()
-
-    # ==================================================
-    # Serialization
-    # ==================================================
-
-    def to_dict(self):
-
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary."""
         return {
-            "id": self.conversation_id,
-            "title": self.title,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-            "messages": self.messages.copy(),
+            'id': self.id,
+            'title': self.title,
+            'created': self.created,
+            'modified': self.modified,
+            'messages': self.messages,
         }
 
-    # ==================================================
-    # Loading
-    # ==================================================
-
-    def load(
-        self,
-        data,
-    ):
-
-        self.conversation_id = data.get(
-            "id",
-            self._new_id(),
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> 'ConversationManager':
+        """Create from dictionary."""
+        conv = ConversationManager(
+            data.get('id', ''),
+            data.get('title', 'New Chat')
         )
+        conv.created = data.get('created', datetime.now().isoformat())
+        conv.modified = data.get('modified', datetime.now().isoformat())
+        conv.messages = data.get('messages', [])
+        return conv
 
-        self.title = data.get(
-            "title",
-            "New Chat",
-        )
 
-        self.created_at = data.get(
-            "created_at",
-            self._timestamp(),
-        )
+class ConversationStore:
+    """Manages all conversations on disk."""
+    
+    def __init__(self):
+        self.conversations_dir = CONVERSATIONS_DIR
+        self.conversations_dir.mkdir(parents=True, exist_ok=True)
 
-        self.updated_at = data.get(
-            "updated_at",
-            self.created_at,
-        )
+    def _get_conversation_file(self, conversation_id: str) -> Path:
+        """Get file path for conversation."""
+        return self.conversations_dir / f"{conversation_id}.json"
 
-        self.messages = data.get(
-            "messages",
-            [],
-        ).copy()
+    def save(self, manager: ConversationManager) -> bool:
+        """Save conversation to disk."""
+        try:
+            file_path = self._get_conversation_file(manager.id)
+            with file_path.open('w', encoding='utf-8') as f:
+                json.dump(manager.to_dict(), f, indent=2, ensure_ascii=False)
+            logger.info(f"Saved conversation: {manager.id}")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving conversation: {e}")
+            return False
 
-        self._trim()
+    def load(self, conversation_id: str) -> Optional[ConversationManager]:
+        """Load conversation from disk."""
+        try:
+            file_path = self._get_conversation_file(conversation_id)
+            if not file_path.exists():
+                logger.warning(f"Conversation file not found: {file_path}")
+                return None
+            
+            with file_path.open('r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            manager = ConversationManager.from_dict(data)
+            logger.info(f"Loaded conversation: {conversation_id}")
+            return manager
+        except Exception as e:
+            logger.error(f"Error loading conversation: {e}")
+            return None
 
-    # ==================================================
-    # Internal
-    # ==================================================
+    def delete(self, conversation_id: str) -> bool:
+        """Delete conversation."""
+        try:
+            file_path = self._get_conversation_file(conversation_id)
+            if file_path.exists():
+                file_path.unlink()
+                logger.info(f"Deleted conversation: {conversation_id}")
+                return True
+            return False
+        except Exception as e:
+            logger.error(f"Error deleting conversation: {e}")
+            return False
 
-    def _update(self):
+    def list_all(self) -> Dict[str, Dict]:
+        """List all conversations with metadata."""
+        conversations = {}
+        try:
+            for file_path in self.conversations_dir.glob('*.json'):
+                try:
+                    conversation_id = file_path.stem
+                    with file_path.open('r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    
+                    conversations[conversation_id] = {
+                        'title': data.get('title', 'Untitled'),
+                        'created': data.get('created'),
+                        'modified': data.get('modified'),
+                        'message_count': len(data.get('messages', [])),
+                    }
+                except Exception as e:
+                    logger.warning(f"Error loading metadata for {file_path}: {e}")
+        except Exception as e:
+            logger.error(f"Error listing conversations: {e}")
+        
+        return conversations
 
-        self.updated_at = self._timestamp()
-
-    def _trim(self):
-
-        if len(self.messages) > MAX_HISTORY:
-
-            self.messages = self.messages[
-                -MAX_HISTORY:
-            ]
+    def rename(self, conversation_id: str, new_title: str) -> bool:
+        """Rename conversation."""
+        try:
+            manager = self.load(conversation_id)
+            if not manager:
+                return False
+            manager.title = new_title
+            manager.modified = datetime.now().isoformat()
+            return self.save(manager)
+        except Exception as e:
+            logger.error(f"Error renaming conversation: {e}")
+            return False

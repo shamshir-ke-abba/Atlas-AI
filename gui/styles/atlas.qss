@@ -72,21 +72,41 @@ QScrollArea > QWidget > QWidget {
     background: #15171c;
 }
 
-QWidget#Message {
+QWidget#MessageAtlas,
+QWidget#MessageUser {
+    background: transparent;
+    border: none;
+}
+
+QWidget#MessageBubble {
+    border-radius: 12px;
+}
+
+QWidget#MessageAtlas QWidget#MessageBubble {
     background: #20242c;
     border: 1px solid #2d323c;
-    border-radius: 10px;
+}
+
+QWidget#MessageUser QWidget#MessageBubble {
+    background: #2a4578;
+    border: 1px solid #3b6fd8;
 }
 
 QLabel#MessageSender {
     background: transparent;
     color: #8ab4f8;
     font-weight: bold;
+    font-size: 12px;
 }
 
-QLabel#MessageText {
+QWidget#MessageUser QLabel#MessageSender {
+    color: #c8dafc;
+}
+
+QTextBrowser#MessageText {
     background: transparent;
     color: #e6e6e6;
+    border: none;
 }
 
 

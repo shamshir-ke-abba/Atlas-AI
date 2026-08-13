@@ -1,396 +1,244 @@
 """
-gui/widgets/sidebar.py
-
-Atlas Sidebar Widget.
+Sidebar Widget - Conversations and Tools
 """
 
-from pathlib import Path
+import logging
+from typing import List, Dict
 
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QPushButton,
-    QListWidget,
-    QListWidgetItem,
-    QMenu,
-    QInputDialog,
-    QMessageBox,
+    QWidget, QVBoxLayout, QPushButton, QListWidget,
+    QListWidgetItem, QLabel, QInputDialog
 )
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QFont
+
+logger = logging.getLogger(__name__)
 
 
-class AtlasSidebar(QWidget):
-
-    conversation_loaded = Signal(object)
-
-    def __init__(
-        self,
-        bus,
-        controller=None,
-        parent=None,
-    ):
-
+class SidebarWidget(QWidget):
+    """Sidebar with conversations and tools."""
+    
+    new_conversation = Signal()
+    conversation_selected = Signal(str)  # conversation_id
+    tool_selected = Signal(str)  # tool_name
+    conversation_renamed = Signal(str, str)  # conversation_id, new_name
+    conversation_deleted = Signal(str)  # conversation_id
+    
+    def __init__(self, parent=None):
         super().__init__(parent)
+        self.conversations: Dict[str, Dict] = {}
+        self.current_conversation_id: str = None
+        self._setup_ui()
 
-        self.bus = bus
-        self.controller = controller
-
-        self.setObjectName(
-            "Sidebar"
+    def _setup_ui(self):
+        """Setup sidebar UI."""
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(16)
+        
+        # Header
+        header = QLabel("ATLAS")
+        header_font = QFont()
+        header_font.setPointSize(14)
+        header_font.setBold(True)
+        header.setFont(header_font)
+        header.setStyleSheet("color: #ffffff;")
+        layout.addWidget(header)
+        
+        # New Chat Button
+        new_chat_btn = QPushButton("+ New Chat")
+        new_chat_btn.setStyleSheet(
+            "QPushButton {"
+            "  background-color: #0066cc;"
+            "  color: white;"
+            "  border: none;"
+            "  padding: 10px;"
+            "  border-radius: 6px;"
+            "  font-weight: bold;"
+            "}"
+            "QPushButton:hover {"
+            "  background-color: #0052a3;"
+            "}"
         )
-
-        self.build_ui()
-
-        self.refresh_history()
-
-    # =====================================================
-    # UI
-    # =====================================================
-
-    def build_ui(self):
-
-        layout = QVBoxLayout(
-            self
+        new_chat_btn.clicked.connect(self._on_new_chat)
+        layout.addWidget(new_chat_btn)
+        
+        # Conversations Section
+        chats_label = QLabel("CHATS")
+        chats_label_font = QFont()
+        chats_label_font.setPointSize(9)
+        chats_label_font.setBold(True)
+        chats_label.setFont(chats_label_font)
+        chats_label.setStyleSheet("color: #888;")
+        layout.addWidget(chats_label)
+        
+        self.conversation_list = QListWidget()
+        self.conversation_list.setStyleSheet(
+            "QListWidget {"
+            "  background-color: transparent;"
+            "  border: none;"
+            "  outline: none;"
+            "}"
+            "QListWidget::item {"
+            "  padding: 8px;"
+            "  border-radius: 4px;"
+            "  margin-bottom: 4px;"
+            "}"
+            "QListWidget::item:selected {"
+            "  background-color: #0066cc;"
+            "  color: white;"
+            "}"
+            "QListWidget::item:hover {"
+            "  background-color: #333333;"
+            "}"
         )
-
-        layout.setContentsMargins(
-            20,
-            20,
-            20,
-            20,
+        self.conversation_list.itemClicked.connect(self._on_conversation_clicked)
+        self.conversation_list.itemDoubleClicked.connect(self._on_conversation_double_clicked)
+        layout.addWidget(self.conversation_list)
+        
+        # Tools Section
+        tools_label = QLabel("TOOLS")
+        tools_label_font = QFont()
+        tools_label_font.setPointSize(9)
+        tools_label_font.setBold(True)
+        tools_label.setFont(tools_label_font)
+        tools_label.setStyleSheet("color: #888;")
+        layout.addWidget(tools_label)
+        
+        self.tools_list = QListWidget()
+        self.tools_list.setStyleSheet(
+            "QListWidget {"
+            "  background-color: transparent;"
+            "  border: none;"
+            "  outline: none;"
+            "  max-height: 200px;"
+            "}"
+            "QListWidget::item {"
+            "  padding: 8px;"
+            "  border-radius: 4px;"
+            "  margin-bottom: 4px;"
+            "}"
+            "QListWidget::item:selected {"
+            "  background-color: #0066cc;"
+            "  color: white;"
+            "}"
+            "QListWidget::item:hover {"
+            "  background-color: #333333;"
+            "}"
         )
-
-        layout.setSpacing(
-            10
-        )
-
-        # ---------------------------------
-        # Atlas Logo
-        # ---------------------------------
-
-        self.logo = QLabel()
-
-        self.logo.setObjectName(
-            "AtlasLogo"
-        )
-
-        self.logo.setAlignment(
-            Qt.AlignCenter
-        )
-
-        logo_path = (
-            Path(__file__).resolve().parent.parent.parent
-            / "assets"
-            / "Atlas.png"
-        )
-
-        if logo_path.exists():
-
-            pixmap = QPixmap(
-                str(logo_path)
-            )
-
-            if not pixmap.isNull():
-
-                self.logo.setPixmap(
-                    pixmap.scaled(
-                        180,
-                        80,
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation,
-                    )
-                )
-
-        else:
-
-            # Fallback if the logo cannot be found.
-            self.logo.setText(
-                "Atlas AI"
-            )
-
-        layout.addWidget(
-            self.logo
-        )
-
-        # ---------------------------------
-        # New Chat
-        # ---------------------------------
-
-        self.new_chat_button = QPushButton(
-            "+ New Chat"
-        )
-
-        self.new_chat_button.clicked.connect(
-            self.handle_new_chat
-        )
-
-        layout.addWidget(
-            self.new_chat_button
-        )
-
-        # ---------------------------------
-        # History
-        # ---------------------------------
-
-        history_label = QLabel(
-            "CHAT HISTORY"
-        )
-
-        history_label.setObjectName(
-            "HistoryTitle"
-        )
-
-        layout.addWidget(
-            history_label
-        )
-
-        self.history_list = QListWidget()
-
-        self.history_list.setObjectName(
-            "HistoryList"
-        )
-
-        self.history_list.itemClicked.connect(
-            self.handle_history_clicked
-        )
-
-        self.history_list.setContextMenuPolicy(
-            Qt.CustomContextMenu
-        )
-
-        self.history_list.customContextMenuRequested.connect(
-            self.show_history_menu
-        )
-
-        layout.addWidget(
-            self.history_list,
-            1,
-        )
-
+        self.tools_list.itemClicked.connect(self._on_tool_clicked)
+        layout.addWidget(self.tools_list)
+        
+        # Settings Button
         layout.addStretch()
-
-    # =====================================================
-    # History
-    # =====================================================
-
-    def refresh_history(self):
-
-        self.history_list.clear()
-
-        if self.controller is None:
-            return
-
-        conversations = (
-            self.controller.list_conversations()
+        settings_btn = QPushButton("⚙ Settings")
+        settings_btn.setStyleSheet(
+            "QPushButton {"
+            "  background-color: transparent;"
+            "  color: #888;"
+            "  border: 1px solid #444;"
+            "  padding: 8px;"
+            "  border-radius: 4px;"
+            "}"
+            "QPushButton:hover {"
+            "  color: #ffffff;"
+            "  border: 1px solid #666;"
+            "}"
         )
+        layout.addWidget(settings_btn)
+        
+        self.setStyleSheet("QWidget { background-color: #121212; }")
 
-        active_id = (
-            self.controller.state.active_conversation_id
-        )
+    # ================================================
+    # Conversation Management
+    # ================================================
 
-        for conversation in conversations:
+    def add_conversation(self, conversation_id: str, title: str) -> None:
+        """Add conversation to list."""
+        logger.info(f"Adding conversation: {conversation_id} - {title}")
+        
+        self.conversations[conversation_id] = {'title': title}
+        
+        item = QListWidgetItem(title)
+        item.setData(Qt.UserRole, conversation_id)
+        self.conversation_list.addItem(item)
 
-            item = QListWidgetItem(
-                conversation.get(
-                    "title",
-                    "New Conversation",
-                )
-            )
+    def update_conversations(self, conversations: Dict[str, Dict]) -> None:
+        """Update conversation list."""
+        logger.info(f"Updating conversations: {len(conversations)} total")
+        
+        self.conversations = conversations
+        self.conversation_list.clear()
+        
+        for conv_id, metadata in conversations.items():
+            title = metadata.get('title', 'Untitled')
+            item = QListWidgetItem(title)
+            item.setData(Qt.UserRole, conv_id)
+            self.conversation_list.addItem(item)
 
-            item.setData(
-                Qt.UserRole,
-                conversation.get("id"),
-            )
+    def select_conversation(self, conversation_id: str) -> None:
+        """Programmatically select conversation."""
+        logger.info(f"Selecting conversation: {conversation_id}")
+        
+        for i in range(self.conversation_list.count()):
+            item = self.conversation_list.item(i)
+            if item.data(Qt.UserRole) == conversation_id:
+                self.conversation_list.setCurrentItem(item)
+                self.current_conversation_id = conversation_id
+                break
 
-            self.history_list.addItem(
-                item
-            )
+    def _on_new_chat(self) -> None:
+        """Handle new chat button."""
+        logger.info("New chat requested")
+        self.new_conversation.emit()
 
-            if conversation.get("id") == active_id:
+    def _on_conversation_clicked(self, item: QListWidgetItem) -> None:
+        """Handle conversation selection."""
+        conversation_id = item.data(Qt.UserRole)
+        logger.info(f"Conversation clicked: {conversation_id}")
+        
+        self.current_conversation_id = conversation_id
+        self.conversation_selected.emit(conversation_id)
 
-                self.history_list.setCurrentItem(
-                    item
-                )
-
-    # =====================================================
-    # New Chat
-    # =====================================================
-
-    def handle_new_chat(self):
-
-        if self.controller is None:
-            return
-
-        conversation_id = (
-            self.controller.new_conversation()
-        )
-
-        # Tell the chat widget to clear itself.
-        self.conversation_loaded.emit(
-            self.controller.get_active_conversation()
-        )
-
-        self.refresh_history()
-
-    # =====================================================
-    # Load Conversation
-    # =====================================================
-
-    def handle_history_clicked(
-        self,
-        item,
-    ):
-
-        conversation_id = item.data(
-            Qt.UserRole
-        )
-
-        if not conversation_id:
-            return
-
-        if self.controller is None:
-            return
-
-        success = (
-            self.controller.load_conversation(
-                conversation_id
-            )
-        )
-
-        if not success:
-            return
-
-        conversation = (
-            self.controller.get_active_conversation()
-        )
-
-        self.conversation_loaded.emit(
-            conversation
-        )
-
-        self.refresh_history()
-
-    # =====================================================
-    # Context Menu
-    # =====================================================
-
-    def show_history_menu(
-        self,
-        position,
-    ):
-
-        item = self.history_list.itemAt(
-            position
-        )
-
-        if item is None:
-            return
-
-        conversation_id = item.data(
-            Qt.UserRole
-        )
-
-        if not conversation_id:
-            return
-
-        menu = QMenu(
-            self
-        )
-
-        rename_action = menu.addAction(
-            "Rename"
-        )
-
-        delete_action = menu.addAction(
-            "Delete"
-        )
-
-        action = menu.exec(
-            self.history_list.mapToGlobal(
-                position
-            )
-        )
-
-        if action == rename_action:
-
-            self.rename_conversation(
-                conversation_id,
-                item,
-            )
-
-        elif action == delete_action:
-
-            self.delete_conversation(
-                conversation_id
-            )
-
-    # =====================================================
-    # Rename
-    # =====================================================
-
-    def rename_conversation(
-        self,
-        conversation_id,
-        item,
-    ):
-
-        current_title = item.text()
-
-        title, accepted = QInputDialog.getText(
+    def _on_conversation_double_clicked(self, item: QListWidgetItem) -> None:
+        """Handle conversation rename."""
+        conversation_id = item.data(Qt.UserRole)
+        old_title = item.text()
+        
+        new_title, ok = QInputDialog.getText(
             self,
             "Rename Conversation",
-            "Conversation name:",
-            text=current_title,
+            "New name:",
+            text=old_title
         )
+        
+        if ok and new_title:
+            logger.info(f"Renaming conversation {conversation_id} to {new_title}")
+            item.setText(new_title)
+            self.conversations[conversation_id]['title'] = new_title
+            self.conversation_renamed.emit(conversation_id, new_title)
+    
+    # ================================================
+    # Tools Management
+    # ================================================
 
-        if not accepted:
-            return
+    def set_available_tools(self, tools: List[Dict]) -> None:
+        """Set available tools."""
+        logger.info(f"Setting available tools: {len(tools)} tools")
+        
+        self.tools_list.clear()
+        
+        for tool in tools:
+            name = tool.get('name', 'Unknown')
+            icon = tool.get('icon', '🔧')
+            
+            display_name = f"{icon} {name}"
+            item = QListWidgetItem(display_name)
+            item.setData(Qt.UserRole, name)
+            self.tools_list.addItem(item)
 
-        title = title.strip()
-
-        if not title:
-            return
-
-        success = (
-            self.controller.rename_conversation(
-                conversation_id,
-                title,
-            )
-        )
-
-        if success:
-
-            self.refresh_history()
-
-    # =====================================================
-    # Delete
-    # =====================================================
-
-    def delete_conversation(
-        self,
-        conversation_id,
-    ):
-
-        reply = QMessageBox.question(
-            self,
-            "Delete Conversation",
-            "Are you sure you want to delete this conversation?",
-            QMessageBox.Yes
-            | QMessageBox.No,
-            QMessageBox.No,
-        )
-
-        if reply != QMessageBox.Yes:
-            return
-
-        success = (
-            self.controller.delete_conversation(
-                conversation_id
-            )
-        )
-
-        if success:
-
-            self.refresh_history()
+    def _on_tool_clicked(self, item: QListWidgetItem) -> None:
+        """Handle tool selection."""
+        tool_name = item.data(Qt.UserRole)
+        logger.info(f"Tool selected: {tool_name}")
+        self.tool_selected.emit(tool_name)
