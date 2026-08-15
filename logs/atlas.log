@@ -6311,3 +6311,2655 @@ TypeError: AtlasBrain.stream_message() got an unexpected keyword argument 'stop_
 2026-08-15 10:02:01,567 | INFO | atlas | AI Thread stopped.
 2026-08-15 10:02:01,567 | INFO | atlas | Controller stopped.
 2026-08-15 10:02:01,568 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 10:13:39,671 | INFO | atlas | Atlas GUI starting...
+2026-08-15 10:13:39,673 | INFO | atlas | Core runtime loaded.
+2026-08-15 10:13:40,258 | INFO | atlas | Atlas application created.
+2026-08-15 10:13:40,267 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 10:13:40,269 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 10:13:40,271 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 10:13:40,274 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 10:13:40,275 | INFO | atlas | Loaded plugin: time
+2026-08-15 10:13:40,276 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 10:13:41,600 | INFO | atlas | Loaded plugin: math
+2026-08-15 10:13:41,600 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:13:41,600 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:13:41,600 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:13:41,601 | INFO | atlas | AtlasBrain initialized
+2026-08-15 10:13:41,601 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:13:41,601 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 10:13:41,602 | INFO | atlas | AIService initialized.
+2026-08-15 10:13:41,606 | INFO | atlas | Restored latest conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 10:13:41,606 | INFO | atlas | Brain synchronized with conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 10:13:41,606 | INFO | atlas | Controller initialized
+2026-08-15 10:13:41,854 | INFO | atlas | Atlas main window created.
+2026-08-15 10:13:41,854 | INFO | atlas | AI Thread started.
+2026-08-15 10:13:41,854 | INFO | atlas | Controller started.
+2026-08-15 10:13:41,924 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 10:13:52,103 | INFO | atlas | Sending message to AI: How does conjuctivitis spread?
+2026-08-15 10:13:52,104 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:14:36,049 | INFO | atlas | AI response received.
+2026-08-15 10:14:36,543 | INFO | atlas | AI response received.
+2026-08-15 10:14:36,896 | INFO | atlas | AI response received.
+2026-08-15 10:14:37,226 | INFO | atlas | AI response received.
+2026-08-15 10:14:38,482 | INFO | atlas | AI response received.
+2026-08-15 10:14:39,790 | INFO | atlas | AI response received.
+2026-08-15 10:14:40,422 | INFO | atlas | AI response received.
+2026-08-15 10:14:40,552 | INFO | atlas | AI response received.
+2026-08-15 10:14:40,674 | INFO | atlas | AI response received.
+2026-08-15 10:14:40,809 | INFO | atlas | AI response received.
+2026-08-15 10:14:40,935 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,069 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,196 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,316 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,441 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,567 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,690 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,812 | INFO | atlas | AI response received.
+2026-08-15 10:14:41,952 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,118 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,241 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,373 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,496 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,620 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,742 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,867 | INFO | atlas | AI response received.
+2026-08-15 10:14:42,993 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,129 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,262 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,381 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,503 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,625 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,747 | INFO | atlas | AI response received.
+2026-08-15 10:14:43,880 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,006 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,131 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,279 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,455 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,580 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,703 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,830 | INFO | atlas | AI response received.
+2026-08-15 10:14:44,954 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,089 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,210 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,335 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,455 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,587 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,713 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,838 | INFO | atlas | AI response received.
+2026-08-15 10:14:45,967 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,099 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,221 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,346 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,469 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,599 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,725 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,857 | INFO | atlas | AI response received.
+2026-08-15 10:14:46,989 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,168 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,291 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,415 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,543 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,669 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,793 | INFO | atlas | AI response received.
+2026-08-15 10:14:47,932 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,063 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,199 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,322 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,446 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,570 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,696 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,828 | INFO | atlas | AI response received.
+2026-08-15 10:14:48,955 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,086 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,218 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,433 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,556 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,686 | INFO | atlas | AI response received.
+2026-08-15 10:14:49,942 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,118 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,248 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,381 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,505 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,638 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,762 | INFO | atlas | AI response received.
+2026-08-15 10:14:50,886 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,025 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,147 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,276 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,399 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,532 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,657 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,782 | INFO | atlas | AI response received.
+2026-08-15 10:14:51,922 | INFO | atlas | AI generation finished.
+2026-08-15 10:14:51,925 | INFO | atlas | AI response finished.
+2026-08-15 10:15:27,023 | INFO | atlas | Stopping AI Thread...
+2026-08-15 10:15:27,024 | INFO | atlas | AI Thread stopped.
+2026-08-15 10:15:27,024 | INFO | atlas | Controller stopped.
+2026-08-15 10:15:27,025 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 10:18:09,641 | INFO | atlas | Atlas GUI starting...
+2026-08-15 10:18:09,642 | INFO | atlas | Core runtime loaded.
+2026-08-15 10:18:10,133 | INFO | atlas | Atlas application created.
+2026-08-15 10:18:10,149 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 10:18:10,151 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 10:18:10,153 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 10:18:10,157 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 10:18:10,159 | INFO | atlas | Loaded plugin: time
+2026-08-15 10:18:10,162 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 10:18:10,973 | INFO | atlas | Loaded plugin: math
+2026-08-15 10:18:10,973 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:18:10,974 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:18:10,974 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:18:10,974 | INFO | atlas | AtlasBrain initialized
+2026-08-15 10:18:10,975 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 10:18:10,975 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 10:18:10,975 | INFO | atlas | AIService initialized.
+2026-08-15 10:18:10,977 | INFO | atlas | Restored latest conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 10:18:10,977 | INFO | atlas | Brain synchronized with conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 10:18:10,978 | INFO | atlas | Controller initialized
+2026-08-15 10:18:11,219 | INFO | atlas | Atlas main window created.
+2026-08-15 10:18:11,220 | INFO | atlas | AI Thread started.
+2026-08-15 10:18:11,220 | INFO | atlas | Controller started.
+2026-08-15 10:18:11,274 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 10:18:35,086 | INFO | atlas | Sending message to AI: What are arrays and where can they be used?
+2026-08-15 10:18:35,086 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:18:44,839 | INFO | atlas | AI response received.
+2026-08-15 10:18:44,996 | INFO | atlas | AI response received.
+2026-08-15 10:18:45,118 | INFO | atlas | AI response received.
+2026-08-15 10:18:45,246 | INFO | atlas | AI response received.
+2026-08-15 10:18:45,367 | INFO | atlas | AI response received.
+2026-08-15 10:18:45,700 | INFO | atlas | AI response received.
+2026-08-15 10:18:45,823 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,000 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,132 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,253 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,374 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,495 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,615 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,745 | INFO | atlas | AI response received.
+2026-08-15 10:18:46,875 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,013 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,138 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,264 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,394 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,524 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,648 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,779 | INFO | atlas | AI response received.
+2026-08-15 10:18:47,902 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,027 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,152 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,290 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,411 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,544 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,666 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,792 | INFO | atlas | AI response received.
+2026-08-15 10:18:48,920 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,046 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,168 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,380 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,501 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,631 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,765 | INFO | atlas | AI response received.
+2026-08-15 10:18:49,896 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,027 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,157 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,278 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,413 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,536 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,666 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,787 | INFO | atlas | AI response received.
+2026-08-15 10:18:50,966 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,092 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,223 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,347 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,479 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,606 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,730 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,851 | INFO | atlas | AI response received.
+2026-08-15 10:18:51,997 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,125 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,252 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,383 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,513 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,635 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,765 | INFO | atlas | AI response received.
+2026-08-15 10:18:52,886 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,010 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,142 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,274 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,399 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,523 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,656 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,784 | INFO | atlas | AI response received.
+2026-08-15 10:18:53,920 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,045 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,177 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,338 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,459 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,592 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,719 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,851 | INFO | atlas | AI response received.
+2026-08-15 10:18:54,979 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,106 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,231 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,356 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,490 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,616 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,756 | INFO | atlas | AI response received.
+2026-08-15 10:18:55,928 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,059 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,194 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,324 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,457 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,586 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,708 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,837 | INFO | atlas | AI response received.
+2026-08-15 10:18:56,981 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,116 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,237 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,363 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,489 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,621 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,746 | INFO | atlas | AI response received.
+2026-08-15 10:18:57,878 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,009 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,141 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,265 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,396 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,522 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,646 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,776 | INFO | atlas | AI response received.
+2026-08-15 10:18:58,907 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,039 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,162 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,369 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,493 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,622 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,751 | INFO | atlas | AI response received.
+2026-08-15 10:18:59,884 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,016 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,139 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,265 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,388 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,514 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,639 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,768 | INFO | atlas | AI response received.
+2026-08-15 10:19:00,944 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,078 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,204 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,335 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,459 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,598 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,732 | INFO | atlas | AI response received.
+2026-08-15 10:19:01,856 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,003 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,134 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,264 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,400 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,531 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,654 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,778 | INFO | atlas | AI response received.
+2026-08-15 10:19:02,901 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,029 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,158 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,283 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,412 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,535 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,665 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,804 | INFO | atlas | AI response received.
+2026-08-15 10:19:03,935 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,066 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,206 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,368 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,493 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,625 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,757 | INFO | atlas | AI response received.
+2026-08-15 10:19:04,887 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,021 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,146 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,276 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,410 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,546 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,676 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,809 | INFO | atlas | AI response received.
+2026-08-15 10:19:05,984 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,115 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,246 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,374 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,506 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,633 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,767 | INFO | atlas | AI response received.
+2026-08-15 10:19:06,900 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,039 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,166 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,302 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,426 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,556 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,683 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,814 | INFO | atlas | AI response received.
+2026-08-15 10:19:07,939 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,072 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,248 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,422 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,556 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,706 | INFO | atlas | AI response received.
+2026-08-15 10:19:08,864 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,012 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,155 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,374 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,512 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,659 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,791 | INFO | atlas | AI response received.
+2026-08-15 10:19:09,924 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,056 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,202 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,333 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,468 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,598 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,748 | INFO | atlas | AI response received.
+2026-08-15 10:19:10,930 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,060 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,189 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,322 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,452 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,584 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,715 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,845 | INFO | atlas | AI response received.
+2026-08-15 10:19:11,986 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,116 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,241 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,373 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,498 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,630 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,762 | INFO | atlas | AI response received.
+2026-08-15 10:19:12,891 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,014 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,150 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,297 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,648 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,817 | INFO | atlas | AI response received.
+2026-08-15 10:19:13,948 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,082 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,212 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,384 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,519 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,649 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,778 | INFO | atlas | AI response received.
+2026-08-15 10:19:14,931 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,059 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,200 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,324 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,494 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,625 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,759 | INFO | atlas | AI response received.
+2026-08-15 10:19:15,938 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,071 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,204 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,344 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,477 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,603 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,736 | INFO | atlas | AI response received.
+2026-08-15 10:19:16,861 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,001 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,134 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,262 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,391 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,520 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,650 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,784 | INFO | atlas | AI response received.
+2026-08-15 10:19:17,914 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,045 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,174 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,318 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,452 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,592 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,726 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,862 | INFO | atlas | AI response received.
+2026-08-15 10:19:18,994 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,121 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,283 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,456 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,588 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,719 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,854 | INFO | atlas | AI response received.
+2026-08-15 10:19:19,984 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,117 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,250 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,398 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,545 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,681 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,814 | INFO | atlas | AI response received.
+2026-08-15 10:19:20,998 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,134 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,268 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,410 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,549 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,689 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,825 | INFO | atlas | AI response received.
+2026-08-15 10:19:21,976 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,120 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,261 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,400 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,544 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,699 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,835 | INFO | atlas | AI response received.
+2026-08-15 10:19:22,971 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,107 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,247 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,389 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,532 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,677 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,824 | INFO | atlas | AI response received.
+2026-08-15 10:19:23,968 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,106 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,272 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,414 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,558 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,713 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,856 | INFO | atlas | AI response received.
+2026-08-15 10:19:24,998 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,135 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,272 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,406 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,550 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,690 | INFO | atlas | AI response received.
+2026-08-15 10:19:25,832 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,017 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,159 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,297 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,432 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,571 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,708 | INFO | atlas | AI response received.
+2026-08-15 10:19:26,857 | INFO | atlas | AI response received.
+2026-08-15 10:19:27,010 | INFO | atlas | AI response received.
+2026-08-15 10:19:27,161 | INFO | atlas | AI response received.
+2026-08-15 10:19:27,303 | INFO | atlas | AI response received.
+2026-08-15 10:19:27,447 | INFO | atlas | AI generation finished.
+2026-08-15 10:19:27,451 | INFO | atlas | AI response finished.
+2026-08-15 10:19:35,339 | INFO | atlas | Sending message to AI: What are logic gates?
+2026-08-15 10:19:35,339 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:19:37,193 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,349 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,480 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,595 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,724 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,837 | INFO | atlas | AI response received.
+2026-08-15 10:19:37,966 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,100 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,249 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,398 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,538 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,667 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,799 | INFO | atlas | AI response received.
+2026-08-15 10:19:38,938 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,063 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,195 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,440 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,571 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,697 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,839 | INFO | atlas | AI response received.
+2026-08-15 10:19:39,977 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,118 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,262 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,393 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,523 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,643 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,765 | INFO | atlas | AI response received.
+2026-08-15 10:19:40,896 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,023 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,145 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,266 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,441 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,580 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,713 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,842 | INFO | atlas | AI response received.
+2026-08-15 10:19:41,963 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,092 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,213 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,339 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,479 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,608 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,734 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,860 | INFO | atlas | AI response received.
+2026-08-15 10:19:42,987 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,106 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,227 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,358 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,480 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,603 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,734 | INFO | atlas | AI response received.
+2026-08-15 10:19:43,858 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,003 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,134 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,273 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,405 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,523 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,651 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,782 | INFO | atlas | AI response received.
+2026-08-15 10:19:44,922 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,060 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,183 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,307 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,430 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,552 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,674 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,797 | INFO | atlas | AI response received.
+2026-08-15 10:19:45,921 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,051 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,179 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,300 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,470 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,593 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,734 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,858 | INFO | atlas | AI response received.
+2026-08-15 10:19:46,987 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,112 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,241 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,370 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,505 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,632 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,758 | INFO | atlas | AI response received.
+2026-08-15 10:19:47,882 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,011 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,133 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,261 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,384 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,514 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,640 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,768 | INFO | atlas | AI response received.
+2026-08-15 10:19:48,895 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,020 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,147 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,345 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,471 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,598 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,746 | INFO | atlas | AI response received.
+2026-08-15 10:19:49,877 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,008 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,134 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,463 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,606 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,729 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,855 | INFO | atlas | AI response received.
+2026-08-15 10:19:50,988 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,109 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,240 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,412 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,535 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,660 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,790 | INFO | atlas | AI response received.
+2026-08-15 10:19:51,910 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,046 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,177 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,309 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,442 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,565 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,695 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,819 | INFO | atlas | AI response received.
+2026-08-15 10:19:52,944 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,087 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,209 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,340 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,472 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,593 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,725 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,848 | INFO | atlas | AI response received.
+2026-08-15 10:19:53,980 | INFO | atlas | AI response received.
+2026-08-15 10:19:54,110 | INFO | atlas | AI response received.
+2026-08-15 10:19:54,245 | INFO | atlas | AI response received.
+2026-08-15 10:19:54,392 | INFO | atlas | AI response received.
+2026-08-15 10:19:54,529 | INFO | atlas | AI response received.
+2026-08-15 10:19:54,837 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,172 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,298 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,427 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,552 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,677 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,806 | INFO | atlas | AI response received.
+2026-08-15 10:19:55,933 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,072 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,201 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,336 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,500 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,631 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,762 | INFO | atlas | AI response received.
+2026-08-15 10:19:56,893 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,020 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,148 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,275 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,399 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,537 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,666 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,791 | INFO | atlas | AI response received.
+2026-08-15 10:19:57,917 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,043 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,180 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,311 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,442 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,569 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,710 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,841 | INFO | atlas | AI response received.
+2026-08-15 10:19:58,973 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,106 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,235 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,432 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,551 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,680 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,802 | INFO | atlas | AI response received.
+2026-08-15 10:19:59,924 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,068 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,191 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,313 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,437 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,573 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,718 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,847 | INFO | atlas | AI response received.
+2026-08-15 10:20:00,976 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,111 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,241 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,404 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,527 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,666 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,800 | INFO | atlas | AI response received.
+2026-08-15 10:20:01,930 | INFO | atlas | AI response received.
+2026-08-15 10:20:02,058 | INFO | atlas | AI response received.
+2026-08-15 10:20:02,187 | INFO | atlas | AI response received.
+2026-08-15 10:20:02,324 | INFO | atlas | AI response received.
+2026-08-15 10:20:02,479 | INFO | atlas | AI response received.
+2026-08-15 10:20:02,620 | INFO | atlas | AI generation finished.
+2026-08-15 10:20:02,626 | INFO | atlas | AI response finished.
+2026-08-15 10:20:33,717 | INFO | atlas | Sending message to AI: What is a rasberry pi and how do i integrate my own AI in it so it works offline?
+2026-08-15 10:20:33,717 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:20:36,579 | INFO | atlas | AI response received.
+2026-08-15 10:20:36,751 | INFO | atlas | AI response received.
+2026-08-15 10:20:36,874 | INFO | atlas | AI response received.
+2026-08-15 10:20:36,996 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,119 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,243 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,365 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,485 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,618 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,770 | INFO | atlas | AI response received.
+2026-08-15 10:20:37,911 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,050 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,190 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,324 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,460 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,594 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,726 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,861 | INFO | atlas | AI response received.
+2026-08-15 10:20:38,997 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,138 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,358 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,494 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,630 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,818 | INFO | atlas | AI response received.
+2026-08-15 10:20:39,958 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,092 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,231 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,379 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,510 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,645 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,778 | INFO | atlas | AI response received.
+2026-08-15 10:20:40,931 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,081 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,232 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,376 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,510 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,641 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,780 | INFO | atlas | AI response received.
+2026-08-15 10:20:41,918 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,047 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,178 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,314 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,456 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,603 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,742 | INFO | atlas | AI response received.
+2026-08-15 10:20:42,878 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,010 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,150 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,289 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,424 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,572 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,709 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,844 | INFO | atlas | AI response received.
+2026-08-15 10:20:43,978 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,114 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,274 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,421 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,554 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,691 | INFO | atlas | AI response received.
+2026-08-15 10:20:44,909 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,042 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,176 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,313 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,446 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,584 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,720 | INFO | atlas | AI response received.
+2026-08-15 10:20:45,869 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,008 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,152 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,289 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,438 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,573 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,706 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,842 | INFO | atlas | AI response received.
+2026-08-15 10:20:46,980 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,117 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,255 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,399 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,542 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,682 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,821 | INFO | atlas | AI response received.
+2026-08-15 10:20:47,962 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,100 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,240 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,376 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,522 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,664 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,812 | INFO | atlas | AI response received.
+2026-08-15 10:20:48,957 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,101 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,237 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,452 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,591 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,751 | INFO | atlas | AI response received.
+2026-08-15 10:20:49,912 | INFO | atlas | AI response received.
+2026-08-15 10:20:50,053 | INFO | atlas | AI response received.
+2026-08-15 10:20:50,407 | INFO | atlas | AI response received.
+2026-08-15 10:20:50,570 | INFO | atlas | AI response received.
+2026-08-15 10:20:50,711 | INFO | atlas | AI response received.
+2026-08-15 10:20:50,868 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,010 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,156 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,293 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,432 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,584 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,722 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,856 | INFO | atlas | AI response received.
+2026-08-15 10:20:51,993 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,142 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,283 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,423 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,556 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,692 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,830 | INFO | atlas | AI response received.
+2026-08-15 10:20:52,970 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,108 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,244 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,387 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,528 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,671 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,816 | INFO | atlas | AI response received.
+2026-08-15 10:20:53,954 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,089 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,230 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,402 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,546 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,681 | INFO | atlas | AI response received.
+2026-08-15 10:20:54,864 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,002 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,141 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,278 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,432 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,566 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,703 | INFO | atlas | AI response received.
+2026-08-15 10:20:55,855 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,000 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,143 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,280 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,440 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,585 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,719 | INFO | atlas | AI response received.
+2026-08-15 10:20:56,858 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,007 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,145 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,295 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,433 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,566 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,707 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,846 | INFO | atlas | AI response received.
+2026-08-15 10:20:57,982 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,128 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,263 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,404 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,541 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,690 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,837 | INFO | atlas | AI response received.
+2026-08-15 10:20:58,980 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,126 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,276 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,480 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,615 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,805 | INFO | atlas | AI response received.
+2026-08-15 10:20:59,946 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,092 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,236 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,374 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,521 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,657 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,808 | INFO | atlas | AI response received.
+2026-08-15 10:21:00,952 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,101 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,230 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,355 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,494 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,626 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,764 | INFO | atlas | AI response received.
+2026-08-15 10:21:01,890 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,019 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,146 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,272 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,405 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,527 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,660 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,794 | INFO | atlas | AI response received.
+2026-08-15 10:21:02,926 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,052 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,181 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,314 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,658 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,812 | INFO | atlas | AI response received.
+2026-08-15 10:21:03,942 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,067 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,200 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,359 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,490 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,621 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,802 | INFO | atlas | AI response received.
+2026-08-15 10:21:04,935 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,067 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,199 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,337 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,462 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,610 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,745 | INFO | atlas | AI response received.
+2026-08-15 10:21:05,884 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,007 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,137 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,268 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,392 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,530 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,656 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,790 | INFO | atlas | AI response received.
+2026-08-15 10:21:06,926 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,059 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,190 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,319 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,451 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,598 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,731 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,857 | INFO | atlas | AI response received.
+2026-08-15 10:21:07,991 | INFO | atlas | AI generation finished.
+2026-08-15 10:21:07,994 | INFO | atlas | AI response finished.
+2026-08-15 10:21:27,853 | INFO | atlas | Sending message to AI: I already have the AI running locally on my laptop
+2026-08-15 10:21:27,854 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:21:30,308 | INFO | atlas | AI response received.
+2026-08-15 10:21:30,461 | INFO | atlas | AI response received.
+2026-08-15 10:21:30,579 | INFO | atlas | AI response received.
+2026-08-15 10:21:30,696 | INFO | atlas | AI response received.
+2026-08-15 10:21:30,817 | INFO | atlas | AI response received.
+2026-08-15 10:21:30,931 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,048 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,163 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,280 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,399 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,517 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,637 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,768 | INFO | atlas | AI response received.
+2026-08-15 10:21:31,891 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,016 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,138 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,263 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,396 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,516 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,638 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,762 | INFO | atlas | AI response received.
+2026-08-15 10:21:32,883 | INFO | atlas | AI response received.
+2026-08-15 10:21:33,017 | INFO | atlas | AI generation finished.
+2026-08-15 10:21:33,019 | INFO | atlas | AI response finished.
+2026-08-15 10:21:44,700 | INFO | atlas | Sending message to AI: Integrate it on rasberry pi
+2026-08-15 10:21:44,701 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:21:46,892 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,042 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,159 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,274 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,394 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,512 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,629 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,752 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,865 | INFO | atlas | AI response received.
+2026-08-15 10:21:47,980 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,097 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,213 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,333 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,454 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,579 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,716 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,860 | INFO | atlas | AI response received.
+2026-08-15 10:21:48,985 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,106 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,338 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,475 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,595 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,726 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,842 | INFO | atlas | AI response received.
+2026-08-15 10:21:49,965 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,087 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,206 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,339 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,457 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,579 | INFO | atlas | AI response received.
+2026-08-15 10:21:50,959 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,089 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,209 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,333 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,454 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,584 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,721 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,845 | INFO | atlas | AI response received.
+2026-08-15 10:21:51,976 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,098 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,223 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,351 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,473 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,594 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,717 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,842 | INFO | atlas | AI response received.
+2026-08-15 10:21:52,966 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,088 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,209 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,340 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,464 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,590 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,715 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,836 | INFO | atlas | AI response received.
+2026-08-15 10:21:53,975 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,099 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,224 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,382 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,551 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,673 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,796 | INFO | atlas | AI response received.
+2026-08-15 10:21:54,918 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,040 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,165 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,285 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,411 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,530 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,652 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,828 | INFO | atlas | AI response received.
+2026-08-15 10:21:55,949 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,077 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,206 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,332 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,452 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,590 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,711 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,852 | INFO | atlas | AI response received.
+2026-08-15 10:21:56,983 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,116 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,239 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,360 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,487 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,611 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,732 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,855 | INFO | atlas | AI response received.
+2026-08-15 10:21:57,981 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,110 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,231 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,354 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,478 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,601 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,739 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,863 | INFO | atlas | AI response received.
+2026-08-15 10:21:58,983 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,111 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,233 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,454 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,582 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,706 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,830 | INFO | atlas | AI response received.
+2026-08-15 10:21:59,952 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,082 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,204 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,328 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,472 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,602 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,779 | INFO | atlas | AI response received.
+2026-08-15 10:22:00,904 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,036 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,166 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,291 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,419 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,542 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,678 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,822 | INFO | atlas | AI response received.
+2026-08-15 10:22:01,953 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,081 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,210 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,344 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,481 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,614 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,739 | INFO | atlas | AI response received.
+2026-08-15 10:22:02,872 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,007 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,132 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,264 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,394 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,517 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,646 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,768 | INFO | atlas | AI response received.
+2026-08-15 10:22:03,903 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,095 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,369 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,512 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,635 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,760 | INFO | atlas | AI response received.
+2026-08-15 10:22:04,894 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,025 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,149 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,282 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,417 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,550 | INFO | atlas | AI response received.
+2026-08-15 10:22:05,717 | INFO | atlas | AI generation finished.
+2026-08-15 10:22:05,722 | INFO | atlas | AI response finished.
+2026-08-15 10:22:35,725 | INFO | atlas | Sending message to AI: Im working on a project called AtlasAI , it is a locally running AI system.
+2026-08-15 10:22:35,726 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:22:38,623 | INFO | atlas | AI response received.
+2026-08-15 10:22:38,777 | INFO | atlas | AI response received.
+2026-08-15 10:22:38,891 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,010 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,126 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,241 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,440 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,561 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,685 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,818 | INFO | atlas | AI response received.
+2026-08-15 10:22:39,937 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,063 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,191 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,314 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,434 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,564 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,682 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,805 | INFO | atlas | AI response received.
+2026-08-15 10:22:40,927 | INFO | atlas | AI response received.
+2026-08-15 10:22:41,056 | INFO | atlas | AI response received.
+2026-08-15 10:22:41,179 | INFO | atlas | AI response received.
+2026-08-15 10:22:41,308 | INFO | atlas | AI generation finished.
+2026-08-15 10:22:41,310 | INFO | atlas | AI response finished.
+2026-08-15 10:22:46,797 | INFO | atlas | Sending message to AI: Which  project am i working on?
+2026-08-15 10:22:46,798 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:22:48,944 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,090 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,206 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,408 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,528 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,647 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,772 | INFO | atlas | AI response received.
+2026-08-15 10:22:49,893 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,011 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,134 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,249 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,381 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,497 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,613 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,729 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,851 | INFO | atlas | AI response received.
+2026-08-15 10:22:50,996 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,118 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,252 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,375 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,500 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,622 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,778 | INFO | atlas | AI response received.
+2026-08-15 10:22:51,910 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,033 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,173 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,303 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,424 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,543 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,666 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,792 | INFO | atlas | AI response received.
+2026-08-15 10:22:52,927 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,049 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,172 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,295 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,423 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,545 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,676 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,799 | INFO | atlas | AI response received.
+2026-08-15 10:22:53,928 | INFO | atlas | AI generation finished.
+2026-08-15 10:22:53,930 | INFO | atlas | AI response finished.
+2026-08-15 10:23:01,437 | INFO | atlas | Sending message to AI: Which project am i working on?
+2026-08-15 10:23:01,437 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:23:03,507 | INFO | atlas | AI response received.
+2026-08-15 10:23:03,661 | INFO | atlas | AI response received.
+2026-08-15 10:23:03,780 | INFO | atlas | AI response received.
+2026-08-15 10:23:03,896 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,011 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,138 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,267 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,393 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,512 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,630 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,745 | INFO | atlas | AI response received.
+2026-08-15 10:23:04,900 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,036 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,172 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,523 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,656 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,789 | INFO | atlas | AI response received.
+2026-08-15 10:23:05,912 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,037 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,161 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,281 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,405 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,530 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,653 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,772 | INFO | atlas | AI response received.
+2026-08-15 10:23:06,895 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,014 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,132 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,254 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,375 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,553 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,676 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,809 | INFO | atlas | AI response received.
+2026-08-15 10:23:07,929 | INFO | atlas | AI response received.
+2026-08-15 10:23:08,046 | INFO | atlas | AI response received.
+2026-08-15 10:23:08,166 | INFO | atlas | AI response received.
+2026-08-15 10:23:08,286 | INFO | atlas | AI response received.
+2026-08-15 10:23:08,422 | INFO | atlas | AI generation finished.
+2026-08-15 10:23:08,424 | INFO | atlas | AI response finished.
+2026-08-15 10:23:15,954 | INFO | atlas | Sending message to AI: Whcih project am i working on?
+2026-08-15 10:23:15,955 | INFO | atlas | Sending message to AI worker.
+2026-08-15 10:23:18,033 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,151 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,263 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,380 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,496 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,628 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,740 | INFO | atlas | AI response received.
+2026-08-15 10:23:18,887 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,005 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,123 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,241 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,429 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,545 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,665 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,794 | INFO | atlas | AI response received.
+2026-08-15 10:23:19,924 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,044 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,166 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,290 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,414 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,540 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,666 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,794 | INFO | atlas | AI response received.
+2026-08-15 10:23:20,915 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,043 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,161 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,287 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,422 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,551 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,674 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,797 | INFO | atlas | AI response received.
+2026-08-15 10:23:21,921 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,054 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,188 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,318 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,440 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,607 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,732 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,855 | INFO | atlas | AI response received.
+2026-08-15 10:23:22,978 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,111 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,232 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,380 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,501 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,638 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,763 | INFO | atlas | AI response received.
+2026-08-15 10:23:23,893 | INFO | atlas | AI generation finished.
+2026-08-15 10:23:23,896 | INFO | atlas | AI response finished.
+2026-08-15 10:23:44,890 | INFO | atlas | Stopping AI Thread...
+2026-08-15 10:23:44,892 | INFO | atlas | AI Thread stopped.
+2026-08-15 10:23:44,893 | INFO | atlas | Controller stopped.
+2026-08-15 10:23:44,893 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 11:26:40,117 | INFO | atlas | Atlas GUI starting...
+2026-08-15 11:26:40,118 | INFO | atlas | Core runtime loaded.
+2026-08-15 11:26:40,464 | INFO | atlas | Atlas application created.
+2026-08-15 11:36:50,249 | INFO | atlas | Atlas GUI starting...
+2026-08-15 11:36:50,251 | INFO | atlas | Core runtime loaded.
+2026-08-15 11:36:50,802 | INFO | atlas | Atlas application created.
+2026-08-15 11:38:44,166 | INFO | atlas | Atlas GUI starting...
+2026-08-15 11:38:44,167 | INFO | atlas | Core runtime loaded.
+2026-08-15 11:38:44,523 | INFO | atlas | Atlas application created.
+2026-08-15 11:38:44,550 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:38:44,558 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:38:44,565 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:38:44,578 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:38:44,582 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:38:44,586 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:38:45,953 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:38:45,953 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:38:45,953 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:38:45,953 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:38:45,954 | INFO | atlas | AtlasBrain initialized
+2026-08-15 11:38:45,954 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:38:45,954 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 11:38:45,955 | INFO | atlas | AIService initialized.
+2026-08-15 11:38:45,961 | INFO | atlas | Restored latest conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 11:38:45,963 | INFO | atlas | Brain synchronized with conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 11:38:45,963 | INFO | atlas | Controller initialized
+2026-08-15 11:38:46,257 | INFO | atlas | Atlas main window created.
+2026-08-15 11:38:46,258 | INFO | atlas | AI Thread started.
+2026-08-15 11:38:46,258 | INFO | atlas | Controller started.
+2026-08-15 11:38:46,335 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 11:39:06,564 | INFO | atlas | Brain synchronized with conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 11:39:06,581 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:39:06,582 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:39:06,602 | INFO | atlas | Tool match: fitness
+2026-08-15 11:39:06,606 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:39:06,620 | INFO | atlas | AI response received.
+2026-08-15 11:39:06,623 | INFO | atlas | AI generation finished.
+2026-08-15 11:39:06,632 | INFO | atlas | AI response finished.
+2026-08-15 11:39:36,557 | INFO | atlas | Brain synchronized with conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 11:39:36,558 | INFO | atlas | Loaded conversation: 9fe1e8d0-143d-45a0-8d54-8fbbbacebb74
+2026-08-15 11:39:37,645 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:39:37,646 | INFO | atlas | Created conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:39:40,996 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:39:41,011 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:39:41,011 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:39:41,012 | INFO | atlas | Tool match: fitness
+2026-08-15 11:39:41,014 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:39:41,021 | INFO | atlas | AI response received.
+2026-08-15 11:39:41,023 | INFO | atlas | AI generation finished.
+2026-08-15 11:39:41,025 | INFO | atlas | AI response finished.
+2026-08-15 11:39:48,800 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:39:48,813 | INFO | atlas | Sending message to AI: What is my nutrition profile?
+2026-08-15 11:39:48,814 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:39:48,815 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:39:48,819 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:39:48,832 | INFO | atlas | AI response received.
+2026-08-15 11:39:48,834 | INFO | atlas | AI generation finished.
+2026-08-15 11:39:48,836 | INFO | atlas | AI response finished.
+2026-08-15 11:39:59,090 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:39:59,104 | INFO | atlas | Sending message to AI: Make me a workout based on my fitness profile.
+2026-08-15 11:39:59,104 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:39:59,105 | INFO | atlas | Tool match: fitness
+2026-08-15 11:39:59,106 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:39:59,151 | INFO | atlas | AI response received.
+2026-08-15 11:39:59,159 | INFO | atlas | AI generation finished.
+2026-08-15 11:39:59,181 | INFO | atlas | AI response finished.
+2026-08-15 11:40:05,574 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:40:05,579 | INFO | atlas | Sending message to AI: What exercises can I do for my chest with my available equipment?
+2026-08-15 11:40:05,579 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:40:05,581 | INFO | atlas | Tool match: fitness
+2026-08-15 11:40:05,585 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:40:05,600 | INFO | atlas | AI response received.
+2026-08-15 11:40:05,606 | INFO | atlas | AI generation finished.
+2026-08-15 11:40:05,608 | INFO | atlas | AI response finished.
+2026-08-15 11:40:21,220 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:40:21,221 | INFO | atlas | Loaded conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:40:58,900 | INFO | atlas | Stopping AI Thread...
+2026-08-15 11:40:58,901 | INFO | atlas | AI Thread stopped.
+2026-08-15 11:40:58,903 | INFO | atlas | Controller stopped.
+2026-08-15 11:40:58,904 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 11:41:23,247 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:41:23,248 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:41:23,250 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:41:23,257 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:41:23,258 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:41:23,309 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:41:24,035 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:41:24,035 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:41:24,036 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:41:49,997 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:41:49,999 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:41:50,001 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:41:50,004 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:41:50,005 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:41:50,075 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:41:51,178 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:41:51,178 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:41:51,178 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:41:51,179 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:41:51,180 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:41:51,181 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:41:51,181 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:41:59,308 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:41:59,310 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:41:59,315 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:41:59,318 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:41:59,319 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:41:59,359 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:42:00,323 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:42:00,323 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:00,324 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:00,326 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:00,327 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:00,327 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:00,327 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:00,328 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:00,328 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:00,329 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:00,329 | INFO | atlas | Tool match: web_search
+2026-08-15 11:42:08,215 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:42:08,221 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:42:08,230 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:42:08,238 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:42:08,240 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:42:08,309 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:42:09,253 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:42:09,254 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:09,254 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:09,256 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:09,257 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:09,257 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:09,257 | INFO | atlas | Tool match: fitness
+2026-08-15 11:42:09,258 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:09,258 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:09,259 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:42:09,259 | INFO | atlas | Tool match: web_search
+2026-08-15 11:42:41,832 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:42:41,834 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:42:41,836 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:42:41,840 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:42:41,842 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:42:41,896 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:42:42,650 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:42:42,651 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:42,652 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:42:42,654 | INFO | atlas | Tool match: web_search
+2026-08-15 11:43:20,449 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:43:20,451 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:43:20,452 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:43:20,459 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:43:20,460 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:43:20,520 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:43:20,980 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:43:20,980 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:43:20,981 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:43:20,983 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:43:20,990 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:43:20,991 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:43:20,992 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:43:29,853 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:43:29,854 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:43:29,855 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:43:29,856 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:43:29,856 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:43:29,902 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:43:30,299 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:43:30,299 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:43:30,299 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:43:30,301 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:43:30,301 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:45:24,084 | INFO | atlas | Atlas GUI starting...
+2026-08-15 11:45:24,084 | INFO | atlas | Core runtime loaded.
+2026-08-15 11:45:24,463 | INFO | atlas | Atlas application created.
+2026-08-15 11:45:24,474 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:45:24,474 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:45:24,476 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:45:24,476 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:45:24,477 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:45:24,478 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:45:25,347 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:45:25,347 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:45:25,347 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:45:25,347 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:45:25,348 | INFO | atlas | AtlasBrain initialized
+2026-08-15 11:45:25,348 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:45:25,348 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 11:45:25,349 | INFO | atlas | AIService initialized.
+2026-08-15 11:45:25,351 | INFO | atlas | Restored latest conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:25,351 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:25,352 | INFO | atlas | Controller initialized
+2026-08-15 11:45:25,585 | INFO | atlas | Atlas main window created.
+2026-08-15 11:45:25,586 | INFO | atlas | AI Thread started.
+2026-08-15 11:45:25,586 | INFO | atlas | Controller started.
+2026-08-15 11:45:25,651 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 11:45:33,768 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:33,784 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:45:33,784 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:33,801 | INFO | atlas | Tool match: fitness
+2026-08-15 11:45:33,802 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:45:33,810 | INFO | atlas | AI response received.
+2026-08-15 11:45:33,827 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:33,835 | INFO | atlas | AI response finished.
+2026-08-15 11:45:40,368 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:40,381 | INFO | atlas | Sending message to AI: Give me a workout plan based on my profile.
+2026-08-15 11:45:40,381 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:40,383 | INFO | atlas | Tool match: fitness
+2026-08-15 11:45:40,386 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:45:40,399 | INFO | atlas | AI response received.
+2026-08-15 11:45:40,410 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:40,416 | INFO | atlas | AI response finished.
+2026-08-15 11:45:44,531 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:44,545 | INFO | atlas | Sending message to AI: What exercises can I do for chest?
+2026-08-15 11:45:44,546 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:44,549 | INFO | atlas | Tool match: fitness
+2026-08-15 11:45:44,549 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:45:44,563 | INFO | atlas | AI response received.
+2026-08-15 11:45:44,565 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:44,567 | INFO | atlas | AI response finished.
+2026-08-15 11:45:49,024 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:49,043 | INFO | atlas | Sending message to AI: What is my nutrition profile?
+2026-08-15 11:45:49,044 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:49,046 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:45:49,048 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:45:49,070 | INFO | atlas | AI response received.
+2026-08-15 11:45:49,072 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:49,075 | INFO | atlas | AI response finished.
+2026-08-15 11:45:54,451 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:54,462 | INFO | atlas | Sending message to AI: Make me a meal plan based on my profile.
+2026-08-15 11:45:54,463 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:54,464 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:45:54,464 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:45:54,481 | INFO | atlas | AI response received.
+2026-08-15 11:45:54,484 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:54,486 | INFO | atlas | AI response finished.
+2026-08-15 11:45:58,594 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:45:58,607 | INFO | atlas | Sending message to AI: Show my current meal plan.
+2026-08-15 11:45:58,611 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:45:58,618 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:45:58,618 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:45:58,664 | INFO | atlas | AI response received.
+2026-08-15 11:45:58,666 | INFO | atlas | AI generation finished.
+2026-08-15 11:45:58,668 | INFO | atlas | AI response finished.
+2026-08-15 11:46:04,844 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:46:04,859 | INFO | atlas | Sending message to AI: Change my fitness goal to general fitness.
+2026-08-15 11:46:04,860 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:46:30,757 | INFO | atlas | AI response received.
+2026-08-15 11:46:30,887 | INFO | atlas | AI response received.
+2026-08-15 11:46:31,038 | INFO | atlas | AI response received.
+2026-08-15 11:46:31,101 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:46:31,101 | INFO | atlas | Loaded conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:46:31,348 | INFO | atlas | AI response received.
+2026-08-15 11:46:31,500 | INFO | atlas | AI response received.
+2026-08-15 11:46:31,641 | INFO | atlas | AI response received.
+2026-08-15 11:46:31,905 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,039 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,156 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,289 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,443 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,582 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,697 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,819 | INFO | atlas | AI response received.
+2026-08-15 11:46:32,983 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,099 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,217 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,329 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,448 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,569 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,693 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,813 | INFO | atlas | AI response received.
+2026-08-15 11:46:33,930 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,072 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,191 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,309 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,447 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,630 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,841 | INFO | atlas | AI response received.
+2026-08-15 11:46:34,981 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,096 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,245 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,379 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,502 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,634 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,752 | INFO | atlas | AI response received.
+2026-08-15 11:46:35,877 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,002 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,114 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,230 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,367 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,487 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,608 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,725 | INFO | atlas | AI response received.
+2026-08-15 11:46:36,900 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,047 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,166 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,283 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,406 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,533 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,659 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,778 | INFO | atlas | AI response received.
+2026-08-15 11:46:37,907 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,026 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,146 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,267 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,389 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,512 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,646 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,768 | INFO | atlas | AI response received.
+2026-08-15 11:46:38,884 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,005 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,118 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,238 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,357 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,480 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,834 | INFO | atlas | AI response received.
+2026-08-15 11:46:39,990 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,105 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,219 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,333 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,464 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,667 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,789 | INFO | atlas | AI response received.
+2026-08-15 11:46:40,912 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,031 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,152 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,266 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,389 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,512 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,634 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,757 | INFO | atlas | AI response received.
+2026-08-15 11:46:41,948 | INFO | atlas | AI response received.
+2026-08-15 11:46:42,066 | INFO | atlas | AI response received.
+2026-08-15 11:46:42,183 | INFO | atlas | AI response received.
+2026-08-15 11:46:42,305 | INFO | atlas | AI response received.
+2026-08-15 11:46:42,431 | INFO | atlas | AI response received.
+2026-08-15 11:46:42,590 | INFO | atlas | AI generation finished.
+2026-08-15 11:46:42,595 | INFO | atlas | AI response finished.
+2026-08-15 11:46:48,315 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:46:48,330 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:46:48,331 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:46:48,333 | INFO | atlas | Tool match: fitness
+2026-08-15 11:46:48,337 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:46:48,351 | INFO | atlas | AI response received.
+2026-08-15 11:46:48,353 | INFO | atlas | AI generation finished.
+2026-08-15 11:46:48,355 | INFO | atlas | AI response finished.
+2026-08-15 11:47:06,716 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:06,717 | INFO | atlas | Loaded conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:12,668 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:15,521 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:18,622 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:21,474 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:47:24,292 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:48:22,935 | INFO | atlas | Stopping AI Thread...
+2026-08-15 11:48:22,939 | INFO | atlas | AI Thread stopped.
+2026-08-15 11:48:22,940 | INFO | atlas | Controller stopped.
+2026-08-15 11:48:22,941 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 11:48:42,020 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:48:42,023 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:48:42,043 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:48:42,068 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:48:42,069 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:48:42,145 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:48:43,340 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:48:43,340 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:48:43,342 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:48:43,347 | INFO | atlas | Tool match: fitness
+2026-08-15 11:51:14,912 | INFO | atlas | Atlas GUI starting...
+2026-08-15 11:51:14,913 | INFO | atlas | Core runtime loaded.
+2026-08-15 11:51:15,510 | INFO | atlas | Atlas application created.
+2026-08-15 11:51:15,528 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 11:51:15,531 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 11:51:15,533 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 11:51:15,538 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 11:51:15,540 | INFO | atlas | Loaded plugin: time
+2026-08-15 11:51:15,541 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 11:51:16,823 | INFO | atlas | Loaded plugin: math
+2026-08-15 11:51:16,823 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:51:16,824 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:51:16,824 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:51:16,824 | INFO | atlas | AtlasBrain initialized
+2026-08-15 11:51:16,824 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 11:51:16,824 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 11:51:16,825 | INFO | atlas | AIService initialized.
+2026-08-15 11:51:16,827 | INFO | atlas | Restored latest conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:16,827 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:16,827 | INFO | atlas | Controller initialized
+2026-08-15 11:51:17,150 | INFO | atlas | Atlas main window created.
+2026-08-15 11:51:17,151 | INFO | atlas | AI Thread started.
+2026-08-15 11:51:17,151 | INFO | atlas | Controller started.
+2026-08-15 11:51:17,239 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 11:51:24,560 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:24,574 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:51:24,574 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:51:24,580 | INFO | atlas | Tool match: fitness
+2026-08-15 11:51:24,591 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:51:24,591 | INFO | atlas | Profile tool execution: tool=fitness message='What is my fitness profile?'
+2026-08-15 11:51:24,604 | INFO | atlas | AI response received.
+2026-08-15 11:51:24,616 | INFO | atlas | AI generation finished.
+2026-08-15 11:51:24,620 | INFO | atlas | AI response finished.
+2026-08-15 11:51:31,072 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:31,087 | INFO | atlas | Sending message to AI: I can use your saved fitness profile...
+2026-08-15 11:51:31,087 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:51:31,088 | INFO | atlas | Tool match: fitness
+2026-08-15 11:51:31,090 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:51:31,091 | INFO | atlas | Profile tool execution: tool=fitness message='I can use your saved fitness profile...'
+2026-08-15 11:51:31,099 | INFO | atlas | AI response received.
+2026-08-15 11:51:31,105 | INFO | atlas | AI generation finished.
+2026-08-15 11:51:31,108 | INFO | atlas | AI response finished.
+2026-08-15 11:51:35,777 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:35,788 | INFO | atlas | Sending message to AI: Show my current meal plan
+2026-08-15 11:51:35,789 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:51:35,793 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:51:35,795 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:51:35,797 | INFO | atlas | Profile tool execution: tool=nutrition message='Show my current meal plan'
+2026-08-15 11:51:35,809 | INFO | atlas | AI response received.
+2026-08-15 11:51:35,826 | INFO | atlas | AI generation finished.
+2026-08-15 11:51:35,829 | INFO | atlas | AI response finished.
+2026-08-15 11:51:43,776 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:51:43,776 | INFO | atlas | Created conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:51:45,312 | INFO | atlas | Brain synchronized with conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:45,316 | INFO | atlas | Loaded conversation: 20ecaef0-e5de-4b74-bd4e-9e2f85e024d6
+2026-08-15 11:51:47,915 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:51:47,916 | INFO | atlas | Loaded conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:51:59,052 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:51:59,066 | INFO | atlas | Sending message to AI: What is my fitness profile?
+2026-08-15 11:51:59,067 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:51:59,070 | INFO | atlas | Tool match: fitness
+2026-08-15 11:51:59,074 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:51:59,078 | INFO | atlas | Profile tool execution: tool=fitness message='What is my fitness profile?'
+2026-08-15 11:51:59,094 | INFO | atlas | AI response received.
+2026-08-15 11:51:59,098 | INFO | atlas | AI generation finished.
+2026-08-15 11:51:59,100 | INFO | atlas | AI response finished.
+2026-08-15 11:52:03,233 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:52:03,254 | INFO | atlas | Sending message to AI: I can use your saved fitness profile...
+2026-08-15 11:52:03,255 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:52:03,255 | INFO | atlas | Tool match: fitness
+2026-08-15 11:52:03,256 | INFO | atlas | Executing tool: fitness
+2026-08-15 11:52:03,256 | INFO | atlas | Profile tool execution: tool=fitness message='I can use your saved fitness profile...'
+2026-08-15 11:52:03,265 | INFO | atlas | AI response received.
+2026-08-15 11:52:03,273 | INFO | atlas | AI generation finished.
+2026-08-15 11:52:03,278 | INFO | atlas | AI response finished.
+2026-08-15 11:52:11,025 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 11:52:11,043 | INFO | atlas | Sending message to AI: Show my current meal plan
+2026-08-15 11:52:11,044 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:52:11,046 | INFO | atlas | Tool match: nutrition
+2026-08-15 11:52:11,049 | INFO | atlas | Executing tool: nutrition
+2026-08-15 11:52:11,052 | INFO | atlas | Profile tool execution: tool=nutrition message='Show my current meal plan'
+2026-08-15 11:52:11,079 | INFO | atlas | AI response received.
+2026-08-15 11:52:11,088 | INFO | atlas | AI generation finished.
+2026-08-15 11:52:11,091 | INFO | atlas | AI response finished.
+2026-08-15 11:54:14,800 | INFO | atlas | Sending message to AI: Explain entropy
+2026-08-15 11:54:14,801 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:54:24,406 | INFO | atlas | AI response received.
+2026-08-15 11:54:24,554 | INFO | atlas | AI response received.
+2026-08-15 11:54:24,671 | INFO | atlas | AI response received.
+2026-08-15 11:54:24,792 | INFO | atlas | AI response received.
+2026-08-15 11:54:24,908 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,030 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,145 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,262 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,394 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,578 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,699 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,819 | INFO | atlas | AI response received.
+2026-08-15 11:54:25,936 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,053 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,171 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,289 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,411 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,547 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,664 | INFO | atlas | AI response received.
+2026-08-15 11:54:26,814 | INFO | atlas | AI response received.
+2026-08-15 11:54:27,199 | INFO | atlas | AI response received.
+2026-08-15 11:54:27,276 | INFO | atlas | AI generation stop requested.
+2026-08-15 11:54:27,528 | INFO | atlas | AI generation finished.
+2026-08-15 11:54:27,530 | INFO | atlas | AI response finished.
+2026-08-15 11:54:32,808 | INFO | atlas | Sending message to AI: What is gravity?
+2026-08-15 11:54:32,809 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:54:34,707 | INFO | atlas | AI response received.
+2026-08-15 11:54:34,858 | INFO | atlas | AI response received.
+2026-08-15 11:54:34,977 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,094 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,216 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,337 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,515 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,637 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,754 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,872 | INFO | atlas | AI response received.
+2026-08-15 11:54:35,992 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,109 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,229 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,351 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,472 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,608 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,726 | INFO | atlas | AI response received.
+2026-08-15 11:54:36,842 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,043 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,168 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,286 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,410 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,539 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,669 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,791 | INFO | atlas | AI response received.
+2026-08-15 11:54:37,910 | INFO | atlas | AI response received.
+2026-08-15 11:54:38,030 | INFO | atlas | AI response received.
+2026-08-15 11:54:38,154 | INFO | atlas | AI response received.
+2026-08-15 11:54:38,275 | INFO | atlas | AI response received.
+2026-08-15 11:54:38,368 | INFO | atlas | AI generation stop requested.
+2026-08-15 11:54:38,530 | INFO | atlas | AI generation finished.
+2026-08-15 11:54:38,532 | INFO | atlas | AI response finished.
+2026-08-15 11:54:44,591 | INFO | atlas | Sending message to AI: Integrate 4x^2 + 4
+2026-08-15 11:54:44,592 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:54:44,603 | INFO | atlas | Tool match: math
+2026-08-15 11:54:44,603 | INFO | atlas | Executing tool: math
+2026-08-15 11:54:44,605 | INFO | atlas | MATH REQUEST: operation=integrate variable=x
+2026-08-15 11:54:44,821 | INFO | atlas | AI response received.
+2026-08-15 11:54:44,835 | INFO | atlas | AI generation finished.
+2026-08-15 11:54:44,838 | INFO | atlas | AI response finished.
+2026-08-15 11:54:49,552 | INFO | atlas | Sending message to AI: Good Job
+2026-08-15 11:54:49,553 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:54:51,423 | INFO | atlas | AI response received.
+2026-08-15 11:54:51,573 | INFO | atlas | AI response received.
+2026-08-15 11:54:51,709 | INFO | atlas | AI response received.
+2026-08-15 11:54:51,831 | INFO | atlas | AI response received.
+2026-08-15 11:54:51,993 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,116 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,279 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,394 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,511 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,635 | INFO | atlas | AI response received.
+2026-08-15 11:54:52,762 | INFO | atlas | AI generation finished.
+2026-08-15 11:54:52,764 | INFO | atlas | AI response finished.
+2026-08-15 11:54:55,629 | INFO | atlas | Sending message to AI: Nigga
+2026-08-15 11:54:55,630 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:54:57,523 | INFO | atlas | AI response received.
+2026-08-15 11:54:57,678 | INFO | atlas | AI response received.
+2026-08-15 11:54:57,799 | INFO | atlas | AI response received.
+2026-08-15 11:54:57,918 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,050 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,169 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,282 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,402 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,521 | INFO | atlas | AI response received.
+2026-08-15 11:54:58,646 | INFO | atlas | AI generation finished.
+2026-08-15 11:54:58,648 | INFO | atlas | AI response finished.
+2026-08-15 11:55:03,769 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 11:55:03,769 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:55:05,690 | INFO | atlas | AI response received.
+2026-08-15 11:55:05,849 | INFO | atlas | AI response received.
+2026-08-15 11:55:05,960 | INFO | atlas | AI response received.
+2026-08-15 11:55:06,077 | INFO | atlas | AI response received.
+2026-08-15 11:55:06,194 | INFO | atlas | AI response received.
+2026-08-15 11:55:06,312 | INFO | atlas | AI response received.
+2026-08-15 11:55:06,441 | INFO | atlas | AI generation finished.
+2026-08-15 11:55:06,443 | INFO | atlas | AI response finished.
+2026-08-15 11:55:09,715 | INFO | atlas | Sending message to AI: What do i like?
+2026-08-15 11:55:09,716 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:55:11,596 | INFO | atlas | AI response received.
+2026-08-15 11:55:11,763 | INFO | atlas | AI response received.
+2026-08-15 11:55:11,886 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,025 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,142 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,257 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,379 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,501 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,621 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,735 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,852 | INFO | atlas | AI response received.
+2026-08-15 11:55:12,969 | INFO | atlas | AI response received.
+2026-08-15 11:55:13,083 | INFO | atlas | AI response received.
+2026-08-15 11:55:13,199 | INFO | atlas | AI response received.
+2026-08-15 11:55:13,322 | INFO | atlas | AI generation finished.
+2026-08-15 11:55:13,324 | INFO | atlas | AI response finished.
+2026-08-15 11:55:20,610 | INFO | atlas | Sending message to AI: Which anime do i like?
+2026-08-15 11:55:20,610 | INFO | atlas | Sending message to AI worker.
+2026-08-15 11:55:22,684 | INFO | atlas | AI response received.
+2026-08-15 11:55:22,853 | INFO | atlas | AI response received.
+2026-08-15 11:55:22,965 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,084 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,203 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,319 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,435 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,553 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,669 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,785 | INFO | atlas | AI response received.
+2026-08-15 11:55:23,900 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,017 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,133 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,249 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,374 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,493 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,616 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,735 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,856 | INFO | atlas | AI response received.
+2026-08-15 11:55:24,988 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,115 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,229 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,349 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,468 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,604 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,727 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,845 | INFO | atlas | AI response received.
+2026-08-15 11:55:25,965 | INFO | atlas | AI response received.
+2026-08-15 11:55:26,082 | INFO | atlas | AI response received.
+2026-08-15 11:55:26,228 | INFO | atlas | AI response received.
+2026-08-15 11:55:26,387 | INFO | atlas | AI response received.
+2026-08-15 11:55:26,537 | INFO | atlas | AI response received.
+2026-08-15 11:55:26,738 | INFO | atlas | AI response received.
+2026-08-15 11:55:27,216 | INFO | atlas | AI response received.
+2026-08-15 11:55:27,363 | INFO | atlas | AI response received.
+2026-08-15 11:55:27,514 | INFO | atlas | AI response received.
+2026-08-15 11:55:27,722 | INFO | atlas | AI response received.
+2026-08-15 11:55:27,867 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,051 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,202 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,343 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,493 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,641 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,767 | INFO | atlas | AI response received.
+2026-08-15 11:55:28,887 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,006 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,238 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,387 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,650 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,774 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,886 | INFO | atlas | AI response received.
+2026-08-15 11:55:29,988 | INFO | atlas | AI response received.
+2026-08-15 11:55:30,099 | INFO | atlas | AI response received.
+2026-08-15 11:55:30,400 | INFO | atlas | AI response received.
+2026-08-15 11:55:30,520 | INFO | atlas | AI response received.
+2026-08-15 11:55:30,759 | INFO | atlas | AI response received.
+2026-08-15 11:55:30,883 | INFO | atlas | AI response received.
+2026-08-15 11:55:31,198 | INFO | atlas | AI response received.
+2026-08-15 11:55:31,728 | INFO | atlas | AI response received.
+2026-08-15 11:55:32,489 | INFO | atlas | AI response received.
+2026-08-15 11:55:32,678 | INFO | atlas | AI response received.
+2026-08-15 11:55:32,799 | INFO | atlas | AI response received.
+2026-08-15 11:55:32,946 | INFO | atlas | AI response received.
+2026-08-15 11:55:33,111 | INFO | atlas | AI response received.
+2026-08-15 11:55:33,523 | INFO | atlas | AI response received.
+2026-08-15 11:55:33,747 | INFO | atlas | AI response received.
+2026-08-15 11:55:33,883 | INFO | atlas | AI response received.
+2026-08-15 11:55:34,025 | INFO | atlas | AI response received.
+2026-08-15 11:55:34,144 | INFO | atlas | AI response received.
+2026-08-15 11:55:34,270 | INFO | atlas | AI response received.
+2026-08-15 11:55:34,412 | INFO | atlas | AI response received.
+2026-08-15 11:55:34,473 | INFO | atlas | Stopping AI Thread...
+2026-08-15 11:55:36,271 | INFO | atlas | AI Thread stopped.
+2026-08-15 11:55:36,272 | INFO | atlas | Controller stopped.
+2026-08-15 11:55:36,272 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 14:09:29,290 | INFO | atlas | Atlas GUI starting...
+2026-08-15 14:09:29,290 | INFO | atlas | Core runtime loaded.
+2026-08-15 14:09:29,597 | INFO | atlas | Atlas application created.
+2026-08-15 14:09:29,607 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 14:09:29,609 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 14:09:29,610 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 14:09:29,612 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 14:09:29,612 | INFO | atlas | Loaded plugin: time
+2026-08-15 14:09:29,613 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 14:09:30,202 | INFO | atlas | Loaded plugin: math
+2026-08-15 14:09:30,202 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:09:30,202 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:09:30,202 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:09:30,203 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:09:30,203 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:09:30,203 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:09:30,204 | INFO | atlas | AIService initialized.
+2026-08-15 14:09:30,206 | INFO | atlas | Restored latest conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 14:09:30,207 | INFO | atlas | Brain synchronized with conversation: ba80fa85-1bab-4055-9f31-31a25dbe3719
+2026-08-15 14:09:30,207 | INFO | atlas | Controller initialized
+2026-08-15 14:09:30,522 | INFO | atlas | Atlas main window created.
+2026-08-15 14:09:30,522 | INFO | atlas | AI Thread started.
+2026-08-15 14:09:30,522 | INFO | atlas | Controller started.
+2026-08-15 14:09:30,607 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 14:10:03,726 | INFO | atlas | Sending message to AI: My project  is called AtlasAI
+2026-08-15 14:10:03,727 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:10:34,317 | INFO | atlas | Brain synchronized with conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:10:34,322 | INFO | atlas | Created conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:10:34,609 | INFO | atlas | AI response received.
+2026-08-15 14:10:34,697 | INFO | atlas | AI response received.
+2026-08-15 14:10:34,823 | INFO | atlas | AI response received.
+2026-08-15 14:10:34,945 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,068 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,193 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,330 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,544 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,668 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,785 | INFO | atlas | AI response received.
+2026-08-15 14:10:35,970 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,099 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,221 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,353 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,519 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,659 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,792 | INFO | atlas | AI response received.
+2026-08-15 14:10:36,999 | INFO | atlas | AI response received.
+2026-08-15 14:10:37,170 | INFO | atlas | AI response received.
+2026-08-15 14:10:37,338 | INFO | atlas | AI response received.
+2026-08-15 14:10:37,511 | INFO | atlas | AI response received.
+2026-08-15 14:10:37,672 | INFO | atlas | AI response received.
+2026-08-15 14:10:37,847 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,068 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,241 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,406 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,578 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,692 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,806 | INFO | atlas | AI response received.
+2026-08-15 14:10:38,928 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,055 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,258 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,406 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,531 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,658 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,781 | INFO | atlas | AI response received.
+2026-08-15 14:10:39,994 | INFO | atlas | AI response received.
+2026-08-15 14:10:40,177 | INFO | atlas | AI response received.
+2026-08-15 14:10:40,299 | INFO | atlas | AI response received.
+2026-08-15 14:10:40,486 | INFO | atlas | AI response received.
+2026-08-15 14:10:40,644 | INFO | atlas | AI generation finished.
+2026-08-15 14:10:40,649 | INFO | atlas | AI response finished.
+2026-08-15 14:10:41,769 | INFO | atlas | Brain synchronized with conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:10:41,769 | INFO | atlas | Loaded conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:11:13,984 | INFO | atlas | Sending message to AI: It does not have persostnet memory after chat is closed it loses info how do i fix that it is a python project.
+2026-08-15 14:11:13,984 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:11:20,382 | INFO | atlas | AI response received.
+2026-08-15 14:11:20,550 | INFO | atlas | AI response received.
+2026-08-15 14:11:20,674 | INFO | atlas | AI response received.
+2026-08-15 14:11:20,799 | INFO | atlas | AI response received.
+2026-08-15 14:11:20,919 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,036 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,170 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,291 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,677 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,793 | INFO | atlas | AI response received.
+2026-08-15 14:11:21,915 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,034 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,157 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,277 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,399 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,516 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,634 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,751 | INFO | atlas | AI response received.
+2026-08-15 14:11:22,866 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,019 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,142 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,263 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,389 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,504 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,622 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,742 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,858 | INFO | atlas | AI response received.
+2026-08-15 14:11:23,972 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,123 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,257 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,377 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,492 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,614 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,733 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,855 | INFO | atlas | AI response received.
+2026-08-15 14:11:24,968 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,136 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,256 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,373 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,490 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,609 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,730 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,857 | INFO | atlas | AI response received.
+2026-08-15 14:11:25,976 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,119 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,235 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,366 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,479 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,600 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,715 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,833 | INFO | atlas | AI response received.
+2026-08-15 14:11:26,952 | INFO | atlas | AI response received.
+2026-08-15 14:11:27,094 | INFO | atlas | AI response received.
+2026-08-15 14:11:27,328 | INFO | atlas | AI response received.
+2026-08-15 14:11:27,518 | INFO | atlas | AI response received.
+2026-08-15 14:11:27,710 | INFO | atlas | AI response received.
+2026-08-15 14:11:27,874 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,069 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,193 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,318 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,442 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,566 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,689 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,808 | INFO | atlas | AI response received.
+2026-08-15 14:11:28,927 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,052 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,172 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,298 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,423 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,542 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,663 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,784 | INFO | atlas | AI response received.
+2026-08-15 14:11:29,905 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,075 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,194 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,324 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,443 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,576 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,694 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,813 | INFO | atlas | AI response received.
+2026-08-15 14:11:30,932 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,050 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,190 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,316 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,442 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,560 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,681 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,807 | INFO | atlas | AI response received.
+2026-08-15 14:11:31,932 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,056 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,178 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,311 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,433 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,555 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,675 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,799 | INFO | atlas | AI response received.
+2026-08-15 14:11:32,970 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,090 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,236 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,364 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,490 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,614 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,735 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,859 | INFO | atlas | AI response received.
+2026-08-15 14:11:33,991 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,117 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,247 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,376 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,499 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,624 | INFO | atlas | AI response received.
+2026-08-15 14:11:34,747 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,211 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,333 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,456 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,577 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,706 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,827 | INFO | atlas | AI response received.
+2026-08-15 14:11:35,949 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,070 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,208 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,331 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,455 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,577 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,698 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,823 | INFO | atlas | AI response received.
+2026-08-15 14:11:36,944 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,065 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,200 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,325 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,449 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,571 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,687 | INFO | atlas | AI response received.
+2026-08-15 14:11:37,807 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,058 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,198 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,347 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,472 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,592 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,715 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,837 | INFO | atlas | AI response received.
+2026-08-15 14:11:38,958 | INFO | atlas | AI response received.
+2026-08-15 14:11:39,077 | INFO | atlas | AI response received.
+2026-08-15 14:11:39,216 | INFO | atlas | AI response received.
+2026-08-15 14:11:39,349 | INFO | atlas | AI response received.
+2026-08-15 14:11:39,408 | INFO | atlas | AI generation stop requested.
+2026-08-15 14:11:39,591 | INFO | atlas | AI generation finished.
+2026-08-15 14:11:39,593 | INFO | atlas | AI response finished.
+2026-08-15 14:11:53,048 | INFO | atlas | Sending message to AI: What is my project name?
+2026-08-15 14:11:53,049 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:11:55,092 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,273 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,393 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,506 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,621 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,738 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,858 | INFO | atlas | AI response received.
+2026-08-15 14:11:55,974 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,093 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,214 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,345 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,459 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,581 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,720 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,837 | INFO | atlas | AI response received.
+2026-08-15 14:11:56,961 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,076 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,191 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,333 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,462 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,581 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,703 | INFO | atlas | AI response received.
+2026-08-15 14:11:57,832 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,035 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,166 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,288 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,408 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,529 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,651 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,771 | INFO | atlas | AI response received.
+2026-08-15 14:11:58,890 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,007 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,177 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,305 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,425 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,554 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,674 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,793 | INFO | atlas | AI response received.
+2026-08-15 14:11:59,913 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,035 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,170 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,290 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,414 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,536 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,662 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,784 | INFO | atlas | AI response received.
+2026-08-15 14:12:00,903 | INFO | atlas | AI response received.
+2026-08-15 14:12:01,024 | INFO | atlas | AI response received.
+2026-08-15 14:12:01,144 | INFO | atlas | AI response received.
+2026-08-15 14:12:01,272 | INFO | atlas | AI generation finished.
+2026-08-15 14:12:01,275 | INFO | atlas | AI response finished.
+2026-08-15 14:12:05,562 | INFO | atlas | Sending message to AI: What is my name
+2026-08-15 14:12:05,563 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:12:07,301 | INFO | atlas | AI response received.
+2026-08-15 14:12:07,478 | INFO | atlas | AI response received.
+2026-08-15 14:12:07,594 | INFO | atlas | AI response received.
+2026-08-15 14:12:07,710 | INFO | atlas | AI response received.
+2026-08-15 14:12:07,834 | INFO | atlas | AI response received.
+2026-08-15 14:12:08,034 | INFO | atlas | AI response received.
+2026-08-15 14:12:08,158 | INFO | atlas | AI generation finished.
+2026-08-15 14:12:08,159 | INFO | atlas | AI response finished.
+2026-08-15 14:12:14,430 | INFO | atlas | Sending message to AI: My name is Saad
+2026-08-15 14:12:14,431 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:12:17,227 | INFO | atlas | AI response received.
+2026-08-15 14:12:17,800 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,011 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,134 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,254 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,375 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,492 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,621 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,736 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,849 | INFO | atlas | AI response received.
+2026-08-15 14:12:18,966 | INFO | atlas | AI response received.
+2026-08-15 14:12:19,130 | INFO | atlas | AI response received.
+2026-08-15 14:12:19,252 | INFO | atlas | AI generation finished.
+2026-08-15 14:12:19,253 | INFO | atlas | AI response finished.
+2026-08-15 14:12:23,133 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 14:12:23,134 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:12:25,326 | INFO | atlas | AI response received.
+2026-08-15 14:12:25,484 | INFO | atlas | AI response received.
+2026-08-15 14:12:25,595 | INFO | atlas | AI response received.
+2026-08-15 14:12:25,708 | INFO | atlas | AI response received.
+2026-08-15 14:12:25,826 | INFO | atlas | AI response received.
+2026-08-15 14:12:25,942 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,059 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,189 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,305 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,422 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,542 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,663 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,781 | INFO | atlas | AI response received.
+2026-08-15 14:12:26,899 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,020 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,141 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,264 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,394 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,510 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,675 | INFO | atlas | AI response received.
+2026-08-15 14:12:27,798 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,009 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,139 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,276 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,398 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,516 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,631 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,748 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,863 | INFO | atlas | AI response received.
+2026-08-15 14:12:28,978 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,148 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,265 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,389 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,502 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,615 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,734 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,859 | INFO | atlas | AI response received.
+2026-08-15 14:12:29,981 | INFO | atlas | AI response received.
+2026-08-15 14:12:30,099 | INFO | atlas | AI response received.
+2026-08-15 14:12:30,236 | INFO | atlas | AI response received.
+2026-08-15 14:12:30,356 | INFO | atlas | AI response received.
+2026-08-15 14:12:30,470 | INFO | atlas | AI response received.
+2026-08-15 14:12:30,595 | INFO | atlas | AI generation finished.
+2026-08-15 14:12:30,597 | INFO | atlas | AI response finished.
+2026-08-15 14:12:46,206 | INFO | atlas | Sending message to AI: Remember this your makers name is  Saad
+2026-08-15 14:12:46,207 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:12:48,527 | INFO | atlas | AI response received.
+2026-08-15 14:12:48,698 | INFO | atlas | AI response received.
+2026-08-15 14:12:48,814 | INFO | atlas | AI response received.
+2026-08-15 14:12:48,932 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,047 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,167 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,289 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,410 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,530 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,649 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,774 | INFO | atlas | AI response received.
+2026-08-15 14:12:49,889 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,010 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,134 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,256 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,379 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,501 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,619 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,739 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,856 | INFO | atlas | AI response received.
+2026-08-15 14:12:50,980 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,092 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,225 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,349 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,464 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,580 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,696 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,813 | INFO | atlas | AI response received.
+2026-08-15 14:12:51,928 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,048 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,179 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,356 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,470 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,590 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,708 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,827 | INFO | atlas | AI response received.
+2026-08-15 14:12:52,972 | INFO | atlas | AI response received.
+2026-08-15 14:12:53,093 | INFO | atlas | AI generation finished.
+2026-08-15 14:12:53,096 | INFO | atlas | AI response finished.
+2026-08-15 14:12:59,443 | INFO | atlas | Sending message to AI: Who made you?
+2026-08-15 14:12:59,443 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:01,200 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,359 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,474 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,589 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,704 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,825 | INFO | atlas | AI response received.
+2026-08-15 14:13:01,947 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,063 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,186 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,358 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,476 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,591 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,709 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,828 | INFO | atlas | AI response received.
+2026-08-15 14:13:02,988 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,103 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,223 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,359 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,487 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,606 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,724 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,842 | INFO | atlas | AI response received.
+2026-08-15 14:13:03,965 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,081 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,211 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,340 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,455 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,572 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,689 | INFO | atlas | AI response received.
+2026-08-15 14:13:04,813 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:04,814 | INFO | atlas | AI response finished.
+2026-08-15 14:13:12,561 | INFO | atlas | Sending message to AI: Who made you run locally?
+2026-08-15 14:13:12,561 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:15,223 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,388 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,502 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,616 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,731 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,851 | INFO | atlas | AI response received.
+2026-08-15 14:13:15,971 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,089 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,213 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,337 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,453 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,567 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,683 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,801 | INFO | atlas | AI response received.
+2026-08-15 14:13:16,919 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,039 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,160 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,277 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,402 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,519 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,638 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,755 | INFO | atlas | AI response received.
+2026-08-15 14:13:17,926 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,091 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,215 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,335 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,448 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,583 | INFO | atlas | AI response received.
+2026-08-15 14:13:18,724 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:18,726 | INFO | atlas | AI response finished.
+2026-08-15 14:13:24,495 | INFO | atlas | Sending message to AI: Explain gravity
+2026-08-15 14:13:24,495 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:26,233 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,402 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,516 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,630 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,748 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,865 | INFO | atlas | AI response received.
+2026-08-15 14:13:26,986 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,105 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,226 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,349 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,465 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,580 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,698 | INFO | atlas | AI response received.
+2026-08-15 14:13:27,801 | INFO | atlas | AI generation stop requested.
+2026-08-15 14:13:28,032 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:28,035 | INFO | atlas | AI response finished.
+2026-08-15 14:13:30,218 | INFO | atlas | Sending message to AI: what is my name
+2026-08-15 14:13:30,218 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:32,033 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,203 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,325 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,439 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,551 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,672 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,787 | INFO | atlas | AI response received.
+2026-08-15 14:13:32,955 | INFO | atlas | AI response received.
+2026-08-15 14:13:33,428 | INFO | atlas | AI response received.
+2026-08-15 14:13:33,543 | INFO | atlas | AI response received.
+2026-08-15 14:13:33,711 | INFO | atlas | AI response received.
+2026-08-15 14:13:33,823 | INFO | atlas | AI response received.
+2026-08-15 14:13:33,943 | INFO | atlas | AI response received.
+2026-08-15 14:13:34,060 | INFO | atlas | AI response received.
+2026-08-15 14:13:34,186 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:34,190 | INFO | atlas | AI response finished.
+2026-08-15 14:13:38,563 | INFO | atlas | Sending message to AI: what is my name
+2026-08-15 14:13:38,563 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:39,341 | INFO | atlas | AI response received.
+2026-08-15 14:13:39,479 | INFO | atlas | AI response received.
+2026-08-15 14:13:39,594 | INFO | atlas | AI response received.
+2026-08-15 14:13:39,711 | INFO | atlas | AI response received.
+2026-08-15 14:13:39,839 | INFO | atlas | AI response received.
+2026-08-15 14:13:39,963 | INFO | atlas | AI response received.
+2026-08-15 14:13:40,082 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:40,083 | INFO | atlas | AI response finished.
+2026-08-15 14:13:48,427 | INFO | atlas | Sending message to AI: WHat is my favourate color?
+2026-08-15 14:13:48,428 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:13:50,515 | INFO | atlas | AI response received.
+2026-08-15 14:13:50,679 | INFO | atlas | AI response received.
+2026-08-15 14:13:50,793 | INFO | atlas | AI response received.
+2026-08-15 14:13:50,910 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,027 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,143 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,260 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,380 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,498 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,616 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,732 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,851 | INFO | atlas | AI response received.
+2026-08-15 14:13:51,975 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,092 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,216 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,338 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,461 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,577 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,709 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,823 | INFO | atlas | AI response received.
+2026-08-15 14:13:52,983 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,099 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,219 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,341 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,460 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,577 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,696 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,813 | INFO | atlas | AI response received.
+2026-08-15 14:13:53,929 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,048 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,168 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,285 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,403 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,576 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,691 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,808 | INFO | atlas | AI response received.
+2026-08-15 14:13:54,927 | INFO | atlas | AI response received.
+2026-08-15 14:13:55,054 | INFO | atlas | AI response received.
+2026-08-15 14:13:55,181 | INFO | atlas | AI generation finished.
+2026-08-15 14:13:55,183 | INFO | atlas | AI response finished.
+2026-08-15 14:14:11,413 | INFO | atlas | Sending message to AI: Forget that i have a project called atlas
+2026-08-15 14:14:11,414 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:14:13,568 | INFO | atlas | AI response received.
+2026-08-15 14:14:13,729 | INFO | atlas | AI response received.
+2026-08-15 14:14:13,850 | INFO | atlas | AI response received.
+2026-08-15 14:14:13,967 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,082 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,207 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,328 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,443 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,559 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,675 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,793 | INFO | atlas | AI response received.
+2026-08-15 14:14:14,907 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,029 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,156 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,276 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,398 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,513 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,635 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,751 | INFO | atlas | AI response received.
+2026-08-15 14:14:15,868 | INFO | atlas | AI response received.
+2026-08-15 14:14:16,184 | INFO | atlas | AI response received.
+2026-08-15 14:14:16,505 | INFO | atlas | AI generation finished.
+2026-08-15 14:14:16,506 | INFO | atlas | AI response finished.
+2026-08-15 14:14:21,555 | INFO | atlas | Sending message to AI: What project am i working on
+2026-08-15 14:14:21,555 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:14:24,050 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,211 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,329 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,443 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,557 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,670 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,786 | INFO | atlas | AI response received.
+2026-08-15 14:14:24,903 | INFO | atlas | AI response received.
+2026-08-15 14:14:25,017 | INFO | atlas | AI response received.
+2026-08-15 14:14:25,138 | INFO | atlas | AI response received.
+2026-08-15 14:14:25,254 | INFO | atlas | AI response received.
+2026-08-15 14:14:25,375 | INFO | atlas | AI generation finished.
+2026-08-15 14:14:25,377 | INFO | atlas | AI response finished.
+2026-08-15 14:14:30,412 | INFO | atlas | Brain synchronized with conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:14:33,476 | INFO | atlas | Brain synchronized with conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:14:34,854 | INFO | atlas | Stopping AI Thread...
+2026-08-15 14:14:34,857 | INFO | atlas | AI Thread stopped.
+2026-08-15 14:14:34,857 | INFO | atlas | Controller stopped.
+2026-08-15 14:14:34,857 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 14:22:35,647 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:35,648 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:22:35,652 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:35,652 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:22:35,652 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:22:35,653 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:35,653 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:22:35,653 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:22:35,654 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:22:47,758 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:47,758 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:22:47,762 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:22:47,762 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:22:53,726 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:53,728 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:22:53,730 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:53,730 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:22:53,731 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:22:53,732 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:22:53,732 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:22:53,732 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:22:53,733 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:03,279 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:03,279 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:23:03,282 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:03,282 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:23:03,283 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:23:03,284 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:03,284 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:03,284 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:23:03,285 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:11,481 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:11,483 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:23:11,488 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:23:11,491 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:23,601 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:23,601 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:23:23,605 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:23,605 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:23:23,606 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:23:23,607 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:23,607 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:23,608 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:23:23,609 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:42,956 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:42,957 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:23:42,961 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:42,962 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:23:42,964 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:23:42,965 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:42,965 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:42,966 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:23:42,967 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:42,970 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:42,973 | INFO | atlas | Brain processing message: Tell me something
+2026-08-15 14:23:42,974 | INFO | atlas | ROUTE: MODEL
+2026-08-15 14:23:54,904 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:54,904 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:23:54,907 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:54,907 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:23:54,908 | INFO | atlas | Brain processing message: Remember that my favorite color is blue
+2026-08-15 14:23:54,909 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:54,909 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:54,909 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:23:54,910 | INFO | atlas | Brain processing message: What is my favorite color?
+2026-08-15 14:23:54,910 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:23:54,910 | INFO | atlas | Brain processing message: Tell me something
+2026-08-15 14:23:54,911 | INFO | atlas | ROUTE: MODEL
+2026-08-15 14:23:54,911 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:26:08,870 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:26:08,870 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:26:08,871 | INFO | atlas | Brain processing message: My name is Saad
+2026-08-15 14:26:09,111 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:26:09,111 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:26:09,112 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:26:09,160 | INFO | atlas | Brain processing message: Forget my favorite color
+2026-08-15 14:26:09,160 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:26:09,161 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:26:09,161 | INFO | atlas | Brain processing message: What is my name?
+2026-08-15 14:27:59,209 | INFO | atlas | Atlas GUI starting...
+2026-08-15 14:27:59,210 | INFO | atlas | Core runtime loaded.
+2026-08-15 14:27:59,595 | INFO | atlas | Atlas application created.
+2026-08-15 14:27:59,618 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 14:27:59,619 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 14:27:59,623 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 14:27:59,626 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 14:27:59,628 | INFO | atlas | Loaded plugin: time
+2026-08-15 14:27:59,630 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 14:28:00,917 | INFO | atlas | Loaded plugin: math
+2026-08-15 14:28:00,917 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:00,918 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:00,918 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:00,918 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:28:00,918 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:00,918 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:28:00,920 | INFO | atlas | AIService initialized.
+2026-08-15 14:28:00,922 | INFO | atlas | Restored latest conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:28:00,922 | INFO | atlas | Brain synchronized with conversation: a96924ec-7d73-43f1-b186-8f2c73413f66
+2026-08-15 14:28:00,922 | INFO | atlas | Controller initialized
+2026-08-15 14:28:01,281 | INFO | atlas | Atlas main window created.
+2026-08-15 14:28:01,281 | INFO | atlas | AI Thread started.
+2026-08-15 14:28:01,281 | INFO | atlas | Controller started.
+2026-08-15 14:28:01,363 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 14:28:08,548 | INFO | atlas | Brain synchronized with conversation: 9c491dcf-7cbb-449a-9271-450ed13ff0e9
+2026-08-15 14:28:08,549 | INFO | atlas | Created conversation: 9c491dcf-7cbb-449a-9271-450ed13ff0e9
+2026-08-15 14:28:17,613 | INFO | atlas | Sending message to AI: My name is Saad
+2026-08-15 14:28:17,614 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:17,635 | INFO | atlas | AI response received.
+2026-08-15 14:28:17,638 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:17,641 | INFO | atlas | AI response finished.
+2026-08-15 14:28:23,863 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 14:28:23,864 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:23,877 | INFO | atlas | AI response received.
+2026-08-15 14:28:23,879 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:23,881 | INFO | atlas | AI response finished.
+2026-08-15 14:28:26,192 | INFO | atlas | Brain synchronized with conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:28:26,193 | INFO | atlas | Created conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:28:27,840 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 14:28:27,840 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:27,844 | INFO | atlas | AI response received.
+2026-08-15 14:28:27,846 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:27,849 | INFO | atlas | AI response finished.
+2026-08-15 14:28:34,471 | INFO | atlas | Stopping AI Thread...
+2026-08-15 14:28:34,472 | INFO | atlas | AI Thread stopped.
+2026-08-15 14:28:34,472 | INFO | atlas | Controller stopped.
+2026-08-15 14:28:34,473 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 14:28:37,277 | INFO | atlas | Atlas GUI starting...
+2026-08-15 14:28:37,280 | INFO | atlas | Core runtime loaded.
+2026-08-15 14:28:37,497 | INFO | atlas | Atlas application created.
+2026-08-15 14:28:37,507 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 14:28:37,509 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 14:28:37,512 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 14:28:37,516 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 14:28:37,518 | INFO | atlas | Loaded plugin: time
+2026-08-15 14:28:37,520 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 14:28:38,359 | INFO | atlas | Loaded plugin: math
+2026-08-15 14:28:38,359 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:38,360 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:38,360 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:38,360 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:28:38,360 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:28:38,360 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:28:38,361 | INFO | atlas | AIService initialized.
+2026-08-15 14:28:38,362 | INFO | atlas | Restored latest conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:28:38,362 | INFO | atlas | Brain synchronized with conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:28:38,362 | INFO | atlas | Controller initialized
+2026-08-15 14:28:38,566 | INFO | atlas | Atlas main window created.
+2026-08-15 14:28:38,566 | INFO | atlas | AI Thread started.
+2026-08-15 14:28:38,566 | INFO | atlas | Controller started.
+2026-08-15 14:28:38,625 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 14:28:41,689 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 14:28:41,690 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:41,706 | INFO | atlas | AI response received.
+2026-08-15 14:28:41,707 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:41,709 | INFO | atlas | AI response finished.
+2026-08-15 14:28:48,128 | INFO | atlas | Sending message to AI: Forget my name
+2026-08-15 14:28:48,129 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:48,136 | INFO | atlas | AI response received.
+2026-08-15 14:28:48,138 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:48,141 | INFO | atlas | AI response finished.
+2026-08-15 14:28:53,101 | INFO | atlas | Sending message to AI: what is my name?
+2026-08-15 14:28:53,104 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:28:53,116 | INFO | atlas | AI response received.
+2026-08-15 14:28:53,117 | INFO | atlas | AI generation finished.
+2026-08-15 14:28:53,122 | INFO | atlas | AI response finished.
+2026-08-15 14:28:59,809 | INFO | atlas | Stopping AI Thread...
+2026-08-15 14:28:59,811 | INFO | atlas | AI Thread stopped.
+2026-08-15 14:28:59,812 | INFO | atlas | Controller stopped.
+2026-08-15 14:28:59,813 | INFO | atlas | Atlas GUI exited with code 0
+2026-08-15 14:29:02,307 | INFO | atlas | Atlas GUI starting...
+2026-08-15 14:29:02,308 | INFO | atlas | Core runtime loaded.
+2026-08-15 14:29:02,508 | INFO | atlas | Atlas application created.
+2026-08-15 14:29:02,522 | INFO | atlas | Loaded plugin: calculator
+2026-08-15 14:29:02,523 | INFO | atlas | Loaded plugin: calendar
+2026-08-15 14:29:02,526 | INFO | atlas | Loaded plugin: fitness
+2026-08-15 14:29:02,529 | INFO | atlas | Loaded plugin: nutrition
+2026-08-15 14:29:02,531 | INFO | atlas | Loaded plugin: time
+2026-08-15 14:29:02,533 | INFO | atlas | Loaded plugin: web_search
+2026-08-15 14:29:03,819 | INFO | atlas | Loaded plugin: math
+2026-08-15 14:29:03,820 | INFO | atlas | Plugin system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:29:03,820 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:29:03,820 | INFO | atlas | Available Atlas tools: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:29:03,820 | INFO | atlas | AtlasBrain initialized
+2026-08-15 14:29:03,820 | INFO | atlas | Brain tool system loaded: ['calculator', 'calendar', 'fitness', 'nutrition', 'time', 'web_search', 'math']
+2026-08-15 14:29:03,821 | INFO | atlas | AIWorker initialized with tool system
+2026-08-15 14:29:03,821 | INFO | atlas | AIService initialized.
+2026-08-15 14:29:03,822 | INFO | atlas | Restored latest conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:29:03,823 | INFO | atlas | Brain synchronized with conversation: 074987de-a904-4d42-ba6b-f8dc75725af3
+2026-08-15 14:29:03,823 | INFO | atlas | Controller initialized
+2026-08-15 14:29:04,020 | INFO | atlas | Atlas main window created.
+2026-08-15 14:29:04,020 | INFO | atlas | AI Thread started.
+2026-08-15 14:29:04,020 | INFO | atlas | Controller started.
+2026-08-15 14:29:04,082 | INFO | atlas | Atlas GUI started successfully.
+2026-08-15 14:29:08,164 | INFO | atlas | Sending message to AI: What is my name?
+2026-08-15 14:29:08,166 | INFO | atlas | Sending message to AI worker.
+2026-08-15 14:29:08,177 | INFO | atlas | AI response received.
+2026-08-15 14:29:08,182 | INFO | atlas | AI generation finished.
+2026-08-15 14:29:08,186 | INFO | atlas | AI response finished.
+2026-08-15 14:30:09,693 | INFO | atlas | Stopping AI Thread...
+2026-08-15 14:30:09,695 | INFO | atlas | AI Thread stopped.
+2026-08-15 14:30:09,696 | INFO | atlas | Controller stopped.
+2026-08-15 14:30:09,696 | INFO | atlas | Atlas GUI exited with code 0

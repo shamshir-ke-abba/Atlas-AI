@@ -6,13 +6,38 @@
 
 # ----------------------------------------------------------
 
-# Python
+# Python / cache artifacts
 
 # ----------------------------------------------------------
 
-**pycache**/
+__pycache__/
+**/__pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *$py.class
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+**/.mypy_cache/
+.ruff_cache/
+**/.ruff_cache/
+.pyre/
+**/.pyre/
+.pytype/
+**/.pytype/
+.hypothesis/
+**/.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.cache/
+**/.cache/
+*.cache
+**/*.cache
 
 # Python build / packaging
 
@@ -257,3 +282,8 @@ atlas_tmp/
 atlas_cache/
 *.atlas.tmp
 *.atlas.log
+
+__pycache__/
+
+.log
+.pyc

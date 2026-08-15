@@ -5,6 +5,7 @@ from threading import Event
 from PySide6.QtCore import QObject, Signal, Slot
 
 from ai.brain import AtlasBrain
+from core.memory import MemoryManager
 from core.logger import logger
 
 
@@ -16,7 +17,12 @@ class AIWorker(QObject):
     def __init__(self, tools=None):
         super().__init__()
         self.tools = tools
-        self.brain = AtlasBrain(tools=tools)
+        # Inject the canonical persistent MemoryManager so the Brain
+        # has a single source of truth for persistent memory.
+        self.brain = AtlasBrain(
+            tools=tools,
+            memory=MemoryManager(),
+        )
         self.stop_event = Event()
         logger.info("AIWorker initialized with tool system")
 

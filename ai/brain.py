@@ -175,6 +175,17 @@ class AtlasBrain:
                     conversation_history
                 )
 
+            # Handle deterministic memory commands before routing
+            # to the model. These include explicit "remember", "forget",
+            # and simple recall queries such as "what is my name".
+            if self.memory is not None:
+                mem_cmd = self._handle_memory_command(
+                    message
+                )
+
+                if mem_cmd is not None:
+                    return mem_cmd
+
             # ------------------------------------------
             # Deterministic recall
             # ------------------------------------------
@@ -274,6 +285,16 @@ class AtlasBrain:
             self.set_conversation_history(
                 conversation_history
             )
+
+        # Deterministic memory commands handled synchronously
+        if self.memory is not None:
+            mem_cmd = self._handle_memory_command(
+                message
+            )
+
+            if mem_cmd is not None:
+                yield mem_cmd
+                return
 
         try:
 
@@ -727,6 +748,7 @@ class AtlasBrain:
                 self.context_builder.build(
                     history,
                     current_message,
+                    memory=self._get_relevant_memory(current_message),
                 )
             )
 
@@ -1272,7 +1294,214 @@ class AtlasBrain:
             )
 
         return {}
+    def _get_relevant_memory(
+        self,
+        current_message: str = "",
+    ) -> Dict[str, Any]:
+        """Retrieve only persistent memory relevant to the
+        current user message.
+        """
 
+        if self.memory is None:
+            return {}
+
+        try:
+            relevant = getattr(self.memory, "relevant", None)
+
+            if callable(relevant):
+                result = relevant(current_message)
+
+                if isinstance(result, dict):
+                    return result
+
+        except Exception as exc:
+            logger.warning(
+                "Relevant memory retrieval failed: %s",
+                exc,
+            )
+
+        return {}
+
+    # ==================================================
+    # MEMORY COMMAND HANDLING
+    # ==================================================
+
+    def _handle_memory_command(self, message: str) -> Optional[str]:
+        """Detect and execute deterministic memory commands.
+
+        Returns a string response if the message was a memory
+        command and was handled here; otherwise returns None.
+        """
+
+        if self.memory is None:
+            return None
+
+        text = str(message or "").strip()
+        lower = text.lower()
+
+        # --------------------------------------------------
+        # FORGET commands
+        # --------------------------------------------------
+        if lower.startswith("forget") or "forget that" in lower:
+            # Basic patterns: "forget my name", "forget that my project is Atlas"
+            try:
+                # If MemoryManager offers a convenient `forget` API
+                # we will try common mappings first.
+                data = self.memory.all()
+
+                # Attempt simple keyword mapping
+                if "name" in lower:
+                    self.memory.forget("identity", "name")
+                    return "I've forgotten your name."
+
+                if "favorite" in lower or "favourite" in lower or "color" in lower:
+                    self.memory.forget("preferences", "favorite_color")
+                    return "I've forgotten your favorite color."
+
+                # Fallback: search facts for the mentioned phrase and remove matches
+                facts = data.get("facts", {}) if isinstance(data, dict) else {}
+
+                for k, v in list(facts.items()):
+                    if isinstance(v, str) and v.lower() in lower:
+                        self.memory.forget("facts", k)
+                        return "I've forgotten that." 
+
+                return "I couldn't find a matching saved memory to forget."
+
+            except Exception as exc:
+                logger.exception("Memory forget failed")
+                return "Error: could not forget memory."
+
+        # --------------------------------------------------
+        # REMEMBER commands
+        # --------------------------------------------------
+        if lower.startswith("remember") or "remember that" in lower or lower.startswith("my name is"):
+            try:
+                # Prefer canonical extractor on MemoryManager
+                extractor = getattr(self.memory, "extract_from_message", None)
+
+                if callable(extractor):
+                    extractor(text)
+
+                    # Verify extraction via `relevant` if available
+                    relevant = getattr(self.memory, "relevant", None)
+
+                    if callable(relevant):
+                        rel = relevant(text)
+
+                        if rel:
+                            # Build confirmation
+                            parts = []
+
+                            if "identity" in rel:
+                                name = rel["identity"].get("name")
+                                if name:
+                                    parts.append(f"your name is {name}")
+
+                            if "preferences" in rel:
+                                for k, v in rel["preferences"].items():
+                                    parts.append(f"your {k.replace('_',' ')} is {v}")
+
+                            if "facts" in rel:
+                                parts.append("some facts saved.")
+
+                            if parts:
+                                return (
+                                    "Okay — I've saved that: "
+                                    + "; ".join(parts)
+                                )
+
+                    # If extractor didn't produce relevant, still confirm generic save
+                    return "Okay — I've saved that." 
+
+                # Fallback: naive parsing for patterns like "my name is X"
+                m = None
+
+                if "my name is" in lower:
+                    try:
+                        name = text.split("my name is", 1)[1].strip().split()[0]
+                        self.memory.remember("identity", "name", name)
+                        return f"I'll remember that your name is {name}."
+                    except Exception:
+                        pass
+
+                return None
+
+            except Exception:
+                logger.exception("Memory remember failed")
+                return "Error: could not save memory."
+
+        # --------------------------------------------------
+        # RECALL queries — use MemoryManager.relevant for deterministic replies
+        # --------------------------------------------------
+        if any(
+            phrase in lower
+            for phrase in (
+                "what is my name",
+                "what is my favourite",
+                "what is my favorite",
+                "what do you remember",
+                "do you remember",
+                "who am i",
+                "what project",
+                "what are my goals",
+            )
+        ):
+            try:
+                relevant = getattr(self.memory, "relevant", None)
+
+                is_name_query = any(p in lower for p in ("my name", "who am i", "what is my name"))
+                is_pref_query = any(p in lower for p in ("favorite", "favourite", "prefer", "preference", "like", "food", "color", "colour"))
+                is_fact_query = any(p in lower for p in ("remember", "forgot", "what did i tell you", "what do you know about me", "do you remember"))
+
+                if callable(relevant):
+                    rel = relevant(text)
+
+                    if is_name_query and rel.get("identity"):
+                        name = rel["identity"].get("name")
+                        if name:
+                            return f"Your name is {name}."
+
+                    if is_pref_query and rel.get("preferences"):
+                        prefs = rel["preferences"]
+                        if "favorite_color" in prefs:
+                            return f"Your favorite color is {prefs['favorite_color']}."
+
+                    if is_fact_query and rel.get("facts"):
+                        facts = rel["facts"]
+                        keys = list(facts.keys())[:5]
+                        if keys:
+                            return (
+                                "I have the following facts saved: "
+                                + ", ".join(keys)
+                            )
+
+                # Category-specific fallbacks
+                if is_name_query:
+                    try:
+                        name = self.memory.recall("identity", "name")
+                        if name:
+                            return f"Your name is {name}."
+                    except Exception:
+                        pass
+
+                if is_pref_query:
+                    try:
+                        val = self.memory.recall("preferences", "favorite_color")
+                        if val:
+                            return f"Your favorite color is {val}."
+                    except Exception:
+                        pass
+
+                # Nothing found for the specific query
+                return "I don't have that saved."
+
+            except Exception:
+                logger.exception("Memory recall failed")
+                return None
+
+        return None
+    
     # --------------------------------------------------
 
     def _update_memory(
@@ -1286,49 +1515,27 @@ class AtlasBrain:
 
         try:
 
-            if hasattr(
-                self.memory,
-                "remember",
-            ):
-
+            # Preferred: if the memory implementation offers
+            # an extractor that can parse user messages into
+            # structured facts, use it. This avoids misusing
+            # the low-level `remember` API.
+            if hasattr(self.memory, "extract_from_message"):
                 try:
-
-                    self.memory.remember(
-                        message,
-                        response,
+                    # Extract facts from the user's message.
+                    self.memory.extract_from_message(
+                        message
                     )
 
-                    return
-
-                except TypeError:
-
-                    try:
-
-                        self.memory.remember(
-                            message
-                        )
-
-                        return
-
-                    except Exception:
-                        pass
-
-            if hasattr(
-                self.memory,
-                "add",
-            ):
-
-                try:
-
-                    self.memory.add(
-                        message,
-                        response,
-                    )
-
-                    return
-
-                except TypeError:
+                except Exception:
+                    # Fall through to other methods on failure.
                     pass
+
+                return
+
+            # Do NOT persist model responses automatically. Only extract
+            # persistent facts from user messages via `extract_from_message`.
+            # This prevents hallucinated model outputs from becoming memory.
+            return
 
         except Exception as exc:
 
