@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "identity": {
+    "name": "Saad",
+    "age": 16
+  },
+  "preferences": {},
+  "schedule": {
+    "activity_level": "Moderate"
+  },
+  "fitness": {
+    "goal": "strength",
+    "experience": "beginner",
+    "equipment": [
+      "dumbbells 5",
+      "2.5 Kg"
+    ],
+    "restrictions": [
+      "None"
+    ]
+  },
+  "nutrition": {
+    "diet": "Balanced",
+    "allergies": [
+      "None"
+    ],
+    "intolerances": [
+      "Too much oil"
+    ],
+    "preferences": [
+      "home cooked food"
+    ]
+  },
+  "goals": {},
+  "metadata": {
+    "created_at": "2026-08-15T04:43:14.763140+00:00",
+    "updated_at": "2026-08-15T06:09:34.855767+00:00"
+  }
+}

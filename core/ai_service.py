@@ -76,6 +76,7 @@ class AIService(QObject):
         self,
         bus=None,
         state=None,
+        profile_store=None,
         parent=None,
     ):
 
@@ -89,6 +90,9 @@ class AIService(QObject):
         # --------------------------------------------------
 
         self.tools = ToolManager()
+
+        if profile_store is not None:
+            self.tools.attach_profile_store(profile_store)
 
         logger.info(
             "Available Atlas tools: %s",
