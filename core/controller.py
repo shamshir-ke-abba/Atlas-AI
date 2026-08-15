@@ -17,6 +17,7 @@ from datetime import datetime
 
 from core.logger import logger
 from core.state import AtlasState
+from core.profile_store import ProfileStore
 from core.conversation import (
     ConversationStore,
     ConversationManager,
@@ -76,6 +77,12 @@ class Controller:
         self.state = state
 
         # --------------------------------------------------
+        # Persistent Atlas profile
+        # --------------------------------------------------
+
+        self.profile_store = ProfileStore()
+
+        # --------------------------------------------------
         # Conversation storage
         # --------------------------------------------------
 
@@ -89,6 +96,26 @@ class Controller:
             bus=self.bus,
             state=self.state,
         )
+
+        # --------------------------------------------------
+        # Connect shared profile to the loaded tools
+        # --------------------------------------------------
+
+        tool_manager = getattr(
+            self.ai,
+            "tools",
+            None,
+        )
+
+        if tool_manager is not None:
+            attach = getattr(
+                tool_manager,
+                "attach_profile_store",
+                None,
+            )
+
+            if callable(attach):
+                attach(self.profile_store)
 
         # --------------------------------------------------
         # AI service signals
@@ -130,6 +157,66 @@ class Controller:
         logger.info(
             "Controller initialized"
         )
+
+    # ======================================================
+    # PERSISTENT PROFILE
+    # ======================================================
+
+    def get_profile(self):
+        """Return a copy of the complete persistent Atlas profile."""
+
+        return self.profile_store.get_profile()
+
+    def get_profile_value(
+        self,
+        path,
+        default=None,
+    ):
+        """Read a nested profile value using dot notation."""
+
+        return self.profile_store.get(
+            path,
+            default,
+        )
+
+    def set_profile_value(
+        self,
+        path,
+        value,
+    ):
+        """Set and persist one profile value."""
+
+        self.profile_store.set(
+            path,
+            value,
+        )
+
+    def update_profile(
+        self,
+        values,
+    ):
+        """Merge structured data into the persistent profile."""
+
+        self.profile_store.update(
+            values
+        )
+
+    def update_profile_section(
+        self,
+        section,
+        values,
+    ):
+        """Update one section of the persistent profile."""
+
+        self.profile_store.update_section(
+            section,
+            values,
+        )
+
+    def reset_profile(self):
+        """Reset the persistent Atlas profile to defaults."""
+
+        self.profile_store.reset()
 
     # ======================================================
     # CONVERSATION HELPERS

@@ -28,7 +28,6 @@ class AtlasBrain:
         memory=None,
         tools=None,
     ):
-
         self.model = (
             model
             if model is not None
@@ -43,25 +42,19 @@ class AtlasBrain:
 
         self.context_builder = ContextBuilder()
 
-        # Web-search state exposed to the browser runtime.
+        # Web-search state exposed to browser runtime.
         self.last_web_query = ""
         self.last_web_sources = []
 
-        logger.info(
-            "AtlasBrain initialized"
-        )
+        logger.info("AtlasBrain initialized")
 
         if self.tools is not None:
-
             try:
-
                 logger.info(
                     "Brain tool system loaded: %s",
                     self.tools.available(),
                 )
-
             except Exception as exc:
-
                 logger.warning(
                     "Could not inspect tool system: %s",
                     exc,
@@ -71,11 +64,7 @@ class AtlasBrain:
     # CONVERSATION
     # ==================================================
 
-    def set_active_conversation(
-        self,
-        conversation,
-    ):
-
+    def set_active_conversation(self, conversation):
         self.active_conversation = conversation
 
         self.conversation_history = (
@@ -86,38 +75,22 @@ class AtlasBrain:
 
         logger.debug(
             "Active conversation updated: %d messages",
-            len(
-                self.conversation_history
-            ),
+            len(self.conversation_history),
         )
 
     # --------------------------------------------------
 
-    def set_conversation_history(
-        self,
-        history,
-    ):
-
+    def set_conversation_history(self, history):
         if history is None:
-
             self.conversation_history = []
-
             return
 
-        if isinstance(
-            history,
-            list,
-        ):
-
-            self.conversation_history = list(
-                history
-            )
+        if isinstance(history, list):
+            self.conversation_history = list(history)
 
             logger.debug(
                 "Conversation history set: %d messages",
-                len(
-                    self.conversation_history
-                ),
+                len(self.conversation_history),
             )
 
             return
@@ -134,9 +107,7 @@ class AtlasBrain:
         self,
     ) -> Optional[str]:
 
-        conversation = (
-            self.active_conversation
-        )
+        conversation = self.active_conversation
 
         if conversation is None:
             return None
@@ -145,9 +116,7 @@ class AtlasBrain:
             conversation,
             "get_id",
         ):
-
             try:
-
                 result = conversation.get_id()
 
                 if result:
@@ -169,7 +138,6 @@ class AtlasBrain:
             conversation,
             dict,
         ):
-
             return conversation.get(
                 "id"
             )
@@ -191,7 +159,6 @@ class AtlasBrain:
         ).strip()
 
         if not message:
-
             return (
                 "Error: Empty message"
             )
@@ -204,7 +171,6 @@ class AtlasBrain:
         try:
 
             if conversation_history is not None:
-
                 self.set_conversation_history(
                     conversation_history
                 )
@@ -254,7 +220,6 @@ class AtlasBrain:
             )
 
             if response is None:
-
                 response = (
                     "No response generated."
                 )
@@ -264,7 +229,6 @@ class AtlasBrain:
             ).strip()
 
             if not response:
-
                 response = (
                     "No response generated."
                 )
@@ -295,144 +259,360 @@ class AtlasBrain:
         message: str,
         conversation_history=None,
     ):
-        """Yield response chunks for headless/browser clients.
 
-        The desktop controller uses process_message().  The browser needs
-        an iterator, so this method keeps the same routing logic while
-        exposing model/tool output incrementally.
-        """
-        message = str(message or "").strip()
+        """Yield response chunks for browser clients."""
+
+        message = str(
+            message or ""
+        ).strip()
+
         if not message:
             yield "Error: Empty message"
             return
 
         if conversation_history is not None:
-            self.set_conversation_history(conversation_history)
+            self.set_conversation_history(
+                conversation_history
+            )
 
         try:
-            recall_response = self._handle_conversation_recall(message)
+
+            recall_response = (
+                self._handle_conversation_recall(
+                    message
+                )
+            )
+
             if recall_response is not None:
-                self._update_memory(message, recall_response)
+
+                self._update_memory(
+                    message,
+                    recall_response,
+                )
+
                 yield recall_response
                 return
 
-            context = self._build_context(message)
+            context = self._build_context(
+                message
+            )
+
             tool = None
-            if self.tools is not None and hasattr(self.tools, "match"):
+
+            if (
+                self.tools is not None
+                and hasattr(
+                    self.tools,
+                    "match",
+                )
+            ):
                 try:
-                    tool = self.tools.match(message)
+                    tool = self.tools.match(
+                        message
+                    )
+
                 except Exception as exc:
-                    logger.warning("Web stream tool routing failed: %s", exc)
+
+                    logger.warning(
+                        "Web stream tool routing failed: %s",
+                        exc,
+                    )
+
+            # ------------------------------------------
+            # Tool response
+            # ------------------------------------------
 
             if tool is not None:
-                tool_name = str(getattr(tool, "name", "")).lower()
+
+                tool_name = str(
+                    getattr(
+                        tool,
+                        "name",
+                        "",
+                    )
+                ).lower()
+
                 if tool_name == "web_search":
-                    response = self._run_web_search_tool(tool, message)
+
+                    response = (
+                        self._run_web_search_tool(
+                            tool,
+                            message,
+                        )
+                    )
+
                 else:
-                    response = self._run_tool(tool, message)
-                self._update_memory(message, response)
+
+                    response = (
+                        self._run_tool(
+                            tool,
+                            message,
+                        )
+                    )
+
+                self._update_memory(
+                    message,
+                    response,
+                )
+
                 yield response
                 return
 
-            prompt = context.get("prompt", "") or self._fallback_prompt(
-                context.get("conversation_history", []),
-                message,
+            # ------------------------------------------
+            # Normal model response
+            # ------------------------------------------
+
+            prompt = (
+                context.get(
+                    "prompt",
+                    "",
+                )
+                or
+                self._fallback_prompt(
+                    context.get(
+                        "conversation_history",
+                        [],
+                    ),
+                    message,
+                )
             )
 
             parts = []
-            for chunk in self.model.generate(prompt, stream=True):
+
+            for chunk in self.model.generate(
+                prompt,
+                stream=True,
+            ):
+
                 if chunk is None:
                     continue
+
                 text = str(chunk)
+
                 if text:
-                    parts.append(text)
+
+                    parts.append(
+                        text
+                    )
+
                     yield text
 
-            response = "".join(parts).strip()
+            response = "".join(
+                parts
+            ).strip()
+
             if not response:
-                response = "No response generated."
+
+                response = (
+                    "No response generated."
+                )
+
                 yield response
 
-            self._update_memory(message, response)
+            self._update_memory(
+                message,
+                response,
+            )
 
         except Exception as exc:
-            logger.exception("Brain streaming failed")
-            error = f"Error: {exc}"
+
+            logger.exception(
+                "Brain streaming failed"
+            )
+
+            error = (
+                f"Error: {exc}"
+            )
+
             yield error
 
     # ==================================================
     # WEB SEARCH ANSWERING
     # ==================================================
 
-    def _run_web_search_tool(self, tool, message: str) -> str:
-        """Search the web, then ask Atlas to answer from the evidence."""
-        try:
-            query = message
-            if hasattr(tool, "_clean_query"):
-                query = tool._clean_query(message)
+    def _run_web_search_tool(
+        self,
+        tool,
+        message: str,
+    ) -> str:
 
-            self.last_web_query = str(query).strip()
+        """Search web and answer using retrieved evidence."""
+
+        try:
+
+            query = message
+
+            if hasattr(
+                tool,
+                "_clean_query",
+            ):
+
+                query = tool._clean_query(
+                    message
+                )
+
+            self.last_web_query = str(
+                query
+            ).strip()
+
             results = []
-            if hasattr(tool, "search_results"):
-                results = tool.search_results(query)
+
+            if hasattr(
+                tool,
+                "search_results",
+            ):
+
+                results = (
+                    tool.search_results(
+                        query
+                    )
+                )
+
+            # ------------------------------------------
+            # No structured results
+            # ------------------------------------------
 
             if not results:
-                raw = tool.run(expression=message)
+
+                raw = tool.run(
+                    expression=message
+                )
+
                 self.last_web_sources = []
-                return str(raw).strip()
+
+                return str(
+                    raw
+                ).strip()
+
+            # ------------------------------------------
+            # Save sources
+            # ------------------------------------------
 
             self.last_web_sources = [
                 {
-                    "title": item.get("title", "Source"),
-                    "url": item.get("url", ""),
-                    "snippet": item.get("snippet", ""),
+                    "title": item.get(
+                        "title",
+                        "Source",
+                    ),
+                    "url": item.get(
+                        "url",
+                        "",
+                    ),
+                    "snippet": item.get(
+                        "snippet",
+                        "",
+                    ),
                 }
+
                 for item in results
-                if item.get("url")
+
+                if item.get(
+                    "url"
+                )
             ]
 
+            # ------------------------------------------
+            # Build evidence
+            # ------------------------------------------
+
             evidence_lines = []
-            for index, item in enumerate(results, 1):
+
+            for index, item in enumerate(
+                results,
+                1,
+            ):
+
                 evidence_lines.append(
-                    f"[Source {index}] {item.get('title', 'Untitled')}\n"
+                    f"[Source {index}] "
+                    f"{item.get('title', 'Untitled')}\n"
                     f"URL: {item.get('url', '')}\n"
                     f"Snippet: {item.get('snippet', '')}"
                 )
 
             prompt = (
                 "You are Atlas, a helpful local AI assistant.\n\n"
-                "Answer the user's CURRENT question using the web evidence below.\n"
-                "Give the direct answer FIRST. Do not output a search-result list.\n"
-                "Do not say you cannot browse. Do not invent facts that are not supported\n"
-                "by the evidence. If the evidence is insufficient, say so clearly.\n"
-                "Keep the answer concise unless the question needs explanation.\n\n"
+
+                "Answer the user's CURRENT question "
+                "using the web evidence below.\n"
+
+                "Give the direct answer FIRST. "
+                "Do not output a search-result list.\n"
+
+                "Do not say you cannot browse. "
+                "Do not invent facts that are not supported "
+                "by the evidence.\n"
+
+                "If the evidence is insufficient, "
+                "say so clearly.\n"
+
+                "Keep the answer concise unless "
+                "the question needs explanation.\n\n"
+
                 "CURRENT USER QUESTION:\n"
                 f"{message}\n\n"
+
                 "WEB EVIDENCE:\n"
-                + "\n\n".join(evidence_lines)
-                + "\n\nANSWER:"
+                +
+                "\n\n".join(
+                    evidence_lines
+                )
+                +
+                "\n\nANSWER:"
             )
 
             answer_parts = []
-            for chunk in self.model.generate(prompt, stream=True):
+
+            for chunk in self.model.generate(
+                prompt,
+                stream=True,
+            ):
+
                 if chunk is not None:
-                    answer_parts.append(str(chunk))
 
-            answer = "".join(answer_parts).strip()
+                    answer_parts.append(
+                        str(chunk)
+                    )
+
+            answer = "".join(
+                answer_parts
+            ).strip()
+
             if not answer:
-                answer = "I found web results, but could not generate an answer from them."
 
-            source_lines = ["", "Sources"]
+                answer = (
+                    "I found web results, "
+                    "but could not generate "
+                    "an answer from them."
+                )
+
+            source_lines = [
+                "",
+                "Sources",
+            ]
+
             for item in self.last_web_sources[:6]:
+
                 source_lines.append(
                     f"• {item['title']} — {item['url']}"
                 )
 
-            return answer + "\n" + "\n".join(source_lines)
+            return (
+                answer
+                + "\n"
+                + "\n".join(
+                    source_lines
+                )
+            )
 
         except Exception as exc:
-            logger.exception("Web search answering failed")
-            return f"Web search failed: {exc}"
+
+            logger.exception(
+                "Web search answering failed"
+            )
+
+            return (
+                f"Web search failed: {exc}"
+            )
 
     # ==================================================
     # RECALL
@@ -576,6 +756,7 @@ class AtlasBrain:
 
         prompt = (
             "You are Atlas, a local AI assistant.\n\n"
+
             "Use the conversation history to maintain "
             "context and answer naturally.\n\n"
         )
@@ -649,10 +830,6 @@ class AtlasBrain:
 
             try:
 
-                # --------------------------------------
-                # Preferred ToolManager API
-                # --------------------------------------
-
                 if hasattr(
                     self.tools,
                     "match",
@@ -715,11 +892,13 @@ class AtlasBrain:
                     "Error: Invalid tool"
                 )
 
-            tool_name = getattr(
-                tool,
-                "name",
-                type(tool).__name__,
-            )
+            tool_name = str(
+                getattr(
+                    tool,
+                    "name",
+                    type(tool).__name__,
+                )
+            ).lower()
 
             logger.info(
                 "Executing tool: %s",
@@ -729,54 +908,93 @@ class AtlasBrain:
             # ==================================================
             # WEB SEARCH
             # ==================================================
-            # Search results are evidence, not the final response.
-            # Let Atlas answer from the retrieved sources.
-            # ==================================================
 
             if tool_name == "web_search":
-                return self._run_web_search_tool(
-                    tool,
-                    message,
+
+                return (
+                    self._run_web_search_tool(
+                        tool,
+                        message,
+                    )
                 )
 
             # ==================================================
-            # MATH TOOL
-            # ==================================================
-            #
-            # MathPlugin now understands the complete
-            # natural-language request.
-            #
-            # Examples:
-            #
-            #   differentiate x^2
-            #   what is the derivative of x^2?
-            #   integrate 2x
-            #   solve x^2 - 4 = 0
-            #
-            # We deliberately pass the original message
-            # instead of trying to parse mathematics here.
-            #
-            # The Brain orchestrates.
-            # The MathPlugin interprets.
-            # The MathEngine calculates.
-            #
+            # MATH
             # ==================================================
 
             if tool_name == "math":
 
-                return self._run_math_tool(
-                    tool,
-                    message,
+                return (
+                    self._run_math_tool(
+                        tool,
+                        message,
+                    )
                 )
 
             # ==================================================
-            # STANDARD TOOL API
+            # FITNESS / NUTRITION
+            # ==================================================
+            #
+            # IMPORTANT:
+            #
+            # FitnessPlugin and NutritionPlugin use:
+            #
+            #     run(action="", message="", **kwargs)
+            #
+            # Therefore the user's request MUST be passed
+            # using the `message=` keyword.
+            #
+            # DO NOT do:
+            #
+            #     tool.run(message)
+            #
+            # because that makes the user's message become
+            # `action`.
+            #
+            # ==================================================
+
+            if tool_name in (
+                "fitness",
+                "nutrition",
+            ):
+
+                logger.info(
+                    "Profile tool execution: "
+                    "tool=%s message=%r",
+                    tool_name,
+                    message,
+                )
+
+                result = tool.run(
+                    action="",
+                    message=message,
+                )
+
+                if result is None:
+
+                    return (
+                        "No result returned by "
+                        f"{tool_name} tool."
+                    )
+
+                return str(
+                    result
+                ).strip()
+
+            # ==================================================
+            # STANDARD TOOLS
+            # ==================================================
+            #
+            # Prefer keyword arguments so plugins cannot
+            # accidentally interpret the message as another
+            # positional parameter.
+            #
             # ==================================================
 
             try:
 
                 result = tool.run(
-                    message
+                    message=message
                 )
 
             except TypeError:
@@ -784,13 +1002,13 @@ class AtlasBrain:
                 try:
 
                     result = tool.run(
-                        message=message
+                        query=message
                     )
 
                 except TypeError:
 
                     result = tool.run(
-                        query=message
+                        expression=message
                     )
 
             if result is None:
@@ -830,10 +1048,12 @@ class AtlasBrain:
             # --------------------------------------------------
 
             operation = ""
-
             variable = "x"
 
-            # Detect operation if supported
+            # ------------------------------------------
+            # Detect operation
+            # ------------------------------------------
+
             if hasattr(
                 tool,
                 "detect_operation",
@@ -854,7 +1074,10 @@ class AtlasBrain:
                         exc,
                     )
 
-            # Detect variable if supported
+            # ------------------------------------------
+            # Detect variable
+            # ------------------------------------------
+
             if hasattr(
                 tool,
                 "detect_variable",
@@ -882,9 +1105,9 @@ class AtlasBrain:
                 variable,
             )
 
-            # --------------------------------------------------
-            # Execute new structured MathPlugin
-            # --------------------------------------------------
+            # ------------------------------------------
+            # Structured MathPlugin API
+            # ------------------------------------------
 
             try:
 
@@ -907,9 +1130,9 @@ class AtlasBrain:
                     exc,
                 )
 
-            # --------------------------------------------------
-            # Backward compatibility
-            # --------------------------------------------------
+            # ------------------------------------------
+            # Legacy fallback
+            # ------------------------------------------
 
             logger.debug(
                 "Falling back to legacy math execution"
@@ -970,12 +1193,14 @@ class AtlasBrain:
 
         if not prompt:
 
-            prompt = self._fallback_prompt(
-                context.get(
-                    "conversation_history",
-                    [],
-                ),
-                message,
+            prompt = (
+                self._fallback_prompt(
+                    context.get(
+                        "conversation_history",
+                        [],
+                    ),
+                    message,
+                )
             )
 
         try:
@@ -1163,9 +1388,11 @@ class AtlasBrain:
         if messages is not None:
 
             try:
+
                 return list(
                     messages
                 )
+
             except Exception:
                 pass
 
@@ -1178,9 +1405,11 @@ class AtlasBrain:
         if messages is not None:
 
             try:
+
                 return list(
                     messages
                 )
+
             except Exception:
                 pass
 
@@ -1233,7 +1462,6 @@ class AtlasBrain:
                     )
 
             except Exception:
-
                 tools = []
 
         return {

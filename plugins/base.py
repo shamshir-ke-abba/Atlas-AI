@@ -129,6 +129,23 @@ class AtlasPlugin:
         }
 
     # ==========================================================
+    # PROFILE STORE
+    # ==========================================================
+
+    def set_profile_store(
+        self,
+        profile_store,
+    ):
+        """
+        Attach Atlas's shared persistent profile store.
+
+        Profile-aware plugins can use self.profile_store.
+        Other plugins may safely ignore it.
+        """
+
+        self.profile_store = profile_store
+
+    # ==========================================================
     # EXECUTION
     # ==========================================================
 

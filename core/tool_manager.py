@@ -30,6 +30,58 @@ class ToolManager:
         )
 
     # ==================================================
+    # PROFILE STORE
+    # ==================================================
+
+    def attach_profile_store(
+        self,
+        profile_store,
+    ):
+        """
+        Attach the shared persistent Atlas ProfileStore to
+        every plugin that supports profile state.
+
+        This deliberately does not change ToolManager's constructor,
+        so existing Atlas code that calls ToolManager() remains compatible.
+        """
+
+        self.profile_store = profile_store
+
+        for plugin in self.plugins.plugins.values():
+
+            setter = getattr(
+                plugin,
+                "set_profile_store",
+                None,
+            )
+
+            if not callable(setter):
+                continue
+
+            try:
+                setter(profile_store)
+
+                logger.debug(
+                    "ProfileStore attached to tool: %s",
+                    getattr(
+                        plugin,
+                        "name",
+                        type(plugin).__name__,
+                    ),
+                )
+
+            except Exception as exc:
+                logger.warning(
+                    "Could not attach ProfileStore to tool '%s': %s",
+                    getattr(
+                        plugin,
+                        "name",
+                        type(plugin).__name__,
+                    ),
+                    exc,
+                )
+
+    # ==================================================
     # EXECUTION
     # ==================================================
 
