@@ -21,8 +21,11 @@ from core.logger import logger
 class ToolManager:
     """Central manager for Atlas tools."""
 
-    def __init__(self):
+    def __init__(self, profile_store=None):
         self.plugins = PluginManager()
+
+        if profile_store is not None:
+            self.attach_profile_store(profile_store)
 
         logger.info(
             "Available Atlas tools: %s",

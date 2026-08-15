@@ -73,6 +73,11 @@ class AtlasSidebar(QWidget):
         self.history_list.itemClicked.connect(self.handle_history_clicked)
         self.history_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.history_list.customContextMenuRequested.connect(self.show_history_menu)
+        # Prevent horizontal overflow for long conversation titles by
+        # disabling the horizontal scrollbar and allowing word-wrap.
+        self.history_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # Enable wrapping so long titles are wrapped/elided within the sidebar width
+        self.history_list.setWordWrap(True)
         layout.addWidget(self.history_list, 1)
 
         layout.addSpacing(8)

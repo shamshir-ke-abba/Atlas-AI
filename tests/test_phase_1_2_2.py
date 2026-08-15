@@ -39,34 +39,48 @@ def isolated_memory(tmp_path):
     core_memory.MEMORY_FILE = old
 
 
+def test_phase_1_2_2_name_extraction(isolated_memory):
+    isolated_memory.extract_from_message("My name is Saad.")
+    isolated_memory.extract_from_message("Call me Saad.")
+
+    assert isolated_memory.recall("identity", "name") == "Saad"
+
+
 def test_phase_1_2_2_natural_project_extraction(isolated_memory):
     isolated_memory.extract_from_message(
         "I'm building an AI assistant called Atlas in Python."
     )
+    isolated_memory.extract_from_message("AtlasAI is written in Python.")
+    isolated_memory.extract_from_message("My project uses Ollama.")
 
     assert isolated_memory.recall("projects", "project_name") == "Atlas"
     assert isolated_memory.recall("projects", "technology") == "Python"
+    assert isolated_memory.recall("projects", "runtime") == "Ollama"
 
 
 def test_phase_1_2_2_preference_extraction(isolated_memory):
     isolated_memory.extract_from_message(
         "I prefer explanations from first principles."
     )
+    isolated_memory.extract_from_message("I prefer concise answers.")
 
     assert (
         isolated_memory.recall("preferences", "explanation_style")
-        == "first principles"
+        == "concise"
     )
 
 
 def test_phase_1_2_2_environment_extraction(isolated_memory):
     isolated_memory.extract_from_message("I use Ubuntu.")
+    isolated_memory.extract_from_message("I'm using Ubuntu Linux.")
 
     assert isolated_memory.recall("environment", "operating_system") == "Ubuntu"
 
 
 def test_phase_1_2_2_no_extraction_from_questions(isolated_memory):
     isolated_memory.extract_from_message("What is Python?")
+    isolated_memory.extract_from_message("Why is Ubuntu popular?")
+    isolated_memory.extract_from_message("How does recursion work?")
 
     assert isolated_memory.recall("projects", "project_name") is None
     assert isolated_memory.recall("environment", "operating_system") is None
@@ -75,6 +89,8 @@ def test_phase_1_2_2_no_extraction_from_questions(isolated_memory):
 
 def test_phase_1_2_2_no_extraction_from_temporary_statements(isolated_memory):
     isolated_memory.extract_from_message("I'm tired today.")
+    isolated_memory.extract_from_message("I'm hungry.")
+    isolated_memory.extract_from_message("I am learning Python.")
 
     assert isolated_memory.recall("identity", "name") is None
     assert isolated_memory.recall("preferences", "explanation_style") is None

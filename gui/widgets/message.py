@@ -21,10 +21,20 @@ from PySide6.QtWidgets import (
 
 
 def markdown_to_html(text):
-    raw = html.unescape(str(text or ""))
+    # Repeatedly unescape HTML entities to collapse double-encoding (e.g. "&amp;#x27;" -> "'")
+    raw = str(text or "")
+    prev = None
+    while raw != prev:
+        prev = raw
+        raw = html.unescape(raw)
+
     raw = re.sub(r"<br\s*/?>", "\n", raw, flags=re.IGNORECASE)
     raw = re.sub(r"</?(?:p|div)>", "\n", raw, flags=re.IGNORECASE)
-    text = html.escape(raw)
+
+    # Escape only the characters that would produce unintended HTML markup
+    # but preserve quotes/apostrophes for readable text. This prevents
+    # single quotes from being converted to numeric entities like &#x27;.
+    text = html.escape(raw, quote=False)
     text = re.sub(
         r"```(?:[^\n]*)\n(.*?)```",
         lambda m: (
@@ -147,6 +157,11 @@ class AtlasMessage(QWidget):
 
     def set_text(self, text):
         self.text = str(text or "")
+        # Ensure we render via the single RichText pipeline so
+        # partial streamed chunks are interpreted consistently
+        # (prevents showing literal HTML tags when the label
+        # was previously switched to PlainText by thinking frames).
+        self.message_label.setTextFormat(Qt.RichText)
         self.message_label.setText(markdown_to_html(self.text))
         self._resize_bubble()
 

@@ -1445,14 +1445,83 @@ class AtlasBrain:
                 "who am i",
                 "what project",
                 "what are my goals",
+                "what kind of explanations do i prefer",
+                "what operating system do i use",
+                "what programming language is my project written in",
+                "what language is my project written in",
+                "what technology is my project using",
+                "what is my project called",
+                "what do you know about my project",
+                "tell me about my project",
+                "what is my project",
+                "what is my name",
             )
         ):
             try:
                 relevant = getattr(self.memory, "relevant", None)
 
-                is_name_query = any(p in lower for p in ("my name", "who am i", "what is my name"))
-                is_pref_query = any(p in lower for p in ("favorite", "favourite", "prefer", "preference", "like", "food", "color", "colour"))
-                is_fact_query = any(p in lower for p in ("remember", "forgot", "what did i tell you", "what do you know about me", "do you remember"))
+                is_name_query = any(
+                    p in lower
+                    for p in (
+                        "my name",
+                        "who am i",
+                        "what is my name",
+                        "do you remember my name",
+                    )
+                )
+                is_pref_query = any(
+                    p in lower
+                    for p in (
+                        "favorite",
+                        "favourite",
+                        "prefer",
+                        "preference",
+                        "like",
+                        "food",
+                        "color",
+                        "colour",
+                        "explanations",
+                        "explanation",
+                        "answers",
+                        "style",
+                    )
+                )
+                is_project_query = any(
+                    p in lower
+                    for p in (
+                        "project",
+                        "app",
+                        "application",
+                        "software",
+                        "code",
+                        "technology",
+                        "language",
+                        "atlas",
+                    )
+                )
+                is_environment_query = any(
+                    p in lower
+                    for p in (
+                        "os",
+                        "operating system",
+                        "ubuntu",
+                        "windows",
+                        "linux",
+                        "macos",
+                        "what system",
+                        "do i use",
+                    )
+                )
+                is_fact_query = any(
+                    p in lower
+                    for p in (
+                        "remember",
+                        "forgot",
+                        "what did i tell you",
+                        "what do you know about me",
+                        "do you remember",
+                    )
+                )
 
                 if callable(relevant):
                     rel = relevant(text)
@@ -1464,8 +1533,25 @@ class AtlasBrain:
 
                     if is_pref_query and rel.get("preferences"):
                         prefs = rel["preferences"]
-                        if "favorite_color" in prefs:
-                            return f"Your favorite color is {prefs['favorite_color']}."
+                        if "explanation_style" in prefs:
+                            return f"You prefer explanations {prefs['explanation_style']}."
+                        for key, value in prefs.items():
+                            if value:
+                                return f"You prefer {key.replace('_', ' ')}: {value}."
+
+                    if is_project_query and rel.get("projects"):
+                        proj = rel["projects"]
+                        if "project_name" in proj and proj["project_name"]:
+                            return f"Your project is called {proj['project_name']}."
+                        if "technology" in proj and proj["technology"]:
+                            return f"Your project is written in {proj['technology']}."
+                        if "runtime" in proj and proj["runtime"]:
+                            return f"Your project uses {proj['runtime']}."
+
+                    if is_environment_query and rel.get("environment"):
+                        env = rel["environment"]
+                        if "operating_system" in env:
+                            return f"You use {env['operating_system']}."
 
                     if is_fact_query and rel.get("facts"):
                         facts = rel["facts"]
@@ -1487,9 +1573,31 @@ class AtlasBrain:
 
                 if is_pref_query:
                     try:
-                        val = self.memory.recall("preferences", "favorite_color")
+                        val = self.memory.recall("preferences", "explanation_style")
                         if val:
-                            return f"Your favorite color is {val}."
+                            return f"You prefer explanations {val}."
+                    except Exception:
+                        pass
+
+                if is_project_query:
+                    try:
+                        project_name = self.memory.recall("projects", "project_name")
+                        if project_name:
+                            return f"Your project is called {project_name}."
+                        technology = self.memory.recall("projects", "technology")
+                        if technology:
+                            return f"Your project is written in {technology}."
+                        runtime = self.memory.recall("projects", "runtime")
+                        if runtime:
+                            return f"Your project uses {runtime}."
+                    except Exception:
+                        pass
+
+                if is_environment_query:
+                    try:
+                        val = self.memory.recall("environment", "operating_system")
+                        if val:
+                            return f"You use {val}."
                     except Exception:
                         pass
 

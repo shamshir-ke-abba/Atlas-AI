@@ -1,8 +1,18 @@
 {
-    "identity": {
-        "city": "Mumbai"
-    },
     "preferences": {
-        "favorite_color": "blue."
+        "explanation_style": "first principles"
+    },
+    "projects": {
+        "project_name": "Atlas",
+        "technology": "Python",
+        "runtime": "Ollama"
+    },
+    "environment": {
+        "operating_system": "Ubuntu"
+    },
+    "facts": {},
+    "goals": {},
+    "identity": {
+        "name": "saad"
     }
 }

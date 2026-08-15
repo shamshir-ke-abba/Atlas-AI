@@ -228,39 +228,40 @@ class MemoryManager:
         # Name
         # --------------------------------------------------
 
-        match = re.search(
+        for pattern in (
             r"\b(?:my name is|i am|i'm)\s+([A-Za-z][A-Za-z0-9_-]*)",
-            text,
-            re.IGNORECASE,
-        )
+            r"\bcall me\s+([A-Za-z][A-Za-z0-9_-]*)",
+        ):
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                value = match.group(1).strip(" .,!?:;\"")
 
-        if match:
-            value = match.group(1).strip(" .,!?:;\"")
+                if value:
+                    lowered = value.lower()
+                    blocked = {
+                        "tired",
+                        "studying",
+                        "busy",
+                        "building",
+                        "working",
+                        "using",
+                        "creating",
+                        "developing",
+                        "making",
+                        "learning",
+                        "writing",
+                        "exploring",
+                        "researching",
+                        "hungry",
+                    }
 
-            if value:
-                lowered = value.lower()
-                blocked = {
-                    "tired",
-                    "studying",
-                    "busy",
-                    "building",
-                    "working",
-                    "using",
-                    "creating",
-                    "developing",
-                    "making",
-                    "learning",
-                    "writing",
-                    "exploring",
-                    "researching",
-                }
-
-                if lowered not in blocked and not lowered.endswith("ing"):
-                    self.remember(
-                        "identity",
-                        "name",
-                        value,
-                    )
+                    if lowered not in blocked and not lowered.endswith("ing"):
+                        self.remember(
+                            "identity",
+                            "name",
+                            value,
+                        )
+                        break
 
         # --------------------------------------------------
         # City / location
@@ -328,23 +329,42 @@ class MemoryManager:
 
         project_name = None
         technology = None
+        runtime = None
 
         project_patterns = (
-            r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on|my project|project)\s+(?:building|working on|developing|creating|making)\s+(?:an?\s+)?(?:[A-Za-z][A-Za-z0-9 _-]*?\s+)?(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
-            r"\bmy\s+project\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:is|was)\s+(?:written|built|developed|created)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+)|\s+(?:is|was)\s+(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?))?(?:[.!?]|$)",
-            r"\b(?:my\s+project|project|app|application)\s+(?:is|is called|called)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:written|built|developed|in|using)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
+            r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on|my project|this project|project)\s+(?:building|working on|developing|creating|making)\s+(?:an?\s+)?(?:[A-Za-z][A-Za-z0-9 _-]*?\s+)?(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
+            r"\b(?:my project|this project|project|app|application)\s+(?:is|is called|called)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:written|built|developed|in|using)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
+            r"\b([A-Za-z][A-Za-z0-9_-]*)\s+is\s+written\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+)",
             r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on)\s+(?:on|with)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
         )
 
         for pattern in project_patterns:
             match = re.search(pattern, text, re.IGNORECASE)
             if match:
-                project_name = (match.group(1) or "").strip(" .,!?:;\"")
-                technology = (match.group(2) or match.group(3) or "").strip(" .,!?:;\"")
+                groups = match.groups() or ()
+                project_name = (groups[0] if groups else "").strip(" .,!?:;\"") if groups else ""
+                technology = (groups[1] if len(groups) > 1 and groups[1] is not None else "").strip(" .,!?:;\"")
+
                 if project_name:
+                    cleaned = project_name.lower()
+                    if cleaned.startswith(("uses ", "runs ", "running ", "working ", "building ", "developing ", "creating ", "written ", "called ", "named ", "is ", "is called ")):
+                        project_name = None
+                    else:
+                        project_name = re.sub(r"^(?:my project|this project|project|app|application|atlasai)\s+", "", project_name, flags=re.IGNORECASE).strip()
+
+                if project_name or technology:
                     break
 
         if project_name:
+            existing = self.recall("projects", "project_name")
+            if existing:
+                existing_norm = str(existing).strip().lower()
+                project_norm = str(project_name).strip().lower()
+                if project_norm.startswith(existing_norm) or existing_norm.startswith(project_norm):
+                    project_name = existing
+                elif project_norm.endswith("ai") and existing_norm == project_norm[:-2]:
+                    project_name = existing
+
             self.remember(
                 "projects",
                 "project_name",
@@ -359,11 +379,42 @@ class MemoryManager:
             )
 
         # --------------------------------------------------
+        # Project runtime / tooling extraction
+        # --------------------------------------------------
+
+        runtime_patterns = (
+            r"\b(?:my project|this project|atlasai|my ai|it|the app|the application)\s+(?:uses?|is using)\s+([A-Za-z][A-Za-z0-9_.+-]+)",
+            r"\b(?:my project|this project|atlasai|my ai|it|the app|the application)\s+runs?\s+locally(?:\s+using\s+([A-Za-z][A-Za-z0-9_.+-]+))?",
+            r"\b(?:it|atlasai|my project|my ai|this app)\s+uses\s+ollama\b",
+        )
+
+        for pattern in runtime_patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                runtime = (match.group(1) or match.group(2) or "local").strip(" .,!?:;\"")
+                if runtime.lower() in {"local", "locally"}:
+                    runtime = "local"
+                self.remember(
+                    "projects",
+                    "runtime",
+                    runtime,
+                )
+                break
+
+        if not runtime and re.search(r"\b(?:runs locally|runs locally using ollama|my ai runs locally)\b", lower):
+            self.remember(
+                "projects",
+                "runtime",
+                "local",
+            )
+
+        # --------------------------------------------------
         # Preference extraction (conservative)
         # --------------------------------------------------
 
         for style, key in (
             ("first principles", "explanation_style"),
+            ("first-principles", "explanation_style"),
             ("step by step", "explanation_style"),
             ("step-by-step", "explanation_style"),
             ("concise", "explanation_style"),
@@ -396,13 +447,16 @@ class MemoryManager:
 
         for os_name in os_names:
             if os_name in lower and re.search(
-                r"\b(?:i use|i usually use|i run|i work on|i work with|my operating system|os)\b",
+                r"\b(?:i use|i'm using|i usually use|i run|i work on|i work with|my operating system|os|using)\b",
                 lower,
             ):
+                label = os_name.title() if os_name != "macos" else "macOS"
+                if os_name == "linux":
+                    label = "Linux"
                 self.remember(
                     "environment",
                     "operating_system",
-                    os_name.title() if os_name != "macos" else "macOS",
+                    label,
                 )
                 break
 
@@ -457,6 +511,9 @@ class MemoryManager:
                 "where i live",
                 "about me",
                 "my profile",
+                "what is my name",
+                "do you remember my name",
+                "remember my name",
             )
         ) and identity:
             result["identity"] = identity
@@ -475,12 +532,16 @@ class MemoryManager:
                 "eat",
                 "color",
                 "colour",
+                "explanations",
+                "explanation",
+                "answers",
+                "style",
             )
         ) and preferences:
             result["preferences"] = preferences
 
         # Project / technology questions.
-        if (
+        if projects and (
             (
                 "project" in text
                 or "app" in text
@@ -488,13 +549,22 @@ class MemoryManager:
                 or "software" in text
                 or "codebase" in text
                 or "structure" in text
+                or "atlas" in text
             )
             and (
                 "python" in text
                 or "project" in text
                 or "code" in text
+                or "language" in text
+                or "technology" in text
+                or "written" in text
+                or "called" in text
+                or "about" in text
+                or "tell" in text
+                or "know" in text
+                or "uses" in text
+                or "runtime" in text
             )
-            and projects
         ):
             result["projects"] = projects
 
@@ -508,6 +578,10 @@ class MemoryManager:
                 "linux",
                 "operating system",
                 "os",
+                "do i use",
+                "what system",
+                "what operating system",
+                "which os",
             )
         ) and environment:
             result["environment"] = environment
