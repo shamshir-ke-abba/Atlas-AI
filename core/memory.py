@@ -39,6 +39,8 @@ class MemoryManager:
         return {
             "identity": {},
             "preferences": {},
+            "projects": {},
+            "environment": {},
             "facts": {},
             "goals": {},
         }
@@ -175,12 +177,10 @@ class MemoryManager:
         message: str,
     ) -> None:
         """
-        Extract explicit, high-confidence personal facts.
+        Extract explicit, high-confidence personal facts from user statements.
 
-        We deliberately avoid broad patterns such as:
-            "I'm ..."
-        because those can accidentally store ordinary conversation
-        as the user's name or identity.
+        This layer is intentionally conservative. It matches only clear user
+        facts, not ordinary questions or temporary emotional statements.
         """
 
         text = " ".join(
@@ -190,22 +190,77 @@ class MemoryManager:
         if not text:
             return
 
+        lower = text.lower()
+
         # --------------------------------------------------
-        # Name
+        # Explicit "remember" statements
         # --------------------------------------------------
 
         match = re.search(
-            r"\bmy name is\s+([A-Za-z][A-Za-z0-9_-]*)",
+            r"\bremember that\s+(.+?)(?:[.!?]|$)",
             text,
             re.IGNORECASE,
         )
 
         if match:
-            self.remember(
-                "identity",
-                "name",
-                match.group(1).strip(),
-            )
+            fact = match.group(1).strip()
+
+            if fact:
+                facts = self._load().get(
+                    "facts",
+                    {},
+                )
+
+                if not isinstance(facts, dict):
+                    facts = {}
+
+                next_id = str(
+                    len(facts) + 1
+                )
+
+                self.remember(
+                    "facts",
+                    next_id,
+                    fact,
+                )
+
+        # --------------------------------------------------
+        # Name
+        # --------------------------------------------------
+
+        match = re.search(
+            r"\b(?:my name is|i am|i'm)\s+([A-Za-z][A-Za-z0-9_-]*)",
+            text,
+            re.IGNORECASE,
+        )
+
+        if match:
+            value = match.group(1).strip(" .,!?:;\"")
+
+            if value:
+                lowered = value.lower()
+                blocked = {
+                    "tired",
+                    "studying",
+                    "busy",
+                    "building",
+                    "working",
+                    "using",
+                    "creating",
+                    "developing",
+                    "making",
+                    "learning",
+                    "writing",
+                    "exploring",
+                    "researching",
+                }
+
+                if lowered not in blocked and not lowered.endswith("ing"):
+                    self.remember(
+                        "identity",
+                        "name",
+                        value,
+                    )
 
         # --------------------------------------------------
         # City / location
@@ -268,36 +323,96 @@ class MemoryManager:
                 )
 
         # --------------------------------------------------
-        # Explicit "remember" statements
+        # Project / technology extraction
         # --------------------------------------------------
 
-        match = re.search(
-            r"\bremember that\s+(.+?)(?:[.!?]|$)",
-            text,
-            re.IGNORECASE,
+        project_name = None
+        technology = None
+
+        project_patterns = (
+            r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on|my project|project)\s+(?:building|working on|developing|creating|making)\s+(?:an?\s+)?(?:[A-Za-z][A-Za-z0-9 _-]*?\s+)?(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
+            r"\bmy\s+project\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:is|was)\s+(?:written|built|developed|created)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+)|\s+(?:is|was)\s+(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?))?(?:[.!?]|$)",
+            r"\b(?:my\s+project|project|app|application)\s+(?:is|is called|called)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:written|built|developed|in|using)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
+            r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on)\s+(?:on|with)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
         )
 
-        if match:
-            fact = match.group(1).strip()
+        for pattern in project_patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                project_name = (match.group(1) or "").strip(" .,!?:;\"")
+                technology = (match.group(2) or match.group(3) or "").strip(" .,!?:;\"")
+                if project_name:
+                    break
 
-            if fact:
-                facts = self._load().get(
-                    "facts",
-                    {},
-                )
+        if project_name:
+            self.remember(
+                "projects",
+                "project_name",
+                project_name,
+            )
 
-                if not isinstance(facts, dict):
-                    facts = {}
+        if technology:
+            self.remember(
+                "projects",
+                "technology",
+                technology,
+            )
 
-                next_id = str(
-                    len(facts) + 1
-                )
+        # --------------------------------------------------
+        # Preference extraction (conservative)
+        # --------------------------------------------------
 
+        for style, key in (
+            ("first principles", "explanation_style"),
+            ("step by step", "explanation_style"),
+            ("step-by-step", "explanation_style"),
+            ("concise", "explanation_style"),
+            ("detailed", "explanation_style"),
+            ("practical", "explanation_style"),
+        ):
+            if style in lower and re.search(
+                r"\b(?:i prefer|i like|i enjoy|i value|i usually prefer|i want)\b",
+                lower,
+            ):
                 self.remember(
-                    "facts",
-                    next_id,
-                    fact,
+                    "preferences",
+                    key,
+                    style,
                 )
+                break
+
+        # --------------------------------------------------
+        # Environment extraction (OS only)
+        # --------------------------------------------------
+
+        os_names = (
+            "ubuntu",
+            "windows",
+            "macos",
+            "linux",
+            "debian",
+            "fedora",
+        )
+
+        for os_name in os_names:
+            if os_name in lower and re.search(
+                r"\b(?:i use|i usually use|i run|i work on|i work with|my operating system|os)\b",
+                lower,
+            ):
+                self.remember(
+                    "environment",
+                    "operating_system",
+                    os_name.title() if os_name != "macos" else "macOS",
+                )
+                break
+
+        # --------------------------------------------------
+        # Keep explicit facts from low-level remember commands
+        # --------------------------------------------------
+
+        if "remember that" not in lower and "my name is" not in lower:
+            if re.search(r"\b(?:i use|i prefer|i like|i enjoy)\b", lower):
+                pass
 
     # ==================================================
     # RELEVANT MEMORY
@@ -308,12 +423,10 @@ class MemoryManager:
         message: str,
     ) -> Dict[str, Any]:
         """
-        Return memory relevant enough to place into the
-        current model context.
+        Return only the user memory segments relevant to the current request.
 
-        For the current small model, a compact deterministic
-        representation is preferable to dumping arbitrary
-        data.
+        This deliberately avoids dumping the entire memory database into every
+        prompt. The filter is conservative and deterministic.
         """
 
         data = self._load()
@@ -322,27 +435,17 @@ class MemoryManager:
             message or ""
         ).lower()
 
+        if not text:
+            return {}
+
         result: Dict[str, Any] = {}
 
-        identity = data.get(
-            "identity",
-            {},
-        )
-
-        preferences = data.get(
-            "preferences",
-            {},
-        )
-
-        facts = data.get(
-            "facts",
-            {},
-        )
-
-        goals = data.get(
-            "goals",
-            {},
-        )
+        identity = data.get("identity", {})
+        preferences = data.get("preferences", {})
+        projects = data.get("projects", {})
+        environment = data.get("environment", {})
+        facts = data.get("facts", {})
+        goals = data.get("goals", {})
 
         # Identity questions / conversational personalization.
         if any(
@@ -355,9 +458,8 @@ class MemoryManager:
                 "about me",
                 "my profile",
             )
-        ):
-            if identity:
-                result["identity"] = identity
+        ) and identity:
+            result["identity"] = identity
 
         # Preference-related questions.
         if any(
@@ -374,9 +476,41 @@ class MemoryManager:
                 "color",
                 "colour",
             )
+        ) and preferences:
+            result["preferences"] = preferences
+
+        # Project / technology questions.
+        if (
+            (
+                "project" in text
+                or "app" in text
+                or "application" in text
+                or "software" in text
+                or "codebase" in text
+                or "structure" in text
+            )
+            and (
+                "python" in text
+                or "project" in text
+                or "code" in text
+            )
+            and projects
         ):
-            if preferences:
-                result["preferences"] = preferences
+            result["projects"] = projects
+
+        # Environment-related queries.
+        if any(
+            phrase in text
+            for phrase in (
+                "ubuntu",
+                "windows",
+                "macos",
+                "linux",
+                "operating system",
+                "os",
+            )
+        ) and environment:
+            result["environment"] = environment
 
         # Goal-related questions.
         if any(
@@ -388,9 +522,8 @@ class MemoryManager:
                 "planning",
                 "want to achieve",
             )
-        ):
-            if goals:
-                result["goals"] = goals
+        ) and goals:
+            result["goals"] = goals
 
         # Explicit recall / remember requests should get facts.
         if any(
@@ -411,6 +544,12 @@ class MemoryManager:
 
             if preferences:
                 result["preferences"] = preferences
+
+            if projects:
+                result["projects"] = projects
+
+            if environment:
+                result["environment"] = environment
 
             if goals:
                 result["goals"] = goals
