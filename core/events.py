@@ -64,6 +64,21 @@ class ToolFinished(Event):
     result: Any
 
 
+@dataclass(slots=True)
+class ProfileSetupRequested(Event):
+    """Ask the GUI to display an interactive tool profile form."""
+    tool: str
+    prompt: str = ""
+
+
+@dataclass(slots=True)
+class ProfileSetupCompleted(Event):
+    """Published after a profile form is saved."""
+    tool: str
+    profile: dict
+    message: str = ""
+
+
 # ==========================================================
 # Error Events
 # ==========================================================

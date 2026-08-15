@@ -1,427 +1,435 @@
 """
-Atlas Math Engine
+Atlas V3 deterministic math engine.
 
-Fast local mathematics engine used by Atlas tools.
-
-This module performs mathematical operations locally
-instead of sending simple mathematical questions to
-the LLM.
-
-Supported:
-- arithmetic
-- differentiation
-- integration
-- simplification
-- expansion
-- factorization
+Rejects arbitrary prose before SymPy parsing, supports implicit
+multiplication, differentiation, integration, simplification, expansion,
+factorization and equation solving.
 """
 
 import re
-
 import sympy as sp
-
-from plugins.math_engine.formatter import MathFormatter
+from sympy.parsing.sympy_parser import (
+    convert_xor,
+    implicit_multiplication_application,
+    parse_expr,
+    standard_transformations,
+)
 
 
 class MathEngine:
+    DEFAULT_VARIABLE = "x"
+    SYMBOL_NAMES = ("x", "y", "z", "t", "a", "b", "c", "n")
+
+    TRANSFORMATIONS = (
+        standard_transformations
+        + (convert_xor, implicit_multiplication_application)
+    )
+
+    FUNCTIONS = {
+        "sin": sp.sin,
+        "cos": sp.cos,
+        "tan": sp.tan,
+        "cot": sp.cot,
+        "sec": sp.sec,
+        "csc": sp.csc,
+        "asin": sp.asin,
+        "acos": sp.acos,
+        "atan": sp.atan,
+        "sqrt": sp.sqrt,
+        "log": sp.log,
+        "ln": sp.log,
+        "exp": sp.exp,
+        "abs": sp.Abs,
+        "pi": sp.pi,
+        "E": sp.E,
+    }
 
     def __init__(self):
-        self.symbols = {}
-
-    # ==================================================
-    # Expression Parser
-    # ==================================================
-
-    def parse_expression(self, expression):
-        """
-        Convert a text expression into a SymPy expression.
-        """
-
-        expression = expression.strip()
-
-        if not expression:
-            raise ValueError("Expression is empty.")
-
-        # Common mathematical notation
-        expression = expression.replace("^", "**")
-
-        # Create common symbols automatically
-        symbols = {
+        self.symbols = {
             name: sp.Symbol(name)
-            for name in [
-                "x",
-                "y",
-                "z",
-                "t",
-                "a",
-                "b",
-                "c",
-                "n",
-            ]
+            for name in self.SYMBOL_NAMES
         }
 
-        return sp.sympify(
-            expression,
-            locals=symbols,
-        )
+    def detect_operation(self, text):
+        low = str(text or "").lower()
 
-    # ==================================================
-    # Arithmetic
-    # ==================================================
-
-    def calculate(self, expression):
-        """
-        Evaluate/simplify an arithmetic expression.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        return sp.simplify(parsed)
-
-    # ==================================================
-    # Differentiation
-    # ==================================================
-
-    def differentiate(
-        self,
-        expression,
-        variable="x",
-    ):
-        """
-        Differentiate an expression with respect
-        to the specified variable.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        symbol = sp.Symbol(variable)
-
-        return sp.diff(
-            parsed,
-            symbol,
-        )
-
-    # ==================================================
-    # Integration
-    # ==================================================
-
-    def integrate(
-        self,
-        expression,
-        variable="x",
-    ):
-        """
-        Integrate an expression with respect
-        to the specified variable.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        symbol = sp.Symbol(variable)
-
-        return sp.integrate(
-            parsed,
-            symbol,
-        )
-
-    # ==================================================
-    # Simplification
-    # ==================================================
-
-    def simplify(self, expression):
-        """
-        Simplify a mathematical expression.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        return sp.simplify(
-            parsed
-        )
-
-    # ==================================================
-    # Expansion
-    # ==================================================
-
-    def expand(self, expression):
-        """
-        Expand an expression.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        return sp.expand(
-            parsed
-        )
-
-    # ==================================================
-    # Factorization
-    # ==================================================
-
-    def factor(self, expression):
-        """
-        Factor an expression.
-        """
-
-        parsed = self.parse_expression(
-            expression
-        )
-
-        return sp.factor(
-            parsed
-        )
-
-    # ==================================================
-    # Generic Operation
-    # ==================================================
-
-    def execute(
-        self,
-        operation,
-        expression,
-        variable="x",
-    ):
-        """
-        Execute a mathematical operation.
-        """
-
-        operation = operation.lower().strip()
-
-        if operation in (
-            "calculate",
-            "calc",
-            "evaluate",
-            "evaluate_expression",
+        if re.search(r"\b(?:differentiat(?:e|ion)|diffrentiat(?:e|ion))\b", low):
+            return "differentiate"
+        if re.search(r"\bderivative\b", low):
+            return "differentiate"
+        if re.search(r"\bintegr(?:ate|al)\b", low):
+            return "integrate"
+        if re.search(r"\bsimplify\b", low):
+            return "simplify"
+        if re.search(r"\bexpand\b", low):
+            return "expand"
+        if re.search(r"\bfactor(?:ize|ise|ization)?\b", low):
+            return "factor"
+        if re.search(r"\bsolve\b|\bequation\b|\broots?\b", low):
+            return "solve"
+        if re.search(
+            r"\bcalculate\b|\bcalc\b|\bcompute\b|\bevaluate\b",
+            low,
         ):
-            return self.calculate(
-                expression
-            )
+            return "calculate"
 
-        if operation in (
-            "differentiate",
-            "derivative",
-            "diff",
-        ):
-            return self.differentiate(
-                expression,
-                variable,
-            )
-
-        if operation in (
-            "integrate",
-            "integral",
-        ):
-            return self.integrate(
-                expression,
-                variable,
-            )
-
-        if operation in (
-            "simplify",
-        ):
-            return self.simplify(
-                expression
-            )
-
-        if operation in (
-            "expand",
-        ):
-            return self.expand(
-                expression
-            )
-
-        if operation in (
-            "factor",
-            "factorize",
-            "factorise",
-        ):
-            return self.factor(
-                expression
-            )
-
-        raise ValueError(
-            f"Unsupported mathematical operation: "
-            f"{operation}"
-        )
-
-    # ==================================================
-    # Formatting
-    # ==================================================
-
-    def format(
-        self,
-        expression,
-    ):
-        """
-        Convert a SymPy result into display text.
-        """
-
-        return MathFormatter.text(
-            expression
-        )
-
-    # ==================================================
-    # Expression Extraction
-    # ==================================================
+        # Plain numeric arithmetic belongs to CalculatorPlugin.
+        # MathPlugin should only claim symbolic/named operations.
+        return None
 
     def extract_expression(
         self,
         text,
+        operation=None,
         fallback="",
     ):
-        """
-        Extract a mathematical expression from
-        natural language text.
-        """
-
-        text = text.strip()
-
+        text = str(text or "").strip().rstrip("?!.,;")
         if not text:
             return fallback
 
-        lower = text.lower()
+        op = operation or self.detect_operation(text)
+        if op is None:
+            return ""
 
-        triggers = [
-            "calculate",
-            "calc",
-            "solve",
-            "evaluate",
-            "what is",
-            "compute",
+        patterns = [
+            r"^\s*what\s+is\s+the\s+derivative\s+of\s+",
+            r"^\s*find\s+the\s+derivative\s+of\s+",
+            r"^\s*what\s+is\s+the\s+integral\s+of\s+",
+            r"^\s*find\s+the\s+integral\s+of\s+",
+            r"^\s*derivative\s+of\s+",
+            r"^\s*integral\s+of\s+",
+            r"^\s*diffrentiate\s+",
+            r"^\s*diffrentiation\s+of\s+",
+            r"^\s*differentiate\s+",
+            r"^\s*integrate\s+",
+            r"^\s*calculate\s+",
+            r"^\s*calc\s+",
+            r"^\s*compute\s+",
+            r"^\s*evaluate\s+",
+            r"^\s*simplify\s+",
+            r"^\s*expand\s+",
+            r"^\s*factor(?:ize|ise)?\s+",
+            r"^\s*solve\s+",
         ]
 
-        for trigger in triggers:
+        result = text
+        for pattern in patterns:
+            cleaned = re.sub(
+                pattern,
+                "",
+                result,
+                flags=re.IGNORECASE,
+            )
+            if cleaned != result:
+                result = cleaned.strip()
+                break
 
-            if lower.startswith(
-                trigger + " "
-            ):
-
-                candidate = (
-                    text[
-                        len(trigger):
-                    ]
-                    .strip()
-                    .rstrip("?.!")
-                )
-
-                if candidate:
-                    return candidate
-
-        match = re.search(
-            r"[\d\.]+(?:\s*[\+\-\*/\^]\s*[\d\.x]+)+",
-            text,
-        )
-
-        if match:
-
-            return match.group(
-                0
+        if op == "calculate":
+            result = re.sub(
+                r"^\s*what(?:'s|\s+is)\s+",
+                "",
+                result,
+                flags=re.IGNORECASE,
             ).strip()
 
-        return fallback
+        result = re.sub(
+            r"\s+(?:with\s+respect\s+to|respect\s+to|wrt)\s+[A-Za-z_]\w*$",
+            "",
+            result,
+            flags=re.IGNORECASE,
+        ).strip()
 
-    # ==================================================
-    # Explanation
-    # ==================================================
+        return result
+
+    def _validate_expression(self, expression):
+        expr = str(expression or "").strip()
+
+        if not expr:
+            raise ValueError(
+                "No mathematical expression was provided."
+            )
+
+        if len(expr) > 500:
+            raise ValueError("Expression is too long.")
+
+        if not re.fullmatch(
+            r"[0-9A-Za-z_+\-*/%^().,\s]+",
+            expr,
+        ):
+            raise ValueError(
+                "Invalid mathematical characters."
+            )
+
+        identifiers = re.findall(
+            r"[A-Za-z_]\w*",
+            expr,
+        )
+        allowed = set(self.SYMBOL_NAMES) | set(self.FUNCTIONS)
+
+        for name in identifiers:
+            if name not in allowed:
+                raise ValueError(
+                    f"'{name}' is not a recognized mathematical "
+                    "symbol or function."
+                )
+
+        if not re.search(
+            r"\d|[xyztabcn]\b",
+            expr,
+        ):
+            raise ValueError(
+                "Please provide a mathematical expression."
+            )
+
+        return (
+            expr
+            .replace("−", "-")
+            .replace("×", "*")
+            .replace("÷", "/")
+        )
+
+    def parse_expression(self, expression):
+        expr = self._validate_expression(expression)
+
+        local_dict = dict(self.symbols)
+        local_dict.update(self.FUNCTIONS)
+
+        return parse_expr(
+            expr,
+            local_dict=local_dict,
+            transformations=self.TRANSFORMATIONS,
+            evaluate=True,
+        )
+
+    def calculate(self, expression):
+        return sp.simplify(
+            self.parse_expression(expression)
+        )
+
+    def differentiate(self, expression, variable="x"):
+        parsed = self.parse_expression(expression)
+        variable = str(variable or "x").strip()
+        symbol = self.symbols.get(
+            variable,
+            sp.Symbol(variable),
+        )
+        return sp.simplify(
+            sp.diff(parsed, symbol)
+        )
+
+    def integrate(self, expression, variable="x"):
+        parsed = self.parse_expression(expression)
+        variable = str(variable or "x").strip()
+        symbol = self.symbols.get(
+            variable,
+            sp.Symbol(variable),
+        )
+        return sp.integrate(parsed, symbol)
+
+    def simplify(self, expression):
+        return sp.simplify(
+            self.parse_expression(expression)
+        )
+
+    def expand(self, expression):
+        return sp.expand(
+            self.parse_expression(expression)
+        )
+
+    def factor(self, expression):
+        return sp.factor(
+            self.parse_expression(expression)
+        )
+
+    def solve(self, equation, variable="x"):
+        equation = str(equation or "").strip()
+        if not equation:
+            raise ValueError("Equation is empty.")
+
+        variable = str(variable or "x").strip()
+        symbol = self.symbols.get(
+            variable,
+            sp.Symbol(variable),
+        )
+
+        if "=" in equation:
+            left, right = equation.split("=", 1)
+            return sp.solve(
+                sp.Eq(
+                    self.parse_expression(left),
+                    self.parse_expression(right),
+                ),
+                symbol,
+            )
+
+        return sp.solve(
+            self.parse_expression(equation),
+            symbol,
+        )
+
+    def execute(self, operation, expression, variable="x"):
+        operation = str(operation or "").lower().strip()
+
+        aliases = {
+            "calc": "calculate",
+            "evaluate": "calculate",
+            "derivative": "differentiate",
+            "diff": "differentiate",
+            "integral": "integrate",
+            "factorize": "factor",
+            "factorise": "factor",
+            "equation": "solve",
+            "equations": "solve",
+        }
+        operation = aliases.get(operation, operation)
+
+        if operation == "calculate":
+            return self.calculate(expression)
+        if operation == "differentiate":
+            return self.differentiate(expression, variable)
+        if operation == "integrate":
+            return self.integrate(expression, variable)
+        if operation == "simplify":
+            return self.simplify(expression)
+        if operation == "expand":
+            return self.expand(expression)
+        if operation == "factor":
+            return self.factor(expression)
+        if operation == "solve":
+            return self.solve(expression, variable)
+
+        raise ValueError(
+            "Unsupported mathematical operation."
+        )
+
+    def format(self, expression):
+        return self._pretty(expression)
+
+    @staticmethod
+    def _pretty(expression):
+        if isinstance(expression, (list, tuple)):
+            return ", ".join(
+                MathEngine._pretty(item)
+                for item in expression
+            )
+
+        if isinstance(expression, sp.Equality):
+            return (
+                MathEngine._pretty(expression.lhs)
+                + " = "
+                + MathEngine._pretty(expression.rhs)
+            )
+
+        text = sp.sstr(expression)
+
+        superscripts = str.maketrans(
+            "0123456789+-=()",
+            "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾",
+        )
+
+        def power_replace(match):
+            base = match.group(1)
+            power = match.group(2)
+
+            if len(power) <= 3 and re.fullmatch(
+                r"[0-9+\-()]+",
+                power,
+            ):
+                return base + power.translate(superscripts)
+
+            return f"{base}^{power}"
+
+        text = re.sub(
+            r"([A-Za-z0-9.)]+)\*\*([0-9+\-()]+)",
+            power_replace,
+            text,
+        )
+        text = text.replace("*", "·")
+        text = text.replace("/", "⁄")
+
+        return text
 
     def explain(
         self,
         question,
         expression="",
         result="",
+        variable="x",
     ):
-        """
-        Produce a deterministic explanation for
-        a calculation without using the LLM.
-        """
+        question = str(question or "").strip()
+        operation = self.detect_operation(question)
 
-        question = question.strip()
+        if operation is None:
+            return (
+                "### Math Error\n\n"
+                "I need a specific mathematical operation, such as "
+                "differentiate, integrate, simplify, solve or calculate."
+            )
+
+        expression = str(expression or "").strip()
+        if not expression:
+            expression = self.extract_expression(
+                question,
+                operation,
+            )
 
         if not expression:
-
-            expression = (
-                self.extract_expression(
-                    question
-                )
+            return (
+                "### Math Error\n\n"
+                "Please provide the mathematical expression to work on."
             )
 
-        if not expression:
-
-            return MathFormatter.error(
-                "No expression to explain."
-            )
-
-        if not result:
-
-            try:
-
-                calculated = self.calculate(
-                    expression
+        try:
+            if not result:
+                result = self.execute(
+                    operation,
+                    expression,
+                    variable,
                 )
 
-                result = self.format(
-                    calculated
-                )
+            formatted = self.format(result)
 
-            except Exception as error:
-
-                return MathFormatter.error(
-                    str(error)
-                )
-
-        lower = question.lower()
-
-        wants_steps = any(
-            word in lower
-            for word in (
-                "step",
-                "how",
-                "explain",
-                "why",
-                "show",
-            )
-        )
+        except Exception as exc:
+            return f"### Math Error\n\n{exc}"
 
         lines = [
             "### Atlas Math",
             "",
-            f"**Expression**\n\n`{expression}`",
+            "**Expression**",
             "",
-            f"**Answer**\n\n**{result}**",
+            f"`{expression}`",
+            "",
+            "**Answer**",
+            "",
+            formatted,
         ]
 
-        if wants_steps:
-
-            lines.extend(
-                [
-                    "",
-                    "**Steps**",
-                    "",
-                    f"1. Read the expression `{expression}`.",
-                    "2. Evaluate it with symbolic math.",
-                    f"3. The result is **{result}**.",
-                ]
-            )
-
+        if operation == "differentiate":
+            lines += [
+                "",
+                "**Steps**",
+                "",
+                f"1. Treat `{variable}` as the differentiation variable.",
+                "2. Differentiate each term.",
+                f"3. Simplify the result: **{formatted}**.",
+            ]
+        elif operation == "integrate":
+            lines += [
+                "",
+                "**Steps**",
+                "",
+                f"1. Treat `{variable}` as the integration variable.",
+                "2. Integrate each term.",
+                f"3. Add the constant of integration: **{formatted} + C**.",
+            ]
         else:
+            lines += [
+                "",
+                "**Steps**",
+                "",
+                "1. Parse the expression symbolically.",
+                f"2. Apply **{operation}**.",
+                f"3. Simplify the result: **{formatted}**.",
+            ]
 
-            lines.extend(
-                [
-                    "",
-                    f"The value of `{expression}` is **{result}**.",
-                ]
-            )
-
-        return "\n".join(
-            lines
-        )
+        return "\n".join(lines)

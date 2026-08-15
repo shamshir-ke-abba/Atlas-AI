@@ -2,32 +2,21 @@
 Atlas Theme
 """
 
-# Colors
-
 BACKGROUND = "#121212"
-
 PANEL = "#1E1E1E"
-
 CARD = "#252525"
 
 TEXT = "#FFFFFF"
-
 SECONDARY = "#AAAAAA"
 
 ACCENT = "#00BFFF"
-
 BUTTON = "#0066CC"
 
 SUCCESS = "#22AA22"
-
 ERROR = "#CC3333"
-
-# Fonts
 
 FONT = "Segoe UI"
 
 FONT_SIZE = 11
-
 TITLE_SIZE = 16
-
 HEADER_SIZE = 20

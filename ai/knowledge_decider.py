@@ -115,6 +115,15 @@ class KnowledgeDecider:
             r"\bwhat happened\b",
             r"\bwhat's happening\b",
 
+            # Time-sensitive factual/event questions often omit words
+            # such as "current" or "latest". Treat these as web candidates.
+            r"\bwhen is\b",
+            r"\bwhen was\b",
+            r"\bwhen will\b",
+            r"\bwhen does\b",
+            r"\bwho is the current\b",
+            r"\bwhere is the current\b",
+
             r"\brelease date\b",
             r"\bversion\b",
 

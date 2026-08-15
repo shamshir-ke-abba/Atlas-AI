@@ -1,28 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atlas AI</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas AI</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Atlas AI</h1>
+  <div class="app-shell">
 
-        <div id="chat"></div>
-
-        <div class="input-area">
-            <input
-                id="message"
-                type="text"
-                placeholder="Message Atlas..."
-                autocomplete="off"
-            >
-            <button id="send">Send</button>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <div>
+          <div class="brand-title">Atlas AI</div>
+          <div class="brand-subtitle">Local intelligence</div>
         </div>
-    </div>
+      </div>
 
-    <script src="/static/app.js"></script>
+      <button id="newChat" class="new-chat">＋ New Chat</button>
+
+      <div class="history-label">CONVERSATIONS</div>
+
+      <!-- Only this area scrolls for conversation history. -->
+      <div id="history" class="history" aria-label="Conversation history"></div>
+
+      <!-- Fixed bottom dock: never part of the conversation scroll. -->
+      <section class="sidebar-tools">
+        <div class="tools-heading">
+          <span>TOOLS</span>
+          <span id="toolCount" class="tool-count">0</span>
+        </div>
+        <div id="toolList" class="tool-list" aria-label="Atlas tools"></div>
+      </section>
+    </aside>
+
+    <main class="main-panel">
+      <header class="chat-header">
+        <div>
+          <div class="atlas-name">Atlas</div>
+          <div class="atlas-subtitle">Local AI assistant</div>
+        </div>
+
+        <div class="connection">
+          <span id="connectionDot" class="dot ready"></span>
+          <span id="connectionText">Ready</span>
+        </div>
+      </header>
+
+      <!-- Only this central chat region scrolls. -->
+      <section id="chat" class="chat" aria-label="Chat"></section>
+
+      <div id="activity" class="activity hidden">
+        <span class="thinking-dots">
+          <i></i><i></i><i></i>
+        </span>
+        <span id="activityText">Atlas is thinking…</span>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea
+            id="message"
+            rows="1"
+            placeholder="Message Atlas..."
+            autocomplete="off"
+          ></textarea>
+
+          <button id="send" class="send" title="Send">➤</button>
+          <button id="stop" class="stop hidden" title="Stop">■</button>
+        </div>
+        <div class="composer-hint">Enter to send · Shift+Enter for a new line</div>
+      </div>
+    </main>
+
+    <aside class="status-panel">
+      <div class="status-title">Atlas Status</div>
+
+      <div class="status-section">
+        <div class="status-label">STATE</div>
+        <div id="state" class="status-value">
+          <span id="stateDot" class="dot ready"></span>
+          Ready
+        </div>
+      </div>
+
+      <div class="status-section">
+        <div class="status-label">MODEL</div>
+        <div id="model" class="status-value">—</div>
+      </div>
+
+      <div class="status-section">
+        <div class="status-label">TOOLS</div>
+        <div id="toolsStatus" class="status-value">—</div>
+      </div>
+
+      <div class="status-section">
+        <div class="status-label">CONVERSATION</div>
+        <div id="conversationTitle" class="status-value">New Chat</div>
+      </div>
+
+      <div class="status-section web-status">
+        <div class="status-label">WEB</div>
+        <div id="webStatus" class="status-value">Ready for live search</div>
+      </div>
+
+      <div class="clock">
+        <div id="clockTime" class="clock-time">--:--</div>
+        <div id="clockDate" class="clock-date">—</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Tool workspace -->
+  <div id="toolModal" class="tool-modal hidden" role="dialog" aria-modal="true">
+    <div class="tool-modal-card">
+      <div class="tool-modal-header">
+        <div>
+          <div id="toolModalTitle" class="tool-modal-title">Tool</div>
+          <div id="toolModalDescription" class="tool-modal-description"></div>
+        </div>
+        <button id="toolModalClose" class="modal-close" title="Close">×</button>
+      </div>
+
+      <div id="toolForm" class="tool-form"></div>
+
+      <div id="toolResultWrap" class="tool-result-wrap hidden">
+        <div class="tool-result-label">RESULT</div>
+        <pre id="toolResult" class="tool-result"></pre>
+      </div>
+
+      <div class="tool-modal-actions">
+        <button id="toolRun" class="tool-run">Run Tool</button>
+        <button id="toolInsert" class="tool-insert hidden">Add Result to Chat</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
 </body>
 </html>

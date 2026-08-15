@@ -1,5 +1,4 @@
-"""
-AtlasAI Model - Local LLM via Ollama
+"""AtlasAI Model - Local LLM via Ollama
 """
 
 import logging
@@ -30,9 +29,18 @@ class AtlasModel:
                 "prompt": prompt,
                 "temperature": self.temperature,
                 "stream": stream,
+                "keep_alive": "10m",
+                "options": {
+                    "num_predict": self.max_tokens,
+                },
             }
             
-            response = requests.post(url, json=payload, stream=stream)
+            response = requests.post(
+                url,
+                json=payload,
+                stream=stream,
+                timeout=(10, 300),
+            )
             response.raise_for_status()
             
             if stream:
@@ -61,7 +69,10 @@ class AtlasModel:
     def is_available(self) -> bool:
         """Check if model is available."""
         try:
-            response = requests.get(f"{self.host}/api/tags", timeout=2)
+            response = requests.get(
+                f"{self.host}/api/tags",
+                timeout=5,
+            )
             return response.status_code == 200
         except:
             return False

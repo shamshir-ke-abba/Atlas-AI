@@ -1,20 +1,11 @@
-"""
-Atlas Calculator Plugin
-
-Safe mathematical expression evaluator for Atlas.
-"""
+"""Atlas calculator: exact arithmetic with fractions."""
 
 import ast
 import math
 import operator
 import re
-
+from fractions import Fraction
 from plugins.base import AtlasPlugin
-
-
-# ==================================================
-# SAFE OPERATORS
-# ==================================================
 
 _OPERATORS = {
     ast.Add: operator.add,
@@ -24,406 +15,100 @@ _OPERATORS = {
     ast.Mod: operator.mod,
     ast.Pow: operator.pow,
     ast.FloorDiv: operator.floordiv,
-
     ast.UAdd: operator.pos,
     ast.USub: operator.neg,
 }
 
-
 class CalculatorPlugin(AtlasPlugin):
-
     name = "calculator"
-
     display_name = "Calculator"
-
-    description = (
-        "Safely evaluates mathematical expressions."
-    )
-
+    description = "Exact numeric arithmetic, including fractions."
     icon = "🧮"
-
     has_gui = True
-
     gui_id = "calculator"
+    priority = 10
+    triggers = ["calculate", "calc", "compute", "evaluate", "what is", "what's"]
 
-    priority = 20
-
-    triggers = [
-        "calculate",
-        "calc",
-        "solve",
-        "compute",
-        "evaluate",
-        "what is",
-        "what's",
-    ]
-
-    # ==================================================
-    # CAN HANDLE
-    # ==================================================
-
-    def can_handle(
-        self,
-        message,
-    ):
-        text = str(
-            message
-        ).strip()
-
+    def can_handle(self, message):
+        text = str(message or "").strip()
         if not text:
             return False
+        low = text.lower()
+        if any(low == t or low.startswith(t + " ") for t in self.triggers):
+            expr = self._extract_expression(text)
+            return bool(expr) and self._is_numeric_expression(expr)
+        return self._is_numeric_expression(text)
 
-        lower = text.lower()
-
-        # ----------------------------------------------
-        # Explicit calculator commands
-        # ----------------------------------------------
-
-        for trigger in self.triggers:
-
-            if lower == trigger:
-
-                return True
-
-            if lower.startswith(
-                trigger + " "
-            ):
-
-                return True
-
-        # ----------------------------------------------
-        # Direct mathematical expression
-        # ----------------------------------------------
-
-        if self._looks_like_expression(
-            text
-        ):
-
-            return True
-
-        return False
-
-    # ==================================================
-    # EXPRESSION DETECTION
-    # ==================================================
-
-    def _looks_like_expression(
-        self,
-        text,
-    ):
-        """
-        Detect raw mathematical expressions.
-
-        Examples:
-
-            25 * 4
-            100 / 5
-            2 ** 10
-            (50 + 25) * 2
-            10 % 3
-        """
-
-        text = text.strip()
-
-        if not text:
-            return False
-
-        # Must contain a number.
-        if not re.search(
-            r"\d",
-            text,
-        ):
-            return False
-
-        # Only mathematical characters.
-        if not re.fullmatch(
-            r"[0-9eEpiPI+\-*/%().\s]+",
-            text,
-        ):
-            return False
-
-        # Must contain an operator.
-        if not re.search(
-            r"[+\-*/%]",
-            text,
-        ):
-            return False
-
-        return True
-
-    # ==================================================
-    # EXTRACT EXPRESSION
-    # ==================================================
-
-    def _extract_expression(
-        self,
-        message,
-    ):
-        """
-        Extract the actual mathematical expression
-        from a user message.
-        """
-
-        text = str(
-            message
-        ).strip()
-
-        lower = text.lower()
-
-        # ----------------------------------------------
-        # Remove common trailing punctuation
-        # ----------------------------------------------
-
-        text = text.rstrip(
-            "?!.,"
-        ).strip()
-
-        lower = text.lower()
-
-        # ----------------------------------------------
-        # Natural language prefixes
-        # ----------------------------------------------
-
-        prefixes = [
-            "what is",
-            "what's",
-            "calculate",
-            "calc",
-            "compute",
-            "evaluate",
-            "solve",
-        ]
-
-        for prefix in prefixes:
-
-            if lower == prefix:
-
+    def _extract_expression(self, message):
+        text = str(message or "").strip().rstrip("?!.,")
+        low = text.lower()
+        for prefix in ("what is", "what's", "calculate", "calc", "compute", "evaluate"):
+            if low == prefix:
                 return ""
-
-            if lower.startswith(
-                prefix + " "
-            ):
-
-                expression = text[
-                    len(prefix):
-                ].strip()
-
-                return expression
-
-        # ----------------------------------------------
-        # Raw expression
-        # ----------------------------------------------
-
+            if low.startswith(prefix + " "):
+                return text[len(prefix):].strip()
         return text
 
-    # ==================================================
-    # SAFE AST EVALUATION
-    # ==================================================
+    @staticmethod
+    def _normalize(text):
+        return (str(text or "")
+                .replace("÷", "/")
+                .replace("×", "*")
+                .replace("−", "-")
+                .replace("–", "-")
+                .replace("—", "-")
+                .replace("π", "pi"))
 
-    def _evaluate(
-        self,
-        node,
-    ):
+    def _is_numeric_expression(self, text):
+        text = self._normalize(text).strip()
+        if not text or not re.search(r"\d", text):
+            return False
+        if not re.fullmatch(r"[0-9eEpiPI+\-*/%^().\s]+", text):
+            return False
+        return bool(re.search(r"[+\-*/%^]", text))
 
-        # ----------------------------------------------
-        # Numbers
-        # ----------------------------------------------
+    def _evaluate(self, node):
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, int):
+                return Fraction(node.value, 1)
+            if isinstance(node.value, float):
+                return Fraction(str(node.value))
+            raise ValueError("Invalid constant.")
+        if isinstance(node, ast.BinOp):
+            op = _OPERATORS.get(type(node.op))
+            if op is None:
+                raise ValueError("Unsupported operator.")
+            return op(self._evaluate(node.left), self._evaluate(node.right))
+        if isinstance(node, ast.UnaryOp):
+            op = _OPERATORS.get(type(node.op))
+            if op is None:
+                raise ValueError("Unsupported operator.")
+            return op(self._evaluate(node.operand))
+        if isinstance(node, ast.Name) and node.id.lower() in ("pi", "e"):
+            return math.pi if node.id.lower() == "pi" else math.e
+        raise ValueError("Unsupported expression.")
 
-        if isinstance(
-            node,
-            ast.Constant,
-        ):
-
-            if isinstance(
-                node.value,
-                (int, float),
-            ):
-
-                return node.value
-
-            raise ValueError(
-                "Invalid constant."
-            )
-
-        # ----------------------------------------------
-        # Binary operations
-        # ----------------------------------------------
-
-        if isinstance(
-            node,
-            ast.BinOp,
-        ):
-
-            operation = _OPERATORS.get(
-                type(node.op)
-            )
-
-            if operation is None:
-
-                raise ValueError(
-                    "Unsupported operator."
-                )
-
-            left = self._evaluate(
-                node.left
-            )
-
-            right = self._evaluate(
-                node.right
-            )
-
-            return operation(
-                left,
-                right,
-            )
-
-        # ----------------------------------------------
-        # Unary operations
-        # ----------------------------------------------
-
-        if isinstance(
-            node,
-            ast.UnaryOp,
-        ):
-
-            operation = _OPERATORS.get(
-                type(node.op)
-            )
-
-            if operation is None:
-
-                raise ValueError(
-                    "Unsupported operator."
-                )
-
-            return operation(
-                self._evaluate(
-                    node.operand
-                )
-            )
-
-        # ----------------------------------------------
-        # Mathematical constants
-        # ----------------------------------------------
-
-        if isinstance(
-            node,
-            ast.Name,
-        ):
-
-            constants = {
-                "pi": math.pi,
-                "e": math.e,
-            }
-
-            if node.id in constants:
-
-                return constants[
-                    node.id
-                ]
-
-        raise ValueError(
-            "Unsupported expression."
-        )
-
-    # ==================================================
-    # RUN
-    # ==================================================
-
-    def run(
-        self,
-        expression="",
-        **kwargs,
-    ):
-        """
-        Execute a mathematical expression.
-        """
-
+    def run(self, expression="", **kwargs):
         try:
-
-            expression = self._extract_expression(
-                expression
-            )
-
-            expression = expression.strip()
-
-            if not expression:
-
+            expression = self._normalize(self._extract_expression(expression))
+            if not self._is_numeric_expression(expression):
                 return "Invalid expression."
-
-            # ------------------------------------------
-            # Validate expression characters
-            # ------------------------------------------
-
-            if not re.fullmatch(
-                r"[0-9eEpiPI+\-*/%().\s]+",
-                expression,
-            ):
-
-                return "Invalid expression."
-
-            # ------------------------------------------
-            # Parse safely
-            # ------------------------------------------
-
-            tree = ast.parse(
-                expression,
-                mode="eval",
-            )
-
-            result = self._evaluate(
-                tree.body
-            )
-
-            return self._format_result(
-                result
-            )
-
+            expression = expression.replace("^", "**")
+            tree = ast.parse(expression, mode="eval")
+            return self._format_result(self._evaluate(tree.body))
         except ZeroDivisionError:
-
             return "Cannot divide by zero."
-
-        except (
-            ValueError,
-            SyntaxError,
-            TypeError,
-            OverflowError,
-        ):
-
+        except (ValueError, SyntaxError, TypeError, OverflowError):
             return "Invalid expression."
-
         except Exception:
-
             return "Invalid expression."
 
-    # ==================================================
-    # FORMAT RESULT
-    # ==================================================
-
-    def _format_result(
-        self,
-        result,
-    ):
-
-        if isinstance(
-            result,
-            float,
-        ):
-
-            if not math.isfinite(
-                result
-            ):
-
+    @staticmethod
+    def _format_result(result):
+        if isinstance(result, Fraction):
+            return str(result.numerator) if result.denominator == 1 else f"{result.numerator}/{result.denominator}"
+        if isinstance(result, float):
+            if not math.isfinite(result):
                 return "Result is not finite."
-
-            if result.is_integer():
-
-                return str(
-                    int(result)
-                )
-
-            return f"{result:.12g}"
-
-        return str(
-            result
-        )
+            return str(int(result)) if result.is_integer() else f"{result:.12g}"
+        return str(result)

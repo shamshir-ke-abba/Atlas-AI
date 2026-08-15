@@ -1,31 +1,64 @@
-# core/ai_service.py
+"""
+Atlas V3 AI Service
 
-import logging
+Owns the background AI worker and provides a clean Qt-signal
+interface to the Controller.
+
+Architecture:
+
+    Controller
+        |
+        | generate(message)
+        v
+    AIService
+        |
+        v
+    QThread
+        |
+        v
+    AIWorker
+        |
+        v
+    AtlasBrain
+        |
+        +---- Model
+        +---- Tools
+        |
+        v
+    AIService signals
+        |
+        v
+    Controller
+        |
+        v
+    EventBus
+"""
 
 from PySide6.QtCore import (
     QObject,
-    QThread,
     Signal,
+    QThread,
 )
 
 from core.workers import AIWorker
-
-
-logger = logging.getLogger("atlas")
+from core.tool_manager import ToolManager
+from core.logger import logger
 
 
 class AIService(QObject):
     """
-    AI service for Atlas.
+    Background AI generation service.
 
-    Owns the AI worker and provides a clean
-    synchronous API for Controller while
-    retaining Qt signals for GUI/streaming use.
+    IMPORTANT:
+    AIService deliberately does NOT subscribe to MessageReceived.
+
+    The Controller is the single owner of user-message routing.
+    This prevents the same message from being sent to the AI twice.
     """
 
-    # =========================================================
-    # NORMAL AI SIGNALS
-    # =========================================================
+    # ------------------------------------------------------
+    # Signals exposed to Controller
+    # ------------------------------------------------------
 
     chunk_ready = Signal(str)
 
@@ -33,229 +66,281 @@ class AIService(QObject):
 
     error = Signal(str)
 
-    # =========================================================
-    # TOOL AI SIGNALS
-    # =========================================================
-
-    tool_response = Signal(str)
-
-    tool_chunk_ready = Signal(str)
-
-    tool_finished = Signal()
-
-    tool_error = Signal(str)
-
-    # =========================================================
-    # REQUEST SIGNALS
-    # =========================================================
-
+    # Internal request signal.
+    #
+    # This is emitted from the GUI/controller thread and connected
+    # to AIWorker.process() in the worker thread.
     generate_requested = Signal(str)
-
-    tool_requested = Signal(str)
-
-    # =========================================================
-    # INITIALIZATION
-    # =========================================================
 
     def __init__(
         self,
         bus=None,
         state=None,
+        parent=None,
     ):
 
-        super().__init__()
+        super().__init__(parent)
 
         self.bus = bus
         self.state = state
 
-        # -----------------------------------------------------
-        # Conversation context
-        # -----------------------------------------------------
+        # --------------------------------------------------
+        # Tools
+        # --------------------------------------------------
 
-        self.conversation_id = None
-        self.conversation_history = []
+        self.tools = ToolManager()
 
-        # -----------------------------------------------------
-        # Worker thread
-        # -----------------------------------------------------
+        logger.info(
+            "Available Atlas tools: %s",
+            self.tools.available(),
+        )
 
-        self.thread = QThread()
+        # --------------------------------------------------
+        # Thread
+        # --------------------------------------------------
 
-        self.worker = AIWorker()
+        self.thread = QThread(self)
+
+        # --------------------------------------------------
+        # Worker
+        # --------------------------------------------------
+
+        self.worker = AIWorker(
+            tools=self.tools
+        )
 
         self.worker.moveToThread(
             self.thread
         )
 
-        # -----------------------------------------------------
-        # Normal AI
-        # -----------------------------------------------------
+        # --------------------------------------------------
+        # Controller -> Worker
+        # --------------------------------------------------
 
         self.generate_requested.connect(
             self.worker.process
         )
 
+        # --------------------------------------------------
+        # Worker -> Service
+        # --------------------------------------------------
+
         self.worker.chunk.connect(
-            self.chunk_ready.emit
+            self._handle_chunk
         )
 
         self.worker.finished.connect(
-            self.finished.emit
+            self._handle_finished
         )
 
         self.worker.error.connect(
-            self.error.emit
+            self._handle_error
         )
 
-        # -----------------------------------------------------
-        # Tool AI
-        # -----------------------------------------------------
+        # --------------------------------------------------
+        # Runtime state
+        # --------------------------------------------------
 
-        self.tool_requested.connect(
-            self.worker.process_tool
+        self._running = False
+        self._stopping = False
+
+        logger.info(
+            "AIService initialized."
         )
 
-        self.worker.tool_chunk.connect(
-            self.tool_chunk_ready.emit
-        )
-
-        self.worker.tool_finished.connect(
-            self.tool_finished.emit
-        )
-
-        self.worker.tool_error.connect(
-            self.tool_error.emit
-        )
-
-    # =========================================================
-    # CONVERSATION
-    # =========================================================
-
-    def set_conversation(
-        self,
-        conversation_id,
-        history,
-    ):
-        """
-        Set the conversation context used by AtlasBrain.
-        """
-
-        self.conversation_id = (
-            conversation_id
-        )
-
-        self.conversation_history = list(
-            history or []
-        )
-
-        self.worker.set_conversation(
-            conversation_id,
-            self.conversation_history,
-        )
-
-    def clear_conversation(self):
-
-        self.conversation_id = None
-
-        self.conversation_history = []
-
-        self.worker.clear_conversation()
-
-    # =========================================================
-    # LIFECYCLE
-    # =========================================================
+    # ======================================================
+    # START
+    # ======================================================
 
     def start(self):
 
         if self.thread.isRunning():
+
+            logger.info(
+                "AI thread already running."
+            )
+
+            self._running = True
+
             return
 
-        logger.info(
-            "Starting AI worker thread..."
-        )
+        self._stopping = False
 
         self.thread.start()
 
+        self._running = True
+
         logger.info(
-            "AI worker thread started."
+            "AI Thread started."
         )
+
+    # ======================================================
+    # STOP
+    # ======================================================
 
     def stop(self):
 
         if not self.thread.isRunning():
+
+            self._running = False
+
             return
 
+        self._stopping = True
+
         logger.info(
-            "Stopping AI worker thread..."
+            "Stopping AI Thread..."
         )
 
         self.thread.quit()
 
         self.thread.wait()
 
+        self._running = False
+
         logger.info(
-            "AI worker thread stopped."
+            "AI Thread stopped."
         )
 
-    # =========================================================
-    # SYNCHRONOUS AI
-    # =========================================================
+    # ======================================================
+    # CANCEL CURRENT GENERATION
+    # ======================================================
 
-    def process_message(
-        self,
-        message: str,
-    ) -> str:
-        """
-        Process a message synchronously.
+    def cancel_generation(self):
+        """Request cancellation without killing the worker thread."""
+        self._stopping = True
+        try:
+            self.worker.request_stop()
+        except Exception:
+            logger.exception("Failed to request AI generation stop")
 
-        This is intentionally executed directly through
-        the worker's brain so Controller can receive a
-        complete response.
-        """
-
-        return self.worker.process_sync(
-            message,
-            self.conversation_history,
-        )
-
-    # =========================================================
-    # ASYNC NORMAL AI
-    # =========================================================
+    # ======================================================
+    # GENERATE
+    # ======================================================
 
     def generate(
         self,
-        message: str,
+        message,
     ):
+
+        message = str(
+            message
+        ).strip()
+
+        if not message:
+
+            logger.warning(
+                "AIService.generate() received empty message."
+            )
+
+            return
+
+        # --------------------------------------------------
+        # Make sure worker is running
+        # --------------------------------------------------
+
+        if not self.thread.isRunning():
+
+            logger.warning(
+                "AI thread is not running. Starting it."
+            )
+
+            self.start()
+
+        self._stopping = False
+
+        logger.info(
+            "Sending message to AI worker."
+        )
+
+        # --------------------------------------------------
+        # Send request to worker thread
+        # --------------------------------------------------
 
         self.generate_requested.emit(
             message
         )
 
-    # =========================================================
-    # TOOL AI
-    # =========================================================
+    # ======================================================
+    # WORKER CHUNK
+    # ======================================================
 
-    def generate_tool(
+    def _handle_chunk(
         self,
-        message: str,
+        text,
     ):
 
-        self.tool_requested.emit(
+        if text is None:
+
+            return
+
+        text = str(
+            text
+        )
+
+        if not text:
+
+            return
+
+        logger.info(
+            "AI response received."
+        )
+
+        # --------------------------------------------------
+        # ONLY emit Qt signal.
+        #
+        # Do NOT publish ChunkReceived here.
+        #
+        # Controller owns EventBus routing.
+        # --------------------------------------------------
+
+        self.chunk_ready.emit(
+            text
+        )
+
+    # ======================================================
+    # WORKER FINISHED
+    # ======================================================
+
+    def _handle_finished(
+        self,
+    ):
+
+        logger.info(
+            "AI generation finished."
+        )
+
+        # --------------------------------------------------
+        # ONLY emit Qt signal.
+        #
+        # Do not publish ThinkingFinished here.
+        # Controller handles EventBus state.
+        # --------------------------------------------------
+
+        self.finished.emit()
+
+    # ======================================================
+    # WORKER ERROR
+    # ======================================================
+
+    def _handle_error(
+        self,
+        message,
+    ):
+
+        message = str(
             message
         )
 
-    # =========================================================
-    # BRAIN ACCESS
-    # =========================================================
+        logger.error(
+            "AI generation error: %s",
+            message,
+        )
 
-    @property
-    def brain(self):
-        """
-        Compatibility property.
+        # --------------------------------------------------
+        # ONLY emit Qt signal.
+        # --------------------------------------------------
 
-        Existing Atlas code may access:
-
-            controller.ai.brain
-        """
-
-        return self.worker.brain
+        self.error.emit(
+            message
+        )

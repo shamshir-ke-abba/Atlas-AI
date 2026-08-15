@@ -1,304 +1,297 @@
-"""
-AtlasAI V3 — Chat Widget (Complete and Working)
-Fixed to properly handle conversation loading and streaming responses
-"""
+"""Atlas V3 chat surface with streaming, cancellable generation and natural bubbles."""
 
-import logging
-from typing import List, Dict, Any
+import random
 
-from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QScrollArea, QLabel
+from PySide6.QtCore import QTimer, Qt
+from PySide6.QtWidgets import QLabel, QScrollArea, QVBoxLayout, QWidget
+
+from core.events import (
+    ChunkReceived,
+    ErrorOccurred,
+    MessageReceived,
+    ProfileSetupCompleted,
+    ProfileSetupRequested,
+    ThinkingFinished,
+    ThinkingStarted,
 )
-from PySide6.QtCore import Qt, Signal, QTimer
-from PySide6.QtGui import QFont
+from gui.widgets.inputbar import AtlasInputBar
+from gui.widgets.message import AtlasMessage
+from gui.widgets.profile_setup import ProfileSetupCard
 
-logger = logging.getLogger(__name__)
+
+WELCOME_MESSAGES = (
+    "Hi there — I’m Atlas. Ready when you are.",
+    "Hey! Atlas is online. What are we working on?",
+    "Hello! I’m ready to help. Ask me anything.",
+    "Atlas online. Let’s get started.",
+    "Hi! Give me a task and I’ll take it from there.",
+)
 
 
-class ChatMessage(QWidget):
-    """Individual chat message widget."""
-
-    def __init__(self, sender: str, text: str, is_user: bool = False, parent=None):
+class AtlasChat(QWidget):
+    def __init__(self, bus, controller=None, parent=None):
         super().__init__(parent)
-        self.sender = sender
-        self.text = text
-        self.is_user = is_user
-        self.text_label = None
-        self._setup_ui()
+        self.bus = bus
+        self.controller = controller
+        self.current_ai_message = None
+        self.current_ai_response = ""
+        self.is_generating = False
+        self.auto_follow = True
+        self._programmatic_scroll = False
 
-    def _setup_ui(self):
-        """Setup message UI with proper styling."""
-        
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(12, 8, 12, 8)
-        layout.setSpacing(4)
-        
-        # Sender label
-        sender_label = QLabel(self.sender)
-        sender_font = QFont()
-        sender_font.setBold(True)
-        sender_font.setPointSize(10)
-        sender_label.setFont(sender_font)
-        
-        if self.is_user:
-            sender_label.setStyleSheet("color: #0066cc;")
-        else:
-            sender_label.setStyleSheet("color: #888;")
-        
-        layout.addWidget(sender_label)
-        
-        # Message text - Store reference for updates
-        self.text_label = QLabel(self.text)
-        self.text_label.setWordWrap(True)
-        text_font = QFont()
-        text_font.setPointSize(10)
-        self.text_label.setFont(text_font)
-        self.text_label.setStyleSheet("color: #ffffff;")
-        
-        layout.addWidget(self.text_label)
-        
-        # Set background color based on sender
-        if self.is_user:
-            self.setStyleSheet(
-                "QWidget { "
-                "  background-color: #0066cc; "
-                "  border-radius: 8px; "
-                "  padding: 12px; "
-                "}"
-            )
-        else:
-            self.setStyleSheet(
-                "QWidget { "
-                "  background-color: #252525; "
-                "  border-radius: 8px; "
-                "  padding: 12px; "
-                "}"
-            )
+        self.thinking_frame = 0
+        self.thinking_timer = QTimer(self)
+        self.thinking_timer.setInterval(360)
+        self.thinking_timer.timeout.connect(self.animate_thinking)
 
-    def append_text(self, text: str) -> None:
-        """Append text to message."""
-        self.text += text
-        if self.text_label:
-            self.text_label.setText(self.text)
+        self.bus.subscribe(ChunkReceived, self.handle_response)
+        self.bus.subscribe(ThinkingStarted, self.handle_thinking_started)
+        self.bus.subscribe(ThinkingFinished, self.handle_thinking_finished)
+        self.bus.subscribe(ErrorOccurred, self.handle_error)
+        self.bus.subscribe(ProfileSetupRequested, self.show_profile_setup)
+        self.bus.subscribe(ProfileSetupCompleted, self.profile_completed)
 
-    def get_text(self) -> str:
-        """Get message text."""
-        return self.text
+        self.setObjectName("Chat")
+        self.build_ui()
+        self.show_welcome()
 
-
-class ChatWidget(QWidget):
-    """Main chat area with message display and input."""
-    
-    # Signals
-    message_sent = Signal(str)
-    conversation_changed = Signal()
-    
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        
-        self.messages: List[Dict[str, Any]] = []
-        self.message_widgets: List[ChatMessage] = []
-        self.current_atlas_message_widget: ChatMessage = None
-        
-        self._setup_ui()
-        self.setStyleSheet("QWidget { background-color: #1e1e1e; }")
-
-    def _setup_ui(self):
-        """Setup the chat widget UI."""
-        
+    def build_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
-        
-        # Scroll area for messages
-        self.scroll_area = QScrollArea()
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setStyleSheet(
-            "QScrollArea { "
-            "  background-color: #1e1e1e; "
-            "  border: none; "
-            "}"
+
+        header = QWidget()
+        header.setObjectName("ChatHeader")
+        header_layout = QVBoxLayout(header)
+        header_layout.setContentsMargins(22, 8, 22, 7)
+        header_layout.setSpacing(0)
+
+        title = QLabel("Atlas")
+        title.setObjectName("ChatTitle")
+        header_layout.addWidget(title)
+
+        subtitle = QLabel("Local AI Assistant")
+        subtitle.setObjectName("ChatSubtitle")
+        subtitle.setMaximumHeight(16)
+        header_layout.addWidget(subtitle)
+        layout.addWidget(header)
+
+        self.messages = QWidget()
+        self.messages.setObjectName("MessagesContainer")
+        self.messages_layout = QVBoxLayout(self.messages)
+        self.messages_layout.setContentsMargins(18, 18, 18, 28)
+        self.messages_layout.setSpacing(4)
+        self.messages_layout.addStretch(1)
+
+        self.scroll = QScrollArea()
+        self.scroll.setObjectName("ChatScroll")
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setFrameShape(QScrollArea.NoFrame)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidget(self.messages)
+        self.scroll.verticalScrollBar().valueChanged.connect(self._scroll_changed)
+        layout.addWidget(self.scroll, 1)
+
+        self.input_bar = AtlasInputBar()
+        self.input_bar.message_sent.connect(self.handle_message)
+        self.input_bar.stop_requested.connect(self.handle_stop_requested)
+        layout.addWidget(self.input_bar)
+
+    def add_message(self, sender, text):
+        message = AtlasMessage(sender, text)
+        self.messages_layout.insertWidget(
+            self.messages_layout.count() - 1,
+            message,
         )
-        
-        # Message container
-        self.message_container = QWidget()
-        self.message_layout = QVBoxLayout(self.message_container)
-        self.message_layout.setContentsMargins(16, 16, 16, 16)
-        self.message_layout.setSpacing(12)
-        self.message_layout.addStretch()
-        
-        self.message_container.setStyleSheet(
-            "QWidget { background-color: #1e1e1e; }"
-        )
-        
-        self.scroll_area.setWidget(self.message_container)
-        layout.addWidget(self.scroll_area)
+        QTimer.singleShot(0, self._message_geometry_changed)
+        return message
 
-    # ================================================
-    # Message Management
-    # ================================================
+    def _message_geometry_changed(self):
+        if self.auto_follow:
+            self.scroll_to_bottom(force=True)
 
-    def clear_messages(self) -> None:
-        """Clear all messages from the chat. CRITICAL FIX."""
-        
-        logger.info("Clearing chat messages")
-        
-        # Remove all message widgets except stretch
-        while self.message_layout.count() > 1:
-            item = self.message_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-        
-        # Clear tracking lists
-        self.messages.clear()
-        self.message_widgets.clear()
-        self.current_atlas_message_widget = None
-        
-        self._scroll_to_bottom()
-        logger.debug("Chat cleared successfully")
+    def show_welcome(self):
+        self.add_message("Atlas", random.choice(WELCOME_MESSAGES))
 
-    def add_message(
-        self,
-        sender: str,
-        text: str,
-        is_user: bool = False
-    ) -> ChatMessage:
-        """Add a message to the chat.
-        
-        Args:
-            sender: Name of sender ("You" or "Atlas")
-            text: Message text
-            is_user: True if user message, False if Atlas
-            
-        Returns:
-            The ChatMessage widget created
-        """
-        
-        logger.debug(f"Adding message from {sender}: {text[:50] if text else '(empty)'}...")
-        
-        # Create message widget
-        msg_widget = ChatMessage(
-            sender=sender,
-            text=text,
-            is_user=is_user,
-            parent=self.message_container
-        )
-        
-        # Insert before stretch (count - 1)
-        insert_pos = self.message_layout.count() - 1
-        self.message_layout.insertWidget(insert_pos, msg_widget)
-        
-        # Track message
-        self.messages.append({
-            'sender': sender,
-            'text': text,
-            'is_user': is_user,
-        })
-        
-        self.message_widgets.append(msg_widget)
-        
-        # If this is Atlas message, track it for streaming
-        if not is_user:
-            self.current_atlas_message_widget = msg_widget
-        
-        self._scroll_to_bottom()
-        
-        logger.debug(f"Message added. Total messages: {len(self.messages)}")
-        
-        return msg_widget
+    def clear_messages(self):
+        while self.messages_layout.count() > 1:
+            item = self.messages_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
 
-    def load_messages(self, messages: List[Dict[str, Any]]) -> None:
-        """Load messages from a conversation.
-        
-        CRITICAL FIX: This properly clears before loading.
-        
-        Args:
-            messages: List of dicts with 'sender', 'text', 'is_user' keys
-        """
-        
-        logger.info(f"Loading {len(messages)} messages into chat")
-        
-        # CRITICAL FIX: Clear before loading
+        self.current_ai_message = None
+        self.current_ai_response = ""
+        self.is_generating = False
+        self.stop_thinking()
+        self.input_bar.set_generating(False)
+        self.auto_follow = True
+
+    def _conversation_messages(self, conversation):
+        if conversation is None:
+            return []
+        if isinstance(conversation, dict):
+            messages = conversation.get("messages", [])
+            return list(messages) if isinstance(messages, list) else []
+
+        for attr in ("get_messages", "history", "last"):
+            fn = getattr(conversation, attr, None)
+            if callable(fn):
+                try:
+                    result = fn()
+                    if isinstance(result, list):
+                        return list(result)
+                except Exception:
+                    pass
+
+        for attr in ("messages", "current_messages"):
+            result = getattr(conversation, attr, None)
+            if isinstance(result, list):
+                return list(result)
+        return []
+
+    def load_conversation(self, conversation):
         self.clear_messages()
-        
-        if not messages:
-            logger.info("No messages to load")
-            self.conversation_changed.emit()
-            return
-        
-        # Add each message
-        for msg in messages:
-            sender = msg.get('sender', 'Unknown')
-            text = msg.get('text', '')
-            is_user = msg.get('is_user', False)
-            
-            if text:  # Only add non-empty messages
-                self.add_message(sender, text, is_user)
-        
-        logger.info(f"Successfully loaded and displayed {len(messages)} messages")
-        self.conversation_changed.emit()
+        messages = self._conversation_messages(conversation)
 
-    def append_to_last_message(self, chunk: str) -> None:
-        """Append text to the last Atlas message (for streaming).
-        
-        Args:
-            chunk: Text chunk to append
-        """
-        
-        if not chunk:
-            return
-        
-        logger.debug(f"Appending chunk: {chunk[:30]}...")
-        
-        # If we have a current Atlas message widget, append to it
-        if self.current_atlas_message_widget:
-            self.current_atlas_message_widget.append_text(chunk)
-            
-            # Update tracking
-            if self.messages and not self.messages[-1]['is_user']:
-                self.messages[-1]['text'] += chunk
-        else:
-            # No current message, create one
-            logger.warning("No current message widget, creating new one")
-            self.add_message("Atlas", chunk, is_user=False)
-        
-        self._scroll_to_bottom()
-
-    def finalize_atlas_message(self) -> None:
-        """Finalize the current Atlas message (called after streaming complete)."""
-        
-        logger.debug("Finalizing Atlas message")
-        self.current_atlas_message_widget = None
-
-    def _scroll_to_bottom(self) -> None:
-        """Scroll chat to the bottom with delay to ensure layout update."""
-        
-        # Use QTimer to ensure scroll happens after layout update
-        QTimer.singleShot(
-            100,
-            lambda: self.scroll_area.verticalScrollBar().setValue(
-                self.scroll_area.verticalScrollBar().maximum()
+        for message in messages:
+            if not isinstance(message, dict):
+                continue
+            text = str(message.get("text") or message.get("content") or "").strip()
+            if not text:
+                continue
+            role = str(message.get("role", "")).lower()
+            sender = str(message.get("sender", "")).lower()
+            is_user = message.get("is_user")
+            display_sender = (
+                "User"
+                if is_user is True or role == "user" or sender in ("user", "you")
+                else "Atlas"
             )
+            self.add_message(display_sender, text)
+
+        if not messages:
+            self.show_welcome()
+        self.auto_follow = True
+        QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
+
+    def handle_message(self, text):
+        text = str(text).strip()
+        if not text or self.is_generating:
+            return
+
+        self.auto_follow = True
+        self.current_ai_message = None
+        self.current_ai_response = ""
+        self.add_message("User", text)
+        self.scroll_to_bottom(force=True)
+        self.bus.publish(MessageReceived(text))
+
+    def handle_stop_requested(self):
+        if not self.is_generating:
+            return
+        if self.controller is not None:
+            try:
+                self.controller.stop_generation()
+            except Exception:
+                pass
+
+    def handle_thinking_started(self, event):
+        self.is_generating = True
+        self.current_ai_response = ""
+        self.auto_follow = True
+
+        if self.current_ai_message is None:
+            self.current_ai_message = self.add_message("Atlas", "")
+
+        self.start_thinking()
+        self.input_bar.set_generating(True)
+        self.scroll_to_bottom(force=True)
+
+    def handle_response(self, event):
+        if self.current_ai_message is None:
+            self.current_ai_message = self.add_message("Atlas", "")
+
+        self.current_ai_response += str(event.text)
+        self.stop_thinking()
+        self.current_ai_message.set_text(self.current_ai_response)
+
+        # Only follow the stream if the user was already at the bottom.
+        if self.auto_follow:
+            QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
+
+    def handle_thinking_finished(self, event):
+        self.stop_thinking()
+        self.is_generating = False
+        self.input_bar.set_generating(False)
+
+        if self.current_ai_message is not None:
+            self.current_ai_message.set_text(self.current_ai_response)
+
+        if self.auto_follow:
+            QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
+        self.input_bar.input_field.setFocus()
+
+    def handle_error(self, event):
+        self.stop_thinking()
+        self.is_generating = False
+        self.input_bar.set_generating(False)
+        if self.current_ai_message is None:
+            self.current_ai_message = self.add_message("Atlas", "")
+        self.current_ai_response = str(event.message)
+        self.current_ai_message.set_text(self.current_ai_response)
+        if self.auto_follow:
+            QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
+
+    def start_thinking(self):
+        if not self.thinking_timer.isActive():
+            self.thinking_frame = 0
+            self.thinking_timer.start()
+
+    def stop_thinking(self):
+        if self.thinking_timer.isActive():
+            self.thinking_timer.stop()
+
+    def animate_thinking(self):
+        if self.current_ai_message is None:
+            return
+        frames = ("•", "••", "•••", "••")
+        frame = frames[self.thinking_frame % len(frames)]
+        self.thinking_frame += 1
+        self.current_ai_message.set_thinking(frame)
+        if self.auto_follow:
+            self.scroll_to_bottom(force=True)
+
+    def show_profile_setup(self, event):
+        if event.prompt:
+            self.add_message("Atlas", event.prompt)
+        card = ProfileSetupCard(event.tool, controller=self.controller)
+        self.messages_layout.insertWidget(self.messages_layout.count() - 1, card)
+        QTimer.singleShot(0, self._message_geometry_changed)
+
+    def profile_completed(self, event):
+        self.add_message(
+            "Atlas",
+            event.message or "Profile saved. I’ll use it to tailor future suggestions.",
         )
+        QTimer.singleShot(0, self._message_geometry_changed)
 
-    def get_messages(self) -> List[Dict[str, Any]]:
-        """Get all messages currently displayed.
-        
-        Returns:
-            List of message dictionaries
-        """
-        return self.messages.copy()
+    def _scroll_changed(self, value):
+        if self._programmatic_scroll:
+            return
+        bar = self.scroll.verticalScrollBar()
+        distance = bar.maximum() - value
+        if distance <= 24:
+            self.auto_follow = True
+        elif self.is_generating:
+            self.auto_follow = False
 
-    def get_message_count(self) -> int:
-        """Get total number of messages."""
-        return len(self.messages)
-
-    def get_last_message(self) -> Dict[str, Any]:
-        """Get the last message."""
-        if self.messages:
-            return self.messages[-1]
-        return None
-
-    def is_empty(self) -> bool:
-        """Check if chat is empty."""
-        return len(self.messages) == 0
+    def scroll_to_bottom(self, force=False):
+        if not force and not self.auto_follow:
+            return
+        bar = self.scroll.verticalScrollBar()
+        self._programmatic_scroll = True
+        try:
+            bar.setValue(bar.maximum())
+        finally:
+            self._programmatic_scroll = False

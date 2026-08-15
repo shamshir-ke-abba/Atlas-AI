@@ -1,5 +1,5 @@
 """
-Time Plugin
+Atlas V3 Time Plugin.
 """
 
 from datetime import datetime
@@ -7,20 +7,33 @@ from plugins.base import AtlasPlugin
 
 
 class TimePlugin(AtlasPlugin):
-    """Current time/date plugin."""
-    
-    def __init__(self):
-        super().__init__()
-        self.name = "Time"
-        self.icon = "🕐"
-        self.enabled = True
-        self.triggers = ["time", "date", "what time"]
+    name = "time"
+    display_name = "Time"
+    description = "Provides current local time."
+    icon = "🕐"
+    has_gui = True
+    gui_id = "time"
+    priority = 10
 
-    def can_handle(self, message: str) -> bool:
-        """Check if can handle message."""
-        return any(t in message.lower() for t in self.triggers)
+    triggers = [
+        "what time is it",
+        "what's the time",
+        "what is the time",
+        "tell me the time",
+        "current time",
+        "time now",
+        "what time",
+        "time please",
+        "time",
+        "clock",
+    ]
 
-    def run(self, *args, **kwargs) -> str:
-        """Get current time."""
-        now = datetime.now()
-        return f"Current time: {now.strftime('%Y-%m-%d %H:%M:%S')}"
+    def can_handle(self, message):
+        text = str(message or "").lower().strip().rstrip("?!.,")
+        return bool(text) and any(
+            text == trigger or text.startswith(trigger + " ")
+            for trigger in self.triggers
+        )
+
+    def run(self, **kwargs):
+        return datetime.now().strftime("%I:%M:%S %p")

@@ -4,601 +4,1139 @@ Atlas V3 Controller
 Central application controller.
 
 Responsibilities:
-- Conversation lifecycle
-- Conversation history
-- AI processing
-- Runtime state
-- GUI integration
+- Manage application state
+- Manage conversations
+- Manage AIService
+- Synchronize AtlasBrain with the active conversation
+- Route user messages to the AI service
+- Publish AI events to the EventBus
+- Keep GUI/backend state synchronized
 """
 
-from typing import Dict, Optional, Generator
+from datetime import datetime
 
 from core.logger import logger
+from core.state import AtlasState
+from core.conversation import (
+    ConversationStore,
+    ConversationManager,
+)
 from core.ai_service import AIService
+from core.events import (
+    MessageReceived,
+    ChunkReceived,
+    ThinkingStarted,
+    ThinkingFinished,
+    ErrorOccurred,
+)
 
 
 class Controller:
-    """Central controller for Atlas."""
+    """
+    Central controller for Atlas V3.
+
+    Architecture:
+
+        GUI
+          |
+          v
+        Controller
+          |
+          +---- ConversationStore
+          |
+          +---- AIService
+                    |
+                    v
+                  AIWorker
+                    |
+                    v
+                AtlasBrain
+                    |
+                    +---- Tools
+                    +---- Model
+    """
 
     def __init__(
         self,
-        bus=None,
+        bus,
         state=None,
+        tools=None,
+        memory=None,
     ):
+
         self.bus = bus
+
+        # --------------------------------------------------
+        # State
+        # --------------------------------------------------
+
+        if state is None:
+            state = AtlasState()
+
         self.state = state
 
-        # ==================================================
-        # AI SERVICE
-        # ==================================================
+        # --------------------------------------------------
+        # Conversation storage
+        # --------------------------------------------------
+
+        self.conversations = ConversationStore()
+
+        # --------------------------------------------------
+        # AI service
+        # --------------------------------------------------
 
         self.ai = AIService(
             bus=self.bus,
             state=self.state,
         )
 
-        # ==================================================
-        # CONVERSATION SERVICE
-        # ==================================================
+        # --------------------------------------------------
+        # AI service signals
+        # --------------------------------------------------
 
-        from ai.services.conversation_service import (
-            ConversationService,
+        self.ai.chunk_ready.connect(
+            self._handle_ai_chunk
         )
 
-        self.conversations = (
-            ConversationService()
+        self.ai.finished.connect(
+            self._handle_ai_finished
         )
 
-    # ==================================================
-    # LIFECYCLE
-    # ==================================================
+        self.ai.error.connect(
+            self._handle_ai_error
+        )
 
-    def start(self):
-        """Start Atlas."""
+        # --------------------------------------------------
+        # User message event
+        # --------------------------------------------------
+
+        self.bus.subscribe(
+            MessageReceived,
+            self._handle_message_received,
+        )
+
+        # --------------------------------------------------
+        # Ensure active conversation
+        # --------------------------------------------------
+
+        self._ensure_active_conversation()
+
+        # --------------------------------------------------
+        # Synchronize brain
+        # --------------------------------------------------
+
+        self._sync_brain()
 
         logger.info(
-            "Starting Controller..."
+            "Controller initialized"
         )
 
-        try:
-            self.ai.start()
+    # ======================================================
+    # CONVERSATION HELPERS
+    # ======================================================
 
-        except Exception:
-            logger.exception(
-                "Failed to start AI service"
-            )
-
-        self._sync_active_conversation()
-
-    def stop(self):
-        """Stop Atlas."""
-
-        logger.info(
-            "Stopping Controller..."
-        )
-
-        try:
-            self.ai.stop()
-
-        except Exception:
-            logger.exception(
-                "Failed to stop AI service"
-            )
-
-    # ==================================================
-    # CONVERSATIONS
-    # ==================================================
-
-    def create_conversation(self) -> str:
-        """Create a new conversation."""
-
-        conversation_id = (
-            self.conversations.new()
-        )
-
-        self._set_active_conversation_id(
-            conversation_id
-        )
-
-        self.ai.clear_conversation()
-
-        self._reset_state()
-
-        logger.info(
-            "Created conversation: %s",
-            conversation_id,
-        )
-
-        return conversation_id
-
-    def get_conversations(
+    def _conversation_metadata(
         self,
-    ) -> Dict[str, Dict]:
+        conversation_id,
+    ):
+        """
+        Return metadata for a conversation.
+        """
 
-        return self.conversations.list()
-
-    def get_conversation(
-        self,
-        conversation_id: str,
-    ) -> Optional[Dict]:
+        if not conversation_id:
+            return None
 
         conversations = (
-            self.conversations.list()
+            self.conversations.list_all()
         )
+
+        if not isinstance(
+            conversations,
+            dict,
+        ):
+            return None
 
         return conversations.get(
             conversation_id
         )
 
-    def save_conversation(
-        self,
-        conversation_id: str,
-    ) -> bool:
+    # ------------------------------------------------------
 
-        if not self.conversations.load(
-            conversation_id
+    def _get_latest_conversation_id(
+        self,
+    ):
+        """
+        Find the newest conversation safely.
+
+        Handles missing/None timestamps without
+        allowing max() to compare None and strings.
+        """
+
+        conversations = (
+            self.conversations.list_all()
+        )
+
+        if not conversations:
+            return None
+
+        if not isinstance(
+            conversations,
+            dict,
         ):
+            return None
+
+        best_id = None
+        best_time = ""
+
+        for conversation_id, metadata in conversations.items():
+
+            if not isinstance(
+                metadata,
+                dict,
+            ):
+                metadata = {}
+
+            modified = (
+                metadata.get("modified")
+                or metadata.get("created")
+                or ""
+            )
+
+            # Always convert to string so comparison
+            # between None and str cannot happen.
+            modified = str(
+                modified
+            )
+
+            if (
+                best_id is None
+                or modified > best_time
+            ):
+                best_id = conversation_id
+                best_time = modified
+
+        return best_id
+
+    # ======================================================
+    # ENSURE ACTIVE CONVERSATION
+    # ======================================================
+
+    def _ensure_active_conversation(
+        self,
+    ):
+        """
+        Ensure there is always an active conversation.
+        """
+
+        active_id = (
+            self.state.active_conversation_id
+        )
+
+        # --------------------------------------------------
+        # Existing active conversation still exists
+        # --------------------------------------------------
+
+        if active_id:
+
+            manager = (
+                self.conversations.load(
+                    active_id
+                )
+            )
+
+            if manager is not None:
+
+                logger.info(
+                    "Using active conversation: %s",
+                    active_id,
+                )
+
+                return active_id
+
+        # --------------------------------------------------
+        # Try newest existing conversation
+        # --------------------------------------------------
+
+        latest_id = (
+            self._get_latest_conversation_id()
+        )
+
+        if latest_id:
+
+            manager = (
+                self.conversations.load(
+                    latest_id
+                )
+            )
+
+            if manager is not None:
+
+                self.state.active_conversation_id = (
+                    latest_id
+                )
+
+                logger.info(
+                    "Restored latest conversation: %s",
+                    latest_id,
+                )
+
+                return latest_id
+
+        # --------------------------------------------------
+        # Nothing exists -> create one
+        # --------------------------------------------------
+
+        return self.create_conversation(
+            synchronize=False
+        )
+
+    # ======================================================
+    # CREATE
+    # ======================================================
+
+
+    def create_conversation(
+        self,
+        synchronize=True,
+    ):
+        """
+        Create a new conversation.
+
+        An untouched active "New Chat" is reused so repeated clicks on
+        New Chat cannot create a pile of empty conversations.
+        """
+        import uuid
+
+        active_id = self.get_active_conversation_id()
+        if active_id:
+            active = self.get_active_conversation()
+            if (
+                active is not None
+                and not active.get_messages()
+                and str(getattr(active, "title", "")) == "New Chat"
+            ):
+                if synchronize:
+                    self._sync_brain()
+                return active_id
+
+        conversation_id = str(uuid.uuid4())
+        manager = ConversationManager(
+            conversation_id=conversation_id,
+            title="New Chat",
+        )
+
+        if not self.conversations.save(manager):
+            logger.error(
+                "Failed to create conversation: %s",
+                conversation_id,
+            )
+            return None
+
+        self.state.active_conversation_id = conversation_id
+        self.state.current_message = ""
+        self.state.current_response = ""
+        self.state.status = "Idle"
+        self.state.is_generating = False
+
+        if hasattr(self.state, "stop_event"):
+            self.state.stop_event.clear()
+
+        if synchronize:
+            self._sync_brain()
+
+        logger.info("Created conversation: %s", conversation_id)
+        return conversation_id
+
+    # ======================================================
+    # GET ACTIVE ID
+    # ======================================================
+
+    def get_active_conversation_id(
+        self,
+    ):
+
+        return (
+            self.state.active_conversation_id
+        )
+
+    # ======================================================
+    # GET ACTIVE CONVERSATION
+    # ======================================================
+
+    def get_active_conversation(
+        self,
+    ):
+        """
+        Return the active ConversationManager.
+        """
+
+        conversation_id = (
+            self.get_active_conversation_id()
+        )
+
+        if not conversation_id:
+            return None
+
+        return (
+            self.conversations.load(
+                conversation_id
+            )
+        )
+
+    # ======================================================
+    # GET CONVERSATIONS
+    # ======================================================
+
+    def get_conversations(
+        self,
+    ):
+        """
+        Return conversations in the format expected
+        by the sidebar.
+
+        The sidebar supports a list of dictionaries,
+        so return that format.
+        """
+
+        conversations = (
+            self.conversations.list_all()
+        )
+
+        result = []
+
+        if not isinstance(
+            conversations,
+            dict,
+        ):
+            return result
+
+        for conversation_id, metadata in conversations.items():
+
+            if not isinstance(
+                metadata,
+                dict,
+            ):
+                metadata = {}
+
+            result.append(
+                {
+                    "id": conversation_id,
+                    "title": (
+                        metadata.get("title")
+                        or "New Chat"
+                    ),
+                    "created": (
+                        metadata.get("created")
+                    ),
+                    "modified": (
+                        metadata.get("modified")
+                    ),
+                    "message_count": (
+                        metadata.get(
+                            "message_count",
+                            0,
+                        )
+                    ),
+                }
+            )
+
+        # --------------------------------------------------
+        # Newest conversations first
+        # --------------------------------------------------
+
+        result.sort(
+            key=lambda item: str(
+                item.get("modified")
+                or item.get("created")
+                or ""
+            ),
+            reverse=True,
+        )
+
+        return result
+
+    # ======================================================
+    # LOAD
+    # ======================================================
+
+    def load_conversation(
+        self,
+        conversation_id,
+    ):
+        """
+        Load a conversation and synchronize AtlasBrain.
+        """
+
+        if not conversation_id:
             return False
 
-        return self.conversations.save()
+        manager = (
+            self.conversations.load(
+                conversation_id
+            )
+        )
+
+        if manager is None:
+
+            logger.warning(
+                "Conversation not found: %s",
+                conversation_id,
+            )
+
+            return False
+
+        self.state.active_conversation_id = (
+            conversation_id
+        )
+
+        self.state.current_message = ""
+        self.state.current_response = ""
+
+        self.state.status = "Idle"
+        self.state.is_generating = False
+
+        if hasattr(
+            self.state,
+            "stop_event",
+        ):
+
+            self.state.stop_event.clear()
+
+        self._sync_brain()
+
+        logger.info(
+            "Loaded conversation: %s",
+            conversation_id,
+        )
+
+        return True
+
+    # ======================================================
+    # RENAME
+    # ======================================================
 
     def rename_conversation(
         self,
-        conversation_id: str,
-        new_title: str,
-    ) -> bool:
+        conversation_id,
+        new_title,
+    ):
+        """
+        Rename a conversation.
+        """
 
-        return self.conversations.rename(
-            conversation_id,
-            new_title,
-        )
+        if not conversation_id:
+            return False
 
-    def delete_conversation(
-        self,
-        conversation_id: str,
-    ) -> bool:
+        if not new_title:
+            return False
+
+        new_title = str(
+            new_title
+        ).strip()
+
+        if not new_title:
+            return False
 
         success = (
-            self.conversations.delete(
-                conversation_id
+            self.conversations.rename(
+                conversation_id,
+                new_title,
             )
         )
 
         if success:
 
-            if (
-                self.get_active_conversation_id()
-                == conversation_id
-            ):
-
-                self._set_active_conversation_id(
-                    None
-                )
-
-                self.ai.clear_conversation()
-
-                self._reset_state()
+            logger.info(
+                "Renamed conversation %s -> %s",
+                conversation_id,
+                new_title,
+            )
 
         return success
 
-    # ==================================================
-    # ACTIVE CONVERSATION
-    # ==================================================
+    # ======================================================
+    # DELETE
+    # ======================================================
 
-    def get_active_conversation_id(
-        self,
-    ) -> Optional[str]:
 
-        if self.state is not None:
-
-            conversation_id = getattr(
-                self.state,
-                "active_conversation_id",
-                None,
-            )
-
-            if conversation_id:
-                return conversation_id
-
-        return self.conversations.get_id()
-
-    def _set_active_conversation_id(
+    def delete_conversation(
         self,
         conversation_id,
     ):
+        """Delete a conversation without spawning duplicate empty chats."""
+        if not conversation_id:
+            return False
 
-        if self.state is not None:
+        if self.state.is_generating:
+            logger.warning(
+                "Refusing to delete while Atlas is generating."
+            )
+            return False
 
-            self.state.active_conversation_id = (
-                conversation_id
+        active_id = self.get_active_conversation_id()
+        was_active = str(active_id) == str(conversation_id)
+
+        if not self.conversations.delete(conversation_id):
+            return False
+
+        if was_active:
+            remaining = self.conversations.list_all()
+            candidates = []
+
+            if isinstance(remaining, dict):
+                for cid, meta in remaining.items():
+                    if not isinstance(meta, dict):
+                        meta = {}
+                    modified = str(
+                        meta.get("modified")
+                        or meta.get("created")
+                        or ""
+                    )
+                    candidates.append((modified, str(cid)))
+
+            candidates.sort(reverse=True)
+
+            if candidates:
+                self.state.active_conversation_id = candidates[0][1]
+                self._sync_brain()
+            else:
+                self.state.active_conversation_id = None
+                self.create_conversation(synchronize=True)
+        else:
+            self._sync_brain()
+
+        return True
+
+
+    # ======================================================
+    # INTERACTIVE TOOL PROFILE SETUP
+    # ======================================================
+
+    @staticmethod
+    def _profile_setup_tool(message):
+        text = str(message or "").lower().strip()
+
+        nutrition_signals = (
+            "nutrition", "meal plan", "mealplan", "diet", "food",
+            "allerg", "intoleran", "what i eat", "eating",
+            "i'm fat", "im fat", "i am fat",
+            "i'm skinny", "im skinny", "i am skinny",
+        )
+        fitness_signals = (
+            "gym", "workout", "exercise", "fitness",
+            "training", "reps", "sets",
+        )
+
+        if any(signal in text for signal in nutrition_signals):
+            return "nutrition"
+        if any(signal in text for signal in fitness_signals):
+            return "fitness"
+        return None
+
+    def _profile_needs_setup(self, tool):
+        plugin = self.ai.tools.get(tool) if self.ai.tools is not None else None
+        if plugin is None:
+            return False
+        checker = getattr(plugin, "profile_complete", None)
+        if callable(checker):
+            try:
+                return not bool(checker())
+            except Exception:
+                return True
+        return False
+
+    def _handle_profile_setup_request(self, text):
+        tool = self._profile_setup_tool(text)
+        if tool is None or not self._profile_needs_setup(tool):
+            return False
+
+        if tool == "fitness":
+            prompt = (
+                "Let’s set up your fitness profile first. "
+                "I’ll use your experience, goal, equipment and restrictions "
+                "to tailor future suggestions."
+            )
+        else:
+            prompt = (
+                "Let’s set up a nutrition profile first. "
+                "I’ll use age, activity, dietary preferences and allergies "
+                "to tailor meal ideas."
             )
 
-    # ==================================================
-    # HISTORY
-    # ==================================================
+        from core.events import ProfileSetupRequested
+        self.bus.publish(ProfileSetupRequested(tool=tool, prompt=prompt))
+        return True
 
-    def _get_history(
+    def apply_tool_profile(self, tool, profile):
+        """Save a GUI profile through the real plugin backend."""
+        tool = str(tool or "").strip().lower()
+        profile = dict(profile or {})
+        plugin = self.ai.tools.get(tool)
+        if plugin is None:
+            raise ValueError(f"Tool '{tool}' is unavailable.")
+        if tool not in ("fitness", "nutrition"):
+            raise ValueError(f"Interactive profiles are not supported for '{tool}'.")
+        result = plugin.set_profile(**profile)
+        from core.events import ProfileSetupCompleted
+        self.bus.publish(ProfileSetupCompleted(tool=tool, profile=profile, message=str(result or "")))
+        return result
+
+    def run_tool_action(self, tool, action, **kwargs):
+        """Execute a concrete fitness/nutrition action from the GUI."""
+        tool = str(tool or "").strip().lower()
+        plugin = self.ai.tools.get(tool)
+        if plugin is None:
+            raise ValueError(f"Tool '{tool}' is unavailable.")
+        method = getattr(plugin, str(action), None)
+        if not callable(method):
+            raise ValueError(f"Tool '{tool}' has no action '{action}'.")
+        return method(**kwargs)
+
+    # ======================================================
+    # AUTO TITLE
+    # ======================================================
+
+    @staticmethod
+    def _auto_title(text):
+        """Create a compact, deterministic title from the first user message."""
+        text = " ".join(str(text or "").strip().split())
+        if not text:
+            return "New Chat"
+        text = text.rstrip("?!.,;:")
+        replacements = (
+            ("please tell me ", ""),
+            ("can you ", ""),
+            ("could you ", ""),
+            ("help me ", ""),
+        )
+        low = text.lower()
+        for prefix, replacement in replacements:
+            if low.startswith(prefix):
+                text = text[len(prefix):]
+                break
+        words = text.split()[:7]
+        title = " ".join(words).strip()
+        if len(title) > 42:
+            title = title[:42].rsplit(" ", 1)[0]
+        if not title:
+            return "New Chat"
+        return title[0].upper() + title[1:]
+
+    def _auto_rename_if_needed(self, conversation, first_message):
+        if conversation is None:
+            return False
+        current = str(getattr(conversation, "title", "") or "").strip()
+        if current.lower() != "new chat":
+            return False
+        title = self._auto_title(first_message)
+        if title == "New Chat":
+            return False
+        conversation.title = title
+        return bool(self.conversations.save(conversation))
+
+    # ======================================================
+    # MESSAGE ROUTING
+    # ======================================================
+
+    def _handle_message_received(
         self,
-        conversation_id: str,
+        event,
     ):
-
         """
-        Get the actual messages stored by
-        ConversationService.
-
-        Returns:
-
-        [
-            {
-                "sender": "You",
-                "text": "...",
-                ...
-            },
-            {
-                "sender": "Atlas",
-                "text": "...",
-                ...
-            }
-        ]
+        Receive a user message from the GUI,
+        save it to the active conversation,
+        then send it to AIService.
         """
 
-        conversation = (
-            self.get_conversation(
-                conversation_id
+        # Event classes in Atlas V3 currently carry
+        # the message as .text.
+        text = getattr(
+            event,
+            "text",
+            None,
+        )
+
+        if text is None:
+
+            # Compatibility with possible alternate
+            # event attribute names.
+            text = getattr(
+                event,
+                "message",
+                None,
             )
-        )
 
-        if not conversation:
-            return []
+        if text is None:
+            return
 
-        messages = conversation.get(
-            "messages",
-            [],
-        )
-
-        if not isinstance(
-            messages,
-            list,
-        ):
-            return []
-
-        return list(
-            messages
-        )
-
-    def _sync_ai_conversation(
-        self,
-        conversation_id: str,
-    ):
-        """
-        Synchronize the exact ConversationService
-        history with AIService.
-        """
-
-        history = self._get_history(
-            conversation_id
-        )
-
-        logger.info(
-            "Syncing AI history: %d messages",
-            len(history),
-        )
-
-        self.ai.set_conversation(
-            conversation_id,
-            history,
-        )
-
-    # ==================================================
-    # SEND MESSAGE
-    # ==================================================
-
-    def send_message(
-        self,
-        conversation_id: str,
-        message: str,
-    ) -> str:
-
-        message = str(
-            message
+        text = str(
+            text
         ).strip()
 
-        if not message:
+        if not text:
+            return
 
-            return (
-                "Error: Empty message"
-            )
+        profile_tool = self._profile_setup_tool(text)
 
-        logger.info(
-            "Processing message in conversation %s",
-            conversation_id,
+        # --------------------------------------------------
+        # Make sure an active conversation exists
+        # --------------------------------------------------
+
+        if not self.get_active_conversation_id():
+
+            self.create_conversation()
+
+        conversation = (
+            self.get_active_conversation()
         )
 
+        if conversation is None:
+
+            logger.error(
+                "Could not get active conversation."
+            )
+
+            self.bus.publish(
+                ErrorOccurred(
+                    "Could not access the active conversation."
+                )
+            )
+
+            return
+
         # --------------------------------------------------
-        # Load conversation
+        # Save user message
         # --------------------------------------------------
 
-        if not self.conversations.load(
-            conversation_id
+        conversation.add_message(
+            sender="User",
+            text=text,
+            is_user=True,
+        )
+
+        self.conversations.save(
+            conversation
+        )
+
+        # Give the chat a useful name immediately after its first message.
+        self._auto_rename_if_needed(conversation, text)
+
+        if profile_tool is not None:
+            self.state.current_message = text
+            self.state.current_response = ""
+            self.state.is_generating = False
+            self.state.status = "Idle"
+            self._sync_brain()
+
+            if self._handle_profile_setup_request(text):
+                return
+
+        # --------------------------------------------------
+        # Update state
+        # --------------------------------------------------
+
+        self.state.current_message = text
+        self.state.current_response = ""
+
+        self.state.is_generating = True
+        self.state.status = "Thinking"
+
+        if hasattr(
+            self.state,
+            "stop_event",
         ):
 
-            return (
-                "Error: Conversation not found"
-            )
+            self.state.stop_event.clear()
 
         # --------------------------------------------------
-        # Active conversation
+        # Tell GUI/backend that thinking started
         # --------------------------------------------------
 
-        self._set_active_conversation_id(
-            conversation_id
+        self.bus.publish(
+            ThinkingStarted()
         )
 
-        # --------------------------------------------------
-        # Add USER message
-        # --------------------------------------------------
-
-        self.conversations.add_user(
-            message
+        logger.info(
+            "Sending message to AI: %s",
+            text,
         )
 
         # --------------------------------------------------
         # IMPORTANT:
+        # Send to AIService, not directly to AIWorker.
         #
-        # Fetch conversation AGAIN after adding
-        # the user message.
-        #
-        # This gives AIService the actual stored
-        # conversation history.
+        # AIService owns the QThread.
         # --------------------------------------------------
 
-        self._sync_ai_conversation(
-            conversation_id
+        self.ai.generate(
+            text
         )
 
-        # --------------------------------------------------
-        # Process AI
-        # --------------------------------------------------
+    # ======================================================
+    # STOP GENERATION
+    # ======================================================
 
-        full_response = ""
+    def stop_generation(self):
+        """Cooperatively stop the current response without killing Atlas."""
+        if not getattr(self.state, "is_generating", False):
+            return False
 
         try:
-
-            response = (
-                self.ai.process_message(
-                    message
-                )
-            )
-
-            if response is not None:
-
-                full_response = str(
-                    response
-                ).strip()
-
+            if hasattr(self.state, "stop_event"):
+                self.state.stop_event.set()
+            self.ai.cancel_generation()
+            self.state.status = "Stopping"
+            logger.info("AI generation stop requested.")
+            return True
         except Exception as exc:
+            logger.warning("Could not stop AI generation: %s", exc)
+            return False
 
-            logger.exception(
-                "Brain processing failed"
-            )
+    # ======================================================
+    # AI CHUNK
+    # ======================================================
 
-            full_response = (
-                f"Error: {exc}"
-            )
-
-        # --------------------------------------------------
-        # Fallback
-        # --------------------------------------------------
-
-        if not full_response:
-
-            full_response = (
-                "No response generated"
-            )
-
-        # --------------------------------------------------
-        # Save Atlas response
-        # --------------------------------------------------
-
-        self.conversations.add_assistant(
-            full_response
-        )
-
-        self.conversations.save()
-
-        # --------------------------------------------------
-        # Synchronize history again so the next
-        # request sees the latest Atlas response.
-        # --------------------------------------------------
-
-        self._sync_ai_conversation(
-            conversation_id
-        )
-
-        return full_response
-
-    # ==================================================
-    # STREAMING
-    # ==================================================
-
-    def send_message_stream(
+    def _handle_ai_chunk(
         self,
-        conversation_id: str,
-        message: str,
-    ) -> Generator[str, None, None]:
+        text,
+    ):
+        """
+        Receive AI output from AIService.
+        """
 
-        message = str(
-            message
+        if text is None:
+            return
+
+        text = str(
+            text
+        )
+
+        if not text:
+            return
+
+        self.state.current_response += (
+            text
+        )
+
+        self.state.status = "Generating"
+
+        # --------------------------------------------------
+        # Send response to GUI
+        # --------------------------------------------------
+
+        self.bus.publish(
+            ChunkReceived(
+                text
+            )
+        )
+
+    # ======================================================
+    # AI FINISHED
+    # ======================================================
+
+    def _handle_ai_finished(
+        self,
+    ):
+        """
+        Save the completed AI response.
+        """
+
+        response = str(
+            self.state.current_response
+            or ""
         ).strip()
 
-        if not message:
+        conversation = (
+            self.get_active_conversation()
+        )
 
-            yield (
-                "Error: Empty message"
+        if conversation is not None and response:
+
+            conversation.add_message(
+                sender="Atlas",
+                text=response,
+                is_user=False,
             )
 
-            return
+            self.conversations.save(
+                conversation
+            )
+
+        self.state.is_generating = False
+        self.state.status = "Idle"
+
+        self.bus.publish(
+            ThinkingFinished()
+        )
 
         logger.info(
-            "Streaming message in conversation %s",
-            conversation_id,
+            "AI response finished."
+
+        )
+
+    # ======================================================
+    # AI ERROR
+    # ======================================================
+
+    def _handle_ai_error(
+        self,
+        error,
+    ):
+        """
+        Handle AI worker errors.
+        """
+
+        error = str(
+            error
+        )
+
+        self.state.is_generating = False
+        self.state.status = "Error"
+
+        logger.error(
+            "AI error: %s",
+            error,
+        )
+
+        self.bus.publish(
+            ErrorOccurred(
+                error
+            )
+        )
+
+        self.bus.publish(
+            ThinkingFinished()
+        )
+
+    # ======================================================
+    # BRAIN SYNCHRONIZATION
+    # ======================================================
+
+    def _sync_brain(
+        self,
+    ):
+        """
+        Synchronize AtlasBrain's conversation history
+        with the active conversation.
+        """
+
+        conversation = (
+            self.get_active_conversation()
+        )
+
+        if conversation is None:
+
+            logger.warning(
+                "Cannot synchronize brain: "
+                "no active conversation."
+            )
+
+            return
+
+        messages = (
+            conversation.get_messages()
         )
 
         # --------------------------------------------------
-        # Load
+        # AIService -> AIWorker -> AtlasBrain
         # --------------------------------------------------
 
-        if not self.conversations.load(
-            conversation_id
-        ):
+        brain = getattr(
+            self.ai.worker,
+            "brain",
+            None,
+        )
 
-            yield (
-                "Error: Conversation not found"
+        if brain is None:
+
+            logger.warning(
+                "Cannot synchronize brain: "
+                "AIWorker brain unavailable."
             )
 
             return
 
         # --------------------------------------------------
-        # Active
+        # Brain API used by Atlas V3
         # --------------------------------------------------
 
-        self._set_active_conversation_id(
-            conversation_id
-        )
+        if hasattr(
+            brain,
+            "set_conversation_history",
+        ):
 
-        # --------------------------------------------------
-        # User message
-        # --------------------------------------------------
+            try:
 
-        self.conversations.add_user(
-            message
-        )
-
-        # --------------------------------------------------
-        # Sync history
-        # --------------------------------------------------
-
-        self._sync_ai_conversation(
-            conversation_id
-        )
-
-        # --------------------------------------------------
-        # Process
-        # --------------------------------------------------
-
-        full_response = ""
-
-        try:
-
-            response = (
-                self.ai.process_message(
-                    message
+                brain.set_conversation_history(
+                    messages
                 )
+
+            except Exception:
+
+                logger.exception(
+                    "Failed to synchronize "
+                    "conversation history with brain."
+                )
+
+                return
+
+        elif hasattr(
+            brain,
+            "conversation_history",
+        ):
+
+            brain.conversation_history = (
+                list(messages)
             )
 
-            if response is not None:
-
-                full_response = str(
-                    response
-                ).strip()
-
-                if full_response:
-
-                    yield full_response
-
-        except Exception as exc:
-
-            logger.exception(
-                "Brain processing failed"
-            )
-
-            full_response = (
-                f"Error: {exc}"
-            )
-
-            yield full_response
-
-        # --------------------------------------------------
-        # Fallback
-        # --------------------------------------------------
-
-        if not full_response:
-
-            full_response = (
-                "No response generated"
-            )
-
-        # --------------------------------------------------
-        # Save
-        # --------------------------------------------------
-
-        self.conversations.add_assistant(
-            full_response
+        logger.info(
+            "Brain synchronized with conversation: %s",
+            conversation.id,
         )
 
-        self.conversations.save()
+    # ======================================================
+    # START
+    # ======================================================
 
-        self._sync_ai_conversation(
-            conversation_id
-        )
-
-    # ==================================================
-    # ACTIVE CONVERSATION SYNC
-    # ==================================================
-
-    def _sync_active_conversation(
+    def start(
         self,
     ):
+        """
+        Start backend services.
+        """
 
-        conversation_id = (
-            self.conversations.get_id()
+        if self.ai is not None:
+
+            self.ai.start()
+
+        logger.info(
+            "Controller started."
         )
 
-        if conversation_id:
+    # ======================================================
+    # STOP
+    # ======================================================
 
-            self._set_active_conversation_id(
-                conversation_id
-            )
-
-            self._sync_ai_conversation(
-                conversation_id
-            )
-
-    # ==================================================
-    # STATE
-    # ==================================================
-
-    def _reset_state(
+    def stop(
         self,
     ):
+        """
+        Stop backend services cleanly.
+        """
 
-        if self.state is None:
-            return
+        if self.ai is not None:
 
-        if hasattr(
-            self.state,
-            "current_message",
-        ):
+            try:
 
-            self.state.current_message = ""
+                self.ai.stop()
 
-        if hasattr(
-            self.state,
-            "current_response",
-        ):
+            except Exception as exc:
 
-            self.state.current_response = ""
+                logger.warning(
+                    "Error stopping AI service: %s",
+                    exc,
+                )
 
-        if hasattr(
-            self.state,
-            "status",
-        ):
-
-            self.state.status = "Ready"
-
-        if hasattr(
-            self.state,
-            "is_generating",
-        ):
-
-            self.state.is_generating = False
+        logger.info(
+            "Controller stopped."
+        )

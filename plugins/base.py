@@ -4,10 +4,16 @@ Atlas V3 Plugin Base
 Base interface for all Atlas plugins/tools.
 
 Responsibilities:
-- Define the standard plugin interface
+- Define the standard plugin contract
 - Provide deterministic message matching
 - Provide optional argument extraction
+- Provide standardized metadata
 - Keep plugins independent from AtlasBrain
+
+This class is intentionally LLM-free.
+
+The plugin system should remain deterministic at this layer.
+Higher-level planning/reasoning can be added above it later.
 """
 
 from typing import Any, Dict, Optional
@@ -15,29 +21,58 @@ from typing import Any, Dict, Optional
 
 class AtlasPlugin:
     """
-    Base class for every Atlas plugin.
+    Base class for every Atlas plugin/tool.
 
-    Plugins should implement:
-
+    Required:
         name
         description
         can_handle()
         run()
 
     Optional:
-
         extract_arguments()
+
+    Metadata fields provide a consistent interface for
+    ToolManager, future planners, Skills, and GUI systems.
     """
 
     # ==========================================================
-    # METADATA
+    # IDENTITY
     # ==========================================================
 
     name = "unknown"
 
-    description = (
-        "Atlas plugin"
-    )
+    display_name = "Atlas Plugin"
+
+    description = "Atlas plugin"
+
+    version = "1.0"
+
+    author = "Atlas"
+
+    # ==========================================================
+    # UI
+    # ==========================================================
+
+    icon = "🧩"
+
+    has_gui = False
+
+    gui_id = None
+
+    # ==========================================================
+    # ROUTING
+    # ==========================================================
+
+    triggers = []
+
+    capabilities = []
+
+    # Lower number = higher priority.
+    priority = 100
+
+    # Plugin can be disabled without being unloaded.
+    enabled = True
 
     # ==========================================================
     # MATCHING
@@ -50,9 +85,13 @@ class AtlasPlugin:
         """
         Determine whether this plugin can handle a message.
 
-        Plugins should override this with deterministic logic.
+        Plugins should override this method.
 
-        This method MUST NOT call the LLM.
+        Requirements:
+        - Must be deterministic.
+        - Must not call the LLM.
+        - Must not execute the tool.
+        - Should return True/False only.
         """
 
         return False
@@ -79,7 +118,10 @@ class AtlasPlugin:
                     "expression": "25 * 4"
                 }
 
-        The default implementation returns the raw message.
+        Plugins may override this when they need structured
+        arguments.
+
+        The default implementation preserves the raw message.
         """
 
         return {
@@ -98,7 +140,7 @@ class AtlasPlugin:
         """
         Execute the plugin.
 
-        Plugins MUST override this.
+        Every executable plugin MUST override this method.
         """
 
         raise NotImplementedError(
@@ -107,20 +149,50 @@ class AtlasPlugin:
         )
 
     # ==========================================================
-    # INFO
+    # METADATA
     # ==========================================================
 
     def info(self) -> Dict[str, Any]:
         """
-        Return plugin metadata.
+        Return standardized plugin metadata.
 
-        Used by the tool system and future planner.
+        ToolManager and future planner/skills systems can use
+        this without knowing the concrete plugin class.
         """
 
         return {
             "name": self.name,
+            "display_name": self.display_name,
             "description": self.description,
+            "version": self.version,
+            "author": self.author,
+            "icon": self.icon,
+            "triggers": list(self.triggers or []),
+            "capabilities": list(
+                self.capabilities or []
+            ),
+            "priority": self.priority,
+            "enabled": self.enabled,
+            "has_gui": self.has_gui,
+            "gui_id": self.gui_id,
         }
+
+    # ==========================================================
+    # STATUS
+    # ==========================================================
+
+    def is_enabled(self) -> bool:
+        """
+        Return whether this plugin is currently enabled.
+        """
+
+        return bool(
+            self.enabled
+        )
+
+    # ==========================================================
+    # REPRESENTATION
+    # ==========================================================
 
     def __repr__(self) -> str:
         return (

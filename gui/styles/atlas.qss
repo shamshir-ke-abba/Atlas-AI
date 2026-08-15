@@ -1,188 +1,310 @@
-/* =====================================================
-   Atlas V3
-   Main Theme
-   ===================================================== */
+/*
+    Atlas V3 Global Stylesheet
+*/
 
-
-/* =====================================================
-   Application
-   ===================================================== */
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
 QMainWindow {
-    background: #15171c;
+    background: #121212;
 }
 
 QWidget {
-    background: #15171c;
-    color: #e6e6e6;
-    font-family: "Ubuntu";
-    font-size: 14px;
-}
-
-
-/* =====================================================
-   Sidebar
-   ===================================================== */
-
-QWidget#Sidebar {
-    background: #1b1e24;
-    border-right: 1px solid #30343c;
-}
-
-QLabel#SidebarTitle {
     background: transparent;
-    color: #ffffff;
-    font-size: 22px;
+    color: #FFFFFF;
+    font-family: "Segoe UI";
+    font-size: 11pt;
+}
+
+QLabel {
+    color: #FFFFFF;
+}
+
+
+/* =========================================================
+   MAIN WINDOW
+   ========================================================= */
+
+#AtlasWindow {
+    background: #121212;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+#Sidebar {
+    background: #181818;
+    border-right: 1px solid #292929;
+}
+
+#AtlasLogo {
+    color: #FFFFFF;
+}
+
+#HistoryTitle {
+    color: #777777;
+    font-size: 9pt;
     font-weight: bold;
-    padding-bottom: 12px;
 }
 
 
-/* =====================================================
-   Chat
-   ===================================================== */
+/* =========================================================
+   NEW CHAT
+   ========================================================= */
 
-QWidget#Chat {
-    background: #15171c;
-}
+#Sidebar QPushButton {
+    background: #242424;
+    color: #FFFFFF;
 
-QLabel#ChatTitle {
-    background: transparent;
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 4px;
-}
+    border: 1px solid #303030;
+    border-radius: 7px;
 
-
-/* =====================================================
-   Messages
-   ===================================================== */
-
-QWidget#MessagesContainer {
-    background: #15171c;
-}
-
-QScrollArea {
-    background: #15171c;
-    border: none;
-}
-
-QScrollArea > QWidget > QWidget {
-    background: #15171c;
-}
-
-QWidget#MessageAtlas,
-QWidget#MessageUser {
-    background: transparent;
-    border: none;
-}
-
-QWidget#MessageBubble {
-    border-radius: 12px;
-}
-
-QWidget#MessageAtlas QWidget#MessageBubble {
-    background: #20242c;
-    border: 1px solid #2d323c;
-}
-
-QWidget#MessageUser QWidget#MessageBubble {
-    background: #2a4578;
-    border: 1px solid #3b6fd8;
-}
-
-QLabel#MessageSender {
-    background: transparent;
-    color: #8ab4f8;
-    font-weight: bold;
-    font-size: 12px;
-}
-
-QWidget#MessageUser QLabel#MessageSender {
-    color: #c8dafc;
-}
-
-QTextBrowser#MessageText {
-    background: transparent;
-    color: #e6e6e6;
-    border: none;
-}
-
-
-/* =====================================================
-   Buttons
-   ===================================================== */
-
-QPushButton {
-    background: #252a33;
-    color: #e6e6e6;
-    border: 1px solid #343a45;
-    border-radius: 8px;
     padding: 9px 12px;
 }
 
-QPushButton:hover {
-    background: #303642;
+#Sidebar QPushButton:hover {
+    background: #2D2D2D;
+    border: 1px solid #3A3A3A;
 }
 
-QPushButton:pressed {
-    background: #191c22;
+#Sidebar QPushButton:pressed {
+    background: #202020;
 }
 
 
-/* =====================================================
-   Input
-   ===================================================== */
+/* =========================================================
+   HISTORY
+   ========================================================= */
 
-QWidget#InputBar {
-    background: #15171c;
-}
-
-QLineEdit#InputField {
-    background: #20242c;
-    color: #ffffff;
-    border: 1px solid #343a45;
-    border-radius: 9px;
-    padding: 10px;
-}
-
-QLineEdit#InputField:focus {
-    border: 1px solid #5b8def;
-}
-
-QPushButton#SendButton {
-    background: #3b6fd8;
-    color: #ffffff;
+#HistoryList {
+    background: #181818;
     border: none;
-    border-radius: 8px;
+    outline: none;
+
+    color: #DDDDDD;
+
+    padding: 0px;
+}
+
+#HistoryList::item {
+    background: transparent;
+
+    padding: 8px 10px;
+    margin: 2px 0px;
+
+    border-radius: 6px;
+}
+
+#HistoryList::item:hover {
+    background: #242424;
+}
+
+#HistoryList::item:selected {
+    background: #2A2A2A;
+    color: #FFFFFF;
+}
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+#Chat {
+    background: #121212;
+}
+
+#ChatHeader {
+    background: #121212;
+
+    border-bottom: 1px solid #202020;
+}
+
+#ChatTitle {
+    color: #FFFFFF;
+
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+#ChatSubtitle {
+    color: #777777;
+
+    font-size: 9pt;
+}
+
+#MessagesContainer {
+    background: #121212;
+}
+
+#ChatScroll {
+    background: #121212;
+    border: none;
+}
+
+
+/* =========================================================
+   ATLAS MESSAGE
+   ========================================================= */
+
+#AtlasMessage {
+    background: transparent;
+}
+
+#AtlasBubble {
+    background: #1E1E1E;
+
+    border: 1px solid #292929;
+    border-radius: 12px;
+
+    max-width: 700px;
+}
+
+#AtlasSender {
+    color: #00BFFF;
+
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+#AtlasMessageText {
+    color: #EEEEEE;
+
+    font-size: 11pt;
+}
+
+
+/* =========================================================
+   USER MESSAGE
+   ========================================================= */
+
+#UserMessage {
+    background: transparent;
+}
+
+#UserBubble {
+    background: #252525;
+
+    border: 1px solid #303030;
+    border-radius: 12px;
+
+    max-width: 700px;
+}
+
+#UserSender {
+    color: #BBBBBB;
+
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+#UserMessageText {
+    color: #FFFFFF;
+
+    font-size: 11pt;
+}
+
+
+/* =========================================================
+   INPUT
+   ========================================================= */
+
+#InputBar {
+    background: #121212;
+
+    border-top: 1px solid #202020;
+}
+
+#InputField {
+    background: #1E1E1E;
+
+    color: #FFFFFF;
+
+    border: 1px solid #303030;
+    border-radius: 10px;
+
+    padding: 10px 14px;
+
+    selection-background-color: #0066CC;
+}
+
+#InputField:hover {
+    border: 1px solid #3A3A3A;
+}
+
+#InputField:focus {
+    border: 1px solid #00BFFF;
+}
+
+
+#SendButton {
+    background: #0066CC;
+
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 9px;
+
     padding: 10px 18px;
-    font-weight: bold;
+
+    font-weight: 600;
 }
 
-QPushButton#SendButton:hover {
-    background: #4b7fe8;
+#SendButton:hover {
+    background: #0077DD;
+}
+
+#SendButton:pressed {
+    background: #0055AA;
 }
 
 
-/* =====================================================
-   Scrollbars
-   ===================================================== */
+/* =========================================================
+   STATUS PANEL
+   ========================================================= */
+
+#StatusBar {
+    background: #181818;
+
+    border-left: 1px solid #292929;
+}
+
+#StatusTitle {
+    color: #FFFFFF;
+
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+#StatusText {
+    color: #888888;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
 
 QScrollBar:vertical {
-    background: #15171c;
-    width: 10px;
-    margin: 0px;
+    width: 8px;
+
+    background: transparent;
+
+    margin: 2px 0px 2px 0px;
 }
 
 QScrollBar::handle:vertical {
-    background: #3a404c;
-    border-radius: 5px;
+    background: #3A3A3A;
+
+    border-radius: 4px;
+
     min-height: 30px;
 }
 
 QScrollBar::handle:vertical:hover {
-    background: #4b5362;
+    background: #555555;
 }
 
 QScrollBar::add-line:vertical,
@@ -190,21 +312,33 @@ QScrollBar::sub-line:vertical {
     height: 0px;
 }
 
-
-/* =====================================================
-   Status
-   ===================================================== */
-
-QWidget#StatusBar {
-    background: #1b1e24;
-    border-left: 1px solid #30343c;
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
 }
 
-/* =====================================================
-   Message Avatar
-   ===================================================== */
 
-QLabel#MessageAvatar {
+/* =========================================================
+   HORIZONTAL SCROLLBAR
+   ========================================================= */
+
+QScrollBar:horizontal {
+    height: 8px;
+
     background: transparent;
-    border: none;
+}
+
+QScrollBar::handle:horizontal {
+    background: #3A3A3A;
+
+    border-radius: 4px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #555555;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0px;
 }

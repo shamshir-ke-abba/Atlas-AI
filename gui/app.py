@@ -1,7 +1,7 @@
 """
 gui/app.py
 
-Creates the Qt Application.
+Creates the Atlas Qt Application.
 """
 
 import sys
@@ -11,13 +11,12 @@ from PySide6.QtWidgets import QApplication
 
 
 class AtlasApplication(QApplication):
-    """
-    Atlas Qt Application.
-    """
 
     def __init__(self):
 
-        super().__init__(sys.argv)
+        super().__init__(
+            sys.argv
+        )
 
         self.setApplicationName(
             "Atlas AI"
@@ -33,9 +32,9 @@ class AtlasApplication(QApplication):
 
         self.load_stylesheet()
 
-    # =====================================================
-    # Styles
-    # =====================================================
+    # ==================================================
+    # STYLES
+    # ==================================================
 
     def load_stylesheet(self):
 

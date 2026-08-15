@@ -1,78 +1,30 @@
 """
-Atlas Math Formatter
-
-Converts SymPy results into clean text/Markdown
-for the Atlas GUI.
+Atlas Math Formatter compatibility layer.
 """
-
-import sympy as sp
 
 
 class MathFormatter:
-
-    # ======================================================
-    # Basic
-    # ======================================================
+    @staticmethod
+    def text(expression):
+        from plugins.math_engine.engine import MathEngine
+        return MathEngine._pretty(expression)
 
     @staticmethod
-    def text(
-        expression,
-    ):
-
-        if isinstance(
-            expression,
-            sp.Basic,
-        ):
-
-            return sp.sstr(
-                expression
-            )
-
-        return str(
-            expression
-        )
-
-    # ======================================================
-    # Equation
-    # ======================================================
-
-    @staticmethod
-    def equation(
-        left,
-        right,
-    ):
-
+    def equation(left, right):
+        from plugins.math_engine.engine import MathEngine
         return (
-            f"`{MathFormatter.text(left)}`"
-            " = "
-            f"**{MathFormatter.text(right)}**"
+            f"{MathEngine._pretty(left)} = "
+            f"{MathEngine._pretty(right)}"
         )
 
-    # ======================================================
-    # Result Card
-    # ======================================================
-
     @staticmethod
-    def result(
-        expression,
-        result,
-    ):
-
+    def result(expression, result):
+        from plugins.math_engine.engine import MathEngine
         return (
             "### Result\n\n"
-            f"`{expression}` = **{result}**"
+            f"`{expression}` = {MathEngine._pretty(result)}"
         )
-
-    # ======================================================
-    # Error
-    # ======================================================
 
     @staticmethod
-    def error(
-        message,
-    ):
-
-        return (
-            "### Math Error\n\n"
-            f"{message}"
-        )
+    def error(message):
+        return f"### Math Error\n\n{message}"
