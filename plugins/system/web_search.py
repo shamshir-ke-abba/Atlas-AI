@@ -211,7 +211,8 @@ class WebSearchPlugin(AtlasPlugin):
         }
 
     def _format_results(self, query, results):
-        lines = [f"Web results for: {query}", ""]
+        # Include the original user query for clarity in the prompt
+        lines = [f"You asked: {query}", "", f"Web results for: {query}", ""]
         for index, result in enumerate(results, 1):
             lines.append(f"{index}. {result['title']}")
             if result.get("snippet"):

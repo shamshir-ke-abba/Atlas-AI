@@ -170,10 +170,28 @@ class ContextBuilder:
                 "(none)"
             )
 
+        # If the current message is a short follow-up, attempt to
+        # resolve its reference to the most recent assistant message
+        # or to a specific enumerated item. This helps the model
+        # correctly interpret pronouns like "that", "the second one",
+        # or short clarifications.
+        clarification = self._resolve_followup(recent, current_message)
+
         lines.extend(
             [
                 "===== END RECENT CONVERSATION =====",
                 "",
+            ]
+        )
+
+        if clarification:
+            lines.append("===== FOLLOW-UP CLARIFICATION =====")
+            lines.append(clarification)
+            lines.append("===== END FOLLOW-UP CLARIFICATION =====")
+            lines.append("")
+
+        lines.extend(
+            [
                 "===== CURRENT USER MESSAGE =====",
                 f"User: {current_message}",
                 "===== END CURRENT USER MESSAGE =====",
@@ -183,3 +201,94 @@ class ContextBuilder:
         )
 
         return "\n".join(lines)
+
+    def _resolve_followup(self, recent: List[Dict[str, Any]], current_message: str) -> str:
+        """
+        If the current message is a short follow-up referring to recent
+        assistant output, return a short clarifying note that will be
+        injected into the prompt to disambiguate references for the model.
+        Returns empty string when no clarification is needed.
+        """
+
+        if not current_message:
+            return ""
+
+        # Heuristic: only short follow-ups are auto-resolved
+        token_count = len(current_message.split())
+        if token_count > 10:
+            return ""
+
+        text = current_message.lower()
+
+        followup_signals = (
+            "that",
+            "it",
+            "the second",
+            "second",
+            "the first",
+            "first",
+            "the third",
+            "third",
+            "the other",
+            "other",
+            "that one",
+            "explain that",
+            "explain this",
+            "explain the",
+            "what about",
+            "why",
+            "how",
+            "tell me more",
+            "another one",
+            "the second one",
+            "the first one",
+            "the third one",
+        )
+
+        # Match signals as whole words/phrases to avoid matching
+        # substrings inside unrelated words (e.g. "it" in "capital").
+        import re as _re
+
+        pattern = r"\b(?:" + "|".join(_re.escape(s) for s in followup_signals) + r")\b"
+        if not _re.search(pattern, text, _re.IGNORECASE):
+            return ""
+
+        # Find last assistant message text
+        assistant_text = None
+        for msg in reversed(recent or []):
+            if not isinstance(msg, dict):
+                continue
+            is_user = msg.get("is_user")
+            sender = str(msg.get("sender", msg.get("role", "User")) or "").lower()
+            if (is_user is True) or sender in ("user", "you"):
+                continue
+            # This is an assistant message
+            assistant_text = str(msg.get("text") or msg.get("content") or "").strip()
+            if assistant_text:
+                break
+
+        if not assistant_text:
+            return ""
+
+        # If the assistant text contains numbered items, try to extract
+        # the referenced item for more precise disambiguation.
+        # items extraction uses regex too
+        items = []
+        import re as _re
+        for line in assistant_text.splitlines():
+            m = _re.match(r"^\s*(?:\d+|[ivx]+)[\.)]\s*(.+)", line.strip(), _re.IGNORECASE)
+            if m:
+                items.append(m.group(1).strip())
+
+        ordinal_map = {"first": 1, "second": 2, "third": 3}
+
+        for word, idx in ordinal_map.items():
+            if word in text and items and len(items) >= idx:
+                return f"User's short follow-up appears to refer to the assistant's enumerated item #{idx}: \"{items[idx-1]}\""
+
+        # If no numbered resolution, include a short quote of the assistant message
+        short = assistant_text
+        if len(short) > 240:
+            short = short[:240].rsplit(" ", 1)[0] + "..."
+
+        return f"User's short follow-up appears to refer to the most recent assistant message: \"{short}\""

@@ -1,18 +1,14 @@
 {
-    "preferences": {
-        "explanation_style": "first principles"
+    "identity": {
+        "name": "Saad"
     },
+    "preferences": {},
     "projects": {
-        "project_name": "Atlas",
-        "technology": "Python",
-        "runtime": "Ollama"
+        "project_name": "AtlasAI"
     },
     "environment": {
         "operating_system": "Ubuntu"
     },
     "facts": {},
-    "goals": {},
-    "identity": {
-        "name": "saad"
-    }
+    "goals": {}
 }
