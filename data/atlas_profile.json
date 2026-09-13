@@ -1,7 +1,7 @@
 {
   "version": 1,
   "identity": {
-    "name": "Saad",
+    "name": "Atlas User",
     "age": 16
   },
   "preferences": {},
@@ -9,8 +9,8 @@
     "activity_level": "moderate"
   },
   "fitness": {
-    "goal": "strength",
-    "experience": "Beginner",
+    "goal": "general fitness",
+    "experience": "beginner",
     "equipment": [
       "Dumbbell"
     ],
@@ -27,12 +27,12 @@
       "None"
     ],
     "preferences": [
-      "Biryani"
+      "home cooked food"
     ]
   },
   "goals": {},
   "metadata": {
     "created_at": "2026-08-15T04:43:14.763140+00:00",
-    "updated_at": "2026-08-16T07:28:25.120839+00:00"
+    "updated_at": "2026-09-06T17:45:16.088154+00:00"
   }
 }

@@ -17,7 +17,8 @@ from typing import Any, Dict, Optional
 from core.logger import logger
 from ai.model import AtlasModel
 from ai.context_builder import ContextBuilder
-
+from agents.coding.agent import CodingAgent
+from agents.coding.detector import CodingTaskDetector
 
 class AtlasBrain:
     """Central AI orchestration."""
@@ -41,6 +42,9 @@ class AtlasBrain:
         self.conversation_history = []
 
         self.context_builder = ContextBuilder()
+ 
+        self.coding_detector = CodingTaskDetector()
+        self.coding_agent = CodingAgent()
 
         # Web-search state exposed to browser runtime.
         self.last_web_query = ""
@@ -317,6 +321,7 @@ class AtlasBrain:
             context = self._build_context(
                 message
             )
+
 
             tool = None
 
@@ -842,6 +847,78 @@ class AtlasBrain:
     # ==================================================
     # ROUTING
     # ==================================================
+
+    def _run_coding_agent(
+        self,
+        message: str,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> str:
+        """Run the dedicated Coding Agent."""
+
+        try:
+            logger.info(
+                "CODING AGENT: handling task"
+            )
+
+            return self.coding_agent.run(
+                message
+            )
+
+        except Exception as exc:
+            logger.exception(
+                "Coding Agent failed"
+            )
+
+            return (
+                f"Error running Coding Agent: {exc}"
+            )
+
+    def _route_message(self, message: str):
+        if self.coding_detector.is_coding_task(message):
+            logger.info(
+                "ROUTE: CODING AGENT"
+            )
+
+            return (
+                lambda msg, ctx:
+                self._run_coding_agent(msg, ctx)
+            )
+
+        if self.tools is not None:
+
+            try:
+
+                if hasattr(
+                    self.tools,
+                    "match",
+                ):
+
+                    tool = self.tools.match(message)
+
+                    if tool is not None:
+                        logger.info(
+                            "ROUTE: TOOL -> %s",
+                            getattr(
+                                tool,
+                                "name",
+                                type(tool).__name__,
+                            ),
+                        )
+
+                        return (
+                            lambda msg, ctx:
+                            self._run_tool(tool, msg)
+                        )
+
+            except Exception as exc:
+                logger.warning(
+                    "Tool routing failed: %s",
+                    exc
+                )
+
+        logger.info("ROUTE: MODEL")
+
+        return self._generate_response
 
     def _route_message(
         self,

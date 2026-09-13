@@ -71,6 +71,10 @@ class AIService(QObject):
     # This is emitted from the GUI/controller thread and connected
     # to AIWorker.process() in the worker thread.
     generate_requested = Signal(str)
+    coding_requested = Signal(str, object, int)
+    coding_result = Signal(object)
+    coding_error = Signal(str)
+    coding_finished = Signal()
 
     def __init__(
         self,
@@ -125,6 +129,10 @@ class AIService(QObject):
             self.worker.process
         )
 
+        self.coding_requested.connect(
+            self.worker.process_coding
+        )
+
         # --------------------------------------------------
         # Worker -> Service
         # --------------------------------------------------
@@ -139,6 +147,18 @@ class AIService(QObject):
 
         self.worker.error.connect(
             self._handle_error
+        )
+
+        self.worker.coding_result.connect(
+            self.coding_result.emit
+        )
+
+        self.worker.coding_error.connect(
+            self.coding_error.emit
+        )
+
+        self.worker.coding_finished.connect(
+            self.coding_finished.emit
         )
 
         # --------------------------------------------------
@@ -263,6 +283,46 @@ class AIService(QObject):
 
         self.generate_requested.emit(
             message
+        )
+
+    # ======================================================
+    # CODING AGENT
+    # ======================================================
+
+    def execute_coding(
+        self,
+        task,
+        permissions,
+        max_attempts=2,
+    ):
+        """Execute an approved Coding Agent task on the worker thread."""
+
+        task = str(
+            task or ""
+        ).strip()
+
+        if not task:
+            logger.warning(
+                "AIService.execute_coding() received empty task."
+            )
+            return
+
+        if not self.thread.isRunning():
+            logger.warning(
+                "AI thread is not running. Starting it."
+            )
+            self.start()
+
+        self._stopping = False
+
+        logger.info(
+            "Sending coding task to AI worker."
+        )
+
+        self.coding_requested.emit(
+            task,
+            permissions,
+            int(max_attempts),
         )
 
     # ======================================================

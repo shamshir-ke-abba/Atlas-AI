@@ -61,6 +61,8 @@ def main():
         controller=controller,
     )
 
+    controller.set_gui_parent(window)
+
     logger.info(
         "Atlas main window created."
     )

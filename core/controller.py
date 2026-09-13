@@ -30,6 +30,8 @@ from core.events import (
     ThinkingFinished,
     ErrorOccurred,
 )
+from agents.coding.permissions import CodingPermissions
+from agents.coding.detector import CodingTaskDetector
 
 
 class Controller:
@@ -66,6 +68,7 @@ class Controller:
     ):
 
         self.bus = bus
+        self.gui_parent = None
 
         # --------------------------------------------------
         # State
@@ -156,6 +159,20 @@ class Controller:
 
         logger.info(
             "Controller initialized"
+        )
+
+        self.coding_detector = CodingTaskDetector()
+
+        self.ai.coding_result.connect(
+            self._handle_coding_result
+        )
+
+        self.ai.coding_error.connect(
+            self._handle_coding_error
+        )
+
+        self.ai.coding_finished.connect(
+            self._handle_coding_finished
         )
 
     # ======================================================
@@ -865,6 +882,10 @@ class Controller:
 
         profile_tool = self._profile_setup_tool(text)
 
+        is_coding_task = self.coding_detector.is_coding_task(
+            text
+        )
+
         # --------------------------------------------------
         # Make sure an active conversation exists
         # --------------------------------------------------
@@ -918,6 +939,15 @@ class Controller:
             if self._handle_profile_setup_request(text):
                 return
 
+
+        # --------------------------------------------------
+        # Coding Agent
+        # --------------------------------------------------
+
+        if is_coding_task:
+            self._start_coding_task(text)
+            return
+
         # --------------------------------------------------
         # Update state
         # --------------------------------------------------
@@ -957,6 +987,211 @@ class Controller:
 
         self.ai.generate(
             text
+        )
+
+    # ======================================================
+    # CODING AGENT
+    # ======================================================
+
+    def set_gui_parent(self, parent):
+        """Set the GUI parent used for modal dialogs."""
+        self.gui_parent = parent
+
+    def _request_coding_permissions(self, parent=None):
+        """Show the Coding Agent permission dialog."""
+
+        from gui.widgets.coding_permission_dialog import (
+            CodingPermissionDialog,
+        )
+
+        dialog = CodingPermissionDialog(
+            parent=parent
+        )
+
+        from PySide6.QtWidgets import QDialog
+
+        if dialog.exec() != QDialog.Accepted:
+            return None
+
+        return CodingPermissions(
+            **dialog.permissions()
+        )
+
+    def _start_coding_task(self, text):
+        """Request permission and start Coding Agent execution."""
+
+        permissions = self._request_coding_permissions(
+            parent=None
+        )
+
+        if permissions is None:
+            self.state.is_generating = False
+            self.state.status = "Idle"
+
+            self.bus.publish(
+                ChunkReceived(
+                    "Coding Agent cancelled."
+                )
+            )
+
+            self.bus.publish(
+                ThinkingFinished()
+            )
+
+            return True
+
+        self.state.current_message = text
+        self.state.current_response = ""
+        self.state.is_generating = True
+        self.state.status = "Coding"
+
+        if hasattr(self.state, "stop_event"):
+            self.state.stop_event.clear()
+
+        self.bus.publish(
+            ThinkingStarted()
+        )
+
+        logger.info(
+            "Starting Coding Agent task: %s",
+            text,
+        )
+
+        self.ai.execute_coding(
+            text,
+            permissions,
+            max_attempts=2,
+        )
+
+        return True
+
+    def _handle_coding_result(self, result):
+        """Convert CodingWorkflowResult into a user-facing response."""
+
+        if result is None:
+            message = "Coding Agent returned no result."
+        elif getattr(result, "success", False):
+            message = (
+                "Coding task completed successfully.\n\n"
+                f"{getattr(result, 'message', '')}"
+            )
+
+            applied = getattr(
+                result,
+                "applied_changes",
+                [],
+            )
+
+            if applied:
+                message += (
+                    "\n\nChanged files:\n"
+                    + "\n".join(
+                        f"- {path}"
+                        for path in applied
+                    )
+                )
+
+            test_result = getattr(
+                result,
+                "test_result",
+                {},
+            )
+
+            if test_result:
+                message += (
+                    "\n\n"
+                    + str(
+                        test_result.get(
+                            "summary",
+                            "",
+                        )
+                    )
+                )
+
+        else:
+            message = (
+                "Coding Agent could not complete the task.\n\n"
+                f"{getattr(result, 'message', '')}"
+            )
+
+            error_analysis = getattr(
+                result,
+                "error_analysis",
+                None,
+            )
+
+            if error_analysis is not None:
+                error_type = getattr(
+                    error_analysis,
+                    "error_type",
+                    "",
+                )
+                error_message = getattr(
+                    error_analysis,
+                    "message",
+                    "",
+                )
+
+                if error_type:
+                    message += (
+                        f"\n\nError type: {error_type}"
+                    )
+
+                if error_message:
+                    message += (
+                        f"\n{error_message}"
+                    )
+
+        self.state.current_response = message
+
+        self.bus.publish(
+            ChunkReceived(message)
+        )
+
+    def _handle_coding_error(self, error):
+        """Handle an unexpected Coding Agent error."""
+
+        message = (
+            "Coding Agent error: "
+            f"{str(error)}"
+        )
+
+        self.state.current_response = message
+
+        self.bus.publish(
+            ChunkReceived(message)
+        )
+
+    def _handle_coding_finished(self):
+        """Finish the controller state after Coding Agent execution."""
+
+        response = str(
+            self.state.current_response
+            or ""
+        ).strip()
+
+        conversation = self.get_active_conversation()
+
+        if conversation is not None and response:
+            conversation.add_message(
+                sender="Atlas",
+                text=response,
+                is_user=False,
+            )
+
+            self.conversations.save(
+                conversation
+            )
+
+        self.state.is_generating = False
+        self.state.status = "Idle"
+
+        self.bus.publish(
+            ThinkingFinished()
+        )
+
+        logger.info(
+            "Coding Agent execution finished."
         )
 
     # ======================================================
