@@ -24,6 +24,9 @@ from PySide6.QtWidgets import (
 )
 
 
+from gui.widgets.state_indicator import AtlasStateIndicator
+
+
 def markdown_to_html(text: str) -> str:
     """Convert supported Markdown formatting to HTML for RichText display."""
     # Repeatedly unescape HTML entities to collapse double-encoding (e.g. "&amp;#x27;" -> "'")
@@ -158,6 +161,11 @@ class AtlasMessage(QWidget):
         self.message_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
         layout.addWidget(self.message_label)
 
+        if not self.is_user:
+            self.state_indicator = AtlasStateIndicator(self.container)
+            layout.addWidget(self.state_indicator)
+            self.state_indicator.hide()
+
         if self.is_user:
             self.outer_layout.addStretch(1)
             self.outer_layout.addWidget(self.container, 0, Qt.AlignRight)
@@ -165,7 +173,12 @@ class AtlasMessage(QWidget):
             self.outer_layout.addWidget(self.container, 0, Qt.AlignLeft)
             self.outer_layout.addStretch(1)
 
-        self.set_text(self.text)
+        if self.text:
+            self.set_text(self.text)
+        elif not self.is_user:
+            self.set_state("thinking", "Thinking")
+        else:
+            self.set_text("")
 
     def copy_message(self):
         QApplication.clipboard().setText(self.text)
@@ -179,24 +192,36 @@ class AtlasMessage(QWidget):
 
     def set_text(self, text: str):
         self.text = str(text or "")
-        # Render via the single RichText pipeline
+        if hasattr(self, "state_indicator"):
+            self.state_indicator.stop()
+            self.state_indicator.hide()
+        self.message_label.show()
         self.message_label.setTextFormat(Qt.RichText)
         self.message_label.setText(markdown_to_html(self.text))
         self._resize_bubble()
 
-    def set_thinking(self, frame: str):
-        self.message_label.setTextFormat(Qt.RichText)
-        self.message_label.setText(
-            f'<span style="color:#82828C; letter-spacing:3px; font-size:12pt;">{frame}</span>'
-        )
-        self._resize_bubble()
+    def set_state(self, kind: str, label: str = ""):
+        if not self.is_user and hasattr(self, "state_indicator"):
+            self.message_label.hide()
+            self.state_indicator.show()
+            self.state_indicator.set_state(kind, label)
+            self._resize_bubble()
+
+    def set_thinking(self, frame: str = ""):
+        self.set_state("thinking", "Thinking")
+
+    def finish_state(self):
+        if hasattr(self, "state_indicator"):
+            self.state_indicator.stop()
+            if not self.text:
+                self.state_indicator.set_state("ready", "Ready")
 
     def _resize_bubble(self):
         available = self.width()
         if available <= 0 and self.parentWidget():
             available = self.parentWidget().width()
         if available <= 0:
-            available = 860
+            available = 700
 
         MAX_COLUMN_WIDTH = 740
         MIN_SIDE_MARGIN = 16
@@ -230,14 +255,13 @@ class AtlasMessage(QWidget):
         self.container.setFixedWidth(bubble_width)
         content_width = max(140, bubble_width - 32)
         self.message_label.setFixedWidth(content_width)
-        self.message_label.adjustSize()
-        self.container.adjustSize()
-        self.adjustSize()
-        self.updateGeometry()
+        if hasattr(self, "state_indicator"):
+            self.state_indicator.setFixedWidth(content_width)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         new_width = event.size().width()
-        if new_width != self._last_parent_width:
+        if new_width > 0 and new_width != self._last_parent_width:
             self._last_parent_width = new_width
-            QTimer.singleShot(0, self._resize_bubble)
+            self._resize_bubble()
+

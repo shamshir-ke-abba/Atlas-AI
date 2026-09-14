@@ -1,315 +1,61 @@
-/*
-    Atlas V3 Global Stylesheet
-*/
+/* ==============================================================================
+   ATLAS V3 GLOBAL STYLESHEET (QT QSS)
+   Canonical Design System V1 Foundation
+   Dark Theme: Deep Slate + Muted Teal · Inter + JetBrains Mono
+   ============================================================================== */
 
 /* =========================================================
-   GLOBAL
+   01. GLOBAL WINDOW & WIDGET DEFAULTS
    ========================================================= */
 
 QMainWindow {
-    background: #121212;
+    background-color: #09090B;
 }
 
 QWidget {
     background: transparent;
-    color: #FFFFFF;
-    font-family: "Segoe UI";
+    color: #F4F4F5;
+    font-family: "Inter", "Segoe UI", -apple-system, Roboto, sans-serif;
     font-size: 11pt;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
 }
 
 QLabel {
-    color: #FFFFFF;
+    background: transparent;
+    color: #F4F4F5;
 }
-
-
-/* =========================================================
-   MAIN WINDOW
-   ========================================================= */
 
 #AtlasWindow {
-    background: #121212;
+    background-color: #09090B;
 }
 
 
 /* =========================================================
-   SIDEBAR
-   ========================================================= */
-
-#Sidebar {
-    background: #181818;
-    border-right: 1px solid #292929;
-}
-
-#AtlasLogo {
-    color: #FFFFFF;
-}
-
-#HistoryTitle {
-    color: #777777;
-    font-size: 9pt;
-    font-weight: bold;
-}
-
-
-/* =========================================================
-   NEW CHAT
-   ========================================================= */
-
-#Sidebar QPushButton {
-    background: #242424;
-    color: #FFFFFF;
-
-    border: 1px solid #303030;
-    border-radius: 7px;
-
-    padding: 9px 12px;
-}
-
-#Sidebar QPushButton:hover {
-    background: #2D2D2D;
-    border: 1px solid #3A3A3A;
-}
-
-#Sidebar QPushButton:pressed {
-    background: #202020;
-}
-
-
-/* =========================================================
-   HISTORY
-   ========================================================= */
-
-#HistoryList {
-    background: #181818;
-    border: none;
-    outline: none;
-
-    color: #DDDDDD;
-
-    padding: 0px;
-}
-
-#HistoryList::item {
-    background: transparent;
-
-    padding: 8px 10px;
-    margin: 2px 0px;
-
-    border-radius: 6px;
-}
-
-#HistoryList::item:hover {
-    background: #242424;
-}
-
-#HistoryList::item:selected {
-    background: #2A2A2A;
-    color: #FFFFFF;
-}
-
-
-/* =========================================================
-   CHAT
-   ========================================================= */
-
-#Chat {
-    background: #121212;
-}
-
-#ChatHeader {
-    background: #121212;
-
-    border-bottom: 1px solid #202020;
-}
-
-#ChatTitle {
-    color: #FFFFFF;
-
-    font-size: 18pt;
-    font-weight: 600;
-}
-
-#ChatSubtitle {
-    color: #777777;
-
-    font-size: 9pt;
-}
-
-#MessagesContainer {
-    background: #121212;
-}
-
-#ChatScroll {
-    background: #121212;
-    border: none;
-}
-
-
-/* =========================================================
-   ATLAS MESSAGE
-   ========================================================= */
-
-#AtlasMessage {
-    background: transparent;
-}
-
-#AtlasBubble {
-    background: #1E1E1E;
-
-    border: 1px solid #292929;
-    border-radius: 12px;
-
-    max-width: 700px;
-}
-
-#AtlasSender {
-    color: #00BFFF;
-
-    font-size: 9pt;
-    font-weight: 600;
-}
-
-#AtlasMessageText {
-    color: #EEEEEE;
-
-    font-size: 11pt;
-}
-
-
-/* =========================================================
-   USER MESSAGE
-   ========================================================= */
-
-#UserMessage {
-    background: transparent;
-}
-
-#UserBubble {
-    background: #252525;
-
-    border: 1px solid #303030;
-    border-radius: 12px;
-
-    max-width: 700px;
-}
-
-#UserSender {
-    color: #BBBBBB;
-
-    font-size: 9pt;
-    font-weight: 600;
-}
-
-#UserMessageText {
-    color: #FFFFFF;
-
-    font-size: 11pt;
-}
-
-
-/* =========================================================
-   INPUT
-   ========================================================= */
-
-#InputBar {
-    background: #121212;
-
-    border-top: 1px solid #202020;
-}
-
-#InputField {
-    background: #1E1E1E;
-
-    color: #FFFFFF;
-
-    border: 1px solid #303030;
-    border-radius: 10px;
-
-    padding: 10px 14px;
-
-    selection-background-color: #0066CC;
-}
-
-#InputField:hover {
-    border: 1px solid #3A3A3A;
-}
-
-#InputField:focus {
-    border: 1px solid #00BFFF;
-}
-
-
-#SendButton {
-    background: #0066CC;
-
-    color: #FFFFFF;
-
-    border: none;
-    border-radius: 9px;
-
-    padding: 10px 18px;
-
-    font-weight: 600;
-}
-
-#SendButton:hover {
-    background: #0077DD;
-}
-
-#SendButton:pressed {
-    background: #0055AA;
-}
-
-
-/* =========================================================
-   STATUS PANEL
-   ========================================================= */
-
-#StatusBar {
-    background: #181818;
-
-    border-left: 1px solid #292929;
-}
-
-#StatusTitle {
-    color: #FFFFFF;
-
-    font-size: 16pt;
-    font-weight: 600;
-}
-
-#StatusText {
-    color: #888888;
-}
-
-
-/* =========================================================
-   SCROLLBAR
+   02. SCROLLBARS (CANONICAL 6px SUBTLE)
    ========================================================= */
 
 QScrollBar:vertical {
-    width: 8px;
-
+    width: 6px;
     background: transparent;
-
     margin: 2px 0px 2px 0px;
 }
 
 QScrollBar::handle:vertical {
-    background: #3A3A3A;
-
-    border-radius: 4px;
-
-    min-height: 30px;
+    background: #3F3F4A;
+    border-radius: 3px;
+    min-height: 24px;
 }
 
 QScrollBar::handle:vertical:hover {
-    background: #555555;
+    background: #82828C;
 }
 
 QScrollBar::add-line:vertical,
 QScrollBar::sub-line:vertical {
     height: 0px;
+    background: transparent;
+    border: none;
 }
 
 QScrollBar::add-page:vertical,
@@ -317,28 +63,1003 @@ QScrollBar::sub-page:vertical {
     background: transparent;
 }
 
-
-/* =========================================================
-   HORIZONTAL SCROLLBAR
-   ========================================================= */
-
 QScrollBar:horizontal {
-    height: 8px;
-
+    height: 6px;
     background: transparent;
+    margin: 0px 2px 0px 2px;
 }
 
 QScrollBar::handle:horizontal {
-    background: #3A3A3A;
-
-    border-radius: 4px;
+    background: #3F3F4A;
+    border-radius: 3px;
+    min-width: 24px;
 }
 
 QScrollBar::handle:horizontal:hover {
-    background: #555555;
+    background: #82828C;
 }
 
 QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal {
     width: 0px;
+    background: transparent;
+    border: none;
+}
+
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal {
+    background: transparent;
+}
+
+
+/* =========================================================
+   03. CONTROL FOUNDATION (BUTTONS, INPUTS, FRAMES)
+   ========================================================= */
+
+QPushButton {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+QPushButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+QPushButton:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+}
+
+QPushButton:focus {
+    border: 2px solid #398C8F;
+}
+
+QPushButton:disabled {
+    background-color: #121215;
+    color: #82828C;
+    border: 1px solid #27272F;
+}
+
+QLineEdit {
+    background-color: #121215;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 12px;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+QLineEdit:hover {
+    border: 1px solid #3F3F4A;
+}
+
+QLineEdit:focus {
+    border: 2px solid #398C8F;
+}
+
+QTextBrowser,
+QTextEdit,
+QPlainTextEdit {
+    background-color: #121215;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+QTextBrowser:focus,
+QTextEdit:focus,
+QPlainTextEdit:focus {
+    border: 2px solid #398C8F;
+}
+
+QListWidget {
+    background-color: #121215;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    color: #F4F4F5;
+    outline: none;
+    padding: 4px;
+}
+
+QListWidget::item {
+    background: transparent;
+    color: #A1A1AA;
+    padding: 8px 10px;
+    margin: 2px 0px;
+    border-radius: 4px;
+}
+
+QListWidget::item:hover {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+}
+
+QListWidget::item:selected {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border-left: 2px solid #398C8F;
+}
+
+QMenu {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item {
+    background: transparent;
+    color: #F4F4F5;
+    padding: 6px 16px;
+    border-radius: 4px;
+}
+
+QMenu::item:selected {
+    background-color: #27272F;
+    color: #FFFFFF;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: #27272F;
+    margin: 4px 0px;
+}
+
+
+/* =========================================================
+   04. SIDEBAR
+   ========================================================= */
+
+#Sidebar {
+    background-color: #121215;
+    border-right: 1px solid #27272F;
+}
+
+#AtlasLogo {
+    color: #F4F4F5;
+    font-size: 13pt;
+    font-weight: 700;
+    padding: 4px 0px 4px 0px;
+}
+
+#NewChatButton {
+    background-color: #121215;
+    color: #A1A1AA;
+    border: 1px solid #27272F;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 9.5pt;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+#NewChatButton:hover {
+    background-color: #1C1C22;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+#NewChatButton:pressed {
+    background-color: #09090B;
+    border: 1px solid #398C8F;
+    color: #4FB8BA;
+}
+
+#NewChatButton:focus {
+    border: 1px solid #398C8F;
+}
+
+#HistorySeparator {
+    color: #27272F;
+    background-color: #27272F;
+    height: 1px;
+    border: none;
+    margin: 2px 0px 6px 0px;
+}
+
+#HistoryTitle {
+    color: #82828C;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+}
+
+#Sidebar QPushButton {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: 500;
+}
+
+#Sidebar QPushButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+}
+
+#Sidebar QPushButton:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+}
+
+#Sidebar QPushButton:focus {
+    border: 2px solid #398C8F;
+}
+
+#HistoryList {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #A1A1AA;
+    padding: 0px;
+}
+
+#HistoryList::item {
+    background: transparent;
+    color: #A1A1AA;
+    padding: 8px 12px;
+    margin: 2px 0px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+}
+
+#HistoryList::item:hover {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+}
+
+#HistoryList::item:selected {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border-left: 2px solid #398C8F;
+}
+
+#Sidebar QScrollBar:vertical,
+#HistoryList QScrollBar:vertical {
+    width: 6px;
+    background: transparent;
+    margin: 0px;
+}
+
+#Sidebar QScrollBar::handle:vertical,
+#HistoryList QScrollBar::handle:vertical {
+    background-color: #3F3F4A;
+    border-radius: 3px;
+    min-height: 24px;
+}
+
+#Sidebar QScrollBar::handle:vertical:hover,
+#HistoryList QScrollBar::handle:vertical:hover {
+    background-color: #82828C;
+}
+
+#Sidebar QScrollBar::add-line:vertical,
+#Sidebar QScrollBar::sub-line:vertical,
+#HistoryList QScrollBar::add-line:vertical,
+#HistoryList QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: transparent;
+    border: none;
+}
+
+#ToolsButton {
+    background-color: transparent;
+    color: #A1A1AA;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#ToolsButton:hover {
+    background-color: #1C1C22;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+#ToolsButton:pressed {
+    background-color: #1C1C22;
+    border: 1px solid #3F3F4A;
+    border-left: 2px solid #398C8F;
+    color: #F4F4F5;
+}
+
+#ToolsButton:focus {
+    border: 1px solid #398C8F;
+}
+
+
+/* =========================================================
+   05. CHAT AREA & HEADER
+   ========================================================= */
+
+#Chat {
+    background-color: #09090B;
+}
+
+#ChatHeader {
+    background-color: #121215;
+    border-bottom: 1px solid #27272F;
+    padding: 10px 24px;
+}
+
+#ChatTitle {
+    color: #F4F4F5;
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+#ChatSubtitle {
+    color: #82828C;
+    font-size: 9pt;
+    font-weight: 400;
+}
+
+#MessagesContainer {
+    background-color: #09090B;
+}
+
+#ChatScroll {
+    background-color: #09090B;
+    border: none;
+}
+
+#ChatScroll QScrollBar:vertical {
+    width: 6px;
+    background: transparent;
+    margin: 0px;
+}
+
+#ChatScroll QScrollBar::handle:vertical {
+    background-color: #3F3F4A;
+    border-radius: 3px;
+    min-height: 24px;
+}
+
+#ChatScroll QScrollBar::handle:vertical:hover {
+    background-color: #82828C;
+}
+
+#ChatScroll QScrollBar::add-line:vertical,
+#ChatScroll QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: transparent;
+    border: none;
+}
+
+
+/* =========================================================
+   06. ATLAS & USER MESSAGES
+   ========================================================= */
+
+#AtlasMessage,
+#UserMessage {
+    background: transparent;
+    border: none;
+}
+
+#AtlasMessageContainer,
+#AtlasBubble {
+    background-color: #121215;
+    border: 1px solid #27272F;
+    border-radius: 8px;
+}
+
+#UserMessageContainer,
+#UserBubble {
+    background-color: #1C1C22;
+    border: 1px solid #27272F;
+    border-radius: 8px;
+}
+
+#AtlasMicroMark {
+    background: transparent;
+    border: none;
+    padding: 0px;
+}
+
+#AtlasSender {
+    color: #4FB8BA;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+#UserSender {
+    color: #A1A1AA;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+#AtlasMessageText,
+#UserMessageText {
+    color: #F4F4F5;
+    font-size: 11pt;
+    line-height: 1.5;
+    background: transparent;
+    border: none;
+    padding: 0px;
+}
+
+#MessageCopyButton {
+    background-color: transparent;
+    color: #82828C;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0px;
+    font-size: 11pt;
+}
+
+#MessageCopyButton:hover {
+    background-color: #1C1C22;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+#MessageCopyButton:pressed {
+    background-color: #27272F;
+    color: #398C8F;
+}
+
+#AtlasStateIndicator {
+    background: transparent;
+    padding: 2px 0px;
+}
+
+#StateIcon {
+    background: transparent;
+}
+
+#StateLabel {
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#TrajectoryTrack {
+    background: transparent;
+}
+
+
+/* =========================================================
+   07. INPUT BAR & COMPOSER
+   ========================================================= */
+
+#InputBar {
+    background-color: #121215;
+    border-top: 1px solid #27272F;
+}
+
+#InputField {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 11pt;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+#InputField:hover {
+    border: 1px solid #3F3F4A;
+}
+
+#InputField:focus {
+    border: 1px solid #398C8F;
+}
+
+#InputField:disabled {
+    background-color: #121215;
+    color: #82828C;
+    border: 1px solid #27272F;
+}
+
+#SendButton {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#SendButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+#SendButton:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+    color: #4FB8BA;
+}
+
+#SendButton:focus {
+    border: 1px solid #398C8F;
+}
+
+#SendButton:disabled {
+    background-color: #121215;
+    border: 1px solid #27272F;
+    color: #82828C;
+}
+
+#SendButton[stopping="true"] {
+    background-color: #1C1C22;
+    color: #F87171;
+    border: 1px solid #3F3F4A;
+    font-size: 12pt;
+}
+
+#SendButton[stopping="true"]:hover {
+    background-color: #27272F;
+    border: 1px solid #F87171;
+    color: #F87171;
+}
+
+#SendButton[stopping="true"]:pressed {
+    background-color: #121215;
+    border: 1px solid #F87171;
+    color: #FFFFFF;
+}
+
+
+/* =========================================================
+   08. STATUS PANEL (RIGHT ASIDE)
+   ========================================================= */
+
+#StatusBar {
+    background-color: #121215;
+    border-left: 1px solid #27272F;
+}
+
+#StatusTitle {
+    color: #F4F4F5;
+    font-size: 13pt;
+    font-weight: 600;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #27272F;
+}
+
+#StatusText {
+    color: #82828C;
+    font-size: 9pt;
+}
+
+#StatusCard {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #27272F;
+}
+
+#StatusCardTitle {
+    color: #82828C;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#StatusCardValue {
+    color: #F4F4F5;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#StatusFooter {
+    color: #82828C;
+    font-size: 9pt;
+    padding-top: 4px;
+}
+
+#StatusSeparator {
+    color: #27272F;
+    background-color: #27272F;
+    height: 1px;
+    border: none;
+    margin: 8px 0px;
+}
+
+#StatusSettingsButton {
+    background-color: #1C1C22;
+    color: #A1A1AA;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#StatusSettingsButton:hover {
+    background-color: #27272F;
+    color: #F4F4F5;
+    border-color: #3F3F4A;
+}
+
+#StatusSettingsButton:pressed {
+    background-color: #121215;
+    border-color: #398C8F;
+    color: #4FB8BA;
+}
+
+#StatusSettingsButton:focus {
+    border: 1px solid #398C8F;
+}
+
+#StatusBar QScrollBar:vertical {
+    width: 6px;
+    background: transparent;
+    margin: 0px;
+}
+
+#StatusBar QScrollBar::handle:vertical {
+    background-color: #3F3F4A;
+    border-radius: 3px;
+    min-height: 24px;
+}
+
+#StatusBar QScrollBar::handle:vertical:hover {
+    background-color: #82828C;
+}
+
+#StatusBar QScrollBar::add-line:vertical,
+#StatusBar QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: transparent;
+    border: none;
+}
+
+
+/* =========================================================
+   09. TOOL WORKSPACE & PROFILE SETUP
+   ========================================================= */
+
+#ToolHeaderBar {
+    background-color: #121215;
+    border-bottom: 1px solid #27272F;
+}
+
+#ToolBackButton {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#ToolBackButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+}
+
+#ToolBackButton:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+    color: #4FB8BA;
+}
+
+#ToolHeader {
+    color: #F4F4F5;
+    font-size: 13pt;
+    font-weight: 600;
+}
+
+#ToolTitle {
+    color: #F4F4F5;
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+#ToolDescription {
+    color: #82828C;
+    font-size: 10pt;
+}
+
+#ToolScroll {
+    background-color: #09090B;
+    border: none;
+}
+
+#ToolScroll QScrollBar:vertical {
+    width: 6px;
+    background: transparent;
+    margin: 0px;
+}
+
+#ToolScroll QScrollBar::handle:vertical {
+    background-color: #3F3F4A;
+    border-radius: 3px;
+    min-height: 24px;
+}
+
+#ToolScroll QScrollBar::handle:vertical:hover {
+    background-color: #82828C;
+}
+
+#ToolScroll QScrollBar::add-line:vertical,
+#ToolScroll QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: transparent;
+    border: none;
+}
+
+#ToolCard {
+    background-color: #1C1C22;
+    border: 1px solid #27272F;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+#ToolCard:hover {
+    border: 1px solid #3F3F4A;
+}
+
+#ToolIcon {
+    font-size: 22px;
+    background: transparent;
+}
+
+#ToolCardTitle {
+    color: #F4F4F5;
+    font-size: 11pt;
+    font-weight: 600;
+}
+
+#ToolOpenButton,
+#ToolRunButton,
+#ToolActionButton {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#ToolOpenButton:hover,
+#ToolRunButton:hover,
+#ToolActionButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+    color: #F4F4F5;
+}
+
+#ToolOpenButton:pressed,
+#ToolRunButton:pressed,
+#ToolActionButton:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+    color: #4FB8BA;
+}
+
+#ToolOpenButton:disabled,
+#ToolRunButton:disabled,
+#ToolActionButton:disabled {
+    background-color: #121215;
+    color: #82828C;
+    border: 1px solid #27272F;
+}
+
+#CalculatorDisplay {
+    background-color: #121215;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: "JetBrains Mono", "Consolas", "Courier New", monospace;
+    font-size: 16pt;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+#CalculatorKey {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    font-size: 11pt;
+    font-weight: 500;
+}
+
+#CalculatorKey:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+}
+
+#CalculatorKey:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+    color: #4FB8BA;
+}
+
+#CalculatorEquals {
+    background-color: #1C1C22;
+    color: #4FB8BA;
+    border: 1px solid #398C8F;
+    border-radius: 6px;
+    font-size: 13pt;
+    font-weight: 600;
+}
+
+#CalculatorEquals:hover {
+    background-color: #27272F;
+    border: 1px solid #4FB8BA;
+    color: #FFFFFF;
+}
+
+#CalculatorEquals:pressed {
+    background-color: #121215;
+    border: 1px solid #398C8F;
+    color: #398C8F;
+}
+
+QCalendarWidget {
+    background-color: #121215;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+}
+
+QCalendarWidget QWidget#qt_calendar_navigationbar {
+    background-color: #1C1C22;
+    border-bottom: 1px solid #27272F;
+    padding: 4px;
+}
+
+QCalendarWidget QToolButton {
+    background-color: transparent;
+    color: #F4F4F5;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-weight: 500;
+}
+
+QCalendarWidget QToolButton:hover {
+    background-color: #27272F;
+    border: 1px solid #3F3F4A;
+}
+
+QCalendarWidget QTableView {
+    background-color: #121215;
+    color: #F4F4F5;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+    gridline-color: #27272F;
+    outline: none;
+}
+
+QCalendarWidget QTableView:item:hover {
+    background-color: #1C1C22;
+}
+
+QCalendarWidget QTableView:item:selected {
+    background-color: #398C8F;
+    color: #FFFFFF;
+}
+
+#DateInfoCard {
+    background-color: #1C1C22;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+#DateInfo {
+    color: #A1A1AA;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+#TimeLabel {
+    color: #F4F4F5;
+    font-size: 20pt;
+    font-weight: 600;
+    font-family: "JetBrains Mono", "Consolas", "Courier New", monospace;
+}
+
+#ToolLandingCard {
+    background-color: #1C1C22;
+    border: 1px solid #27272F;
+    border-radius: 8px;
+    padding: 28px;
+}
+
+#ToolLandingIcon {
+    font-size: 38px;
+    background: transparent;
+}
+
+#ToolLandingTitle {
+    color: #F4F4F5;
+    font-size: 13pt;
+    font-weight: 600;
+}
+
+#ToolLandingDescription {
+    color: #A1A1AA;
+    font-size: 10pt;
+}
+
+#ToolLandingHint {
+    color: #82828C;
+    font-size: 9pt;
+}
+
+#ToolPromptInput {
+    background-color: #1C1C22;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 11pt;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+#ToolPromptInput:hover {
+    border: 1px solid #3F3F4A;
+}
+
+#ToolPromptInput:focus {
+    border: 1px solid #398C8F;
+}
+
+#ToolPromptInput:disabled {
+    background-color: #121215;
+    color: #82828C;
+    border: 1px solid #27272F;
+}
+
+#ToolResultBrowser {
+    background-color: #121215;
+    color: #F4F4F5;
+    border: 1px solid #27272F;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 11pt;
+    selection-background-color: #398C8F;
+    selection-color: #FFFFFF;
+}
+
+#ProfileSetupCard {
+    background-color: #1C1C22;
+    border: 1px solid #27272F;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+#ProfileTitle {
+    color: #F4F4F5;
+    font-size: 11pt;
+    font-weight: 600;
+}
+
+#ProfileSubtitle {
+    color: #A1A1AA;
+    font-size: 9pt;
+}
+
+#ProfileStatus {
+    color: #4ADE80;
+    font-size: 9pt;
+    font-weight: 500;
 }

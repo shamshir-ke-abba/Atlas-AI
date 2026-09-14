@@ -13,6 +13,8 @@ from core.events import (
     ProfileSetupRequested,
     ThinkingFinished,
     ThinkingStarted,
+    ToolFinished,
+    ToolRequested,
 )
 from gui.widgets.inputbar import AtlasInputBar
 from gui.widgets.message import AtlasMessage
@@ -39,17 +41,15 @@ class AtlasChat(QWidget):
         self.auto_follow = True
         self._programmatic_scroll = False
 
-        self.thinking_frame = 0
-        self.thinking_timer = QTimer(self)
-        self.thinking_timer.setInterval(360)
-        self.thinking_timer.timeout.connect(self.animate_thinking)
-
-        self.bus.subscribe(ChunkReceived, self.handle_response)
-        self.bus.subscribe(ThinkingStarted, self.handle_thinking_started)
-        self.bus.subscribe(ThinkingFinished, self.handle_thinking_finished)
-        self.bus.subscribe(ErrorOccurred, self.handle_error)
-        self.bus.subscribe(ProfileSetupRequested, self.show_profile_setup)
-        self.bus.subscribe(ProfileSetupCompleted, self.profile_completed)
+        if self.bus is not None:
+            self.bus.subscribe(ChunkReceived, self.handle_response)
+            self.bus.subscribe(ThinkingStarted, self.handle_thinking_started)
+            self.bus.subscribe(ThinkingFinished, self.handle_thinking_finished)
+            self.bus.subscribe(ToolRequested, self.handle_tool_requested)
+            self.bus.subscribe(ToolFinished, self.handle_tool_finished)
+            self.bus.subscribe(ErrorOccurred, self.handle_error)
+            self.bus.subscribe(ProfileSetupRequested, self.show_profile_setup)
+            self.bus.subscribe(ProfileSetupCompleted, self.profile_completed)
 
         self.setObjectName("Chat")
         self.build_ui()
@@ -63,8 +63,8 @@ class AtlasChat(QWidget):
         header = QWidget()
         header.setObjectName("ChatHeader")
         header_layout = QVBoxLayout(header)
-        header_layout.setContentsMargins(22, 8, 22, 7)
-        header_layout.setSpacing(0)
+        header_layout.setContentsMargins(24, 12, 24, 12)
+        header_layout.setSpacing(2)
 
         title = QLabel("Atlas")
         title.setObjectName("ChatTitle")
@@ -72,15 +72,14 @@ class AtlasChat(QWidget):
 
         subtitle = QLabel("Local AI Assistant")
         subtitle.setObjectName("ChatSubtitle")
-        subtitle.setMaximumHeight(16)
         header_layout.addWidget(subtitle)
         layout.addWidget(header)
 
         self.messages = QWidget()
         self.messages.setObjectName("MessagesContainer")
         self.messages_layout = QVBoxLayout(self.messages)
-        self.messages_layout.setContentsMargins(18, 18, 18, 28)
-        self.messages_layout.setSpacing(4)
+        self.messages_layout.setContentsMargins(0, 16, 0, 24)
+        self.messages_layout.setSpacing(20)
         self.messages_layout.addStretch(1)
 
         self.scroll = QScrollArea()
@@ -204,16 +203,33 @@ class AtlasChat(QWidget):
         if self.current_ai_message is None:
             self.current_ai_message = self.add_message("Atlas", "")
 
-        self.start_thinking()
+        self.current_ai_message.set_state("thinking", "Thinking")
         self.input_bar.set_generating(True)
         self.scroll_to_bottom(force=True)
+
+    def handle_tool_requested(self, event):
+        tool_name = str(getattr(event, "tool", "") or "tool").lower()
+        if "search" in tool_name:
+            if self.current_ai_message is not None and not self.current_ai_response:
+                self.current_ai_message.set_state("searching", "Searching web")
+        else:
+            name = tool_name.replace("_", " ").title()
+            if self.current_ai_message is not None and not self.current_ai_response:
+                self.current_ai_message.set_state("tool", f"Using {name}")
+        if self.auto_follow:
+            self.scroll_to_bottom(force=True)
+
+    def handle_tool_finished(self, event):
+        if self.is_generating and self.current_ai_message is not None and not self.current_ai_response:
+            self.current_ai_message.set_state("responding", "Generating response")
+        if self.auto_follow:
+            self.scroll_to_bottom(force=True)
 
     def handle_response(self, event):
         if self.current_ai_message is None:
             self.current_ai_message = self.add_message("Atlas", "")
 
         self.current_ai_response += str(event.text)
-        self.stop_thinking()
         self.current_ai_message.set_text(self.current_ai_response)
 
         # Only follow the stream if the user was already at the bottom.
@@ -221,46 +237,39 @@ class AtlasChat(QWidget):
             QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
 
     def handle_thinking_finished(self, event):
-        self.stop_thinking()
         self.is_generating = False
         self.input_bar.set_generating(False)
 
         if self.current_ai_message is not None:
-            self.current_ai_message.set_text(self.current_ai_response)
+            if self.current_ai_response:
+                self.current_ai_message.set_text(self.current_ai_response)
+            else:
+                self.current_ai_message.finish_state()
 
         if self.auto_follow:
             QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
         self.input_bar.input_field.setFocus()
 
     def handle_error(self, event):
-        self.stop_thinking()
         self.is_generating = False
         self.input_bar.set_generating(False)
         if self.current_ai_message is None:
             self.current_ai_message = self.add_message("Atlas", "")
         self.current_ai_response = str(event.message)
-        self.current_ai_message.set_text(self.current_ai_response)
+        self.current_ai_message.set_state("error", self.current_ai_response)
         if self.auto_follow:
             QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
 
     def start_thinking(self):
-        if not self.thinking_timer.isActive():
-            self.thinking_frame = 0
-            self.thinking_timer.start()
+        if self.current_ai_message is not None and not self.current_ai_response:
+            self.current_ai_message.set_state("thinking", "Thinking")
 
     def stop_thinking(self):
-        if self.thinking_timer.isActive():
-            self.thinking_timer.stop()
+        if self.current_ai_message is not None:
+            self.current_ai_message.finish_state()
 
     def animate_thinking(self):
-        if self.current_ai_message is None:
-            return
-        frames = ("•", "••", "•••", "••")
-        frame = frames[self.thinking_frame % len(frames)]
-        self.thinking_frame += 1
-        self.current_ai_message.set_thinking(frame)
-        if self.auto_follow:
-            self.scroll_to_bottom(force=True)
+        pass
 
     def show_profile_setup(self, event):
         if event.prompt:

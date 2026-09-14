@@ -1,52 +1,86 @@
-"""
-Atlas V3 useful status panel with distinct state indicators.
+"""Atlas V3 status and context panel with semantic state indicators.
+
+Conforms to docs/design/ATLAS_DESIGN_SYSTEM_V1.md.
+Communicates application and runtime state quietly and clearly.
 """
 
-from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout, QWidget
+from __future__ import annotations
 
-from core.events import ThinkingStarted, ThinkingFinished, ErrorOccurred
+import time
+
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout, QWidget
+
+from core.events import (
+    ChunkReceived,
+    ErrorOccurred,
+    ThinkingFinished,
+    ThinkingStarted,
+    ToolFinished,
+    ToolRequested,
+)
 
 
 class AtlasStatusBar(QWidget):
+    STATE_COLORS = {
+        "ready": "#4ADE80",       # semantic success
+        "idle": "#82828C",        # muted text
+        "thinking": "#4FB8BA",    # brand text
+        "generating": "#4FB8BA",  # brand text
+        "responding": "#4FB8BA",  # brand text
+        "tool": "#60A5FA",        # semantic info
+        "searching": "#60A5FA",   # semantic info
+        "success": "#4ADE80",     # semantic success
+        "error": "#F87171",       # semantic error
+        "offline": "#82828C",     # muted text
+    }
+
     def __init__(self, bus, controller=None, state=None, parent=None):
         super().__init__(parent)
         self.bus = bus
         self.controller = controller
         self.state = state
+        self._current_state = "ready"
+        self._current_label = "Ready"
+        self._start_time = time.time()
         self.setObjectName("StatusBar")
 
-        self.bus.subscribe(ThinkingStarted, self.thinking_started)
-        self.bus.subscribe(ThinkingFinished, self.thinking_finished)
-        self.bus.subscribe(ErrorOccurred, self.error_state)
+        if self.bus is not None:
+            self.bus.subscribe(ThinkingStarted, self.thinking_started)
+            self.bus.subscribe(ThinkingFinished, self.thinking_finished)
+            self.bus.subscribe(ChunkReceived, self.chunk_received)
+            self.bus.subscribe(ToolRequested, self.tool_requested)
+            self.bus.subscribe(ToolFinished, self.tool_finished)
+            self.bus.subscribe(ErrorOccurred, self.error_state)
 
         self.build_ui()
 
         self.timer = QTimer(self)
-        self.timer.setInterval(1200)
+        self.timer.setInterval(1000)
         self.timer.timeout.connect(self.refresh)
         self.timer.start()
         self.refresh()
 
     def build_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(18, 22, 18, 22)
-        layout.setSpacing(10)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(0)
 
-        title = QLabel("Atlas Status")
+        title = QLabel("ATLAS STATUS")
         title.setObjectName("StatusTitle")
         layout.addWidget(title)
 
-        self.state_card = self._card("STATE", "●  Ready")
+        self.state_card = self._card("CURRENT STATE", "Ready")
         self.model_card = self._card("MODEL", "Local model")
-        self.tools_card = self._card("TOOLS", "Loading...")
-        self.chat_card = self._card("CONVERSATION", "No active chat")
-        self.runtime_card = self._card("RUNTIME", "Atlas online")
+        self.activity_card = self._card("ACTIVITY", "Idle")
+        self.tools_card = self.activity_card  # backward-compatible alias
+        self.chat_card = self._card("SESSION", "No active chat")
+        self.runtime_card = self._card("SYSTEM", "Online")
 
         for card in (
             self.state_card,
             self.model_card,
-            self.tools_card,
+            self.activity_card,
             self.chat_card,
             self.runtime_card,
         ):
@@ -54,17 +88,34 @@ class AtlasStatusBar(QWidget):
 
         layout.addStretch(1)
 
+        # Settings entry point - quiet secondary control
+        self.settings_button = QPushButton("⚙  Settings")
+        self.settings_button.setObjectName("StatusSettingsButton")
+        self.settings_button.setCursor(Qt.PointingHandCursor)
+        self.settings_button.clicked.connect(self.open_settings)
+        layout.addWidget(self.settings_button)
+
+        layout.addSpacing(10)
+
         footer = QLabel("Local • Event-driven • Modular")
         footer.setObjectName("StatusFooter")
         footer.setWordWrap(True)
         layout.addWidget(footer)
 
-    def _card(self, heading, value):
+    def open_settings(self):
+        try:
+            from gui.widgets.settings_dialog import SettingsDialog
+            dialog = SettingsDialog(controller=self.controller, parent=self.window())
+            dialog.exec()
+        except Exception:
+            pass
+
+    def _card(self, heading: str, value: str) -> QFrame:
         card = QFrame()
         card.setObjectName("StatusCard")
         layout = QVBoxLayout(card)
-        layout.setContentsMargins(12, 10, 12, 10)
-        layout.setSpacing(3)
+        layout.setContentsMargins(0, 10, 0, 10)
+        layout.setSpacing(4)
 
         title = QLabel(heading)
         title.setObjectName("StatusCardTitle")
@@ -78,26 +129,36 @@ class AtlasStatusBar(QWidget):
         card.value_label = label
         return card
 
-    def _set_state(self, text, kind):
+    def _set_state(self, text: str, kind: str):
+        self._current_state = kind
+        self._current_label = text
+        color = self.STATE_COLORS.get(kind, "#82828C")
         label = self.state_card.value_label
-        label.setText(text)
-        label.setStyleSheet(
-            {
-                "ready": "color:#55d66b; font-weight:600;",
-                "thinking": "color:#f2c94c; font-weight:600;",
-                "error": "color:#ff5f56; font-weight:600;",
-            }.get(kind, "")
+        label.setTextFormat(Qt.RichText)
+        label.setText(
+            f'<span style="color:{color}; font-size:10pt;">●</span>&nbsp; '
+            f'<span style="color:#F4F4F5; font-weight:500;">{text}</span>'
         )
 
     def refresh(self):
-        generating = bool(
-            getattr(self.state, "is_generating", False)
-        ) if self.state is not None else False
-
-        self._set_state(
-            "●  Thinking" if generating else "●  Ready",
-            "thinking" if generating else "ready",
+        generating = (
+            bool(getattr(self.state, "is_generating", False))
+            if self.state is not None
+            else False
         )
+
+        if generating:
+            if self._current_state not in (
+                "thinking",
+                "responding",
+                "tool",
+                "searching",
+                "generating",
+            ):
+                self._set_state("Generating", "generating")
+        else:
+            if self._current_state not in ("error", "offline", "tool"):
+                self._set_state("Ready", "ready")
 
         try:
             from config import MODEL_NAME
@@ -105,37 +166,57 @@ class AtlasStatusBar(QWidget):
         except Exception:
             self.model_card.value_label.setText("Local model")
 
-        try:
-            manager = getattr(
-                getattr(self.controller, "ai", None),
-                "tools",
-                None,
-            )
-            if manager is not None:
-                info = manager.status()
-                self.tools_card.value_label.setText(
-                    f"{info.get('enabled', 0)} enabled / "
-                    f"{info.get('total', 0)} total"
-                )
-        except Exception:
-            pass
+        if generating:
+            if self._current_state in ("tool", "searching"):
+                self.activity_card.value_label.setText(self._current_label)
+            else:
+                self.activity_card.value_label.setText("Generating response")
+        else:
+            self.activity_card.value_label.setText("Idle")
 
         try:
             conversation = self.controller.get_active_conversation()
             title = getattr(conversation, "title", None)
-            self.chat_card.value_label.setText(
-                str(title or "Active chat")
-            )
+            msgs = getattr(conversation, "messages", []) or []
+            count = len(msgs)
+            msg_str = f" · {count} msg{'s' if count != 1 else ''}" if count > 0 else ""
+            self.chat_card.value_label.setText(f"{str(title or 'Active chat')}{msg_str}")
         except Exception:
             self.chat_card.value_label.setText("No active chat")
 
-        self.runtime_card.value_label.setText("Atlas online")
+        elapsed = int(time.time() - self._start_time)
+        minutes, seconds = divmod(elapsed, 60)
+        hours, minutes = divmod(minutes, 60)
+        if hours > 0:
+            uptime_str = f"{hours}h {minutes}m"
+        elif minutes > 0:
+            uptime_str = f"{minutes}m {seconds}s"
+        else:
+            uptime_str = f"{seconds}s"
+        self.runtime_card.value_label.setText(f"Online · {uptime_str}")
 
     def thinking_started(self, event):
-        self._set_state("●  Thinking", "thinking")
+        self._set_state("Thinking", "thinking")
+
+    def chunk_received(self, event):
+        self._set_state("Responding", "responding")
+
+    def tool_requested(self, event):
+        tool_name = str(getattr(event, "tool", "") or "tool").lower()
+        if "search" in tool_name:
+            self._set_state("Searching", "searching")
+        else:
+            name = tool_name.replace("_", " ").title()
+            self._set_state(f"Using {name}", "tool")
+
+    def tool_finished(self, event):
+        if getattr(self.state, "is_generating", False):
+            self._set_state("Generating", "generating")
+        else:
+            self._set_state("Ready", "ready")
 
     def thinking_finished(self, event):
-        self._set_state("●  Ready", "ready")
+        self._set_state("Ready", "ready")
 
     def error_state(self, event):
-        self._set_state("●  Error", "error")
+        self._set_state("Error", "error")

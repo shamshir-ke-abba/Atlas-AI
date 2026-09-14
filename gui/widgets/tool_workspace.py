@@ -1,16 +1,25 @@
-"""
-Atlas V3 Tool Workspace.
+"""Atlas V3 Tool Workspace.
 
-Calculator, Calendar and Time are visual tools. Fitness/Nutrition expose
-interactive profiles. Web Search and Math use the same clean landing screen
-until a prompt is entered.
+Brings native tools (Calculator, Calendar, Time, Fitness, Nutrition, Web Search, Math)
+into alignment with the canonical Atlas V1 design system.
 """
+
+from __future__ import annotations
 
 from datetime import datetime
 import math
 
-from PySide6.QtCore import Qt, QTimer, QPointF, Signal, QDate, QObject, Slot, QThread
-from PySide6.QtGui import QPainter, QPen, QBrush
+from PySide6.QtCore import (
+    QDate,
+    QObject,
+    QPointF,
+    QThread,
+    QTimer,
+    Qt,
+    Signal,
+    Slot,
+)
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
 from PySide6.QtWidgets import (
     QCalendarWidget,
     QFrame,
@@ -20,8 +29,8 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QScrollArea,
-    QStackedWidget,
     QSizePolicy,
+    QStackedWidget,
     QTextBrowser,
     QVBoxLayout,
     QWidget,
@@ -33,6 +42,7 @@ from gui.widgets.profile_setup import ProfileSetupCard
 
 class ToolTask(QObject):
     """Execute a tool away from the GUI thread."""
+
     result = Signal(str)
     error = Signal(str)
     finished = Signal()
@@ -55,9 +65,11 @@ class ToolTask(QObject):
 
 
 class AnalogClock(QWidget):
-    def __init__(self, parent=None):
+    """Restrained analog clock using canonical Atlas theme tokens."""
+
+    def __init__(self, parent: QWidget | None = None):
         super().__init__(parent)
-        self.setMinimumSize(250, 250)
+        self.setFixedSize(220, 220)
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.update)
@@ -65,16 +77,20 @@ class AnalogClock(QWidget):
 
     def paintEvent(self, event):
         now = datetime.now()
-        side = min(self.width(), self.height()) - 18
+        side = min(self.width(), self.height()) - 16
         center = QPointF(self.width() / 2, self.height() / 2)
         radius = side / 2
 
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(QPen(self.palette().text(), 2))
-        painter.setBrush(Qt.NoBrush)
+
+        # Dial face & border
+        painter.setPen(QPen(QColor("#3F3F4A"), 1.5))
+        painter.setBrush(QColor("#121215"))
         painter.drawEllipse(center, radius, radius)
 
+        # Hour ticks
+        painter.setPen(QPen(QColor("#82828C"), 1.5))
         for hour in range(12):
             rad = math.radians(hour * 30 - 90)
             outer = QPointF(
@@ -82,8 +98,8 @@ class AnalogClock(QWidget):
                 center.y() + radius * 0.88 * math.sin(rad),
             )
             inner = QPointF(
-                center.x() + radius * 0.79 * math.cos(rad),
-                center.y() + radius * 0.79 * math.sin(rad),
+                center.x() + radius * 0.78 * math.cos(rad),
+                center.y() + radius * 0.78 * math.sin(rad),
             )
             painter.drawLine(inner, outer)
 
@@ -91,26 +107,30 @@ class AnalogClock(QWidget):
         minute = now.minute + second / 60
         hour = (now.hour % 12) + minute / 60
 
-        def draw_hand(angle, length, width):
+        def draw_hand(angle, length, width, color):
             rad = math.radians(angle - 90)
             end = QPointF(
                 center.x() + radius * length * math.cos(rad),
                 center.y() + radius * length * math.sin(rad),
             )
-            painter.setPen(QPen(self.palette().text(), width))
+            painter.setPen(QPen(color, width, Qt.SolidLine, Qt.RoundCap))
             painter.drawLine(center, end)
 
-        draw_hand(hour * 30, 0.50, 6)
-        draw_hand(minute * 6, 0.69, 4)
-        draw_hand(second * 6, 0.78, 2)
+        # Hour and minute hands
+        draw_hand(hour * 30, 0.50, 4.0, QColor("#F4F4F5"))
+        draw_hand(minute * 6, 0.70, 2.5, QColor("#F4F4F5"))
+        # Second hand (brand teal)
+        draw_hand(second * 6, 0.82, 1.5, QColor("#398C8F"))
 
-        painter.setBrush(QBrush(self.palette().text()))
-        painter.drawEllipse(center, 5, 5)
+        # Center hub
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QBrush(QColor("#4FB8BA")))
+        painter.drawEllipse(center, 4, 4)
         painter.end()
 
 
 class CalculatorWidget(QWidget):
-    def __init__(self, plugin, parent=None):
+    def __init__(self, plugin, parent: QWidget | None = None):
         super().__init__(parent)
         self.plugin = plugin
         self.expression = ""
@@ -118,22 +138,28 @@ class CalculatorWidget(QWidget):
 
     def build_ui(self):
         root = QVBoxLayout(self)
-        root.setContentsMargins(40, 28, 40, 28)
+        root.setContentsMargins(24, 20, 24, 24)
         root.setSpacing(12)
 
-        title = QLabel("🧮 Calculator")
+        container = QWidget()
+        container.setMaximumWidth(440)
+        c_layout = QVBoxLayout(container)
+        c_layout.setContentsMargins(0, 0, 0, 0)
+        c_layout.setSpacing(10)
+
+        title = QLabel("Calculator")
         title.setObjectName("ToolTitle")
-        root.addWidget(title)
+        c_layout.addWidget(title)
 
         self.display = QLineEdit()
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
-        self.display.setMinimumHeight(58)
+        self.display.setMinimumHeight(52)
         self.display.setObjectName("CalculatorDisplay")
-        root.addWidget(self.display)
+        c_layout.addWidget(self.display)
 
         grid = QGridLayout()
-        grid.setSpacing(8)
+        grid.setSpacing(6)
 
         keys = [
             ("C", 0, 0), ("⌫", 0, 1), ("(", 0, 2), (")", 0, 3),
@@ -145,18 +171,21 @@ class CalculatorWidget(QWidget):
 
         for label, row, col in keys:
             button = QPushButton(label)
-            button.setMinimumHeight(48)
+            button.setObjectName("CalculatorKey")
+            button.setMinimumHeight(42)
             button.clicked.connect(
                 lambda checked=False, value=label: self.press(value)
             )
             grid.addWidget(button, row, col)
 
         equals = QPushButton("=")
-        equals.setMinimumHeight(48)
+        equals.setObjectName("CalculatorEquals")
+        equals.setMinimumHeight(42)
         equals.clicked.connect(self.calculate)
         grid.addWidget(equals, 5, 0, 1, 4)
 
-        root.addLayout(grid)
+        c_layout.addLayout(grid)
+        root.addWidget(container, 0, Qt.AlignHCenter)
         root.addStretch(1)
 
     def press(self, value):
@@ -165,7 +194,6 @@ class CalculatorWidget(QWidget):
         elif value == "⌫":
             self.expression = self.expression[:-1]
         else:
-            # Store ASCII operators; the plugin also accepts Unicode operators.
             value = {"÷": "/", "×": "*", "−": "-"}.get(value, value)
             self.expression += value
         self.display.setText(self.expression)
@@ -182,24 +210,26 @@ class CalculatorWidget(QWidget):
 
 
 class CalendarWidget(QWidget):
-    def __init__(self, plugin=None, parent=None):
+    def __init__(self, plugin=None, parent: QWidget | None = None):
         super().__init__(parent)
         self.plugin = plugin
 
         root = QVBoxLayout(self)
-        root.setContentsMargins(35, 20, 35, 20)
-        root.setSpacing(10)
+        root.setContentsMargins(24, 20, 24, 24)
+        root.setSpacing(12)
+
+        container = QWidget()
+        container.setMaximumWidth(520)
+        c_layout = QVBoxLayout(container)
+        c_layout.setContentsMargins(0, 0, 0, 0)
+        c_layout.setSpacing(10)
 
         self.calendar = QCalendarWidget()
         self.calendar.setGridVisible(True)
-        self.calendar.setVerticalHeaderFormat(
-            QCalendarWidget.NoVerticalHeader
-        )
-        self.calendar.setSelectedDate(
-            QDate.currentDate()
-        )
-        self.calendar.setMinimumHeight(370)
-        root.addWidget(self.calendar)
+        self.calendar.setVerticalHeaderFormat(QCalendarWidget.NoVerticalHeader)
+        self.calendar.setSelectedDate(QDate.currentDate())
+        self.calendar.setMinimumHeight(320)
+        c_layout.addWidget(self.calendar)
 
         card = QFrame()
         card.setObjectName("DateInfoCard")
@@ -211,7 +241,8 @@ class CalendarWidget(QWidget):
         self.info.setObjectName("DateInfo")
         card_layout.addWidget(self.info)
 
-        root.addWidget(card)
+        c_layout.addWidget(card)
+        root.addWidget(container, 0, Qt.AlignHCenter)
         root.addStretch(1)
 
         self.timer = QTimer(self)
@@ -231,25 +262,34 @@ class CalendarWidget(QWidget):
 
 
 class TimeView(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent: QWidget | None = None):
         super().__init__(parent)
 
         root = QVBoxLayout(self)
-        root.setContentsMargins(30, 20, 30, 20)
-        root.setSpacing(6)
+        root.setContentsMargins(24, 20, 24, 24)
+        root.setSpacing(12)
+
+        container = QWidget()
+        container.setMaximumWidth(440)
+        c_layout = QVBoxLayout(container)
+        c_layout.setContentsMargins(0, 0, 0, 0)
+        c_layout.setSpacing(8)
 
         self.clock = AnalogClock()
-        root.addWidget(self.clock, 1, alignment=Qt.AlignCenter)
+        c_layout.addWidget(self.clock, 0, alignment=Qt.AlignCenter)
 
         self.time_label = QLabel()
         self.time_label.setAlignment(Qt.AlignCenter)
         self.time_label.setObjectName("TimeLabel")
-        root.addWidget(self.time_label)
+        c_layout.addWidget(self.time_label)
 
         self.date_label = QLabel()
         self.date_label.setAlignment(Qt.AlignCenter)
         self.date_label.setObjectName("DateInfo")
-        root.addWidget(self.date_label)
+        c_layout.addWidget(self.date_label)
+
+        root.addWidget(container, 0, Qt.AlignHCenter)
+        root.addStretch(1)
 
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
@@ -260,15 +300,13 @@ class TimeView(QWidget):
     def refresh(self):
         now = datetime.now()
         self.time_label.setText(now.strftime("%I:%M:%S %p"))
-        self.date_label.setText(
-            now.strftime("%A • %d %B %Y")
-        )
+        self.date_label.setText(now.strftime("%A • %d %B %Y"))
 
 
 class PromptToolWidget(QWidget):
     """Prompt-driven tool with a stable, non-overlapping landing state."""
 
-    def __init__(self, controller, metadata, parent=None):
+    def __init__(self, controller, metadata, parent: QWidget | None = None):
         super().__init__(parent)
         self.controller = controller
         self.metadata = dict(metadata)
@@ -280,28 +318,36 @@ class PromptToolWidget(QWidget):
 
     def build_ui(self):
         root = QVBoxLayout(self)
-        root.setContentsMargins(32, 24, 32, 22)
-        root.setSpacing(12)
+        root.setContentsMargins(24, 16, 24, 16)
+        root.setSpacing(10)
+
+        scroll = QScrollArea()
+        scroll.setObjectName("ToolScroll")
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+
+        scroll_widget = QWidget()
+        scroll_layout = QVBoxLayout(scroll_widget)
+        scroll_layout.setContentsMargins(0, 0, 0, 0)
+        scroll_layout.setSpacing(12)
 
         self.landing = QWidget()
         landing_root = QVBoxLayout(self.landing)
         landing_root.setContentsMargins(0, 8, 0, 8)
         landing_root.setSpacing(0)
-
         landing_root.addStretch(1)
 
         card = QFrame()
         card.setObjectName("ToolLandingCard")
         card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
-        card.setMaximumWidth(720)
+        card.setMaximumWidth(580)
         card_layout = QVBoxLayout(card)
-        card_layout.setContentsMargins(42, 34, 42, 34)
-        card_layout.setSpacing(10)
+        card_layout.setContentsMargins(24, 20, 24, 20)
+        card_layout.setSpacing(8)
 
         icon = QLabel(str(self.metadata.get("icon", "🧩")))
         icon.setAlignment(Qt.AlignCenter)
-        icon.setMinimumHeight(64)
-        icon.setStyleSheet("font-size:46px; background:transparent;")
+        icon.setObjectName("ToolLandingIcon")
         card_layout.addWidget(icon)
 
         title = QLabel(str(self.metadata.get("display_name", "Atlas Tool")))
@@ -314,7 +360,6 @@ class PromptToolWidget(QWidget):
         desc.setAlignment(Qt.AlignCenter)
         desc.setWordWrap(True)
         desc.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
-        desc.setMinimumHeight(max(24, desc.sizeHint().height()))
         desc.setObjectName("ToolLandingDescription")
         card_layout.addWidget(desc)
 
@@ -327,23 +372,30 @@ class PromptToolWidget(QWidget):
 
         landing_root.addWidget(card, 0, Qt.AlignHCenter)
         landing_root.addStretch(1)
-        root.addWidget(self.landing, 1)
+        scroll_layout.addWidget(self.landing, 1)
 
         self.result = QTextBrowser()
+        self.result.setObjectName("ToolResultBrowser")
         self.result.setOpenExternalLinks(True)
         self.result.setFrameShape(QFrame.NoFrame)
+        self.result.setMinimumHeight(200)
         self.result.hide()
-        root.addWidget(self.result, 1)
+        scroll_layout.addWidget(self.result, 1)
+
+        scroll.setWidget(scroll_widget)
+        root.addWidget(scroll, 1)
 
         row = QHBoxLayout()
         row.setSpacing(8)
         self.prompt = QLineEdit()
-        self.prompt.setMinimumHeight(42)
+        self.prompt.setObjectName("ToolPromptInput")
+        self.prompt.setMinimumHeight(40)
         self.prompt.setPlaceholderText(self.placeholder())
         self.prompt.returnPressed.connect(self.submit)
 
         self.run_button = QPushButton("Run")
-        self.run_button.setMinimumHeight(42)
+        self.run_button.setObjectName("ToolRunButton")
+        self.run_button.setMinimumHeight(40)
         self.run_button.clicked.connect(self.submit)
 
         row.addWidget(self.prompt, 1)
@@ -405,20 +457,28 @@ class PromptToolWidget(QWidget):
 class ProfileToolView(QWidget):
     """Real profile + action surface backed by the actual plugin."""
 
-    def __init__(self, tool, controller, parent=None):
+    def __init__(self, tool, controller, parent: QWidget | None = None):
         super().__init__(parent)
         self.tool = str(tool).lower().strip()
         self.controller = controller
 
-        root = QVBoxLayout(self)
-        root.setContentsMargins(45, 25, 45, 25)
-        root.setSpacing(12)
+        scroll = QScrollArea()
+        scroll.setObjectName("ToolScroll")
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+
+        container = QWidget()
+        container.setMaximumWidth(640)
+        c_layout = QVBoxLayout(container)
+        c_layout.setContentsMargins(32, 20, 32, 24)
+        c_layout.setSpacing(14)
 
         self.card = ProfileSetupCard(self.tool, controller=controller)
         self.card.submitted.connect(self.profile_saved)
-        root.addWidget(self.card)
+        c_layout.addWidget(self.card)
 
         actions = QHBoxLayout()
+        actions.setSpacing(8)
         if self.tool == "fitness":
             action_specs = [
                 ("Generate workout", "generate_workout"),
@@ -433,17 +493,31 @@ class ProfileToolView(QWidget):
 
         for label, action in action_specs:
             button = QPushButton(label)
+            button.setObjectName("ToolActionButton")
+            button.setMinimumHeight(38)
             button.clicked.connect(
                 lambda checked=False, a=action: self.run_action(a)
             )
             actions.addWidget(button)
-        root.addLayout(actions)
+        c_layout.addLayout(actions)
 
         self.result = QTextBrowser()
+        self.result.setObjectName("ToolResultBrowser")
         self.result.setOpenExternalLinks(True)
-        self.result.setMinimumHeight(150)
+        self.result.setMinimumHeight(180)
         self.result.setPlaceholderText("Tool results will appear here.")
-        root.addWidget(self.result, 1)
+        c_layout.addWidget(self.result)
+
+        scroll_content = QWidget()
+        scroll_layout = QVBoxLayout(scroll_content)
+        scroll_layout.setContentsMargins(0, 0, 0, 0)
+        scroll_layout.addWidget(container, 0, Qt.AlignHCenter)
+        scroll.setWidget(scroll_content)
+
+        root = QVBoxLayout(self)
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setSpacing(0)
+        root.addWidget(scroll, 1)
 
     def profile_saved(self, tool, profile):
         if tool != self.tool:
@@ -461,8 +535,222 @@ class ProfileToolView(QWidget):
             self.result.setMarkdown(f"### Tool Error\n\n{exc}")
 
 
+class CodingToolWidget(QWidget):
+    """Native Coding Agent surface connecting to the existing agents.coding backend."""
+
+    def __init__(self, controller, metadata, parent: QWidget | None = None):
+        super().__init__(parent)
+        self.controller = controller
+        self.metadata = dict(metadata)
+        self._is_running = False
+        self.build_ui()
+        self._connect_signals()
+
+    def _connect_signals(self):
+        ai = getattr(self.controller, "ai", None)
+        if ai is not None:
+            if hasattr(ai, "coding_result"):
+                ai.coding_result.connect(self._on_coding_result)
+            if hasattr(ai, "coding_error"):
+                ai.coding_error.connect(self._on_coding_error)
+            if hasattr(ai, "coding_finished"):
+                ai.coding_finished.connect(self._on_coding_finished)
+
+    def build_ui(self):
+        root = QVBoxLayout(self)
+        root.setContentsMargins(24, 16, 24, 16)
+        root.setSpacing(10)
+
+        scroll = QScrollArea()
+        scroll.setObjectName("ToolScroll")
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+
+        scroll_widget = QWidget()
+        scroll_layout = QVBoxLayout(scroll_widget)
+        scroll_layout.setContentsMargins(0, 0, 0, 0)
+        scroll_layout.setSpacing(12)
+
+        self.landing = QWidget()
+        landing_root = QVBoxLayout(self.landing)
+        landing_root.setContentsMargins(0, 8, 0, 8)
+        landing_root.setSpacing(0)
+        landing_root.addStretch(1)
+
+        card = QFrame()
+        card.setObjectName("ToolLandingCard")
+        card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        card.setMaximumWidth(580)
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(24, 20, 24, 20)
+        card_layout.setSpacing(8)
+
+        icon = QLabel("💻")
+        icon.setAlignment(Qt.AlignCenter)
+        icon.setObjectName("ToolLandingIcon")
+        card_layout.addWidget(icon)
+
+        title = QLabel("Coding Agent")
+        title.setAlignment(Qt.AlignCenter)
+        title.setObjectName("ToolLandingTitle")
+        title.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        card_layout.addWidget(title)
+
+        desc = QLabel(
+            "Inspect repository files, plan code edits, apply changes, "
+            "and run tests with permission approval."
+        )
+        desc.setAlignment(Qt.AlignCenter)
+        desc.setWordWrap(True)
+        desc.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        desc.setObjectName("ToolLandingDescription")
+        card_layout.addWidget(desc)
+
+        hint = QLabel("Describe a task below (e.g. 'Add unit test for helper', 'Fix bug in tokenizer').")
+        hint.setAlignment(Qt.AlignCenter)
+        hint.setWordWrap(True)
+        hint.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        hint.setObjectName("ToolLandingHint")
+        card_layout.addWidget(hint)
+
+        landing_root.addWidget(card, 0, Qt.AlignHCenter)
+        landing_root.addStretch(1)
+        scroll_layout.addWidget(self.landing, 1)
+
+        self.result = QTextBrowser()
+        self.result.setObjectName("ToolResultBrowser")
+        self.result.setOpenExternalLinks(True)
+        self.result.setFrameShape(QFrame.NoFrame)
+        self.result.setMinimumHeight(240)
+        self.result.hide()
+        scroll_layout.addWidget(self.result, 1)
+
+        scroll.setWidget(scroll_widget)
+        root.addWidget(scroll, 1)
+
+        status_row = QHBoxLayout()
+        self.status_label = QLabel("Idle")
+        self.status_label.setStyleSheet("color: #82828C; font-size: 9.5pt;")
+        status_row.addWidget(self.status_label)
+        status_row.addStretch(1)
+        root.addLayout(status_row)
+
+        row = QHBoxLayout()
+        row.setSpacing(8)
+        self.prompt = QLineEdit()
+        self.prompt.setObjectName("ToolPromptInput")
+        self.prompt.setMinimumHeight(40)
+        self.prompt.setPlaceholderText("Describe the coding task...")
+        self.prompt.returnPressed.connect(self.submit)
+
+        self.run_button = QPushButton("Run")
+        self.run_button.setObjectName("ToolRunButton")
+        self.run_button.setMinimumHeight(40)
+        self.run_button.clicked.connect(self.submit)
+
+        row.addWidget(self.prompt, 1)
+        row.addWidget(self.run_button)
+        root.addLayout(row)
+
+    def submit(self):
+        task = self.prompt.text().strip()
+        if not task or self._is_running:
+            return
+
+        from gui.widgets.coding_permission_dialog import CodingPermissionDialog
+        from agents.coding.permissions import CodingPermissions
+        from PySide6.QtWidgets import QDialog
+
+        dialog = CodingPermissionDialog(parent=self)
+        if dialog.exec() != QDialog.Accepted:
+            self.landing.hide()
+            self.result.show()
+            self.result.setMarkdown("### Task Cancelled\n\nCoding Agent task cancelled by user.")
+            self.status_label.setText("Cancelled")
+            return
+
+        permissions = CodingPermissions(**dialog.permissions())
+
+        self._is_running = True
+        self.prompt.setEnabled(False)
+        self.run_button.setEnabled(False)
+        self.run_button.setText("Running...")
+        self.status_label.setText("Running Coding Agent...")
+        self.landing.hide()
+        self.result.show()
+        self.result.setMarkdown(
+            f"**Running Coding Agent...**\n\n"
+            f"**Task:** {task}\n\n"
+            f"Atlas is inspecting repository files, planning changes, and running tests."
+        )
+
+        ai = getattr(self.controller, "ai", None)
+        if ai is not None and hasattr(ai, "execute_coding"):
+            ai.execute_coding(task, permissions, max_attempts=2)
+        else:
+            self._on_coding_error("Coding Agent AI service is not available.")
+
+    def _on_coding_result(self, result):
+        if result is None:
+            self.result.setMarkdown("### Coding Agent\n\nNo result returned.")
+            self.status_label.setText("Finished (no result)")
+            return
+
+        success = getattr(result, "success", False)
+        message = getattr(result, "message", "")
+        applied = getattr(result, "applied_changes", []) or []
+        test_result = getattr(result, "test_result", {}) or {}
+        error_analysis = getattr(result, "error_analysis", None)
+
+        md = []
+        if success:
+            md.append("### ✓ Coding Task Completed Successfully\n")
+            self.status_label.setText("✓ Success")
+        else:
+            md.append("### ⚠ Coding Task Incomplete\n")
+            self.status_label.setText("⚠ Incomplete")
+
+        if message:
+            md.append(f"{message}\n")
+
+        if applied:
+            md.append("#### Modified Files\n")
+            for f in applied:
+                md.append(f"- `{f}`")
+            md.append("")
+
+        if test_result:
+            md.append("#### Test Execution Summary\n")
+            summary = test_result.get("summary", "")
+            if summary:
+                md.append(f"{summary}\n")
+            tests_passed = test_result.get("passed", 0)
+            tests_failed = test_result.get("failed", 0)
+            md.append(f"Passed: **{tests_passed}** · Failed: **{tests_failed}**\n")
+
+        if error_analysis is not None:
+            err_type = getattr(error_analysis, "error_type", "")
+            err_msg = getattr(error_analysis, "message", "")
+            if err_type or err_msg:
+                md.append(f"#### Error Details\n**Type:** {err_type}\n\n```\n{err_msg}\n```\n")
+
+        self.result.setMarkdown("\n".join(md))
+
+    def _on_coding_error(self, error):
+        self.status_label.setText("Error")
+        self.result.setMarkdown(f"### Coding Agent Error\n\n```\n{error}\n```")
+
+    def _on_coding_finished(self):
+        self._is_running = False
+        self.prompt.setEnabled(True)
+        self.run_button.setEnabled(True)
+        self.run_button.setText("Run")
+        self.prompt.clear()
+        self.prompt.setFocus()
+
+
 class ToolWorkspace(QWidget):
-    def __init__(self, controller, parent=None):
+    def __init__(self, controller, parent: QWidget | None = None):
         super().__init__(parent)
         self.controller = controller
         self.stack = QStackedWidget()
@@ -475,42 +763,47 @@ class ToolWorkspace(QWidget):
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(0)
 
-        header = QHBoxLayout()
-        header.setContentsMargins(20, 15, 20, 10)
+        self.header_bar = QWidget()
+        self.header_bar.setObjectName("ToolHeaderBar")
+        header_layout = QHBoxLayout(self.header_bar)
+        header_layout.setContentsMargins(24, 12, 24, 12)
+        header_layout.setSpacing(12)
 
-        back = QPushButton("← Tools")
-        back.clicked.connect(self.show_overview)
-        header.addWidget(back)
+        self.back_button = QPushButton("← Tools")
+        self.back_button.setObjectName("ToolBackButton")
+        self.back_button.clicked.connect(self.show_overview)
+        self.back_button.hide()
+        header_layout.addWidget(self.back_button)
 
         self.title = QLabel("Tools")
         self.title.setObjectName("ToolHeader")
-        header.addWidget(self.title)
-        header.addStretch()
-        root.addLayout(header)
+        header_layout.addWidget(self.title)
+        header_layout.addStretch()
+        root.addWidget(self.header_bar)
 
         root.addWidget(self.stack, 1)
 
         self.overview = QWidget()
         overview_layout = QVBoxLayout(self.overview)
-        overview_layout.setContentsMargins(28, 18, 28, 28)
+        overview_layout.setContentsMargins(24, 20, 24, 24)
+        overview_layout.setSpacing(6)
 
         heading = QLabel("Atlas Tools")
         heading.setObjectName("ToolTitle")
         overview_layout.addWidget(heading)
 
-        subtitle = QLabel(
-            "Open a tool to use its dedicated interface."
-        )
+        subtitle = QLabel("Open a tool to use its dedicated interface.")
         subtitle.setObjectName("ToolDescription")
         overview_layout.addWidget(subtitle)
 
         scroll = QScrollArea()
+        scroll.setObjectName("ToolScroll")
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QScrollArea.NoFrame)
 
         container = QWidget()
         self.grid = QGridLayout(container)
-        self.grid.setSpacing(14)
+        self.grid.setSpacing(12)
         scroll.setWidget(container)
         overview_layout.addWidget(scroll, 1)
 
@@ -531,7 +824,18 @@ class ToolWorkspace(QWidget):
                 widget.deleteLater()
 
         manager = self.manager()
-        metadata = manager.metadata() if manager is not None else []
+        metadata = list(manager.metadata() if manager is not None else [])
+
+        # Ensure Coding Agent is included in tool cards
+        names = [str(m.get("name", "")).lower() for m in metadata if isinstance(m, dict)]
+        if "coding" not in names:
+            metadata.append({
+                "name": "coding",
+                "display_name": "Coding Agent",
+                "icon": "💻",
+                "description": "Autonomous coding agent for repository inspection, code editing, and test verification.",
+                "enabled": True,
+            })
 
         row = col = 0
         for data in metadata:
@@ -541,12 +845,12 @@ class ToolWorkspace(QWidget):
             card = QFrame()
             card.setObjectName("ToolCard")
             layout = QVBoxLayout(card)
-            layout.setContentsMargins(18, 18, 18, 18)
-            layout.setSpacing(7)
+            layout.setContentsMargins(16, 16, 16, 16)
+            layout.setSpacing(8)
 
             top = QHBoxLayout()
             icon = QLabel(str(data.get("icon", "🧩")))
-            icon.setStyleSheet("font-size:26px;")
+            icon.setObjectName("ToolIcon")
             top.addWidget(icon)
 
             title = QLabel(
@@ -563,6 +867,7 @@ class ToolWorkspace(QWidget):
             layout.addWidget(desc)
 
             button = QPushButton("Open")
+            button.setObjectName("ToolOpenButton")
             button.setEnabled(bool(data.get("enabled", True)))
             button.clicked.connect(
                 lambda checked=False, d=data: self.open_tool(d)
@@ -582,6 +887,7 @@ class ToolWorkspace(QWidget):
             self.views[name] = self.create_view(metadata)
             self.stack.addWidget(self.views[name])
 
+        self.back_button.show()
         self.title.setText(
             f"{metadata.get('icon', '🧩')}  "
             f"{metadata.get('display_name', name)}"
@@ -608,12 +914,19 @@ class ToolWorkspace(QWidget):
                 self.controller,
             )
 
+        if name == "coding":
+            return CodingToolWidget(
+                self.controller,
+                metadata,
+            )
+
         return PromptToolWidget(
             self.controller,
             metadata,
         )
 
     def show_overview(self):
+        self.back_button.hide()
         self.title.setText("Tools")
         self.refresh_tools()
         self.stack.setCurrentWidget(self.overview)

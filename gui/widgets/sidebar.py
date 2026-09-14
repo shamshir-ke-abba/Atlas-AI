@@ -10,6 +10,8 @@ from PySide6.QtGui import QIcon, QPixmap
 from core.events import MessageReceived
 
 from PySide6.QtWidgets import (
+    QFrame,
+    QHBoxLayout,
     QInputDialog,
     QLabel,
     QListWidget,
@@ -56,15 +58,26 @@ class AtlasSidebar(QWidget):
             self.logo.setText("Atlas AI")
         layout.addWidget(self.logo)
 
+        conv_header = QHBoxLayout()
+        conv_header.setContentsMargins(0, 8, 0, 4)
+        conv_header.setSpacing(8)
+
+        title = QLabel("CONVERSATIONS")
+        title.setObjectName("HistoryTitle")
+        conv_header.addWidget(title)
+        conv_header.addStretch(1)
+
         self.new_chat_button = QPushButton("+ New Chat")
         self.new_chat_button.setObjectName("NewChatButton")
-        self.new_chat_button.setMinimumHeight(40)
+        self.new_chat_button.setCursor(Qt.PointingHandCursor)
         self.new_chat_button.clicked.connect(self.handle_new_chat)
-        layout.addWidget(self.new_chat_button)
+        conv_header.addWidget(self.new_chat_button)
+        layout.addLayout(conv_header)
 
-        title = QLabel("CHAT HISTORY")
-        title.setObjectName("HistoryTitle")
-        layout.addWidget(title)
+        separator = QFrame()
+        separator.setFrameShape(QFrame.HLine)
+        separator.setObjectName("HistorySeparator")
+        layout.addWidget(separator)
 
         self.history_list = QListWidget()
         self.history_list.setObjectName("HistoryList")
