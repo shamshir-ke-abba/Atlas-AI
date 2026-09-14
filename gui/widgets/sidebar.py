@@ -6,7 +6,7 @@ Tools is permanently below conversation history.
 from pathlib import Path
 
 from PySide6.QtCore import Qt, Signal, QTimer
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QIcon, QPixmap
 from core.events import MessageReceived
 
 from PySide6.QtWidgets import (
@@ -38,29 +38,27 @@ class AtlasSidebar(QWidget):
 
     def build_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 18)
-        layout.setSpacing(10)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(12)
 
         self.logo = QLabel()
         self.logo.setObjectName("AtlasLogo")
         self.logo.setAlignment(Qt.AlignCenter)
 
-        logo_path = Path(__file__).resolve().parents[2] / "assets" / "Atlas.png"
+        logo_path = Path(__file__).resolve().parents[2] / "assets" / "atlas_logo.svg"
+        if not logo_path.exists():
+            logo_path = Path(__file__).resolve().parents[2] / "assets" / "atlas_mark.svg"
         if logo_path.exists():
-            pixmap = QPixmap(str(logo_path))
+            pixmap = QIcon(str(logo_path)).pixmap(120, 32)
             if not pixmap.isNull():
-                self.logo.setPixmap(
-                    pixmap.scaled(
-                        180, 80,
-                        Qt.KeepAspectRatio,
-                        Qt.SmoothTransformation,
-                    )
-                )
+                self.logo.setPixmap(pixmap)
         if self.logo.pixmap() is None:
             self.logo.setText("Atlas AI")
         layout.addWidget(self.logo)
 
         self.new_chat_button = QPushButton("+ New Chat")
+        self.new_chat_button.setObjectName("NewChatButton")
+        self.new_chat_button.setMinimumHeight(40)
         self.new_chat_button.clicked.connect(self.handle_new_chat)
         layout.addWidget(self.new_chat_button)
 
@@ -80,11 +78,9 @@ class AtlasSidebar(QWidget):
         self.history_list.setWordWrap(True)
         layout.addWidget(self.history_list, 1)
 
-        layout.addSpacing(8)
-
         self.tools_button = QPushButton("🧰  Tools")
         self.tools_button.setObjectName("ToolsButton")
-        self.tools_button.setMinimumHeight(42)
+        self.tools_button.setMinimumHeight(40)
         self.tools_button.clicked.connect(self.tools_requested.emit)
         layout.addWidget(self.tools_button)
 

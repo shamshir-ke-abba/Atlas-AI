@@ -4,10 +4,14 @@ The conversation viewport is the only scrollable surface. Individual message
 bubbles grow naturally with their text and never contain a scrollbar.
 """
 
+from __future__ import annotations
+
 import html
+from pathlib import Path
 import re
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import QRect, Qt, QTimer
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
     QFrame,
@@ -20,7 +24,8 @@ from PySide6.QtWidgets import (
 )
 
 
-def markdown_to_html(text):
+def markdown_to_html(text: str) -> str:
+    """Convert supported Markdown formatting to HTML for RichText display."""
     # Repeatedly unescape HTML entities to collapse double-encoding (e.g. "&amp;#x27;" -> "'")
     raw = str(text or "")
     prev = None
@@ -32,33 +37,48 @@ def markdown_to_html(text):
     raw = re.sub(r"</?(?:p|div)>", "\n", raw, flags=re.IGNORECASE)
 
     # Escape only the characters that would produce unintended HTML markup
-    # but preserve quotes/apostrophes for readable text. This prevents
-    # single quotes from being converted to numeric entities like &#x27;.
+    # but preserve quotes/apostrophes for readable text.
     text = html.escape(raw, quote=False)
+
+    # Code blocks
     text = re.sub(
         r"```(?:[^\n]*)\n(.*?)```",
         lambda m: (
-            '<pre style="white-space:pre-wrap; margin:8px 0; '
-            'font-family:monospace;">' + m.group(1) + "</pre>"
+            '<pre style="white-space:pre-wrap; margin:8px 0; padding:10px; '
+            'background-color:#09090B; border:1px solid #27272F; border-radius:6px; '
+            'font-family:\'JetBrains Mono\', Consolas, monospace; color:#F4F4F5; font-size:10pt;">'
+            + m.group(1)
+            + "</pre>"
         ),
         text,
         flags=re.DOTALL,
     )
-    text = re.sub(r"^### (.+)$", r"<h3>\1</h3>", text, flags=re.MULTILINE)
-    text = re.sub(r"^## (.+)$", r"<h2>\1</h2>", text, flags=re.MULTILINE)
-    text = re.sub(r"^# (.+)$", r"<h1>\1</h1>", text, flags=re.MULTILINE)
+
+    # Headings
+    text = re.sub(r"^### (.+)$", r'<h3 style="color:#F4F4F5; margin:6px 0 4px 0; font-size:12pt;">\1</h3>', text, flags=re.MULTILINE)
+    text = re.sub(r"^## (.+)$", r'<h2 style="color:#F4F4F5; margin:8px 0 4px 0; font-size:13pt;">\1</h2>', text, flags=re.MULTILINE)
+    text = re.sub(r"^# (.+)$", r'<h1 style="color:#F4F4F5; margin:10px 0 6px 0; font-size:15pt;">\1</h1>', text, flags=re.MULTILINE)
+
+    # Inline emphasis & code
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
     text = re.sub(
-        r"\[([^\]]+)\]\((https?://[^)]+)\)",
-        r'<a href="\2">\1</a>',
+        r"`([^`]+)`",
+        r'<code style="font-family:\'JetBrains Mono\', Consolas, monospace; background-color:#09090B; border:1px solid #27272F; border-radius:3px; padding:1px 4px; color:#4FB8BA; font-size:10pt;">\1</code>',
         text,
     )
+
+    # Links
+    text = re.sub(
+        r"\[([^\]]+)\]\((https?://[^)]+)\)",
+        r'<a href="\2" style="color:#4FB8BA; text-decoration:underline;">\1</a>',
+        text,
+    )
+
     return text.replace("\n", "<br>")
 
 
 class AtlasMessage(QWidget):
-    def __init__(self, sender, text, parent=None):
+    def __init__(self, sender: str, text: str, parent: QWidget | None = None):
         super().__init__(parent)
         self.sender = str(sender)
         self.text = str(text or "")
@@ -69,29 +89,40 @@ class AtlasMessage(QWidget):
         self.build_ui()
 
     def build_ui(self):
-        outer = QHBoxLayout(self)
-        outer.setContentsMargins(12, 6, 12, 8)
-        outer.setSpacing(0)
+        self.outer_layout = QHBoxLayout(self)
+        self.outer_layout.setContentsMargins(16, 2, 16, 2)
+        self.outer_layout.setSpacing(0)
 
         self.container = QFrame()
         self.container.setObjectName(
             "UserMessageContainer" if self.is_user else "AtlasMessageContainer"
         )
         self.container.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        self.container.setStyleSheet(
-            "QFrame#AtlasMessageContainer {"
-            "background:#202020; border:1px solid #303030; border-radius:14px;}"
-            "QFrame#UserMessageContainer {"
-            "background:#292929; border:1px solid #383838; border-radius:14px;}"
-        )
 
         layout = QVBoxLayout(self.container)
-        layout.setContentsMargins(16, 12, 16, 16)
-        layout.setSpacing(7)
+        layout.setContentsMargins(16, 12, 16, 14)
+        layout.setSpacing(6)
 
         header = QHBoxLayout()
         header.setContentsMargins(0, 0, 0, 0)
         header.setSpacing(6)
+
+        if not self.is_user:
+            self.avatar_label = QLabel()
+            self.avatar_label.setObjectName("AtlasMicroMark")
+            self.avatar_label.setFixedSize(16, 16)
+            avatar_path = (
+                Path(__file__).resolve().parents[2] / "assets" / "atlas_micro_mark.svg"
+            )
+            if not avatar_path.exists():
+                avatar_path = (
+                    Path(__file__).resolve().parents[2] / "assets" / "atlas_mark.svg"
+                )
+            if avatar_path.exists():
+                pix = QIcon(str(avatar_path)).pixmap(16, 16)
+                if not pix.isNull():
+                    self.avatar_label.setPixmap(pix)
+            header.addWidget(self.avatar_label)
 
         self.sender_label = QLabel(self.sender)
         self.sender_label.setObjectName(
@@ -107,12 +138,7 @@ class AtlasMessage(QWidget):
             self.copy_button.setToolTip("Copy response")
             self.copy_button.setCursor(Qt.PointingHandCursor)
             self.copy_button.setAutoRaise(True)
-            self.copy_button.setFixedSize(28, 28)
-            self.copy_button.setStyleSheet(
-                "QToolButton#MessageCopyButton { border:0; background:transparent; "
-                "color:#9d9d9d; border-radius:6px; font-size:16px; }"
-                "QToolButton#MessageCopyButton:hover { background:#303030; color:#fff; }"
-            )
+            self.copy_button.setFixedSize(24, 24)
             self.copy_button.clicked.connect(self.copy_message)
             header.addWidget(self.copy_button, 0, Qt.AlignTop)
 
@@ -130,18 +156,14 @@ class AtlasMessage(QWidget):
         self.message_label.setWordWrap(True)
         self.message_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         self.message_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        self.message_label.setStyleSheet(
-            "QLabel { background:transparent; border:0; color:#f2f2f2; "
-            "font-size:15px; padding:0; }"
-        )
         layout.addWidget(self.message_label)
 
         if self.is_user:
-            outer.addStretch(1)
-            outer.addWidget(self.container, 0, Qt.AlignRight)
+            self.outer_layout.addStretch(1)
+            self.outer_layout.addWidget(self.container, 0, Qt.AlignRight)
         else:
-            outer.addWidget(self.container, 0, Qt.AlignLeft)
-            outer.addStretch(1)
+            self.outer_layout.addWidget(self.container, 0, Qt.AlignLeft)
+            self.outer_layout.addStretch(1)
 
         self.set_text(self.text)
 
@@ -155,28 +177,58 @@ class AtlasMessage(QWidget):
         if hasattr(self, "copy_button"):
             self.copy_button.setText("⧉")
 
-    def set_text(self, text):
+    def set_text(self, text: str):
         self.text = str(text or "")
-        # Ensure we render via the single RichText pipeline so
-        # partial streamed chunks are interpreted consistently
-        # (prevents showing literal HTML tags when the label
-        # was previously switched to PlainText by thinking frames).
+        # Render via the single RichText pipeline
         self.message_label.setTextFormat(Qt.RichText)
         self.message_label.setText(markdown_to_html(self.text))
         self._resize_bubble()
 
+    def set_thinking(self, frame: str):
+        self.message_label.setTextFormat(Qt.RichText)
+        self.message_label.setText(
+            f'<span style="color:#82828C; letter-spacing:3px; font-size:12pt;">{frame}</span>'
+        )
+        self._resize_bubble()
+
     def _resize_bubble(self):
-        parent = self.parentWidget()
-        available = parent.width() if parent is not None else 1000
-        available = max(500, available)
+        available = self.width()
+        if available <= 0 and self.parentWidget():
+            available = self.parentWidget().width()
+        if available <= 0:
+            available = 860
+
+        MAX_COLUMN_WIDTH = 740
+        MIN_SIDE_MARGIN = 16
+
+        # Center readable conversation column when space permits
+        if available >= MAX_COLUMN_WIDTH + 2 * MIN_SIDE_MARGIN:
+            col_width = MAX_COLUMN_WIDTH
+            side_margin = (available - col_width) // 2
+        else:
+            side_margin = MIN_SIDE_MARGIN
+            col_width = max(220, available - 2 * side_margin)
+
+        self.outer_layout.setContentsMargins(side_margin, 2, side_margin, 2)
 
         if self.is_user:
-            width = min(650, max(220, int(available * 0.60)))
+            # User messages: right-aligned, max ~80% of readable column width
+            max_user_width = max(180, int(col_width * 0.80))
+            max_content_w = max(140, max_user_width - 32)
+            fm = self.message_label.fontMetrics()
+            rect = fm.boundingRect(
+                QRect(0, 0, max_content_w, 10000),
+                Qt.TextWordWrap,
+                self.text or "...",
+            )
+            natural_bubble_w = rect.width() + 36
+            bubble_width = min(max_user_width, max(140, natural_bubble_w))
         else:
-            width = min(980, max(430, int(available * 0.84)))
+            # Atlas messages: left-aligned, full-width across readable column
+            bubble_width = col_width
 
-        self.container.setFixedWidth(width)
-        content_width = max(180, width - 32)
+        self.container.setFixedWidth(bubble_width)
+        content_width = max(140, bubble_width - 32)
         self.message_label.setFixedWidth(content_width)
         self.message_label.adjustSize()
         self.container.adjustSize()
@@ -185,14 +237,7 @@ class AtlasMessage(QWidget):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        parent_width = self.parentWidget().width() if self.parentWidget() else 0
-        if parent_width != self._last_parent_width:
-            self._last_parent_width = parent_width
+        new_width = event.size().width()
+        if new_width != self._last_parent_width:
+            self._last_parent_width = new_width
             QTimer.singleShot(0, self._resize_bubble)
-
-    def set_thinking(self, frame):
-        self.message_label.setTextFormat(Qt.PlainText)
-        self.message_label.setText(str(frame))
-        self.message_label.adjustSize()
-        self.container.adjustSize()
-        self.adjustSize()

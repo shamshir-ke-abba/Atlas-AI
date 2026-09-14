@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32" fill="none">
+  <!-- Canonical Atlas Brand Lockup: Mark + Wordmark (Light Theme) -->
+  <g transform="translate(0, 0)">
+    <path d="M6.5 25.5L16 5.5L25.5 25.5" stroke="#09090B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 19H22" stroke="#09090B" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M5.5 21.5L25.5 6.5" stroke="#2A7376" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="25.5" cy="6.5" r="2.8" fill="#1D5355"/>
+  </g>
+  <text x="38" y="21" fill="#09090B" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" letter-spacing="2.5">ATLAS</text>
+</svg>

@@ -2,7 +2,10 @@
 Atlas V3 Main Window.
 """
 
+from pathlib import Path
+
 from PySide6.QtCore import QTimer
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QMainWindow,
@@ -24,6 +27,9 @@ class AtlasWindow(QMainWindow):
         self.controller = controller
 
         self.setWindowTitle("Atlas AI")
+        icon_path = Path(__file__).resolve().parents[1] / "assets" / "atlas_favicon.svg"
+        if icon_path.exists():
+            self.setWindowIcon(QIcon(str(icon_path)))
         self.resize(1400, 900)
         self.setMinimumSize(1000, 650)
 
@@ -46,8 +52,8 @@ class AtlasWindow(QMainWindow):
             bus=self.bus,
             controller=self.controller,
         )
-        self.sidebar.setMinimumWidth(240)
-        self.sidebar.setMaximumWidth(300)
+        self.sidebar.setMinimumWidth(260)
+        self.sidebar.setMaximumWidth(260)
 
         self.chat = AtlasChat(
             self.bus,
@@ -68,8 +74,8 @@ class AtlasWindow(QMainWindow):
             controller=self.controller,
             state=self.state,
         )
-        self.status.setMinimumWidth(220)
-        self.status.setMaximumWidth(290)
+        self.status.setMinimumWidth(280)
+        self.status.setMaximumWidth(280)
 
         self.sidebar.conversation_loaded.connect(
             self.handle_conversation_loaded
