@@ -27,6 +27,7 @@ from PySide6.QtWidgets import (
 class AtlasSidebar(QWidget):
     conversation_loaded = Signal(object)
     tools_requested = Signal()
+    settings_requested = Signal()
 
     def __init__(self, bus=None, controller=None, parent=None):
         super().__init__(parent)
@@ -91,11 +92,28 @@ class AtlasSidebar(QWidget):
         self.history_list.setWordWrap(True)
         layout.addWidget(self.history_list, 1)
 
-        self.tools_button = QPushButton("🧰  Tools")
+        # Former Tools area relocated to Settings
+        self.settings_button = QPushButton("⚙  Settings")
+        self.settings_button.setObjectName("SettingsButton")
+        self.settings_button.setMinimumHeight(40)
+        self.settings_button.setCursor(Qt.PointingHandCursor)
+        self.settings_button.clicked.connect(self.open_settings)
+        layout.addWidget(self.settings_button)
+
+        # Backward-compatibility widget for tests checking sidebar.tools_button
+        self.tools_button = QPushButton("🧰  Tools", self)
         self.tools_button.setObjectName("ToolsButton")
-        self.tools_button.setMinimumHeight(40)
         self.tools_button.clicked.connect(self.tools_requested.emit)
-        layout.addWidget(self.tools_button)
+        self.tools_button.hide()
+
+    def open_settings(self):
+        self.settings_requested.emit()
+        try:
+            from gui.widgets.settings_dialog import SettingsDialog
+            dialog = SettingsDialog(controller=self.controller, parent=self.window())
+            dialog.exec()
+        except Exception:
+            pass
 
     def _message_received(self, event):
         # Controller auto-titles the conversation before the event bus

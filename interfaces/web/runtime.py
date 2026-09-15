@@ -15,6 +15,7 @@ from typing import Any, Dict, Optional
 from ai.brain import AtlasBrain
 from ai.model import AtlasModel
 from core.tool_manager import ToolManager
+from core.memory import MemoryManager
 from ai.services.conversation_service import ConversationService
 from config import MODEL_NAME, OLLAMA_HOST
 
@@ -34,6 +35,7 @@ class WebAtlasRuntime:
         self.tools = ToolManager()
         self.model = AtlasModel()
         self.catalog = ConversationService()
+        self.memory = MemoryManager()
 
     def session(self, session_id: str) -> WebSession:
         session_id = str(session_id).strip()
@@ -48,11 +50,9 @@ class WebAtlasRuntime:
             conversation = ConversationService()
             conversation_id = conversation.new()
 
-            # The current Brain accepts memory=None and does not require
-            # the old memory.manager.MemoryManager object.
             brain = AtlasBrain(
                 model=self.model,
-                memory=None,
+                memory=self.memory,
                 tools=self.tools,
             )
 

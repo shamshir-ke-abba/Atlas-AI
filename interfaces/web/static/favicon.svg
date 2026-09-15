@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Atlas Micro Mark -->
+  <path d="M7 26L15.5 6L24 26" stroke="#F4F4F5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M10.5 19.5H20.5" stroke="#F4F4F5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M6 22L25 7" stroke="#4FB8BA" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="25" cy="7" r="2.8" fill="#4FB8BA"/>
+</svg>

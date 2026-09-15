@@ -1,138 +1,399 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Atlas AI</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app-shell" id="appShell">
+    <!-- Backdrop for mobile drawers -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
 
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">✦</div>
-        <div>
-          <div class="brand-title">Atlas AI</div>
-          <div class="brand-subtitle">Local intelligence</div>
+    <!-- SIDEBAR (260px expanded / 64px collapsed) -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation sidebar">
+      <!-- Brand & Collapse Toggle -->
+      <div class="sidebar-header">
+        <div class="brand-lockup" id="brandHome" title="Atlas AI">
+          <div class="brand-mark-wrap" id="sidebarLogoMark">
+            <!-- Atlas Micro Mark SVG (24px) -->
+            <svg class="atlas-mark size-24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="atlas-a-stroke" d="M6.5 25.5L16 5.5L25.5 25.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="atlas-a-cross" d="M10 19H22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <path class="atlas-trajectory" d="M5.5 21.5L25.5 6.5" stroke="var(--brand-ui)" stroke-width="2.4" stroke-linecap="round"/>
+              <circle class="atlas-node" cx="25.5" cy="6.5" r="2.8" fill="var(--brand-ui)"/>
+            </svg>
+          </div>
+          <span class="brand-wordmark">ATLAS</span>
+        </div>
+        <button class="icon-btn collapse-btn" id="sidebarToggleBtn" title="Collapse sidebar (Ctrl+\)" aria-label="Toggle sidebar collapse">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+            <path d="M15 9l-3 3 3 3"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- New Chat Action -->
+      <div class="sidebar-action">
+        <button class="new-chat-btn" id="newChatBtn" title="Start new conversation (Ctrl+N)">
+          <svg class="icon icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <span class="btn-text">New Chat</span>
+        </button>
+      </div>
+
+      <!-- Conversations Section Label -->
+      <div class="sidebar-section-header">
+        <span class="section-label">CONVERSATIONS</span>
+      </div>
+
+      <!-- Filter/Search in sidebar -->
+      <div class="sidebar-filter-wrap">
+        <div class="sidebar-filter">
+          <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="conversationSearchInput" placeholder="Filter chats..." aria-label="Filter conversations">
         </div>
       </div>
 
-      <button id="newChat" class="new-chat">＋ New Chat</button>
+      <!-- Scrollable History List -->
+      <nav class="history-list" id="conversationList" aria-label="Recent conversations">
+        <!-- Injected dynamically by JS -->
+      </nav>
 
-      <div class="history-label">CONVERSATIONS</div>
-
-      <!-- Only this area scrolls for conversation history. -->
-      <div id="history" class="history" aria-label="Conversation history"></div>
-
-      <!-- Fixed bottom dock: never part of the conversation scroll. -->
-      <section class="sidebar-tools">
-        <div class="tools-heading">
-          <span>TOOLS</span>
-          <span id="toolCount" class="tool-count">0</span>
-        </div>
-        <div id="toolList" class="tool-list" aria-label="Atlas tools"></div>
-      </section>
+      <!-- Sidebar Bottom Dock -->
+      <div class="sidebar-dock">
+        <button class="dock-item" id="navToolsBtn" title="Atlas Tools">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span class="dock-text">Tools</span>
+          <span class="dock-badge" id="toolsCountBadge">0</span>
+        </button>
+        <button class="dock-item" id="navMemoryBtn" title="Memory & Context">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span class="dock-text">Memory</span>
+        </button>
+        <button class="dock-item" id="navSettingsBtn" title="Settings">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span class="dock-text">Settings</span>
+        </button>
+      </div>
     </aside>
 
-    <main class="main-panel">
-      <header class="chat-header">
-        <div>
-          <div class="atlas-name">Atlas</div>
-          <div class="atlas-subtitle">Local AI assistant</div>
+    <!-- MAIN PANEL (Header + Conversation + Composer) -->
+    <main class="main-panel" id="mainPanel">
+      <!-- App Chrome / Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" title="Open Menu" aria-label="Open navigation menu">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <h1 class="conversation-title" id="headerTitle">New Chat</h1>
         </div>
 
-        <div class="connection">
-          <span id="connectionDot" class="dot ready"></span>
-          <span id="connectionText">Ready</span>
+        <div class="header-right">
+          <!-- Compact Contextual Status Pill -->
+          <div class="status-pill" id="statusPill" title="Atlas Status">
+            <span class="status-dot ready" id="statusDot"></span>
+            <span class="status-text" id="statusText">Ready</span>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="icon-btn" id="themeToggleBtn" title="Toggle dark/light theme" aria-label="Toggle theme">
+            <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <!-- Context Drawer Toggle -->
+          <button class="icon-btn" id="contextDrawerToggleBtn" title="Toggle context drawer" aria-label="Toggle context drawer">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
+              <path d="M11 9l-3 3 3 3"/>
+            </svg>
+          </button>
         </div>
       </header>
 
-      <!-- Only this central chat region scrolls. -->
-      <section id="chat" class="chat" aria-label="Chat"></section>
+      <!-- Scrollable Conversation Container (Centered 720-760px) -->
+      <section class="conversation-container" id="conversationContainer" aria-label="Conversation messages">
+        <div class="conversation-wrap" id="conversationWrap">
+          <!-- Empty State Screen -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-state-mark">
+              <svg class="atlas-mark size-48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="atlas-a-stroke" d="M6.5 25.5L16 5.5L25.5 25.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="atlas-a-cross" d="M10 19H22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                <path class="atlas-trajectory" d="M5.5 21.5L25.5 6.5" stroke="var(--brand-ui)" stroke-width="2.4" stroke-linecap="round"/>
+                <circle class="atlas-node" cx="25.5" cy="6.5" r="2.8" fill="var(--brand-ui)"/>
+              </svg>
+            </div>
+            <h2 class="empty-state-title">How can I help?</h2>
+            <p class="empty-state-subtitle">Ask questions, execute calculations, search current information, or run tools.</p>
+            <div class="empty-prompt-chips">
+              <button class="prompt-chip" data-prompt="What can you help me with?">What can you help me with?</button>
+              <button class="prompt-chip" data-prompt="Calculate 128 * 24 / 6">Calculate 128 * 24 / 6</button>
+              <button class="prompt-chip" data-prompt="What is the current local time?">Current local time</button>
+              <button class="prompt-chip" data-prompt="Search for latest tech news">Search tech news</button>
+            </div>
+          </div>
 
-      <div id="activity" class="activity hidden">
-        <span class="thinking-dots">
-          <i></i><i></i><i></i>
-        </span>
-        <span id="activityText">Atlas is thinking…</span>
-      </div>
+          <!-- Message Groups Container -->
+          <div class="chat-messages" id="chatMessages">
+            <!-- Messages inserted dynamically -->
+          </div>
 
-      <div class="composer-wrap">
-        <div class="composer">
-          <textarea
-            id="message"
-            rows="1"
-            placeholder="Message Atlas..."
-            autocomplete="off"
-          ></textarea>
-
-          <button id="send" class="send" title="Send">➤</button>
-          <button id="stop" class="stop hidden" title="Stop">■</button>
+          <!-- Assistant Thinking / Generating Activity Indicator -->
+          <div class="assistant-activity hidden" id="assistantActivity" aria-live="polite">
+            <div class="activity-mark-wrap">
+              <svg class="atlas-mark size-24 thinking" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="atlas-a-stroke" d="M6.5 25.5L16 5.5L25.5 25.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="atlas-a-cross" d="M10 19H22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                <path class="atlas-trajectory" d="M5.5 21.5L25.5 6.5" stroke="var(--brand-ui)" stroke-width="2.4" stroke-linecap="round"/>
+                <circle class="atlas-node" cx="25.5" cy="6.5" r="2.8" fill="var(--brand-ui)"/>
+              </svg>
+            </div>
+            <span class="activity-text" id="activityText">Atlas is thinking…</span>
+          </div>
         </div>
-        <div class="composer-hint">Enter to send · Shift+Enter for a new line</div>
+      </section>
+
+      <!-- Composer / Input Section -->
+      <div class="composer-container">
+        <div class="composer-wrap">
+          <div class="composer-card" id="composerCard">
+            <textarea
+              class="composer-input"
+              id="messageInput"
+              rows="1"
+              placeholder="Ask Atlas anything..."
+              aria-label="Message input"
+              autocomplete="off"
+            ></textarea>
+            <div class="composer-actions">
+              <div class="composer-actions-left">
+                <button class="icon-btn tool-trigger-btn" id="composerToolsBtn" title="Run Atlas Tools" aria-label="Run tools">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="composer-actions-right">
+                <button class="send-btn" id="sendBtn" title="Send message (Enter)" aria-label="Send message">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+                <button class="stop-btn hidden" id="stopBtn" title="Stop generating" aria-label="Stop generation">
+                  <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="6" width="12" height="12" rx="2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="composer-hint">Enter to send · Shift+Enter for new line</div>
+        </div>
       </div>
     </main>
 
-    <aside class="status-panel">
-      <div class="status-title">Atlas Status</div>
-
-      <div class="status-section">
-        <div class="status-label">STATE</div>
-        <div id="state" class="status-value">
-          <span id="stateDot" class="dot ready"></span>
-          Ready
+    <!-- CONTEXT DRAWER (280px Desktop / Overlay on Tablet & Mobile) -->
+    <aside class="context-drawer" id="contextDrawer" aria-label="Context and Memory">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <h2 class="drawer-title">Context & Memory</h2>
+          <span class="drawer-subtitle">Active session context</span>
         </div>
+        <button class="icon-btn drawer-close-btn" id="closeDrawerBtn" title="Close context drawer" aria-label="Close drawer">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
 
-      <div class="status-section">
-        <div class="status-label">MODEL</div>
-        <div id="model" class="status-value">—</div>
-      </div>
+      <div class="drawer-scroll">
+        <!-- Relevant Conversation Section -->
+        <section class="drawer-section">
+          <div class="drawer-section-title">RELEVANT CONVERSATION</div>
+          <div class="context-card" id="drawerConvCard">
+            <div class="context-row">
+              <span class="context-key">Title</span>
+              <span class="context-val" id="drawerConvTitle">New Chat</span>
+            </div>
+            <div class="context-row">
+              <span class="context-key">Messages</span>
+              <span class="context-val" id="drawerConvMsgCount">0</span>
+            </div>
+            <div class="context-row">
+              <span class="context-key">Model</span>
+              <span class="context-val mono" id="drawerModelName">—</span>
+            </div>
+          </div>
+        </section>
 
-      <div class="status-section">
-        <div class="status-label">TOOLS</div>
-        <div id="toolsStatus" class="status-value">—</div>
-      </div>
+        <!-- Active Tools Section -->
+        <section class="drawer-section">
+          <div class="drawer-section-title">
+            <span>ACTIVE TOOLS</span>
+            <span class="drawer-count" id="drawerToolsCount">0</span>
+          </div>
+          <div class="active-tools-list" id="drawerActiveToolsList">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
 
-      <div class="status-section">
-        <div class="status-label">CONVERSATION</div>
-        <div id="conversationTitle" class="status-value">New Chat</div>
-      </div>
+        <!-- Memory Section -->
+        <section class="drawer-section">
+          <div class="drawer-section-title">STORED MEMORY</div>
+          <div class="memory-card" id="drawerMemoryCard">
+            <!-- Populated dynamically from Atlas MemoryManager -->
+            <div class="memory-empty">Loading memory…</div>
+          </div>
+        </section>
 
-      <div class="status-section web-status">
-        <div class="status-label">WEB</div>
-        <div id="webStatus" class="status-value">Ready for live search</div>
-      </div>
-
-      <div class="clock">
-        <div id="clockTime" class="clock-time">--:--</div>
-        <div id="clockDate" class="clock-date">—</div>
+        <!-- System & Status Section -->
+        <section class="drawer-section">
+          <div class="drawer-section-title">SYSTEM STATUS</div>
+          <div class="context-card">
+            <div class="context-row">
+              <span class="context-key">Service</span>
+              <span class="context-val">Atlas V3</span>
+            </div>
+            <div class="context-row">
+              <span class="context-key">Engine</span>
+              <span class="context-val" id="drawerOllamaHost">Ollama</span>
+            </div>
+            <div class="context-row">
+              <span class="context-key">Web Search</span>
+              <span class="context-val semantic-success" id="drawerWebSearchStatus">Enabled</span>
+            </div>
+          </div>
+        </section>
       </div>
     </aside>
   </div>
 
-  <!-- Tool workspace -->
-  <div id="toolModal" class="tool-modal hidden" role="dialog" aria-modal="true">
+  <!-- TOOL RUNNER MODAL / WORKSPACE -->
+  <div class="tool-modal hidden" id="toolModal" role="dialog" aria-modal="true" aria-labelledby="toolModalTitle">
+    <div class="tool-modal-backdrop" id="toolModalBackdrop"></div>
     <div class="tool-modal-card">
       <div class="tool-modal-header">
-        <div>
-          <div id="toolModalTitle" class="tool-modal-title">Tool</div>
-          <div id="toolModalDescription" class="tool-modal-description"></div>
+        <div class="tool-modal-title-group">
+          <h3 class="tool-modal-title" id="toolModalTitle">Tool Workspace</h3>
+          <p class="tool-modal-description" id="toolModalDesc">Run Atlas tools directly with structured inputs.</p>
         </div>
-        <button id="toolModalClose" class="modal-close" title="Close">×</button>
+        <button class="icon-btn modal-close-btn" id="toolModalCloseBtn" title="Close" aria-label="Close modal">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
 
-      <div id="toolForm" class="tool-form"></div>
+      <div class="tool-selector-wrap">
+        <label class="tool-field-label" for="toolPickerSelect">Select Tool</label>
+        <select class="tool-select" id="toolPickerSelect"></select>
+      </div>
 
-      <div id="toolResultWrap" class="tool-result-wrap hidden">
-        <div class="tool-result-label">RESULT</div>
-        <pre id="toolResult" class="tool-result"></pre>
+      <div class="tool-form" id="toolFormContainer"></div>
+
+      <div class="tool-result-wrap hidden" id="toolResultWrap">
+        <div class="tool-result-header">
+          <span class="section-label">TOOL OUTPUT</span>
+        </div>
+        <pre class="tool-result-code mono" id="toolResultCode"></pre>
       </div>
 
       <div class="tool-modal-actions">
-        <button id="toolRun" class="tool-run">Run Tool</button>
-        <button id="toolInsert" class="tool-insert hidden">Add Result to Chat</button>
+        <button class="btn btn-secondary" id="toolInsertChatBtn" style="display:none;">Add Result to Chat</button>
+        <button class="btn btn-primary" id="toolRunBtn">Run Tool</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="tool-modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+    <div class="tool-modal-backdrop" id="settingsModalBackdrop"></div>
+    <div class="tool-modal-card">
+      <div class="tool-modal-header">
+        <div class="tool-modal-title-group">
+          <h3 class="tool-modal-title" id="settingsModalTitle">Settings</h3>
+          <p class="tool-modal-description">Preferences and application configuration.</p>
+        </div>
+        <button class="icon-btn modal-close-btn" id="settingsModalCloseBtn" title="Close" aria-label="Close settings">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-content">
+        <div class="settings-group">
+          <div class="settings-item">
+            <div>
+              <div class="settings-item-title">Appearance</div>
+              <div class="settings-item-desc">Choose between dark and light color scheme.</div>
+            </div>
+            <div class="segmented-control">
+              <button class="seg-btn active" id="themeDarkBtn" data-theme-val="dark">Dark</button>
+              <button class="seg-btn" id="themeLightBtn" data-theme-val="light">Light</button>
+            </div>
+          </div>
+
+          <div class="settings-item">
+            <div>
+              <div class="settings-item-title">Reduced Motion</div>
+              <div class="settings-item-desc">Minimize transitions and motion effects.</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="reducedMotionToggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-item">
+            <div>
+              <div class="settings-item-title">Session ID</div>
+              <div class="settings-item-desc mono" id="settingsSessionId">—</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="resetSessionBtn">New Session</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

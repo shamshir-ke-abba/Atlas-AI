@@ -265,6 +265,12 @@ class AtlasBrain:
                 f"Error: {exc}"
             )
 
+    def cancel_current(self) -> bool:
+        """Cancel current model generation if active."""
+        if self.model is not None and hasattr(self.model, "cancel_current"):
+            return self.model.cancel_current()
+        return False
+
     # ==================================================
     # WEB-FRIENDLY STREAMING
     # ==================================================
@@ -427,18 +433,18 @@ class AtlasBrain:
                 parts
             ).strip()
 
-            if not response:
-
+            is_cancelled = getattr(self.model, "_cancelled", False)
+            if not response and not is_cancelled:
                 response = (
                     "No response generated."
                 )
-
                 yield response
 
-            self._update_memory(
-                message,
-                response,
-            )
+            if not is_cancelled:
+                self._update_memory(
+                    message,
+                    response,
+                )
 
         except Exception as exc:
 
@@ -847,78 +853,6 @@ class AtlasBrain:
     # ==================================================
     # ROUTING
     # ==================================================
-
-    def _run_coding_agent(
-        self,
-        message: str,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> str:
-        """Run the dedicated Coding Agent."""
-
-        try:
-            logger.info(
-                "CODING AGENT: handling task"
-            )
-
-            return self.coding_agent.run(
-                message
-            )
-
-        except Exception as exc:
-            logger.exception(
-                "Coding Agent failed"
-            )
-
-            return (
-                f"Error running Coding Agent: {exc}"
-            )
-
-    def _route_message(self, message: str):
-        if self.coding_detector.is_coding_task(message):
-            logger.info(
-                "ROUTE: CODING AGENT"
-            )
-
-            return (
-                lambda msg, ctx:
-                self._run_coding_agent(msg, ctx)
-            )
-
-        if self.tools is not None:
-
-            try:
-
-                if hasattr(
-                    self.tools,
-                    "match",
-                ):
-
-                    tool = self.tools.match(message)
-
-                    if tool is not None:
-                        logger.info(
-                            "ROUTE: TOOL -> %s",
-                            getattr(
-                                tool,
-                                "name",
-                                type(tool).__name__,
-                            ),
-                        )
-
-                        return (
-                            lambda msg, ctx:
-                            self._run_tool(tool, msg)
-                        )
-
-            except Exception as exc:
-                logger.warning(
-                    "Tool routing failed: %s",
-                    exc
-                )
-
-        logger.info("ROUTE: MODEL")
-
-        return self._generate_response
 
     def _route_message(
         self,
@@ -1511,29 +1445,45 @@ class AtlasBrain:
         # --------------------------------------------------
         # RECALL queries — use MemoryManager.relevant for deterministic replies
         # --------------------------------------------------
-        if any(
-            phrase in lower
-            for phrase in (
-                "what is my name",
-                "what is my favourite",
-                "what is my favorite",
-                "what do you remember",
-                "do you remember",
-                "who am i",
-                "what project",
-                "what are my goals",
-                "what kind of explanations do i prefer",
-                "what operating system do i use",
-                "what programming language is my project written in",
-                "what language is my project written in",
-                "what technology is my project using",
-                "what is my project called",
-                "what do you know about my project",
-                "tell me about my project",
-                "what is my project",
-                "what is my name",
-            )
-        ):
+        recall_triggers = (
+            "what is my name",
+            "what is my favourite",
+            "what is my favorite",
+            "what do you remember",
+            "do you remember",
+            "who am i",
+            "what project",
+            "what are my goals",
+            "what kind of explanations do i prefer",
+            "what operating system do i use",
+            "what programming language is my project written in",
+            "what language is my project written in",
+            "what technology is my project using",
+            "what is my project called",
+            "what do you know about my project",
+            "tell me about my project",
+            "what is my project",
+            "where do i live",
+            "where do i stay",
+            "where do i reside",
+            "where am i based",
+            "where am i living",
+            "where am i staying",
+            "what city do i live in",
+            "which city do i live in",
+            "what city i live in",
+            "what is my city",
+            "where do i work",
+            "what is my workplace",
+            "what is my job",
+            "what is my role",
+            "what do you know about me",
+            "tell me what you know",
+            "list my memories",
+            "show memories",
+        )
+
+        if any(phrase in lower for phrase in recall_triggers):
             try:
                 relevant = getattr(self.memory, "relevant", None)
 
@@ -1544,6 +1494,26 @@ class AtlasBrain:
                         "who am i",
                         "what is my name",
                         "do you remember my name",
+                        "naam",
+                    )
+                )
+                is_location_query = any(
+                    p in lower
+                    for p in (
+                        "where do i live",
+                        "where i live",
+                        "where do i stay",
+                        "where i stay",
+                        "where do i reside",
+                        "where am i based",
+                        "where am i living",
+                        "what city",
+                        "which city",
+                        "my city",
+                        "my location",
+                        "where am i",
+                        "kahan",
+                        "rehta",
                     )
                 )
                 is_pref_query = any(
@@ -1589,32 +1559,99 @@ class AtlasBrain:
                         "do i use",
                     )
                 )
+                is_broad_query = any(
+                    p in lower
+                    for p in (
+                        "what do you remember",
+                        "what do you know about me",
+                        "tell me what you know",
+                        "everything you remember",
+                        "list my memories",
+                        "show memories",
+                        "all memories",
+                        "what is in your memory",
+                    )
+                )
                 is_fact_query = any(
                     p in lower
                     for p in (
-                        "remember",
-                        "forgot",
+                        "facts",
                         "what did i tell you",
-                        "what do you know about me",
-                        "do you remember",
+                        "what did i say",
+                        "saved facts",
                     )
                 )
 
                 if callable(relevant):
                     rel = relevant(text)
 
+                    # Broad memory summary across multiple categories
+                    if is_broad_query and rel:
+                        parts = []
+                        if "identity" in rel and isinstance(rel["identity"], dict):
+                            ident = rel["identity"]
+                            if "name" in ident:
+                                parts.append(f"your name is {ident['name']}")
+                            if "city" in ident:
+                                parts.append(f"you live in {ident['city']}")
+                            if "workplace" in ident:
+                                parts.append(f"you work at {ident['workplace']}")
+                            if "role" in ident:
+                                parts.append(f"your role is {ident['role']}")
+
+                        if "preferences" in rel and isinstance(rel["preferences"], dict):
+                            for k, v in rel["preferences"].items():
+                                if v:
+                                    tag = k.replace("favorite_", "")
+                                    parts.append(f"your favorite {tag} is {v}" if k.startswith("favorite_") else f"you prefer {k.replace('_', ' ')}: {v}")
+
+                        if "environment" in rel and isinstance(rel["environment"], dict):
+                            if "operating_system" in rel["environment"]:
+                                parts.append(f"you use {rel['environment']['operating_system']}")
+
+                        if "projects" in rel and isinstance(rel["projects"], dict):
+                            if "project_name" in rel["projects"]:
+                                parts.append(f"your project is {rel['projects']['project_name']}")
+
+                        if "facts" in rel:
+                            facts_data = rel["facts"]
+                            fvals = [str(v).strip() for v in (facts_data.values() if isinstance(facts_data, dict) else facts_data) if v]
+                            if fvals:
+                                parts.append("saved facts: " + "; ".join(fvals[:3]))
+
+                        if parts:
+                            return "Here is what I remember: " + "; ".join(parts) + "."
+
                     if is_name_query and rel.get("identity"):
                         name = rel["identity"].get("name")
                         if name:
                             return f"Your name is {name}."
 
+                    if (is_location_query or any(w in lower for w in ("live", "city", "stay", "reside", "location", "based", "where"))) and rel.get("identity"):
+                        city = rel["identity"].get("city")
+                        if city:
+                            return f"You live in {city}."
+
+                    if any(w in lower for w in ("work", "job", "company", "employer", "office", "working")) and rel.get("identity"):
+                        workplace = rel["identity"].get("workplace")
+                        if workplace:
+                            return f"You work at {workplace}."
+                        role = rel["identity"].get("role")
+                        if role:
+                            return f"Your role is {role}."
+
                     if is_pref_query and rel.get("preferences"):
                         prefs = rel["preferences"]
-                        if "explanation_style" in prefs:
+                        if "explanation_style" in prefs and any(w in lower for w in ("explanation", "explain", "style", "answer")):
                             return f"You prefer explanations {prefs['explanation_style']}."
+                        if "favorite_color" in prefs and any(w in lower for w in ("color", "colour", "rang")):
+                            return f"Your favorite color is {prefs['favorite_color']}."
+                        if "favorite_food" in prefs and any(w in lower for w in ("food", "eat", "dish", "khana")):
+                            return f"Your favorite food is {prefs['favorite_food']}."
                         for key, value in prefs.items():
                             if value:
-                                return f"You prefer {key.replace('_', ' ')}: {value}."
+                                tag = key.replace("favorite_", "")
+                                return f"Your favorite {tag} is {value}." if key.startswith("favorite_") else f"You prefer {key.replace('_', ' ')}: {value}."
 
                     if is_project_query and rel.get("projects"):
                         proj = rel["projects"]
@@ -1632,11 +1669,16 @@ class AtlasBrain:
 
                     if is_fact_query and rel.get("facts"):
                         facts = rel["facts"]
-                        keys = list(facts.keys())[:5]
-                        if keys:
+                        if isinstance(facts, dict):
+                            values = [str(v).strip() for v in facts.values() if v]
+                        elif isinstance(facts, list):
+                            values = [str(v).strip() for v in facts if v]
+                        else:
+                            values = []
+                        if values:
                             return (
                                 "I have the following facts saved: "
-                                + ", ".join(keys)
+                                + "; ".join(values[:5])
                             )
 
                 # Category-specific fallbacks
@@ -1648,11 +1690,25 @@ class AtlasBrain:
                     except Exception:
                         pass
 
+                if is_location_query:
+                    try:
+                        city = self.memory.recall("identity", "city")
+                        if city:
+                            return f"You live in {city}."
+                    except Exception:
+                        pass
+
                 if is_pref_query:
                     try:
                         val = self.memory.recall("preferences", "explanation_style")
                         if val:
                             return f"You prefer explanations {val}."
+                        val = self.memory.recall("preferences", "favorite_color")
+                        if val and any(w in lower for w in ("color", "colour")):
+                            return f"Your favorite color is {val}."
+                        val = self.memory.recall("preferences", "favorite_food")
+                        if val and any(w in lower for w in ("food", "eat")):
+                            return f"Your favorite food is {val}."
                     except Exception:
                         pass
 
@@ -1675,6 +1731,24 @@ class AtlasBrain:
                         val = self.memory.recall("environment", "operating_system")
                         if val:
                             return f"You use {val}."
+                    except Exception:
+                        pass
+
+                if is_fact_query:
+                    try:
+                        all_mem = self.memory.all() if hasattr(self.memory, "all") else {}
+                        facts = all_mem.get("facts", {}) if isinstance(all_mem, dict) else {}
+                        if isinstance(facts, dict):
+                            values = [str(v).strip() for v in facts.values() if v]
+                        elif isinstance(facts, list):
+                            values = [str(v).strip() for v in facts if v]
+                        else:
+                            values = []
+                        if values:
+                            return (
+                                "I have the following facts saved: "
+                                + "; ".join(values[:5])
+                            )
                     except Exception:
                         pass
 

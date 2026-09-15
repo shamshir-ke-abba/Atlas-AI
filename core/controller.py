@@ -881,10 +881,8 @@ class Controller:
             return
 
         profile_tool = self._profile_setup_tool(text)
+        # Coding Agent is ON HOLD - do not intercept normal chat
 
-        is_coding_task = self.coding_detector.is_coding_task(
-            text
-        )
 
         # --------------------------------------------------
         # Make sure an active conversation exists
@@ -939,14 +937,6 @@ class Controller:
             if self._handle_profile_setup_request(text):
                 return
 
-
-        # --------------------------------------------------
-        # Coding Agent
-        # --------------------------------------------------
-
-        if is_coding_task:
-            self._start_coding_task(text)
-            return
 
         # --------------------------------------------------
         # Update state

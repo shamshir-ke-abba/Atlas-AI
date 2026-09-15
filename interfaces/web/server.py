@@ -111,6 +111,13 @@ def tools():
     }
 
 
+@app.get("/api/memory")
+def memory():
+    return {
+        "memory": runtime.memory.all(),
+    }
+
+
 @app.post("/api/tools/{tool_name}/run")
 def run_tool(
     tool_name: str,

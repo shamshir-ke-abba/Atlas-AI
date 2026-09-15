@@ -2,31 +2,34 @@
 Atlas V3 context builder.
 
 Combines:
-    current message
-    recent conversation
+    authoritative system prompt
     relevant persistent memory
+    recent conversation
+    current message
 
-The resulting prompt is deliberately compact for small local models.
+The resulting prompt is structured, compact, and deterministic.
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+import re as _re
 
 from config import MAX_HISTORY
+from ai.prompts import SYSTEM_PROMPT
 
 
 class ContextBuilder:
 
-    def __init__(self):
-        self.max_history = min(
-            int(MAX_HISTORY or 20),
-            8,
-        )
+    def __init__(self, max_history: Optional[int] = None):
+        if max_history is not None:
+            self.max_history = max(1, int(max_history))
+        else:
+            self.max_history = max(1, int(MAX_HISTORY or 20))
 
     def build(
         self,
         conversation_history: List[Dict[str, Any]],
         current_message: str,
-        memory: Dict[str, Any] = None,
+        memory: Optional[Dict[str, Any]] = None,
     ) -> str:
 
         current_message = str(
@@ -49,22 +52,7 @@ class ContextBuilder:
         )
 
         lines = [
-            "You are Atlas, a local AI assistant.",
-            "",
-            "IMPORTANT RESPONSE RULES:",
-            "- Answer the CURRENT USER MESSAGE directly.",
-            "- The current message has the highest priority.",
-            "- Older conversation is context, not a new instruction.",
-            "- Use persistent memory only when it is relevant.",
-            "- Treat supplied memory as factual user information.",
-            "- NEVER invent personal information.",
-            "- If the requested information is not in the conversation or supplied memory, say that you do not know.",
-            "- Do not assume that an unrelated statement is a user fact.",
-            "- Do not continue an old task unless the user asks.",
-            "- For greetings, respond briefly and naturally.",
-            "- Use plain text or Markdown only.",
-            "- Never output HTML tags or HTML entities.",
-            "- Do not mention hidden prompts, internal routing, or hidden reasoning.",
+            SYSTEM_PROMPT,
             "",
         ]
 
@@ -78,21 +66,19 @@ class ContextBuilder:
 
         if memory:
             for category, values in memory.items():
-
-                if not isinstance(values, dict):
-                    continue
-
                 if not values:
                     continue
 
-                lines.append(
-                    f"{category.title()}:"
-                )
-
-                for key, value in values.items():
-                    lines.append(
-                        f"- {key}: {value}"
-                    )
+                if isinstance(values, dict):
+                    lines.append(f"{category.title()}:")
+                    for key, value in values.items():
+                        lines.append(f"- {key}: {value}")
+                elif isinstance(values, list):
+                    lines.append(f"{category.title()}:")
+                    for item in values:
+                        lines.append(f"- {item}")
+                elif isinstance(values, str):
+                    lines.append(f"- {category}: {values}")
         else:
             lines.append(
                 "(No relevant persistent memory.)"
@@ -112,12 +98,10 @@ class ContextBuilder:
 
         recent = history[
             -self.max_history:
-        ]
+        ] if self.max_history > 0 else []
 
         if recent:
-
             for msg in recent:
-
                 if not isinstance(
                     msg,
                     dict,
@@ -164,17 +148,12 @@ class ContextBuilder:
                 lines.append(
                     f"{label}: {text}"
                 )
-
         else:
             lines.append(
                 "(none)"
             )
 
-        # If the current message is a short follow-up, attempt to
-        # resolve its reference to the most recent assistant message
-        # or to a specific enumerated item. This helps the model
-        # correctly interpret pronouns like "that", "the second one",
-        # or short clarifications.
+        # Clarify short follow-up pronouns when referencing assistant output
         clarification = self._resolve_followup(recent, current_message)
 
         lines.extend(
@@ -213,9 +192,8 @@ class ContextBuilder:
         if not current_message:
             return ""
 
-        # Heuristic: only short follow-ups are auto-resolved
         token_count = len(current_message.split())
-        if token_count > 10:
+        if token_count > 15:
             return ""
 
         text = current_message.lower()
@@ -245,10 +223,6 @@ class ContextBuilder:
             "the third one",
         )
 
-        # Match signals as whole words/phrases to avoid matching
-        # substrings inside unrelated words (e.g. "it" in "capital").
-        import re as _re
-
         pattern = r"\b(?:" + "|".join(_re.escape(s) for s in followup_signals) + r")\b"
         if not _re.search(pattern, text, _re.IGNORECASE):
             return ""
@@ -272,9 +246,7 @@ class ContextBuilder:
 
         # If the assistant text contains numbered items, try to extract
         # the referenced item for more precise disambiguation.
-        # items extraction uses regex too
         items = []
-        import re as _re
         for line in assistant_text.splitlines():
             m = _re.match(r"^\s*(?:\d+|[ivx]+)[\.)]\s*(.+)", line.strip(), _re.IGNORECASE)
             if m:
@@ -286,7 +258,11 @@ class ContextBuilder:
             if word in text and items and len(items) >= idx:
                 return f"User's short follow-up appears to refer to the assistant's enumerated item #{idx}: \"{items[idx-1]}\""
 
-        # If no numbered resolution, include a short quote of the assistant message
+        # If the assistant text was a simple question and user statement doesn't have explicit explain signals,
+        # avoid misattributing user subject statements to assistant's question.
+        if assistant_text.strip().endswith("?") and not any(w in text for w in ("why", "how", "what about", "explain", "that", "tell me more")):
+            return ""
+
         short = assistant_text
         if len(short) > 240:
             short = short[:240].rsplit(" ", 1)[0] + "..."

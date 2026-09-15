@@ -1,15 +1,23 @@
-"""Atlas V3 status and context panel with semantic state indicators.
+"""Atlas V3 status and context panel with semantic state indicators and Arcade.
 
 Conforms to docs/design/ATLAS_DESIGN_SYSTEM_V1.md.
 Communicates application and runtime state quietly and clearly.
+Houses compact Tools entry and the Atlas Arcade entry.
 """
 
 from __future__ import annotations
 
 import time
 
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtWidgets import (
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from core.events import (
     ChunkReceived,
@@ -19,9 +27,18 @@ from core.events import (
     ToolFinished,
     ToolRequested,
 )
+from gui.widgets.arcade import (
+    AtlasArcadeCard,
+    STATE_ARCADE_CLOSED,
+    STATE_ARCADE_SELECTOR,
+    STATE_GAME_PLAYING,
+)
+from gui.widgets.snake import AtlasSnakeCard
 
 
 class AtlasStatusBar(QWidget):
+    tools_requested = Signal()
+
     STATE_COLORS = {
         "ready": "#4ADE80",       # semantic success
         "idle": "#82828C",        # muted text
@@ -86,14 +103,91 @@ class AtlasStatusBar(QWidget):
         ):
             layout.addWidget(card)
 
+        # Arcade Card (collapsed / hidden by default when closed; no idle snake preview)
+        self.arcade_card = AtlasArcadeCard(self)
+        layout.addWidget(self.arcade_card)
+
+        # Backward compatibility attribute for tests inspecting statusbar.snake_card
+        self.snake_card = self.arcade_card.snake_card
+
         layout.addStretch(1)
 
-        # Settings entry point - quiet secondary control
+        # Thinking-specific contextual Arcade invitation (shown only while AI is thinking)
+        self.thinking_arcade_prompt = QFrame()
+        self.thinking_arcade_prompt.setObjectName("ThinkingArcadePrompt")
+        self.thinking_arcade_prompt.setStyleSheet(
+            """
+            QFrame#ThinkingArcadePrompt {
+                background-color: #18181C;
+                border: 1px solid #27272F;
+                border-left: 2px solid #4FB8BA;
+                border-radius: 4px;
+                padding: 4px;
+                margin-bottom: 8px;
+            }
+            """
+        )
+        prompt_layout = QHBoxLayout(self.thinking_arcade_prompt)
+        prompt_layout.setContentsMargins(6, 4, 6, 4)
+        prompt_layout.setSpacing(6)
+
+        lbl = QLabel("AI Thinking... Pass time?")
+        lbl.setStyleSheet("color: #A1A1AA; font-size: 8pt;")
+        prompt_layout.addWidget(lbl, 1)
+
+        prompt_btn = QPushButton("🎮 Arcade")
+        prompt_btn.setCursor(Qt.PointingHandCursor)
+        prompt_btn.setFixedHeight(20)
+        prompt_btn.setStyleSheet(
+            """
+            QPushButton {
+                background-color: #1F2937;
+                color: #4FB8BA;
+                border: 1px solid #398C8F;
+                border-radius: 3px;
+                padding: 1px 6px;
+                font-size: 7.5pt;
+                font-weight: 600;
+            }
+            QPushButton:hover {
+                background-color: #398C8F;
+                color: #FFFFFF;
+            }
+            """
+        )
+        prompt_btn.clicked.connect(self.open_arcade)
+        prompt_layout.addWidget(prompt_btn)
+
+        self.thinking_arcade_prompt.hide()
+        layout.addWidget(self.thinking_arcade_prompt)
+
+        # Bottom compact controls: [🧰 Tools] [🎮 Arcade]
+        button_row = QHBoxLayout()
+        button_row.setContentsMargins(0, 0, 0, 0)
+        button_row.setSpacing(8)
+
+        self.tools_button = QPushButton("🧰  Tools")
+        self.tools_button.setObjectName("StatusToolsButton")
+        self.tools_button.setCursor(Qt.PointingHandCursor)
+        self.tools_button.setFixedHeight(34)
+        self.tools_button.clicked.connect(self.tools_requested.emit)
+        button_row.addWidget(self.tools_button, 1)
+
+        self.arcade_button = QPushButton("🎮  Arcade")
+        self.arcade_button.setObjectName("StatusArcadeButton")
+        self.arcade_button.setCursor(Qt.PointingHandCursor)
+        self.arcade_button.setFixedHeight(34)
+        self.arcade_button.clicked.connect(self.toggle_arcade)
+        button_row.addWidget(self.arcade_button, 1)
+
+        layout.addLayout(button_row)
+
+        # Preserved for backward compatibility with tests checking statusbar.settings_button
         self.settings_button = QPushButton("⚙  Settings")
         self.settings_button.setObjectName("StatusSettingsButton")
         self.settings_button.setCursor(Qt.PointingHandCursor)
         self.settings_button.clicked.connect(self.open_settings)
-        layout.addWidget(self.settings_button)
+        self.settings_button.hide()
 
         layout.addSpacing(10)
 
@@ -101,6 +195,15 @@ class AtlasStatusBar(QWidget):
         footer.setObjectName("StatusFooter")
         footer.setWordWrap(True)
         layout.addWidget(footer)
+
+    def open_arcade(self):
+        self.arcade_card.open_arcade()
+
+    def toggle_arcade(self):
+        if self.arcade_card.isVisible():
+            self.arcade_card.close_arcade()
+        else:
+            self.arcade_card.open_arcade()
 
     def open_settings(self):
         try:
@@ -197,6 +300,8 @@ class AtlasStatusBar(QWidget):
 
     def thinking_started(self, event):
         self._set_state("Thinking", "thinking")
+        if self.arcade_card.state == STATE_ARCADE_CLOSED:
+            self.thinking_arcade_prompt.show()
 
     def chunk_received(self, event):
         self._set_state("Responding", "responding")
@@ -217,6 +322,8 @@ class AtlasStatusBar(QWidget):
 
     def thinking_finished(self, event):
         self._set_state("Ready", "ready")
+        self.thinking_arcade_prompt.hide()
 
     def error_state(self, event):
         self._set_state("Error", "error")
+        self.thinking_arcade_prompt.hide()

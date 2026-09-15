@@ -83,6 +83,9 @@ class AtlasWindow(QMainWindow):
         self.sidebar.tools_requested.connect(
             self.show_tools
         )
+        self.status.tools_requested.connect(
+            self.show_tools
+        )
 
         layout.addWidget(self.sidebar)
         layout.addWidget(self.content_stack, 1)
