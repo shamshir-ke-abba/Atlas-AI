@@ -60,6 +60,11 @@ class AtlasWindow(QMainWindow):
             controller=self.controller,
         )
 
+        if self.controller is not None:
+            active_conv = self.controller.get_active_conversation()
+            if active_conv is not None:
+                self.chat.load_conversation(active_conv)
+
         self.tool_workspace = ToolWorkspace(
             controller=self.controller,
         )

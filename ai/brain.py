@@ -304,7 +304,12 @@ class AtlasBrain:
 
             if mem_cmd is not None:
                 yield mem_cmd
-                return
+        # Extract explicit durable facts from user message before building context
+        if self.memory is not None and hasattr(self.memory, "extract_from_message"):
+            try:
+                self.memory.extract_from_message(message)
+            except Exception:
+                pass
 
         try:
 

@@ -60,17 +60,17 @@ class AIService(QObject):
     # Signals exposed to Controller
     # ------------------------------------------------------
 
-    chunk_ready = Signal(str)
+    chunk_ready = Signal(str, str)
 
-    finished = Signal()
+    finished = Signal(str)
 
-    error = Signal(str)
+    error = Signal(str, str)
 
     # Internal request signal.
     #
     # This is emitted from the GUI/controller thread and connected
     # to AIWorker.process() in the worker thread.
-    generate_requested = Signal(str)
+    generate_requested = Signal(str, str)
     coding_requested = Signal(str, object, int)
     coding_result = Signal(object)
     coding_error = Signal(str)
@@ -245,6 +245,7 @@ class AIService(QObject):
     def generate(
         self,
         message,
+        generation_id="",
     ):
 
         message = str(
@@ -272,9 +273,11 @@ class AIService(QObject):
             self.start()
 
         self._stopping = False
+        gen_id = str(generation_id or "")
 
         logger.info(
-            "Sending message to AI worker."
+            "Sending message to AI worker (generation_id=%s).",
+            gen_id,
         )
 
         # --------------------------------------------------
@@ -282,7 +285,8 @@ class AIService(QObject):
         # --------------------------------------------------
 
         self.generate_requested.emit(
-            message
+            message,
+            gen_id,
         )
 
     # ======================================================
@@ -332,6 +336,7 @@ class AIService(QObject):
     def _handle_chunk(
         self,
         text,
+        generation_id="",
     ):
 
         if text is None:
@@ -359,7 +364,8 @@ class AIService(QObject):
         # --------------------------------------------------
 
         self.chunk_ready.emit(
-            text
+            text,
+            str(generation_id or ""),
         )
 
     # ======================================================
@@ -368,6 +374,7 @@ class AIService(QObject):
 
     def _handle_finished(
         self,
+        generation_id="",
     ):
 
         logger.info(
@@ -381,7 +388,9 @@ class AIService(QObject):
         # Controller handles EventBus state.
         # --------------------------------------------------
 
-        self.finished.emit()
+        self.finished.emit(
+            str(generation_id or "")
+        )
 
     # ======================================================
     # WORKER ERROR
@@ -390,6 +399,7 @@ class AIService(QObject):
     def _handle_error(
         self,
         message,
+        generation_id="",
     ):
 
         message = str(
@@ -406,5 +416,6 @@ class AIService(QObject):
         # --------------------------------------------------
 
         self.error.emit(
-            message
+            message,
+            str(generation_id or ""),
         )

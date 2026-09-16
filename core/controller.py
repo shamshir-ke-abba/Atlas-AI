@@ -14,6 +14,7 @@ Responsibilities:
 """
 
 from datetime import datetime
+import uuid
 
 from core.logger import logger
 from core.state import AtlasState
@@ -358,7 +359,7 @@ class Controller:
                 return active_id
 
         # --------------------------------------------------
-        # Try newest existing conversation
+        # Try reusing an untouched empty "New Chat" conversation
         # --------------------------------------------------
 
         latest_id = (
@@ -373,21 +374,25 @@ class Controller:
                 )
             )
 
-            if manager is not None:
+            if (
+                manager is not None
+                and not manager.get_messages()
+                and str(getattr(manager, "title", "")) == "New Chat"
+            ):
 
                 self.state.active_conversation_id = (
                     latest_id
                 )
 
                 logger.info(
-                    "Restored latest conversation: %s",
+                    "Reusing empty active conversation: %s",
                     latest_id,
                 )
 
                 return latest_id
 
         # --------------------------------------------------
-        # Nothing exists -> create one
+        # Otherwise start fresh with a new conversation
         # --------------------------------------------------
 
         return self.create_conversation(
@@ -826,7 +831,7 @@ class Controller:
             return "New Chat"
         return title[0].upper() + title[1:]
 
-    def _auto_rename_if_needed(self, conversation, first_message):
+    def _auto_rename_if_needed(self, conversation, first_message, save=False):
         if conversation is None:
             return False
         current = str(getattr(conversation, "title", "") or "").strip()
@@ -836,7 +841,9 @@ class Controller:
         if title == "New Chat":
             return False
         conversation.title = title
-        return bool(self.conversations.save(conversation))
+        if save:
+            return bool(self.conversations.save(conversation))
+        return True
 
     # ======================================================
     # MESSAGE ROUTING
@@ -920,12 +927,24 @@ class Controller:
             is_user=True,
         )
 
+        # Give the chat a useful name immediately after its first message.
+        self._auto_rename_if_needed(conversation, text, save=False)
+
         self.conversations.save(
             conversation
         )
 
-        # Give the chat a useful name immediately after its first message.
-        self._auto_rename_if_needed(conversation, text)
+        # Extract explicit durable facts from user message immediately
+        brain = getattr(getattr(self.ai, "worker", None), "brain", None)
+        if brain is not None and getattr(brain, "memory", None) is not None:
+            mem = brain.memory
+            if hasattr(mem, "extract_from_message"):
+                try:
+                    mem.extract_from_message(text)
+                except Exception:
+                    pass
+
+        self._sync_brain()
 
         if profile_tool is not None:
             self.state.current_message = text
@@ -939,9 +958,18 @@ class Controller:
 
 
         # --------------------------------------------------
-        # Update state
+        # If already generating, cooperatively stop previous generation
         # --------------------------------------------------
 
+        if getattr(self.state, "is_generating", False):
+            self.stop_generation()
+
+        # --------------------------------------------------
+        # Update state with unique generation ID
+        # --------------------------------------------------
+
+        gen_id = uuid.uuid4().hex
+        self.state.active_generation_id = gen_id
         self.state.current_message = text
         self.state.current_response = ""
 
@@ -960,11 +988,12 @@ class Controller:
         # --------------------------------------------------
 
         self.bus.publish(
-            ThinkingStarted()
+            ThinkingStarted(generation_id=gen_id)
         )
 
         logger.info(
-            "Sending message to AI: %s",
+            "Sending message to AI (generation_id=%s): %s",
+            gen_id,
             text,
         )
 
@@ -976,7 +1005,8 @@ class Controller:
         # --------------------------------------------------
 
         self.ai.generate(
-            text
+            text,
+            generation_id=gen_id,
         )
 
     # ======================================================
@@ -1193,16 +1223,45 @@ class Controller:
         if not getattr(self.state, "is_generating", False):
             return False
 
+        cancelled_gen_id = getattr(self.state, "active_generation_id", None)
+        self.state.active_generation_id = None
+        self.state.is_generating = False
+        self.state.status = "Idle"
+
         try:
             if hasattr(self.state, "stop_event"):
                 self.state.stop_event.set()
             self.ai.cancel_generation()
-            self.state.status = "Stopping"
-            logger.info("AI generation stop requested.")
-            return True
+            logger.info(
+                "AI generation stop requested (generation_id=%s).",
+                cancelled_gen_id,
+            )
         except Exception as exc:
             logger.warning("Could not stop AI generation: %s", exc)
-            return False
+
+        response = str(
+            self.state.current_response
+            or ""
+        ).strip()
+
+        conversation = (
+            self.get_active_conversation()
+        )
+
+        if conversation is not None and response:
+            conversation.add_message(
+                sender="Atlas",
+                text=response,
+                is_user=False,
+            )
+            self.conversations.save(
+                conversation
+            )
+
+        self.bus.publish(
+            ThinkingFinished(generation_id=cancelled_gen_id)
+        )
+        return True
 
     # ======================================================
     # AI CHUNK
@@ -1211,12 +1270,25 @@ class Controller:
     def _handle_ai_chunk(
         self,
         text,
+        generation_id=None,
     ):
         """
         Receive AI output from AIService.
         """
 
         if text is None:
+            return
+
+        active_gen_id = getattr(self.state, "active_generation_id", None)
+        if generation_id:
+            if generation_id != active_gen_id:
+                logger.debug(
+                    "Dropping chunk for inactive generation %s (active: %s)",
+                    generation_id,
+                    active_gen_id,
+                )
+                return
+        elif not getattr(self.state, "is_generating", False):
             return
 
         text = str(
@@ -1238,7 +1310,8 @@ class Controller:
 
         self.bus.publish(
             ChunkReceived(
-                text
+                text=text,
+                generation_id=generation_id,
             )
         )
 
@@ -1248,10 +1321,21 @@ class Controller:
 
     def _handle_ai_finished(
         self,
+        generation_id=None,
     ):
         """
         Save the completed AI response.
         """
+
+        active_gen_id = getattr(self.state, "active_generation_id", None)
+        if generation_id:
+            if generation_id != active_gen_id:
+                logger.debug(
+                    "Ignoring finished signal for inactive generation %s (active: %s)",
+                    generation_id,
+                    active_gen_id,
+                )
+                return
 
         response = str(
             self.state.current_response
@@ -1274,16 +1358,19 @@ class Controller:
                 conversation
             )
 
+            self._sync_brain()
+
+        self.state.active_generation_id = None
         self.state.is_generating = False
         self.state.status = "Idle"
 
         self.bus.publish(
-            ThinkingFinished()
+            ThinkingFinished(generation_id=generation_id)
         )
 
         logger.info(
-            "AI response finished."
-
+            "AI response finished (gen_id=%s).",
+            generation_id,
         )
 
     # ======================================================
@@ -1293,15 +1380,27 @@ class Controller:
     def _handle_ai_error(
         self,
         error,
+        generation_id=None,
     ):
         """
         Handle AI worker errors.
         """
 
+        active_gen_id = getattr(self.state, "active_generation_id", None)
+        if generation_id:
+            if generation_id != active_gen_id:
+                logger.debug(
+                    "Ignoring error signal for inactive generation %s (active: %s)",
+                    generation_id,
+                    active_gen_id,
+                )
+                return
+
         error = str(
             error
         )
 
+        self.state.active_generation_id = None
         self.state.is_generating = False
         self.state.status = "Error"
 
@@ -1312,12 +1411,13 @@ class Controller:
 
         self.bus.publish(
             ErrorOccurred(
-                error
+                message=error,
+                generation_id=generation_id,
             )
         )
 
         self.bus.publish(
-            ThinkingFinished()
+            ThinkingFinished(generation_id=generation_id)
         )
 
     # ======================================================

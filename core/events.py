@@ -35,17 +35,18 @@ class MessageReceived(Event):
 
 @dataclass(slots=True)
 class ThinkingStarted(Event):
-    pass
+    generation_id: str | None = None
 
 
 @dataclass(slots=True)
 class ThinkingFinished(Event):
-    pass
+    generation_id: str | None = None
 
 
 @dataclass(slots=True)
 class ChunkReceived(Event):
     text: str
+    generation_id: str | None = None
 
 
 # ==========================================================
@@ -86,3 +87,4 @@ class ProfileSetupCompleted(Event):
 @dataclass(slots=True)
 class ErrorOccurred(Event):
     message: str
+    generation_id: str | None = None

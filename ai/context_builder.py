@@ -100,6 +100,22 @@ class ContextBuilder:
             -self.max_history:
         ] if self.max_history > 0 else []
 
+        # Robustly prevent current_message duplication in recent history
+        clean_current = str(current_message or "").strip()
+        while recent and clean_current:
+            last_msg = recent[-1]
+            if not isinstance(last_msg, dict):
+                break
+            last_text = str(last_msg.get("text") or last_msg.get("content") or "").strip()
+            last_is_user = (
+                last_msg.get("is_user") is True
+                or str(last_msg.get("sender") or last_msg.get("role") or "").lower() in ("user", "you")
+            )
+            if last_is_user and last_text == clean_current:
+                recent = recent[:-1]
+            else:
+                break
+
         if recent:
             for msg in recent:
                 if not isinstance(
@@ -264,7 +280,7 @@ class ContextBuilder:
             return ""
 
         short = assistant_text
-        if len(short) > 240:
-            short = short[:240].rsplit(" ", 1)[0] + "..."
+        if len(short) > 120:
+            short = short[:120].rsplit(" ", 1)[0] + "..."
 
         return f"User's short follow-up appears to refer to the most recent assistant message: \"{short}\""

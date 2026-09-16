@@ -27,57 +27,71 @@ from PySide6.QtWidgets import (
 from gui.widgets.state_indicator import AtlasStateIndicator
 
 
+_RE_BR = re.compile(r"<br\s*/?>", flags=re.IGNORECASE)
+_RE_BLOCK = re.compile(r"</?(?:p|div)>", flags=re.IGNORECASE)
+_RE_CODE_BLOCK = re.compile(r"```(?:[^\n]*)\n(.*?)```", flags=re.DOTALL)
+_RE_H3 = re.compile(r"^### (.+)$", flags=re.MULTILINE)
+_RE_H2 = re.compile(r"^## (.+)$", flags=re.MULTILINE)
+_RE_H1 = re.compile(r"^# (.+)$", flags=re.MULTILINE)
+_RE_BOLD = re.compile(r"\*\*(.+?)\*\*")
+_RE_INLINE_CODE = re.compile(r"`([^`]+)`")
+_RE_LINKS = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
+
+
 def markdown_to_html(text: str) -> str:
     """Convert supported Markdown formatting to HTML for RichText display."""
-    # Repeatedly unescape HTML entities to collapse double-encoding (e.g. "&amp;#x27;" -> "'")
     raw = str(text or "")
+    if not raw:
+        return ""
+
+    # Fast-path: if string has no markdown trigger characters, wrap directly
+    if not any(c in raw for c in ("*", "`", "#", "[", "<", "&", "\n")):
+        return '<div style="word-break:break-word; overflow-wrap:anywhere;">' + raw + "</div>"
+
+    # Repeatedly unescape HTML entities to collapse double-encoding (e.g. "&amp;#x27;" -> "'")
     prev = None
     while raw != prev:
         prev = raw
         raw = html.unescape(raw)
 
-    raw = re.sub(r"<br\s*/?>", "\n", raw, flags=re.IGNORECASE)
-    raw = re.sub(r"</?(?:p|div)>", "\n", raw, flags=re.IGNORECASE)
+    raw = _RE_BR.sub("\n", raw)
+    raw = _RE_BLOCK.sub("\n", raw)
 
     # Escape only the characters that would produce unintended HTML markup
     # but preserve quotes/apostrophes for readable text.
     text = html.escape(raw, quote=False)
 
     # Code blocks
-    text = re.sub(
-        r"```(?:[^\n]*)\n(.*?)```",
+    text = _RE_CODE_BLOCK.sub(
         lambda m: (
-            '<pre style="white-space:pre-wrap; margin:8px 0; padding:10px; '
+            '<pre style="white-space:pre-wrap; word-break:break-all; overflow-wrap:anywhere; margin:8px 0; padding:10px; '
             'background-color:#09090B; border:1px solid #27272F; border-radius:6px; '
             'font-family:\'JetBrains Mono\', Consolas, monospace; color:#F4F4F5; font-size:10pt;">'
             + m.group(1)
             + "</pre>"
         ),
         text,
-        flags=re.DOTALL,
     )
 
     # Headings
-    text = re.sub(r"^### (.+)$", r'<h3 style="color:#F4F4F5; margin:6px 0 4px 0; font-size:12pt;">\1</h3>', text, flags=re.MULTILINE)
-    text = re.sub(r"^## (.+)$", r'<h2 style="color:#F4F4F5; margin:8px 0 4px 0; font-size:13pt;">\1</h2>', text, flags=re.MULTILINE)
-    text = re.sub(r"^# (.+)$", r'<h1 style="color:#F4F4F5; margin:10px 0 6px 0; font-size:15pt;">\1</h1>', text, flags=re.MULTILINE)
+    text = _RE_H3.sub(r'<h3 style="color:#F4F4F5; margin:6px 0 4px 0; font-size:12pt;">\1</h3>', text)
+    text = _RE_H2.sub(r'<h2 style="color:#F4F4F5; margin:8px 0 4px 0; font-size:13pt;">\1</h2>', text)
+    text = _RE_H1.sub(r'<h1 style="color:#F4F4F5; margin:10px 0 6px 0; font-size:15pt;">\1</h1>', text)
 
     # Inline emphasis & code
-    text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    text = re.sub(
-        r"`([^`]+)`",
+    text = _RE_BOLD.sub(r"<b>\1</b>", text)
+    text = _RE_INLINE_CODE.sub(
         r'<code style="font-family:\'JetBrains Mono\', Consolas, monospace; background-color:#09090B; border:1px solid #27272F; border-radius:3px; padding:1px 4px; color:#4FB8BA; font-size:10pt;">\1</code>',
         text,
     )
 
     # Links
-    text = re.sub(
-        r"\[([^\]]+)\]\((https?://[^)]+)\)",
+    text = _RE_LINKS.sub(
         r'<a href="\2" style="color:#4FB8BA; text-decoration:underline;">\1</a>',
         text,
     )
 
-    return text.replace("\n", "<br>")
+    return '<div style="word-break:break-word; overflow-wrap:anywhere;">' + text.replace("\n", "<br>") + "</div>"
 
 
 class AtlasMessage(QWidget):
@@ -87,6 +101,8 @@ class AtlasMessage(QWidget):
         self.text = str(text or "")
         self.is_user = self.sender.strip().lower() in ("user", "you")
         self._last_parent_width = 0
+        self._current_bubble_width = 0
+        self._current_content_width = 0
         self.setObjectName("UserMessage" if self.is_user else "AtlasMessage")
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
         self.build_ui()
@@ -100,7 +116,8 @@ class AtlasMessage(QWidget):
         self.container.setObjectName(
             "UserMessageContainer" if self.is_user else "AtlasMessageContainer"
         )
-        self.container.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        self.container.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        self.container.setMinimumWidth(0)
 
         layout = QVBoxLayout(self.container)
         layout.setContentsMargins(16, 12, 16, 14)
@@ -158,7 +175,8 @@ class AtlasMessage(QWidget):
         self.message_label.setOpenExternalLinks(True)
         self.message_label.setWordWrap(True)
         self.message_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        self.message_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        self.message_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        self.message_label.setMinimumWidth(0)
         layout.addWidget(self.message_label)
 
         if not self.is_user:
@@ -216,12 +234,22 @@ class AtlasMessage(QWidget):
             if not self.text:
                 self.state_indicator.set_state("ready", "Ready")
 
-    def _resize_bubble(self):
-        available = self.width()
-        if available <= 0 and self.parentWidget():
-            available = self.parentWidget().width()
-        if available <= 0:
-            available = 700
+    def _resize_bubble(self, available_width: int | None = None):
+        if available_width is not None and available_width > 0:
+            available = available_width
+        else:
+            available = self.width()
+            if available <= 0 and self.parentWidget():
+                available = self.parentWidget().width()
+            if available <= 0:
+                p = self.parentWidget()
+                while p:
+                    if hasattr(p, "viewport") and callable(p.viewport):
+                        available = p.viewport().width()
+                        break
+                    p = p.parentWidget()
+            if available <= 0:
+                available = 600
 
         MAX_COLUMN_WIDTH = 740
         MIN_SIDE_MARGIN = 16
@@ -231,15 +259,15 @@ class AtlasMessage(QWidget):
             col_width = MAX_COLUMN_WIDTH
             side_margin = (available - col_width) // 2
         else:
-            side_margin = MIN_SIDE_MARGIN
-            col_width = max(220, available - 2 * side_margin)
+            side_margin = MIN_SIDE_MARGIN if available >= 320 else max(4, (available - 200) // 2 if available > 200 else 4)
+            col_width = max(100, available - 2 * side_margin)
 
         self.outer_layout.setContentsMargins(side_margin, 2, side_margin, 2)
 
         if self.is_user:
             # User messages: right-aligned, max ~80% of readable column width
-            max_user_width = max(180, int(col_width * 0.80))
-            max_content_w = max(140, max_user_width - 32)
+            max_user_width = max(140, int(col_width * 0.80))
+            max_content_w = max(100, max_user_width - 32)
             fm = self.message_label.fontMetrics()
             rect = fm.boundingRect(
                 QRect(0, 0, max_content_w, 10000),
@@ -247,21 +275,26 @@ class AtlasMessage(QWidget):
                 self.text or "...",
             )
             natural_bubble_w = rect.width() + 36
-            bubble_width = min(max_user_width, max(140, natural_bubble_w))
+            bubble_width = min(max_user_width, max(100, natural_bubble_w))
         else:
             # Atlas messages: left-aligned, full-width across readable column
             bubble_width = col_width
 
-        self.container.setFixedWidth(bubble_width)
-        content_width = max(140, bubble_width - 32)
-        self.message_label.setFixedWidth(content_width)
-        if hasattr(self, "state_indicator"):
-            self.state_indicator.setFixedWidth(content_width)
+        if getattr(self, "_current_bubble_width", None) != bubble_width:
+            self._current_bubble_width = bubble_width
+            self.container.setFixedWidth(bubble_width)
+
+        content_width = max(60, bubble_width - 32)
+        if getattr(self, "_current_content_width", None) != content_width:
+            self._current_content_width = content_width
+            self.message_label.setFixedWidth(content_width)
+            if hasattr(self, "state_indicator"):
+                self.state_indicator.setFixedWidth(content_width)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         new_width = event.size().width()
         if new_width > 0 and new_width != self._last_parent_width:
             self._last_parent_width = new_width
-            self._resize_bubble()
+            self._resize_bubble(new_width)
 

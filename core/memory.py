@@ -82,10 +82,12 @@ ATTRIBUTE_SYNONYMS: Dict[Tuple[str, str], List[str]] = {
     ],
     ("projects", "project_name"): [
         "project", "app", "application", "software", "codebase", "what is my project",
-        "what project", "project name", "app called",
+        "what project", "project name", "app called", "game", "game called", "game name",
+        "what game", "working on", "what am i working on", "name of the game",
     ],
     ("projects", "technology"): [
         "language", "tech", "technology", "written in", "python", "stack", "framework",
+        "tech stack", "built with", "developed in",
     ],
     ("projects", "runtime"): [
         "runtime", "ollama", "local", "runs locally", "how does it run", "platform runtime",
@@ -111,6 +113,8 @@ class MemoryManager:
 
         if not self.file.exists():
             self._save(self._default())
+
+        self._last_extracted_text: Optional[str] = None
 
     # ==================================================
     # DEFAULT STRUCTURE
@@ -242,12 +246,14 @@ class MemoryManager:
         if not section:
             data.pop(category, None)
 
+        self._last_extracted_text = None
         self._save(data)
 
     def all(self) -> Dict[str, Any]:
         return self._load()
 
     def clear(self) -> None:
+        self._last_extracted_text = None
         self._save(self._default())
 
     # ==================================================
@@ -270,6 +276,10 @@ class MemoryManager:
 
         if not text:
             return
+
+        if getattr(self, "_last_extracted_text", None) == text:
+            return
+        self._last_extracted_text = text
 
         lower = text.lower()
 
@@ -478,6 +488,7 @@ class MemoryManager:
         runtime = None
 
         project_patterns = (
+            r"\b(?:(?:i'?m|i am)\s+(?:working on|building|developing|creating|making)|i work on|my project|this project|project|app|application)\s+(?:an?\s+)?(?:[A-Za-z0-9 _-]*?\s+)?(?:called|named|is called|is named)\s+[\"']?([A-Za-z0-9 _-]+?)[\"']?(?:\s+in\s+([A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
             r"\b(?:i(?:'m| am)|i work on|i'm working on|i am working on|my project|this project|project)\s+(?:building|working on|developing|creating|making)\s+(?:an?\s+)?(?:[A-Za-z][A-Za-z0-9 _-]*?\s+)?(?:called|named)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
             r"\b(?:my project|this project|project|app|application)\s+(?:is|is called|called)\s+([A-Za-z][A-Za-z0-9 _-]*?)(?:\s+(?:written|built|developed|in|using)\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+))?(?:[.!?]|$)",
             r"\b([A-Za-z][A-Za-z0-9_-]*)\s+is\s+written\s+in\s+([A-Za-z][A-Za-z0-9_.+-]+)",

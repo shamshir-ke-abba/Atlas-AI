@@ -1,11 +1,13 @@
 {
+    "identity": {
+        "name": "Saad"
+    },
     "preferences": {},
     "projects": {
-        "project_name": "The Other Side"
+        "project_name": "TheOtherSide",
+        "game": "TheOtherSide"
     },
-    "environment": {
-        "operating_system": "Ubuntu"
-    },
+    "environment": {},
     "facts": {},
     "goals": {}
 }

@@ -21,6 +21,8 @@ class AtlasState:
 
     is_generating: bool = False
 
+    active_generation_id: Optional[str] = None
+
     stop_event: Event = field(
         default_factory=Event
     )

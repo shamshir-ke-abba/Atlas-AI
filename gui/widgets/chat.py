@@ -2,7 +2,7 @@
 
 import random
 
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import QEvent, QTimer, Qt
 from PySide6.QtWidgets import QLabel, QScrollArea, QVBoxLayout, QWidget
 
 from core.events import (
@@ -37,9 +37,14 @@ class AtlasChat(QWidget):
         self.controller = controller
         self.current_ai_message = None
         self.current_ai_response = ""
+        self.active_generation_id = None
         self.is_generating = False
         self.auto_follow = True
         self._programmatic_scroll = False
+        self._last_rendered_len = 0
+        self._stream_timer = QTimer(self)
+        self._stream_timer.setInterval(40)
+        self._stream_timer.timeout.connect(self._flush_stream_ui)
 
         if self.bus is not None:
             self.bus.subscribe(ChunkReceived, self.handle_response)
@@ -77,6 +82,7 @@ class AtlasChat(QWidget):
 
         self.messages = QWidget()
         self.messages.setObjectName("MessagesContainer")
+        self.messages.setMinimumWidth(0)
         self.messages_layout = QVBoxLayout(self.messages)
         self.messages_layout.setContentsMargins(0, 16, 0, 24)
         self.messages_layout.setSpacing(20)
@@ -89,6 +95,7 @@ class AtlasChat(QWidget):
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setWidget(self.messages)
         self.scroll.verticalScrollBar().valueChanged.connect(self._scroll_changed)
+        self.scroll.viewport().installEventFilter(self)
         layout.addWidget(self.scroll, 1)
 
         self.input_bar = AtlasInputBar()
@@ -96,8 +103,37 @@ class AtlasChat(QWidget):
         self.input_bar.stop_requested.connect(self.handle_stop_requested)
         layout.addWidget(self.input_bar)
 
+    def eventFilter(self, obj, event):
+        if hasattr(self, "scroll") and obj == self.scroll.viewport() and event.type() == QEvent.Resize:
+            vp_width = event.size().width()
+            if vp_width > 0:
+                self._reflow_messages(vp_width)
+        return super().eventFilter(obj, event)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._reflow_messages()
+
+    def _reflow_messages(self, available_width=None):
+        if not hasattr(self, "scroll") or not hasattr(self, "messages"):
+            return
+        vp_width = available_width or self.scroll.viewport().width()
+        if vp_width <= 0:
+            return
+        self.messages.setFixedWidth(vp_width)
+        for i in range(self.messages_layout.count()):
+            item = self.messages_layout.itemAt(i)
+            w = item.widget() if item else None
+            if w and hasattr(w, "_resize_bubble"):
+                w._resize_bubble(vp_width)
+
     def add_message(self, sender, text):
         message = AtlasMessage(sender, text)
+        if hasattr(self, "scroll") and hasattr(self, "messages"):
+            vp_width = self.scroll.viewport().width()
+            if vp_width > 0:
+                self.messages.setFixedWidth(vp_width)
+                message._resize_bubble(vp_width)
         self.messages_layout.insertWidget(
             self.messages_layout.count() - 1,
             message,
@@ -119,8 +155,12 @@ class AtlasChat(QWidget):
             if widget is not None:
                 widget.deleteLater()
 
+        if hasattr(self, "_stream_timer") and self._stream_timer.isActive():
+            self._stream_timer.stop()
+        self._last_rendered_len = 0
         self.current_ai_message = None
         self.current_ai_response = ""
+        self.active_generation_id = None
         self.is_generating = False
         self.stop_thinking()
         self.input_bar.set_generating(False)
@@ -186,9 +226,34 @@ class AtlasChat(QWidget):
         self.scroll_to_bottom(force=True)
         self.bus.publish(MessageReceived(text))
 
+    def _flush_stream_ui(self, force=False):
+        if self.current_ai_message is None:
+            return
+        current_len = len(self.current_ai_response)
+        if current_len == self._last_rendered_len and not force:
+            return
+        self._last_rendered_len = current_len
+        self.current_ai_message.set_text(self.current_ai_response)
+        if self.auto_follow:
+            self.scroll_to_bottom(force=True)
+
     def handle_stop_requested(self):
         if not self.is_generating:
             return
+
+        if hasattr(self, "_stream_timer") and self._stream_timer.isActive():
+            self._stream_timer.stop()
+
+        self.is_generating = False
+        self.active_generation_id = None
+        self.input_bar.set_generating(False)
+
+        if self.current_ai_message is not None:
+            if self.current_ai_response:
+                self._flush_stream_ui(force=True)
+            else:
+                self.current_ai_message.finish_state()
+
         if self.controller is not None:
             try:
                 self.controller.stop_generation()
@@ -196,13 +261,15 @@ class AtlasChat(QWidget):
                 pass
 
     def handle_thinking_started(self, event):
+        if hasattr(self, "_stream_timer") and self._stream_timer.isActive():
+            self._stream_timer.stop()
+        self._last_rendered_len = 0
+        self.active_generation_id = getattr(event, "generation_id", None)
         self.is_generating = True
         self.current_ai_response = ""
         self.auto_follow = True
 
-        if self.current_ai_message is None:
-            self.current_ai_message = self.add_message("Atlas", "")
-
+        self.current_ai_message = self.add_message("Atlas", "")
         self.current_ai_message.set_state("thinking", "Thinking")
         self.input_bar.set_generating(True)
         self.scroll_to_bottom(force=True)
@@ -226,23 +293,43 @@ class AtlasChat(QWidget):
             self.scroll_to_bottom(force=True)
 
     def handle_response(self, event):
+        event_gen_id = getattr(event, "generation_id", None)
+        if self.active_generation_id is not None and event_gen_id is not None:
+            if event_gen_id != self.active_generation_id:
+                return
+        elif not self.is_generating:
+            return
+
         if self.current_ai_message is None:
             self.current_ai_message = self.add_message("Atlas", "")
 
-        self.current_ai_response += str(event.text)
-        self.current_ai_message.set_text(self.current_ai_response)
+        text_chunk = str(event.text)
+        self.current_ai_response += text_chunk
 
-        # Only follow the stream if the user was already at the bottom.
-        if self.auto_follow:
-            QTimer.singleShot(0, lambda: self.scroll_to_bottom(force=True))
+        # Start 40ms timer for regular smooth cadence if not already running
+        if hasattr(self, "_stream_timer") and not self._stream_timer.isActive():
+            self._stream_timer.start()
+
+        # Immediate flush only for newline/paragraph boundaries
+        if "\n" in text_chunk:
+            self._flush_stream_ui()
 
     def handle_thinking_finished(self, event):
+        event_gen_id = getattr(event, "generation_id", None)
+        if self.active_generation_id is not None and event_gen_id is not None:
+            if event_gen_id != self.active_generation_id:
+                return
+
+        if hasattr(self, "_stream_timer") and self._stream_timer.isActive():
+            self._stream_timer.stop()
+
         self.is_generating = False
+        self.active_generation_id = None
         self.input_bar.set_generating(False)
 
         if self.current_ai_message is not None:
             if self.current_ai_response:
-                self.current_ai_message.set_text(self.current_ai_response)
+                self._flush_stream_ui(force=True)
             else:
                 self.current_ai_message.finish_state()
 
@@ -251,7 +338,16 @@ class AtlasChat(QWidget):
         self.input_bar.input_field.setFocus()
 
     def handle_error(self, event):
+        event_gen_id = getattr(event, "generation_id", None)
+        if self.active_generation_id is not None and event_gen_id is not None:
+            if event_gen_id != self.active_generation_id:
+                return
+
+        if hasattr(self, "_stream_timer") and self._stream_timer.isActive():
+            self._stream_timer.stop()
+
         self.is_generating = False
+        self.active_generation_id = None
         self.input_bar.set_generating(False)
         if self.current_ai_message is None:
             self.current_ai_message = self.add_message("Atlas", "")

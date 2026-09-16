@@ -11,9 +11,9 @@ from core.logger import logger
 
 
 class AIWorker(QObject):
-    chunk = Signal(str)
-    error = Signal(str)
-    finished = Signal()
+    chunk = Signal(str, str)
+    error = Signal(str, str)
+    finished = Signal(str)
 
     coding_result = Signal(object)
     coding_error = Signal(str)
@@ -30,19 +30,26 @@ class AIWorker(QObject):
         )
         self.coding_agent = CodingAgent()
         self.stop_event = Event()
+        self._active_generation_id = None
         logger.info("AIWorker initialized with tool system")
 
     def request_stop(self):
         """Thread-safe cancellation request, including an in-flight HTTP call."""
         self.stop_event.set()
         try:
-            self.brain.model.cancel_current()
+            if hasattr(self.brain, "cancel_current"):
+                self.brain.cancel_current()
+            elif hasattr(self.brain, "model") and hasattr(self.brain.model, "cancel_current"):
+                self.brain.model.cancel_current()
         except Exception:
             pass
 
     @Slot(str)
-    def process(self, message):
+    @Slot(str, str)
+    def process(self, message, generation_id=""):
         self.stop_event.clear()
+        gen_id = str(generation_id or "")
+        self._active_generation_id = gen_id
         try:
             for chunk in self.brain.stream_message(
                 message,
@@ -50,12 +57,15 @@ class AIWorker(QObject):
                 if self.stop_event.is_set():
                     break
                 if chunk:
-                    self.chunk.emit(str(chunk))
+                    self.chunk.emit(str(chunk), gen_id)
         except Exception as exc:
-            logger.exception("AIWorker processing failed")
-            self.error.emit(str(exc))
+            if not self.stop_event.is_set():
+                logger.exception("AIWorker processing failed")
+                self.error.emit(str(exc), gen_id)
+            else:
+                logger.info("AIWorker processing stopped cooperatively.")
         finally:
-            self.finished.emit()
+            self.finished.emit(gen_id)
 
     @Slot(str, object, int)
     def process_coding(
