@@ -57,6 +57,18 @@ ENABLE_TOOLS = True
 ENABLE_MEMORY = True
 
 # =============================================
+# Web Research Configuration
+# =============================================
+
+WEB_RESEARCH_MAX_PAGES = 5
+WEB_RESEARCH_PAGE_TIMEOUT = 8
+WEB_RESEARCH_CONTEXT_BUDGET_CHARS = 4000
+WEB_RESEARCH_PASSAGE_MAX_CHARS = 450
+WEB_RESEARCH_MAX_PASSAGES_PER_DOMAIN = 3
+WEB_RESEARCH_CACHE_TTL_SECONDS = 3600
+WEB_RESEARCH_CACHE_MAX_ENTRIES = 250
+
+# =============================================
 # Logging
 # =============================================
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "identity": {
-    "name": "Atlas User",
+    "name": "Huzaifa",
     "age": 16
   },
   "preferences": {},
@@ -9,13 +9,13 @@
     "activity_level": "moderate"
   },
   "fitness": {
-    "goal": "general fitness",
-    "experience": "beginner",
+    "goal": "cut",
+    "experience": "expert",
     "equipment": [
-      "Dumbbell"
+      "full machine accesss"
     ],
     "restrictions": [
-      "None"
+      "none"
     ]
   },
   "nutrition": {
@@ -33,6 +33,6 @@
   "goals": {},
   "metadata": {
     "created_at": "2026-08-15T04:43:14.763140+00:00",
-    "updated_at": "2026-09-16T10:34:59.457841+00:00"
+    "updated_at": "2026-09-16T16:38:40.052828+00:00"
   }
 }

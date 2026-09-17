@@ -9,20 +9,52 @@ A sophisticated local conversational AI assistant with dual interfaces (Qt GUI &
 ### Core Capabilities
 - **Local AI Processing** - Runs completely offline using Ollama + Qwen2.5:1.5b model
 - **Dual Interfaces** - Desktop GUI (Qt/PySide6) + Web API (FastAPI)
+- **Context-Aware Web Research** - Deep web retrieval, HTML extraction, table parsing, passage ranking, and grounded synthesis with citation traceability
 - **Hinglish Support** - Native support for Hindi + English conversations 🇮🇳
 - **Persistent Memory** - Remembers user identity, preferences, and conversation history
 - **Smart Intent Detection** - Routes messages to appropriate plugins or LLM
 - **Conversation Management** - Auto-titles, history trimming, persistence
 - **Streaming Responses** - Real-time response generation with chunk-by-chunk delivery
-- **Plugin System** - Extensible architecture for custom tools (Calculator, Time, etc.)
+- **Plugin System** - Extensible architecture for custom tools (Web Search, Calculator, Time, etc.)
 
 ### AI Processing Pipeline
 1. **Memory Extraction** - Learns facts from natural language
 2. **Intent Detection** - Identifies if message is a query, tool request, or memory recall
-3. **Tool Execution** - Runs plugins (calculator, time, etc.) when applicable
-4. **Context Building** - Combines user memory + conversation history + current message
-5. **LLM Generation** - Streams response from local Ollama model
+3. **Tool Execution** - Runs plugins (web research, calculator, time, etc.) when applicable
+4. **Context Building** - Combines user memory + conversation history + current message + retrieved evidence
+5. **LLM Generation** - Streams response from local Ollama model with strict untrusted data isolation
 6. **Persistence** - Saves conversations and memory to disk
+
+### Web Research Pipeline
+Atlas AI V3 implements a multi-stage web research architecture:
+
+```
+User Query
+    │
+    ▼
+[Search & Query Analysis] ──► Decomposes multi-intent queries, strips conversational tails, expands synonyms
+    │
+    ▼
+[Candidate Filtering]     ──► Filters ads/sponsored links, detects DDG 202/rate-limits, ensures domain diversity
+    │
+    ▼
+[Page Fetching]           ──► Concurrently retrieves live web pages with per-host timeouts and fail-soft handling
+    │
+    ▼
+[Content Extraction]      ──► Strips navigation, scripts, and boilerplate; preserves structured tables as Markdown
+    │
+    ▼
+[Passage Ranking]         ──► Segments content into structured chunks; ranks by heading weight & lexical relevance
+    │
+    ▼
+[Evidence Selection]      ──► Selects top passages within adaptive context budgets (e.g. 4000 characters)
+    │
+    ▼
+[Grounded Synthesis]      ──► Sandboxes untrusted web data with boundary markers; guides model to cite and synthesize
+    │
+    ▼
+Answer with Citations     ──► Direct factual answer with inline [Source X] references and verifiable URLs
+```
 
 ## 🚀 Quick Start
 
@@ -120,7 +152,12 @@ AtlasAI_V3/
 │   ├── base.py                # Plugin base class
 │   └── system/
 │       ├── calculator.py      # Math operations
-│       └── time.py            # Time queries
+│       ├── time.py            # Time queries
+│       └── web_search.py      # Context-aware web research & retrieval
+│
+├── benchmarks/                  # Benchmark Suites
+│   └── local_models/
+│       └── benchmark.py       # Isolated local model benchmark runner
 │
 ├── memory/                      # Memory Layer
 │   ├── manager.py
@@ -145,8 +182,11 @@ AtlasAI_V3/
 ├── logs/                        # Log files
 │   └── atlas.log
 │
-├── tests/                       # Test Suite
-│   └── test_plugins.py
+├── tests/                       # Test Suites
+│   ├── test_web_research.py   # Web retrieval, extraction, ranking tests
+│   ├── test_web_research_fixes.py # DDG resilience & injection defense tests
+│   ├── test_plugins.py        # Plugin detection & routing tests
+│   └── test_brain_memory.py   # Memory persistence tests
 │
 ├── config.py                    # Configuration
 ├── main.py                      # Entry point
@@ -192,6 +232,15 @@ You: "What time is it?"
 Atlas: [Shows current time using time plugin]
 ```
 
+### Research the Web
+```
+You: "What is the release status of Python 3.13?"
+Atlas: "Python 3.13 is the latest stable release of Python [Source 1], featuring improvements such as an experimental free-threaded build and an improved interactive interpreter [Source 2]."
+
+• [Source 1] Status of Python Branches (python.org) — https://devguide.python.org/versions/
+• [Source 2] Python 3.13 Release Notes (docs.python.org) — https://docs.python.org/3/whatsnew/3.13.html
+```
+
 ## 🔧 Configuration
 
 Edit `config.py` to customize:
@@ -212,6 +261,16 @@ MAX_MEMORY_RESULTS = 10
 
 # Conversation
 MAX_HISTORY = 20                      # Messages to keep
+
+# Web Research Pipeline
+ENABLE_WEB_RESEARCH = True            # Enable deep web retrieval
+WEB_RESEARCH_MAX_PAGES = 5           # Max candidate pages to fetch
+WEB_RESEARCH_PAGE_TIMEOUT = 8        # Per-page fetch timeout in seconds
+WEB_RESEARCH_CONTEXT_BUDGET_CHARS = 4000  # Character budget for evidence
+WEB_RESEARCH_PASSAGE_MAX_CHARS = 450 # Max passage size
+WEB_RESEARCH_MAX_PASSAGES_PER_DOMAIN = 3 # Ensure domain diversity
+WEB_RESEARCH_CACHE_TTL_SECONDS = 3600    # Cache TTL for URLs/queries
+WEB_RESEARCH_CACHE_MAX_ENTRIES = 250     # Cache size limit
 
 # Logging
 LOG_LEVEL = "INFO"
@@ -242,14 +301,11 @@ LOG_LEVEL = "INFO"
 ## 🧪 Testing
 
 ```bash
-# Test Hinglish support
-python3 test_hinglish.py
+# Run web research test suite (28 tests)
+pytest tests/test_web_research.py tests/test_web_research_fixes.py -v
 
-# Test plugin detection
-python3 -m pytest tests/test_plugins.py
-
-# Run individual module tests
-python3 test_fix.py
+# Run core unit and plugin tests
+pytest tests/test_plugins.py tests/test_brain_memory.py tests/test_memory_manager.py -v
 ```
 
 ## 🌐 API Endpoints (Web Interface)
@@ -297,11 +353,14 @@ GET /
 ## 🐛 Known Issues & Limitations
 
 ### Current Limitations
-- **Single-user** - Not designed for multi-user deployment
-- **JSON storage** - Doesn't scale beyond 10K conversations (use DB for production)
-- **Memory search** - Pattern-based only (no semantic similarity)
-- **Model quality** - Depends on Ollama's underlying training
-- **Web API** - Lacks authentication and rate limiting
+- **Single-user** - Designed for local, single-user operation
+- **JSON storage** - Conversation indexing is JSON-based; not intended for large-scale multi-user persistence
+- **Lightweight Lexical Retrieval** - Passage segmentation and relevance ranking use fast lexical matching (BM25/heading awareness) rather than dense neural embeddings, designed specifically for CPU efficiency alongside local lightweight models (e.g. Qwen 2.5 1.5B)
+- **Static Web Extraction** - Web research fetches and parses static HTML pages; client-side JavaScript execution and Single Page Application (SPA) rendering are not supported
+- **Search Engine Rate Limits** - Live queries use DuckDuckGo HTML endpoints; under high frequency or bot challenges (HTTP 202), requests may be throttled. Automatic backoff and snippet fallback mitigate this, but live page extraction can intermittently degrade to search snippets
+- **Local Model Grounding** - Answer synthesis is constrained by the reasoning capacity of the local LLM. While prompt guardrails isolate untrusted web data and demand evidence-backed claims, local models are not immune to hallucination or synthesis errors
+- **Memory search** - Long-term memory extraction remains heuristic and pattern-based
+- **Web API** - Local developer interface without built-in authentication or rate limiting
 
 ### Workarounds
 - Use local network only (no remote access)
@@ -312,7 +371,8 @@ GET /
 ## 📈 Roadmap
 
 - [ ] Database migration (SQLite/PostgreSQL)
-- [ ] Semantic memory search (embeddings)
+- [ ] Dense vector embeddings for memory and retrieval
+- [ ] Headless browser rendering for dynamic web pages
 - [ ] Multi-language support beyond Hindi
 - [ ] Voice input/output (speech recognition)
 - [ ] Authentication & multi-user support
@@ -322,9 +382,10 @@ GET /
 
 ## 🔐 Privacy & Security
 
-- ✅ **100% Local Processing** - No data sent to servers
-- ✅ **Offline Ready** - Works without internet connection
-- ✅ **No API Keys** - No external services required
+- ✅ **100% Local Processing** - No conversation or memory data sent to external servers
+- ✅ **Offline Ready** - Core chat, memory, and local tools work without internet connection
+- ✅ **Prompt Injection Boundaries** - Untrusted web data is fenced within explicit delimiters during synthesis
+- ✅ **No API Keys** - No external paid services required
 - ✅ **Transparent** - All code is open source
 
 ⚠️ For production use:
@@ -345,10 +406,8 @@ Contributions welcome! Areas to help:
 
 ## 📚 Documentation
 
-- [Hinglish Guide](HINGLISH_GUIDE.md) - Complete language support docs
-- [Hinglish Quickstart](HINGLISH_QUICKSTART.md) - Quick examples
-- [Bug Fix Log](BUG_FIX_HINGLISH_ECHO.md) - Recent fixes
-- [Implementation Details](HINGLISH_IMPLEMENTATION.md) - Technical info
+- [Memory & Context Benchmark](docs/MEMORY_CONTEXT_BENCHMARK.md) - Diagnostic audit of memory retention and context layer
+- [Design System V1](docs/design/ATLAS_DESIGN_SYSTEM_V1.md) - Desktop UI design specifications and themes
 
 ## 🛠️ Troubleshooting
 

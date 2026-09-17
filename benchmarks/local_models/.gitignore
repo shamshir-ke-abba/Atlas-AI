@@ -1,0 +1,19 @@
+# Model binaries must never be committed
+*.gguf
+*.ggml
+*.safetensors
+*.bin
+*.onnx
+models/
+downloads/
+cache/
+*.model
+
+# Results are kept but binaries ignored
+results/*.gguf
+results/*.bin
+
+# Python cache
+__pycache__/
+*.pyc
+.venv/
