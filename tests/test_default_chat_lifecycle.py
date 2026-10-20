@@ -74,3 +74,4 @@ def test_default_chat_lifecycle():
         assert loaded is True
         assert ctrl.get_active_conversation_id() == "past-session-uuid"
         assert len(ctrl.get_active_conversation().get_messages()) == 2
+        ctrl.ai.stop()

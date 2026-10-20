@@ -1065,6 +1065,26 @@ class WebSearchPlugin(AtlasPlugin):
         if any(text == p or text.startswith(p + " ") for p in explicit):
             return True
 
+        # Do NOT hijack coding tasks or explicit code generation requests
+        try:
+            from agents.coding.detector import CodingTaskDetector
+            if CodingTaskDetector().is_coding_task(message):
+                return False
+        except Exception:
+            pass
+
+        # Structured tasks, code blocks, or multi-paragraph instructions are not search queries
+        if "```" in message or "\n" in message or len(text.split()) > 35:
+            return False
+
+        # Do NOT hijack programming or implementation requests
+        code_action_patterns = (
+            r"\b(?:write|create|design|implement|build|debug|refactor|fix|edit)\b.*\b(?:code|function|class|test|script|program|website|page|app|module|file)\b",
+            r"\b(?:html|css|javascript|typescript|python|java|cpp|c\+\+|rust|golang|sql)\b",
+        )
+        if any(re.search(pat, text) for pat in code_action_patterns):
+            return False
+
         # Current/fresh-information questions & comparative research
         patterns = (
             r"\bwhen\s+(?:is|was|will|does|did)\b",
@@ -1072,24 +1092,31 @@ class WebSearchPlugin(AtlasPlugin):
             r"\bwho(?:'s| is)\s+(?:the\s+)?current\b",
             r"\bwhere\s+is\s+(?:the\s+)?current\b",
             r"\bhow\s+many\s+.*\b(?:today|currently|now)\b",
-            r"\bcurrent\b",
+            r"\bcurrent\s+(?:version|status|price|president|ceo|champion|leader|news|events?|weather|stock|score)\b",
             r"\blatest\b",
-            r"\btoday\b",
-            r"\bright\s+now\b",
-            r"\brecent(?:ly)?\b",
             r"\bnews\b",
             r"\bthis\s+(?:year|month|week)\b",
-            r"\b(?:compare|comparison|versus|vs\.?)\b",
+            r"\b(?:compare|comparison|versus|vs\.?(?!\s*code\b))\b",
             r"\bdifferences?\s+between\b",
         )
         return any(re.search(pattern, text) for pattern in patterns)
+
+    def _format_results(self, query: str, results: List[Dict[str, Any]]) -> str:
+        """Format raw search results with query header for backward compatibility."""
+        lines = [f"You asked: {query}", ""]
+        for r in (results or []):
+            title = r.get("title", "Untitled")
+            snippet = r.get("snippet", "")
+            lines.append(f"- {title}: {snippet}")
+        return "\n".join(lines).strip()
 
     def run(self, expression: str = "", **kwargs) -> str:
         """Run deep web research and return formatted results."""
         research_result = self.research(expression)
         if not research_result.has_evidence:
             clean = QueryAnalyzer.clean_query(expression)
-            return f"No useful web content could be retrieved for: {clean}"
+            display_query = (clean[:80] + "...") if len(clean) > 80 else clean
+            return f"No useful web content could be retrieved for: {display_query}"
 
         # Return structured text summary
         lines = [f"Web research results for: {research_result.query}", ""]

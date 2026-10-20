@@ -7,6 +7,7 @@ from PySide6.QtCore import QObject, Signal, Slot
 from ai.brain import AtlasBrain
 from agents.coding.agent import CodingAgent
 from core.memory import MemoryManager
+from config import PROJECT_ROOT
 from core.logger import logger
 
 
@@ -28,7 +29,7 @@ class AIWorker(QObject):
             tools=tools,
             memory=MemoryManager(),
         )
-        self.coding_agent = CodingAgent()
+        self.coding_agent = CodingAgent(workspace=PROJECT_ROOT)
         self.stop_event = Event()
         self._active_generation_id = None
         logger.info("AIWorker initialized with tool system")

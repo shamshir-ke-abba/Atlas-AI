@@ -36,8 +36,10 @@ class CodingTestRunner:
                 f"Test path does not exist: {test_path}"
             )
 
+        import sys
+
         command = [
-            "python",
+            sys.executable,
             "-m",
             "pytest",
             str(target.relative_to(self.root)),

@@ -14,6 +14,7 @@ Responsibilities:
 
 from typing import Any, Dict, Optional
 
+from config import PROJECT_ROOT
 from core.logger import logger
 from ai.model import AtlasModel
 from ai.context_builder import ContextBuilder
@@ -44,7 +45,10 @@ class AtlasBrain:
         self.context_builder = ContextBuilder()
  
         self.coding_detector = CodingTaskDetector()
-        self.coding_agent = CodingAgent()
+        self.coding_agent = CodingAgent(
+            workspace=PROJECT_ROOT,
+            model=self.model,
+        )
 
         # Web-search state exposed to browser runtime.
         self.last_web_query = ""
@@ -387,12 +391,36 @@ class AtlasBrain:
                         )
                     )
 
-                self._update_memory(
-                    message,
-                    response,
-                )
+                if response is not None:
+                    self._update_memory(
+                        message,
+                        response,
+                    )
 
-                yield response
+                    yield response
+                    return
+
+            # ------------------------------------------
+            # Coding Agent response
+            # ------------------------------------------
+
+            if (
+                self.coding_detector is not None
+                and self.coding_detector.is_coding_task(message)
+            ):
+                logger.info("ROUTE: CODING_AGENT (stream)")
+                full_chunks = []
+                for chunk in self.coding_agent.stream_run(message):
+                    if chunk:
+                        full_chunks.append(chunk)
+                        yield chunk
+
+                response = "".join(full_chunks).strip()
+                if response:
+                    self._update_memory(
+                        message,
+                        response,
+                    )
                 return
 
             # ------------------------------------------
@@ -479,7 +507,8 @@ class AtlasBrain:
             if hasattr(tool, "_clean_query"):
                 query = tool._clean_query(message)
 
-            self.last_web_query = str(query).strip()
+            clean_query_str = str(query).strip()
+            self.last_web_query = clean_query_str[:200]
 
             # ------------------------------------------
             # Context-Aware Research Pipeline
@@ -503,26 +532,20 @@ class AtlasBrain:
                 ]
 
                 evidence_block = research_result.formatted_evidence
-                self.last_web_query = research_result.query or self.last_web_query
+                self.last_web_query = (research_result.query or self.last_web_query)[:200]
             else:
-                # If bot challenge was encountered, provide clear diagnostic rather than silent empty return
-                if (research_result is not None and getattr(research_result, "bot_challenge_detected", False)) or getattr(tool, "last_bot_challenge", False):
-                    self.last_web_sources = []
-                    return f"I searched the web for '{self.last_web_query}', but DuckDuckGo rate limiting / bot challenge was encountered (HTTP 202). Unable to retrieve external web sources at this time."
+                # If bot challenge was encountered or no results found, return None so
+                # the assistant seamlessly falls back to answering with the model directly
+                # rather than returning an echoed prompt.
+                self.last_web_sources = []
 
                 # Fallback to standard search_results
                 results = []
-                if hasattr(tool, "search_results"):
+                if hasattr(tool, "search_results") and not getattr(tool, "last_bot_challenge", False):
                     results = tool.search_results(query)
 
                 if not results:
-                    raw = tool.run(expression=message) if hasattr(tool, "run") else ""
-                    self.last_web_sources = []
-                    if getattr(tool, "last_bot_challenge", False):
-                        return f"I searched the web for '{self.last_web_query}', but DuckDuckGo rate limiting / bot challenge was encountered (HTTP 202). Unable to retrieve external web sources at this time."
-                    if raw and not raw.startswith("No useful web"):
-                        return str(raw).strip()
-                    return f"I searched the web for '{self.last_web_query}', but could not retrieve sufficient authoritative source content to answer your question."
+                    return None
 
                 self.last_web_sources = [
                     {
@@ -612,7 +635,7 @@ class AtlasBrain:
 
         except Exception as exc:
             logger.exception("Web search answering failed")
-            return f"Web search failed: {exc}"
+            return None
 
     # ==================================================
     # RECALL
@@ -762,13 +785,29 @@ class AtlasBrain:
             "context and answer naturally.\n\n"
         )
 
-        if history:
+        recent_history = list(history or [])
+        clean_current = str(current_message or "").strip()
+        while recent_history and clean_current:
+            last_msg = recent_history[-1]
+            if not isinstance(last_msg, dict):
+                break
+            last_text = str(last_msg.get("text") or last_msg.get("content") or "").strip()
+            last_is_user = (
+                last_msg.get("is_user") is True
+                or str(last_msg.get("sender") or last_msg.get("role") or "").lower() in ("user", "you")
+            )
+            if last_is_user and last_text == clean_current:
+                recent_history = recent_history[:-1]
+            else:
+                break
+
+        if recent_history:
 
             prompt += (
                 "===== CONVERSATION HISTORY =====\n"
             )
 
-            for msg in history:
+            for msg in recent_history:
 
                 if not isinstance(
                     msg,
@@ -866,6 +905,13 @@ class AtlasBrain:
                     exc,
                 )
 
+        if (
+            self.coding_detector is not None
+            and self.coding_detector.is_coding_task(message)
+        ):
+            logger.info("ROUTE: CODING_AGENT")
+            return lambda msg, ctx: self.coding_agent.run(msg)
+
         logger.info(
             "ROUTE: MODEL"
         )
@@ -912,12 +958,16 @@ class AtlasBrain:
 
             if tool_name == "web_search":
 
-                return (
-                    self._run_web_search_tool(
-                        tool,
-                        message,
-                    )
+                search_res = self._run_web_search_tool(
+                    tool,
+                    message,
                 )
+                if search_res is not None:
+                    return search_res
+
+                # Fallback to model generation when web search yields no evidence
+                context = self._build_context(message)
+                return self._generate_response(message, context)
 
             # ==================================================
             # MATH
